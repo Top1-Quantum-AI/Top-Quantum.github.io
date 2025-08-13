@@ -1,0 +1,290 @@
+# Prettier Ignore File للنظام الكمي المتقدم
+# Advanced Quantum AI System Prettier Ignore
+
+# ================================
+# Build Outputs
+# ================================
+dist/
+build/
+server-dist/
+coverage/
+.nyc_output/
+test-results/
+*.tgz
+*.tar.gz
+
+# ================================
+# Dependencies
+# ================================
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+.pnpm-store/
+
+# ================================
+# Logs & Temporary Files
+# ================================
+logs/
+*.log
+log/
+tmp/
+temp/
+.tmp/
+.temp/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ================================
+# Cache Directories
+# ================================
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.sass-cache/
+.jest/
+
+# ================================
+# Environment Files
+# ================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# ================================
+# Version Control
+# ================================
+.git/
+.github/
+.gitlab/
+CHANGELOG.md
+
+# ================================
+# Package Manager Files
+# ================================
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.npmrc
+.yarnrc
+
+# ================================
+# Documentation
+# ================================
+docs/
+.docusaurus/
+storybook-static/
+
+# ================================
+# IDE & Editor Files
+# ================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ================================
+# Docker Files
+# ================================
+.dockerignore
+
+# ================================
+# Kubernetes & Deployment
+# ================================
+k8s/
+kubernetes/
+.kube/
+helm/
+
+# ================================
+# Monitoring & Observability
+# ================================
+prometheus/
+grafana/
+jaeger/
+metrics/
+traces/
+
+# ================================
+# Database & Storage
+# ================================
+*.db
+*.sqlite
+*.sqlite3
+data/
+database/
+
+# ================================
+# Quantum Specific Files
+# ================================
+quantum-cache/
+quantum-logs/
+*.qasm
+*.qobj
+quantum-results/
+quantum-experiments/
+
+# ================================
+# AI & Machine Learning
+# ================================
+models/
+training-data/
+*.h5
+*.pkl
+*.joblib
+checkpoints/
+tensorboard-logs/
+
+# ================================
+# Security & Certificates
+# ================================
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+secrets/
+certs/
+ssl/
+
+# ================================
+# Compressed Files
+# ================================
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+*.xz
+
+# ================================
+# Media Files
+# ================================
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+*.mp3
+*.wav
+*.flac
+*.aac
+
+# ================================
+# Generated Files
+# ================================
+*.generated.ts
+*.generated.js
+*.d.ts
+*.map
+*.min.js
+*.min.css
+
+# ================================
+# Configuration Files (Specific)
+# ================================
+.huskyrc*
+.lintstagedrc*
+.commitlintrc*
+.releaserc*
+.semantic-release*
+.size-limit.json
+bundlesize.config.json
+
+# ================================
+# Performance & Profiling
+# ================================
+.clinic/
+0x/
+profile/
+*.cpuprofile
+*.heapprofile
+*.heapsnapshot
+
+# ================================
+# Backup Files
+# ================================
+*.bak
+*.backup
+*.old
+*.orig
+*.save
+
+# ================================
+# OS Generated Files
+# ================================
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# ================================
+# Specific File Types to Ignore
+# ================================
+*.min.*
+*.bundle.*
+*.chunk.*
+*.vendor.*
+*.runtime.*
+
+# ================================
+# Third-party Libraries
+# ================================
+vendor/
+lib/
+libs/
+
+# ================================
+# Test Coverage Reports
+# ================================
+lcov.info
+clover.xml
+junit.xml
+
+# ================================
+# Lerna & Monorepo
+# ================================
+lerna-debug.log*
+.lerna/
+
+# ================================
+# Nx Monorepo
+# ================================
+.nx/
+dist/
+
+# ================================
+# Turborepo
+# ================================
+.turbo/
+
+# ================================
+# Specific Files to Keep Formatted
+# ================================
+# Remove the ! prefix to format these files
+# !README.md
+# !CONTRIBUTING.md
+# !LICENSE
+# !package.json
+# !tsconfig.json
+# !jest.config.js
+# !.eslintrc.json

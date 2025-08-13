@@ -1,0 +1,262 @@
+# Docker Compose للنظام الكمي المتقدم
+# Advanced Quantum System Docker Compose Configuration
+
+version: '3.8'
+
+services:
+  # API Gateway - بوابة النظام الموحدة
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - MONGODB_URL=mongodb://mongodb:27017/quantum-ai
+      - JWT_SECRET=${JWT_SECRET}
+      - QUANTUM_ENCRYPTION_KEY=${QUANTUM_ENCRYPTION_KEY}
+    depends_on:
+      - redis
+      - mongodb
+      - quantum-core
+      - ai-agents
+    networks:
+      - quantum-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Quantum Core Service - النواة الكمية
+  quantum-core:
+    build:
+      context: ./services/quantum-core
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - MONGODB_URL=mongodb://mongodb:27017/quantum-ai
+      - IBM_QUANTUM_TOKEN=${IBM_QUANTUM_TOKEN}
+      - BRAKET_ACCESS_KEY=${BRAKET_ACCESS_KEY}
+      - BRAKET_SECRET_KEY=${BRAKET_SECRET_KEY}
+    depends_on:
+      - redis
+      - mongodb
+    networks:
+      - quantum-network
+    volumes:
+      - quantum-data:/app/data
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+  # AI Agents Service - خدمة وكلاء الذكاء الاصطناعي
+  ai-agents:
+    build:
+      context: ./services/ai-agents
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://redis:6379
+      - MONGODB_URL=mongodb://mongodb:27017/quantum-ai
+    depends_on:
+      - redis
+      - mongodb
+    networks:
+      - quantum-network
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+
+  # Quantum Dashboard Service - لوحة التحكم
+  quantum-dashboard:
+    build:
+      context: ./services/quantum-dashboard
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - API_GATEWAY_URL=http://api-gateway:3000
+    networks:
+      - quantum-network
+    depends_on:
+      - api-gateway
+
+  # Quantum Lab Service - المختبر الكمي
+  quantum-lab:
+    build:
+      context: ./services/quantum-lab
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - QUANTUM_CORE_URL=http://quantum-core:3001
+    networks:
+      - quantum-network
+    depends_on:
+      - quantum-core
+    volumes:
+      - lab-experiments:/app/experiments
+
+  # Security Service - خدمة الأمان المتقدم
+  security-service:
+    build:
+      context: ./services/security
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - POST_QUANTUM_KEYS_PATH=/app/keys
+    networks:
+      - quantum-network
+    volumes:
+      - security-keys:/app/keys
+    depends_on:
+      - redis
+
+  # Event Bus Service - ناقل الأحداث
+  event-bus:
+    image: nats:2.10-alpine
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    networks:
+      - quantum-network
+    command: [
+      "--jetstream",
+      "--store_dir=/data",
+      "--max_memory=1G",
+      "--max_file=10G"
+    ]
+    volumes:
+      - nats-data:/data
+
+  # Redis - التخزين المؤقت والجلسات
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - quantum-network
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  # MongoDB - قاعدة البيانات الرئيسية
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=quantum-ai
+    networks:
+      - quantum-network
+    volumes:
+      - mongodb-data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  # Prometheus - مراقبة المقاييس
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    networks:
+      - quantum-network
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+
+  # Grafana - لوحات المراقبة
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - quantum-network
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+
+  # Jaeger - تتبع التوزيع
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - quantum-network
+    volumes:
+      - jaeger-data:/badger
+
+  # Nginx - Load Balancer وProxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - quantum-network
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - api-gateway
+      - quantum-dashboard
+      - grafana
+
+networks:
+  quantum-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  quantum-data:
+    driver: local
+  lab-experiments:
+    driver: local
+  security-keys:
+    driver: local
+  nats-data:
+    driver: local
+  redis-data:
+    driver: local
+  mongodb-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+  jaeger-data:
+    driver: local
+
+# Health Check Script
+# يمكن تشغيله بـ: docker-compose -f docker-compose.quantum.yml exec api-gateway /health-check.sh

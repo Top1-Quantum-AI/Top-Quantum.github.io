@@ -1,0 +1,467 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "security:openssf-scorecard",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separatePatchReleases",
+    ":ignoreUnstable",
+    ":updateNotScheduled",
+    ":automergeDisabled",
+    ":maintainLockFilesWeekly",
+    "group:monorepos",
+    "group:recommended",
+    "workarounds:all"
+  ],
+  "timezone": "UTC",
+  "schedule": [
+    "before 6am on monday"
+  ],
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "assignees": [
+    "quantum-ai-maintainer"
+  ],
+  "reviewers": [
+    "security-team",
+    "quantum-team"
+  ],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "branchConcurrentLimit": 10,
+  "semanticCommits": "enabled",
+  "semanticCommitType": "deps",
+  "semanticCommitScope": null,
+  "commitMessagePrefix": "⬆️",
+  "commitMessageAction": "update",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 6am on sunday"
+    ],
+    "commitMessageAction": "refresh",
+    "commitMessageTopic": "lock files",
+    "prTitle": "🔒 Refresh lock files"
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": [
+      "at any time"
+    ],
+    "labels": [
+      "security",
+      "vulnerability",
+      "priority-high"
+    ],
+    "assignees": [
+      "security-team"
+    ],
+    "reviewers": [
+      "security-team"
+    ],
+    "prPriority": 10,
+    "commitMessagePrefix": "🚨",
+    "prTitle": "🚨 Security: {{depName}} vulnerability fix"
+  },
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "🔄 Dependency Dashboard - Quantum AI System",
+  "dependencyDashboardHeader": "This dashboard provides an overview of all dependency updates for the Quantum AI System. Security updates are prioritized and marked with 🚨.",
+  "dependencyDashboardFooter": "For questions about dependency updates, contact the security team or quantum team.",
+  "packageRules": [
+    {
+      "description": "Security updates - highest priority",
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchCurrentVersion": "!/^0/",
+      "vulnerabilityAlerts": true,
+      "labels": [
+        "security",
+        "priority-critical"
+      ],
+      "assignees": [
+        "security-team"
+      ],
+      "reviewers": [
+        "security-team"
+      ],
+      "prPriority": 10,
+      "schedule": [
+        "at any time"
+      ]
+    },
+    {
+      "description": "Quantum computing libraries",
+      "matchPackageNames": [
+        "qiskit",
+        "quantum-circuit",
+        "@quantum/core",
+        "quantum-js",
+        "cirq",
+        "pennylane"
+      ],
+      "labels": [
+        "quantum",
+        "priority-high"
+      ],
+      "assignees": [
+        "quantum-team"
+      ],
+      "reviewers": [
+        "quantum-team"
+      ],
+      "prPriority": 8,
+      "schedule": [
+        "before 6am on tuesday"
+      ],
+      "commitMessagePrefix": "⚛️",
+      "semanticCommitType": "quantum"
+    },
+    {
+      "description": "AI/ML libraries",
+      "matchPackageNames": [
+        "@tensorflow/tfjs",
+        "@tensorflow/tfjs-node",
+        "openai",
+        "langchain",
+        "@langchain/core",
+        "@huggingface/transformers",
+        "ml-matrix",
+        "brain.js"
+      ],
+      "labels": [
+        "ai",
+        "ml",
+        "priority-high"
+      ],
+      "assignees": [
+        "ai-team"
+      ],
+      "reviewers": [
+        "ai-team"
+      ],
+      "prPriority": 7,
+      "schedule": [
+        "before 6am on wednesday"
+      ],
+      "commitMessagePrefix": "🤖",
+      "semanticCommitType": "ai"
+    },
+    {
+      "description": "Cryptography libraries",
+      "matchPackageNames": [
+        "crypto",
+        "node-forge",
+        "bcrypt",
+        "argon2",
+        "libsodium",
+        "tweetnacl",
+        "elliptic",
+        "@noble/hashes",
+        "@noble/curves",
+        "liboqs",
+        "node-ntru"
+      ],
+      "labels": [
+        "crypto",
+        "security",
+        "priority-high"
+      ],
+      "assignees": [
+        "security-team"
+      ],
+      "reviewers": [
+        "security-team"
+      ],
+      "prPriority": 9,
+      "schedule": [
+        "before 6am on monday"
+      ],
+      "commitMessagePrefix": "🔐",
+      "semanticCommitType": "crypto"
+    },
+    {
+      "description": "Core framework updates",
+      "matchPackageNames": [
+        "@nestjs/core",
+        "@nestjs/common",
+        "@nestjs/platform-express",
+        "@nestjs/platform-fastify",
+        "express",
+        "fastify",
+        "react",
+        "react-dom",
+        "next",
+        "vue",
+        "@vue/cli"
+      ],
+      "labels": [
+        "framework",
+        "priority-medium"
+      ],
+      "prPriority": 5,
+      "schedule": [
+        "before 6am on thursday"
+      ],
+      "minimumReleaseAge": "3 days",
+      "commitMessagePrefix": "🏗️"
+    },
+    {
+      "description": "Database and storage",
+      "matchPackageNames": [
+        "mongodb",
+        "mongoose",
+        "redis",
+        "ioredis",
+        "@prisma/client",
+        "prisma",
+        "typeorm",
+        "sequelize"
+      ],
+      "labels": [
+        "database",
+        "storage",
+        "priority-medium"
+      ],
+      "prPriority": 6,
+      "schedule": [
+        "before 6am on friday"
+      ],
+      "minimumReleaseAge": "7 days",
+      "commitMessagePrefix": "🗄️"
+    },
+    {
+      "description": "Testing libraries",
+      "matchPackageNames": [
+        "jest",
+        "@testing-library/react",
+        "@testing-library/jest-dom",
+        "cypress",
+        "playwright",
+        "supertest",
+        "vitest"
+      ],
+      "labels": [
+        "testing",
+        "priority-low"
+      ],
+      "prPriority": 3,
+      "schedule": [
+        "before 6am on saturday"
+      ],
+      "minimumReleaseAge": "7 days",
+      "commitMessagePrefix": "🧪",
+      "semanticCommitType": "test"
+    },
+    {
+      "description": "DevOps and build tools",
+      "matchPackageNames": [
+        "webpack",
+        "vite",
+        "rollup",
+        "esbuild",
+        "typescript",
+        "eslint",
+        "prettier",
+        "husky",
+        "lint-staged"
+      ],
+      "labels": [
+        "build",
+        "devops",
+        "priority-low"
+      ],
+      "prPriority": 2,
+      "schedule": [
+        "before 6am on saturday"
+      ],
+      "minimumReleaseAge": "7 days",
+      "commitMessagePrefix": "🛠️",
+      "semanticCommitType": "build"
+    },
+    {
+      "description": "Monitoring and observability",
+      "matchPackageNames": [
+        "prometheus",
+        "@prometheus/client",
+        "jaeger-client",
+        "@opentelemetry/api",
+        "@opentelemetry/sdk-node",
+        "winston",
+        "pino",
+        "@sentry/node",
+        "@sentry/react"
+      ],
+      "labels": [
+        "monitoring",
+        "observability",
+        "priority-medium"
+      ],
+      "prPriority": 4,
+      "schedule": [
+        "before 6am on friday"
+      ],
+      "minimumReleaseAge": "5 days",
+      "commitMessagePrefix": "📊",
+      "semanticCommitType": "monitoring"
+    },
+    {
+      "description": "Major version updates - manual review required",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "labels": [
+        "major-update",
+        "breaking-change",
+        "manual-review"
+      ],
+      "assignees": [
+        "tech-lead",
+        "security-team"
+      ],
+      "reviewers": [
+        "tech-lead",
+        "security-team",
+        "quantum-team"
+      ],
+      "prPriority": 1,
+      "schedule": [
+        "before 6am on monday"
+      ],
+      "minimumReleaseAge": "14 days",
+      "commitMessagePrefix": "💥",
+      "semanticCommitType": "breaking"
+    },
+    {
+      "description": "Pin Docker digests",
+      "matchDatasources": [
+        "docker"
+      ],
+      "pinDigests": true,
+      "labels": [
+        "docker",
+        "security"
+      ],
+      "commitMessagePrefix": "🐳",
+      "semanticCommitType": "docker"
+    },
+    {
+      "description": "Kubernetes manifests",
+      "matchFileNames": [
+        "k8s-deployment.yaml",
+        "k8s-monitoring.yaml",
+        "**/k8s/**/*.yaml",
+        "**/kubernetes/**/*.yaml"
+      ],
+      "labels": [
+        "kubernetes",
+        "infrastructure"
+      ],
+      "assignees": [
+        "devops-team"
+      ],
+      "reviewers": [
+        "devops-team",
+        "security-team"
+      ],
+      "commitMessagePrefix": "☸️",
+      "semanticCommitType": "k8s"
+    },
+    {
+      "description": "Ignore pre-release versions",
+      "matchUpdateTypes": [
+        "prerelease"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Group ESLint packages",
+      "matchPackageNames": [
+        "eslint",
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "eslint-config-airbnb-typescript",
+        "eslint-plugin-react",
+        "eslint-plugin-react-hooks",
+        "eslint-plugin-import",
+        "eslint-plugin-jsx-a11y",
+        "eslint-plugin-security",
+        "eslint-plugin-unused-imports"
+      ],
+      "groupName": "ESLint packages",
+      "labels": [
+        "eslint",
+        "code-quality"
+      ]
+    },
+    {
+      "description": "Group TypeScript packages",
+      "matchPackageNames": [
+        "typescript",
+        "@types/node",
+        "@types/react",
+        "@types/react-dom",
+        "@types/jest",
+        "@types/express",
+        "ts-node",
+        "ts-jest"
+      ],
+      "groupName": "TypeScript packages",
+      "labels": [
+        "typescript"
+      ]
+    }
+  ],
+  "ignoreDeps": [
+    "node",
+    "npm"
+  ],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.git/**",
+    "**/coverage/**",
+    "**/logs/**",
+    "**/tmp/**",
+    "**/temp/**"
+  ],
+  "postUpdateOptions": [
+    "npmDedupe"
+  ],
+  "rangeStrategy": "bump",
+  "respectLatest": true,
+  "stabilityDays": 3,
+  "updateInternalDeps": true,
+  "updateLockFiles": true,
+  "separateMinorPatch": true,
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "rebaseWhen": "conflicted",
+  "platformAutomerge": false,
+  "automerge": false,
+  "major": {
+    "automerge": false
+  },
+  "minor": {
+    "automerge": false
+  },
+  "patch": {
+    "automerge": false
+  },
+  "pin": {
+    "automerge": false
+  },
+  "lockFileMaintenance": {
+    "automerge": false
+  },
+  "vulnerabilityAlerts": {
+    "automerge": false
+  }
+}

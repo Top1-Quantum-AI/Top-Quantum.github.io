@@ -1,0 +1,113 @@
+# Browserslist configuration for Advanced Quantum AI System
+# https://github.com/browserslist/browserslist#readme
+
+# Production browsers - Modern browsers with quantum computing support
+# Focus on performance and security for quantum applications
+
+# Modern browsers (last 2 versions)
+> 1%
+last 2 Chrome versions
+last 2 Firefox versions
+last 2 Safari versions
+last 2 Edge versions
+
+# Mobile browsers for quantum mobile apps
+last 2 ChromeAndroid versions
+last 2 FirefoxAndroid versions
+last 2 iOS versions
+
+# Exclude outdated browsers for security reasons
+not IE 11
+not IE_Mob 11
+not BlackBerry > 0
+not OperaMini all
+not OperaMobile > 0
+not dead
+not < 0.25%
+
+# Specific versions for quantum computing features
+Chrome >= 90
+Firefox >= 88
+Safari >= 14
+Edge >= 90
+
+# Node.js for server-side quantum processing
+node >= 18
+
+# Electron for desktop quantum applications
+Electron >= 20
+
+# Development environment
+[development]
+last 1 Chrome version
+last 1 Firefox version
+last 1 Safari version
+last 1 Edge version
+node >= 18
+
+# Testing environment
+[test]
+last 2 Chrome versions
+last 2 Firefox versions
+node >= 18
+
+# Production environment
+[production]
+> 1%
+last 2 versions
+not dead
+not < 0.25%
+Chrome >= 90
+Firefox >= 88
+Safari >= 14
+Edge >= 90
+
+# Legacy support (minimal)
+[legacy]
+> 5%
+last 3 versions
+not dead
+not < 1%
+
+# Modern only (for quantum features)
+[modern]
+last 1 Chrome version
+last 1 Firefox version
+last 1 Safari version
+last 1 Edge version
+Chrome >= 95
+Firefox >= 95
+Safari >= 15
+Edge >= 95
+
+# Quantum computing specific browsers
+[quantum]
+Chrome >= 100
+Firefox >= 100
+Safari >= 15.4
+Edge >= 100
+node >= 18
+
+# AI/ML optimized browsers
+[ai]
+Chrome >= 95
+Firefox >= 95
+Safari >= 15
+Edge >= 95
+
+# Security focused browsers
+[security]
+Chrome >= 100
+Firefox >= 100
+Safari >= 15.4
+Edge >= 100
+not IE > 0
+not IE_Mob > 0
+not BlackBerry > 0
+not OperaMini all
+not OperaMobile > 0
+not Samsung < 15
+not UCAndroid > 0
+not QQAndroid > 0
+not Baidu > 0
+not KaiOS > 0
