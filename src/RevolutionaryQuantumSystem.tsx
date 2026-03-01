@@ -94,7 +94,7 @@ interface QuantumModule {
   id: string;
   name: string;
   nameAr: string;
-  icon: React.ComponentType;
+  icon: React.ComponentType<{ className?: string }>;
   status: 'active' | 'inactive' | 'processing' | 'error';
   efficiency: number;
   quantumAdvantage: number;
@@ -124,7 +124,7 @@ interface CommandAction {
   id: string;
   label: string;
   labelAr: string;
-  icon: React.ComponentType;
+  icon: React.ComponentType<{ className?: string }>;
   category: 'theme' | 'navigation' | 'quantum' | 'ai' | 'security';
   action: () => void;
   shortcut?: string;
@@ -636,7 +636,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     const controller = new AbortController();
     abortControllerRef.current = controller;
     
-    await addSecureLog('info', `بدء محاكاة النموذج: ${modelType}`, 'QuantumSimulation');
+    await addSecureLog({ level: 'info', message: `بدء محاكاة النموذج: ${modelType}`, module: 'QuantumSimulation' });
     
     try {
     
@@ -676,7 +676,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       }
     };
     
-    const model = simulationModels[modelType as keyof typeof simulationModels];
+    const model = simulationModels[modelType as keyof typeof simulationModels] as any;
     setSimulationData(model);
     
     const startTime = Date.now();
@@ -724,7 +724,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       
       // التحقق من الإلغاء
       if (controller.signal.aborted) {
-        await addSecureLog('warning', 'تم إلغاء المحاكاة الكمية', 'QuantumSimulation');
+        await addSecureLog({ level: 'warning', message: 'تم إلغاء المحاكاة الكمية', module: 'QuantumSimulation' });
         return;
       }
       
@@ -750,10 +750,10 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       }].slice(-30) // الاحتفاظ بآخر 30 محاكاة
     }));
     
-    await addSecureLog('success', `اكتملت المحاكاة بنجاح: ${modelType}`, 'QuantumSimulation');
+    await addSecureLog({ level: 'success', message: `اكتملت المحاكاة بنجاح: ${modelType}`, module: 'QuantumSimulation' });
     
     } catch (error) {
-      await addSecureLog('error', `خطأ في المحاكاة: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, 'QuantumSimulation');
+      await addSecureLog({ level: 'error', message: `خطأ في المحاكاة: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, module: 'QuantumSimulation' });
     } finally {
       setProcessingStates(prev => ({ ...prev, isRunningQuantum: false }));
       abortControllerRef.current = null;
@@ -769,7 +769,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     const controller = new AbortController();
     abortControllerRef.current = controller;
     
-    await addSecureLog('info', 'بدء عملية تعلم الوكلاء الكمية', 'AgentLearning');
+    await addSecureLog({ level: 'info', message: 'بدء عملية تعلم الوكلاء الكمية', module: 'AgentLearning' });
     
     try {
     
@@ -814,7 +814,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
         
         // التحقق من الإلغاء
         if (controller.signal.aborted) {
-          await addSecureLog('warning', 'تم إلغاء عملية تعلم الوكلاء', 'AgentLearning');
+          await addSecureLog({ level: 'warning', message: 'تم إلغاء عملية تعلم الوكلاء', module: 'AgentLearning' });
           return;
         }
         
@@ -843,10 +843,10 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       }
     }
     
-    await addSecureLog('success', 'اكتملت عملية تعلم الوكلاء بنجاح', 'AgentLearning');
+    await addSecureLog({ level: 'success', message: 'اكتملت عملية تعلم الوكلاء بنجاح', module: 'AgentLearning' });
     
     } catch (error) {
-      await addSecureLog('error', `خطأ في تعلم الوكلاء: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, 'AgentLearning');
+      await addSecureLog({ level: 'error', message: `خطأ في تعلم الوكلاء: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, module: 'AgentLearning' });
     } finally {
       setProcessingStates(prev => ({ ...prev, isLearning: false }));
       abortControllerRef.current = null;
@@ -1013,6 +1013,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
 
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [isSystemActive]);
 
   // تفعيل وضع الثورة العلمية

@@ -105,6 +105,8 @@ interface KnowledgeBase {
   expertise_level: number;
   last_updated: Date;
   applications: string[];
+  weight?: number;
+  output?: string;
 }
 
 // واجهات نظام الذكاء الاصطناعي المتقدم
@@ -619,9 +621,9 @@ const UnifiedQuantumSystem: React.FC = () => {
     let response = '';
     let confidence = 0.5;
 
-    if (existingKnowledge && existingKnowledge.weight > 0.3) {
-      response = existingKnowledge.output;
-      confidence = existingKnowledge.weight;
+    if (existingKnowledge && (existingKnowledge.weight ?? 0) > 0.3) {
+      response = existingKnowledge.output ?? '';
+      confidence = existingKnowledge.weight ?? confidence;
     } else if (emotionalWeights.question > 0) {
       const questionTypes = [
         'هذا سؤال مثير للاهتمام. دعني أحلله من منظور رياضي...',
@@ -698,7 +700,7 @@ const UnifiedQuantumSystem: React.FC = () => {
 
     try {
       // استخدام OpenAI API
-      const aiResponse = await aiService.sendMessage(messageToSend, aiPersonality);
+      const aiResponse = await aiService.sendMessage(messageToSend, aiPersonality as 'analytical' | 'creative' | 'friendly' | 'professional');
       
       const aiMessage: AIMessage = {
         type: 'ai',

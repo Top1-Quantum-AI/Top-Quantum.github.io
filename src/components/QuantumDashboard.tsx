@@ -46,7 +46,9 @@ import {
   BookOpen,
   FileText,
   Code,
-  Terminal
+  Terminal,
+  Key,
+  Search
 } from 'lucide-react';
 
 interface QuantumCircuit {

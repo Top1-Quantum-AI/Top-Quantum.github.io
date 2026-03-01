@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import './revolutionary-quantum.css'
-import RevolutionaryQuantumSystem from './RevolutionaryQuantumSystem.tsx'
+import RevolutionaryQuantumSystem from './RevolutionaryQuantumSystem'
 
 const MainApp: React.FC = () => {
   return <RevolutionaryQuantumSystem />;

@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 // تكوين API للذكاء الاصطناعي
 export const AI_CONFIG = {
   // إعدادات OpenAI API

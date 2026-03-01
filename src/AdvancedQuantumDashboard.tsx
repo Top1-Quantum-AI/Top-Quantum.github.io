@@ -12,6 +12,7 @@ import {
   Cpu,
   Network,
   Eye,
+  EyeOff,
   AlertTriangle,
   CheckCircle,
   XCircle,

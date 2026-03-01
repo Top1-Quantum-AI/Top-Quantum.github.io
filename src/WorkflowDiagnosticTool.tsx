@@ -33,7 +33,7 @@ const WorkflowDiagnosticTool = () => {
     planckConstant: 6.626e-34
   });
 
-  const getAgentIcon = (name) => {
+  const getAgentIcon = (name: string) => {
     if (name.includes('File')) return <FileText className="w-4 h-4" />;
     if (name.includes('Search') || name.includes('Retrieval')) return <Search className="w-4 h-4" />;
     if (name.includes('Csv') || name.includes('Sort')) return <Database className="w-4 h-4" />;

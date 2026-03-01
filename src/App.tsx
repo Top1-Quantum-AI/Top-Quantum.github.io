@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AdvancedQuantumDashboard from './AdvancedQuantumDashboard';
 import AdvancedSecurityDashboard from './components/AdvancedSecurityDashboard';
 import { Atom, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 
@@ -79,6 +80,7 @@ const SystemStatusCheck: React.FC<{
       const timer = setTimeout(onComplete, 2000);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [allReady, onComplete]);
 
   return (

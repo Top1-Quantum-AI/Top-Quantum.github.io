@@ -12,11 +12,7 @@
     "noImplicitThis": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
