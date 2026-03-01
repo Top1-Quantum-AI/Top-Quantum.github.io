@@ -11,6 +11,10 @@
     "start": "vite",
     "server": "node server/index.js",
     "dev:server": "nodemon server/index.js",
+    "postinstall": "echo 'Post-install setup complete'",
+    "typecheck": "tsc --noEmit",
+    "build:server": "node -e \"const fs=require('fs');fs.cpSync('server','server-dist',{recursive:true})\"",
+    "format:check": "prettier --check .",
     "security:audit": "npm audit",
     "security:fix": "npm audit fix",
     "security:check": "npm audit --audit-level moderate"
@@ -46,6 +50,7 @@
     "autoprefixer": "^10.4.14",
     "electron": "^37.2.6",
     "postcss": "^8.4.27",
+    "prettier": "^3.0.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",

@@ -1,0 +1,3 @@
+[submodule "AutoGPT"]
+	path = AutoGPT
+	url = https://github.com/Significant-Gravitas/AutoGPT
