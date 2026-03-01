@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdvancedSecurityDashboard from './components/AdvancedSecurityDashboard';
-import { Atom, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
+import InvestorPitch from './components/InvestorPitch';
+import { Atom, Loader2, AlertCircle, CheckCircle, TrendingUp } from 'lucide-react';
 
 // واجهة حالة النظام
 interface SystemStatus {
@@ -184,6 +185,7 @@ const App: React.FC = () => {
   const [showStatusCheck, setShowStatusCheck] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [appReady, setAppReady] = useState(false);
+  const [showInvestorPitch, setShowInvestorPitch] = useState(false);
 
   // محاكاة تحميل النظام
   useEffect(() => {
@@ -273,8 +275,34 @@ const App: React.FC = () => {
         />
       )}
       
-      {appReady && (
-        <AdvancedQuantumDashboard />
+      {appReady && showInvestorPitch && (
+        <div>
+          <div className="fixed top-4 left-4 z-50">
+            <button
+              onClick={() => setShowInvestorPitch(false)}
+              className="bg-gray-800 hover:bg-gray-700 text-white text-sm px-4 py-2 rounded-lg border border-gray-600 transition-colors"
+            >
+              ← العودة للنظام
+            </button>
+          </div>
+          <InvestorPitch />
+        </div>
+      )}
+
+      {appReady && !showInvestorPitch && (
+        <div className="relative">
+          <div className="fixed top-4 left-4 z-50">
+            <button
+              onClick={() => setShowInvestorPitch(true)}
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm px-4 py-2 rounded-lg shadow-lg shadow-blue-500/25 transition-all"
+              data-testid="investor-pitch-button"
+            >
+              <TrendingUp className="w-4 h-4" />
+              ملف الاستثمار
+            </button>
+          </div>
+          <AdvancedQuantumDashboard />
+        </div>
       )}
     </ErrorBoundary>
   );
