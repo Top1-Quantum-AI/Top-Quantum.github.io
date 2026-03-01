@@ -752,7 +752,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
     };
 
     // توليد تقييم المخاطر
-    const generateRiskAssessment2 = (): RiskAssessment => {
+    const generateInitialRiskAssessment = (): RiskAssessment => {
       return {
         overallRisk: 68,
         riskFactors: [
@@ -799,7 +799,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
 
     setRecommendations(generateRecommendations());
     setSecurityAnalyses(generateAnalyses());
-    setRiskAssessment(generateRiskAssessment2());
+    setRiskAssessment(generateInitialRiskAssessment());
 
     // تحديث البيانات كل 5 ثوانٍ
     const interval = setInterval(() => {
