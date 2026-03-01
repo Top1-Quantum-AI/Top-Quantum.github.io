@@ -13,7 +13,8 @@
     "dev:server": "nodemon server/index.js",
     "security:audit": "npm audit",
     "security:fix": "npm audit fix",
-    "security:check": "npm audit --audit-level moderate"
+    "security:check": "npm audit --audit-level moderate",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
