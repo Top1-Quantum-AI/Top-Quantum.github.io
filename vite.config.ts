@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -25,5 +26,17 @@ export default defineConfig({
     },
     // ملاحظة أمنية: fs.allow تم إزالته لتجنب المخاطر الأمنية في الإنتاج
     // في حالة الحاجة لـ sql.js، يُفضل استخدام حلول أخرى أكثر أماناً
-  }
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./tests/setup.ts'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}', 'tests/**/*.{test,spec}.{ts,tsx}'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/main.tsx', 'src/**/*.d.ts'],
+    },
+  },
 })
