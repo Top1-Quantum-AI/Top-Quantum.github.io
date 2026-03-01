@@ -1224,7 +1224,9 @@ const AdvancedSecurityDashboard: React.FC = () => {
 
       {/* Threat Details Modal */}
       <AnimatePresence>
-        {selectedThreat && (
+        {selectedThreat && (() => {
+          const threat = selectedThreat;
+          return (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -1241,15 +1243,15 @@ const AdvancedSecurityDashboard: React.FC = () => {
             >
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-start space-x-4 space-x-reverse">
-                  <div className={`p-3 rounded-lg ${getSeverityColor(selectedThreat!.severity)}`}>
-                    {getThreatIcon(selectedThreat!.type)}
+                  <div className={`p-3 rounded-lg ${getSeverityColor(threat.severity)}`}>
+                    {getThreatIcon(threat.type)}
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                       تفاصيل التهديد
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400">
-                      {selectedThreat!.description}
+                      {threat.description}
                     </p>
                   </div>
                 </div>
@@ -1265,22 +1267,22 @@ const AdvancedSecurityDashboard: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">المصدر:</span>
-                    <div className="font-semibold text-gray-900 dark:text-white">{selectedThreat!.source}</div>
+                    <div className="font-semibold text-gray-900 dark:text-white">{threat.source}</div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">الهدف:</span>
-                    <div className="font-semibold text-gray-900 dark:text-white">{selectedThreat!.target}</div>
+                    <div className="font-semibold text-gray-900 dark:text-white">{threat.target}</div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">المستوى:</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(selectedThreat!.severity)}`}>
-                      {getSeverityText(selectedThreat!.severity)}
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(threat.severity)}`}>
+                      {getSeverityText(threat.severity)}
                     </span>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">الحالة:</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedThreat!.status)}`}>
-                      {getStatusText(selectedThreat!.status)}
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(threat.status)}`}>
+                      {getStatusText(threat.status)}
                     </span>
                   </div>
                 </div>
@@ -1288,7 +1290,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">الأنظمة المتأثرة:</h3>
                   <div className="flex flex-wrap gap-2">
-                    {selectedThreat!.affectedSystems.map(system => (
+                    {threat.affectedSystems.map(system => (
                       <span key={system} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm">
                         {system}
                       </span>
@@ -1299,7 +1301,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">خطوات التخفيف:</h3>
                   <ul className="space-y-2">
-                    {selectedThreat!.mitigationSteps.map((step, index) => (
+                    {threat.mitigationSteps.map((step, index) => (
                       <li key={index} className="flex items-start space-x-2 space-x-reverse">
                         <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700 dark:text-gray-300">{step}</span>
@@ -1308,7 +1310,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
                   </ul>
                 </div>
 
-                {selectedThreat!.quantumResistant && (
+                {threat.quantumResistant && (
                   <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                     <div className="flex items-center space-x-2 space-x-reverse mb-2">
                       <Hexagon className="w-5 h-5 text-purple-600" />
@@ -1322,7 +1324,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
               </div>
             </motion.div>
           </motion.div>
-        )}
+          );
+        })()}
       </AnimatePresence>
     </div>
   );
