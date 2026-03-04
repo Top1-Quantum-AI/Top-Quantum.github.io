@@ -88,7 +88,7 @@ class QuantumDatabase {
    * إنشاء جداول قاعدة البيانات الأساسية
    * يتم إنشاء جميع الجداول المطلوبة للنظام الكمي
    */
-  private async createTables(): Promise<void> {
+  private async _createTables(): Promise<void> {
     // لا حاجة لإنشاء جداول في النظام المؤقت
     console.log('تم إنشاء الجداول (مؤقت)');
   }
@@ -105,7 +105,7 @@ class QuantumDatabase {
     console.log('تم إنشاء المستخدم الافتراضي: admin@quantum.com / admin123');
   }
 
-  private async insertDefaultData(): Promise<void> {
+  private async _insertDefaultData(): Promise<void> {
     // Insert default projects
     const defaultProjects = [
       ['محاكي الكم المتقدم', 'محاكي متطور للحالات الكمية', 'active', 85],
@@ -300,19 +300,19 @@ class QuantumDatabase {
     const dummyLogs: SystemLog[] = [
       {
         id: 1,
-        level: 'info',
+        level: 'info' as const,
         message: 'تم تسجيل الدخول بنجاح',
         module: 'auth',
         created_at: new Date().toISOString(),
-        user_id: userId
+        ...(userId !== undefined && { user_id: userId })
       },
       {
         id: 2,
-        level: 'warning',
+        level: 'warning' as const,
         message: 'محاولة دخول غير صحيحة',
         module: 'auth',
         created_at: new Date().toISOString(),
-        user_id: userId
+        ...(userId !== undefined && { user_id: userId })
       }
     ];
     return dummyLogs.slice(0, limit);

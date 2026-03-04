@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Wifi,
   Globe,
   Server,
   Activity,
@@ -11,21 +10,12 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  Download,
-  Upload,
-  Signal,
-  Router,
-  Database,
-  Cloud,
   Lock,
-  Unlock,
   Eye,
   EyeOff,
   RefreshCw,
   Settings,
-  BarChart3,
-  TrendingUp,
-  TrendingDown
+  BarChart3
 } from 'lucide-react';
 
 interface NetworkNode {
@@ -97,7 +87,7 @@ const NetworkDashboard: React.FC = () => {
           uptime: Math.floor(Math.random() * 100) + 90,
           security: Math.floor(Math.random() * 100) + 80
         }
-      }));
+      })) as NetworkNode[];
     };
 
     const initialNodes = generateNodes();

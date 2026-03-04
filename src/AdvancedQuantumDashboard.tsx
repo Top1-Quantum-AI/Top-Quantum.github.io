@@ -4,7 +4,6 @@ import {
   Atom,
   Brain,
   Shield,
-  Database,
   Settings,
   BarChart3,
   Zap,
@@ -12,27 +11,19 @@ import {
   Cpu,
   Network,
   Eye,
+  EyeOff,
   AlertTriangle,
-  CheckCircle,
-  XCircle,
   TrendingUp,
   Server,
-  Cloud,
   Monitor,
-  Terminal,
-  Code,
   FileText,
   Download,
-  Upload,
   Play,
   Pause,
   Square,
   RefreshCw,
-  Search,
-  Filter,
   Bell,
   User,
-  HelpCircle,
   Menu,
   X
 } from 'lucide-react';
@@ -85,8 +76,8 @@ const AdvancedQuantumDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
-  const [notifications, setNotifications] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [notifications, _setNotifications] = useState<any[]>([]);
+  const [isLoading, _setIsLoading] = useState(false);
   
   // بيانات النظام
   const [quantumStates, setQuantumStates] = useState<QuantumState[]>([]);

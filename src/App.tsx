@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdvancedSecurityDashboard from './components/AdvancedSecurityDashboard';
+import AdvancedQuantumDashboard from './AdvancedQuantumDashboard';
 import InvestorPitch from './components/InvestorPitch';
 import { Atom, Loader2, AlertCircle, CheckCircle, TrendingUp } from 'lucide-react';
 
@@ -76,10 +76,9 @@ const SystemStatusCheck: React.FC<{
   const allReady = Object.values(status).every(Boolean);
 
   useEffect(() => {
-    if (allReady) {
-      const timer = setTimeout(onComplete, 2000);
-      return () => clearTimeout(timer);
-    }
+    if (!allReady) return;
+    const timer = setTimeout(onComplete, 2000);
+    return () => clearTimeout(timer);
   }, [allReady, onComplete]);
 
   return (

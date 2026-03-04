@@ -6,7 +6,7 @@ const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
   const bytes = new Uint8Array(buffer);
   let binary = '';
   for (let i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
+    binary += String.fromCharCode(bytes[i] ?? 0);
   }
   return btoa(binary);
 };
@@ -56,7 +56,7 @@ interface SecureLog {
 
 // إصلاح 7: فئة التشفير الكمي المحسنة
 class SecureQuantumEncryption {
-  private secretKey: string | null = null;
+  private _secretKey: string | null = null;
   private keyPair: CryptoKeyPair | null = null;
 
   constructor() {
@@ -139,7 +139,7 @@ class SecureQuantumEncryption {
 
   // إصلاح 9: إخفاء المفتاح العام في الإنتاج
   getPublicKeyForDisplay(): string {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env['NODE_ENV'] === 'production') {
       return 'مخفي لأغراض الأمان';
     }
     return 'مفتاح عام للعرض التوضيحي فقط';

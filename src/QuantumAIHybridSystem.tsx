@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Atom, Brain, Network, Activity, Zap, Settings, BarChart3, Cpu, Database, Gauge } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Atom, Brain, Network, Activity, Zap, Settings, BarChart3, Gauge } from 'lucide-react';
 
 // الثوابت الفيزيائية الكمية
 const PLANCK_CONSTANT = 6.62607015e-34; // J⋅s
 const REDUCED_PLANCK = PLANCK_CONSTANT / (2 * Math.PI); // ℏ
 const LIGHT_SPEED = 299792458; // m/s
-const BOLTZMANN_CONSTANT = 1.380649e-23; // J/K
-const ELEMENTARY_CHARGE = 1.602176634e-19; // C
 
 // واجهات البيانات
 interface QuantumState {
@@ -86,8 +84,7 @@ const QuantumAIHybridSystem: React.FC = () => {
   });
 
   const [activeModule, setActiveModule] = useState('dashboard');
-  const [quantumAdvantage, setQuantumAdvantage] = useState(2.5);
-  const animationRef = useRef<number>();
+  const [quantumAdvantage, _setQuantumAdvantage] = useState(2.5);
 
   // دالة تسجيل الدخول
   const handleLogin = () => {
@@ -110,19 +107,11 @@ const QuantumAIHybridSystem: React.FC = () => {
     { id: 'settings', name: 'الإعدادات', icon: Settings, color: 'gray' }
   ];
 
-  // محاكاة معادلة شرودنجر
-  const schrodingerEvolution = (psi: number, t: number): number => {
-    const omega = 2 * Math.PI * 1e15; // تردد كمي
-    return Math.cos(omega * t) * psi + Math.sin(omega * t) * (1 - psi);
-  };
-
   // خوارزمية الذكاء الكمي
   const quantumAIAlgorithm = (input: number[]): number => {
     // تطبيق البوابات الكمية
     const hadamard = (x: number) => (x + (1 - x)) / Math.sqrt(2);
     const pauliX = (x: number) => 1 - x;
-    const pauliY = (x: number) => x * Math.cos(Math.PI / 2) + (1 - x) * Math.sin(Math.PI / 2);
-    const pauliZ = (x: number) => x;
     const cnot = (control: number, target: number) => control > 0.5 ? 1 - target : target;
 
     let processed = input.map(hadamard);
@@ -130,7 +119,7 @@ const QuantumAIHybridSystem: React.FC = () => {
     
     // حساب التشابك الكمي (Bell state)
     const entanglement = processed.reduce((acc, val, idx) => {
-      return acc + cnot(val, processed[(idx + 1) % processed.length]);
+      return acc + cnot(val, processed[(idx + 1) % processed.length] ?? 0);
     }, 0) / processed.length;
 
     // تكامل مع الشبكة العصبية
@@ -139,57 +128,13 @@ const QuantumAIHybridSystem: React.FC = () => {
     return quantumActivation(entanglement);
   };
 
-  // حساب التشابك الكمي
-  const calculateQuantumEntanglement = (state1: number, state2: number): number => {
-    // استخدام إنتروبيا فون نيومان المبسطة للأرقام الحقيقية
-    const rho = Math.abs(state1 * state2);
-    return rho > 0 ? -rho * Math.log2(rho) - (1 - rho) * Math.log2(1 - rho || 1e-10) : 0;
-  };
-
-  // حساب الميزة الكمية
-  const calculateQuantumAdvantage = (): number => {
-    const classicalTime = 1000; // وقت المعالجة الكلاسيكية
-    const quantumTime = classicalTime / (quantumState.coherence * quantumState.fidelity * 10);
-    return classicalTime / quantumTime;
-  };
-
-  // توليد عوامل الذكاء الكمي
+    // توليد عوامل الذكاء الكمي
   const generateQuantumAIAgents = (count: number) => {
     return Array(count).fill(0).map((_, i) => ({
       id: i,
       quantumState: Math.random(),
       aiCapability: Math.random(),
       hybridScore: Math.random() * quantumState.coherence * aiState.accuracy / 100
-    }));
-  };
-
-  // محاكاة تدريب النموذج الهجين
-  const simulateHybridModelTraining = () => {
-    const epochs = 10;
-    let currentLoss = aiState.loss;
-    let currentAccuracy = aiState.accuracy;
-    
-    for (let epoch = 0; epoch < epochs; epoch++) {
-      // الجزء الكمي
-      const quantumContribution = quantumState.coherence * quantumState.fidelity;
-      
-      // الجزء الكلاسيكي
-      const classicalContribution = aiState.processingPower / 100;
-      
-      // التحديث الهجين
-      currentLoss *= (1 - quantumContribution * 0.1);
-      currentAccuracy += (quantumContribution + classicalContribution) * 0.5;
-      
-      // حساب الميزة الكمية
-      const advantage = calculateQuantumAdvantage();
-      setQuantumAdvantage(advantage);
-    }
-    
-    setAIState(prev => ({
-      ...prev,
-      loss: currentLoss,
-      accuracy: Math.min(currentAccuracy, 99.9),
-      epoch: prev.epoch + epochs
     }));
   };
 
@@ -531,7 +476,7 @@ const QuantumAIHybridSystem: React.FC = () => {
                   <div key={type} className="space-y-2">
                     <div className="flex justify-between items-center">
                       <span className={`text-${colors[i]}-300 font-medium`}>{type}</span>
-                      <span className={`text-${colors[i]}-400 text-sm`}>{values[values.length - 1].toFixed(1)}%</span>
+                      <span className={`text-${colors[i]}-400 text-sm`}>{values[values.length - 1]?.toFixed(1)}%</span>
                     </div>
                     <div className="flex items-end gap-1 h-16">
                       {values.map((value, j) => (

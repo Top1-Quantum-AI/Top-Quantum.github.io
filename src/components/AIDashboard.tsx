@@ -4,36 +4,20 @@ import {
   Brain,
   Cpu,
   Zap,
-  TrendingUp,
-  TrendingDown,
   Activity,
   BarChart3,
   PieChart,
   Target,
   Layers,
-  Network,
   Eye,
   MessageSquare,
-  Image,
-  FileText,
-  Music,
-  Video,
-  Code,
   Database,
-  Cloud,
   Server,
   Settings,
   Play,
   Pause,
-  Square,
-  RotateCcw,
-  Download,
-  Upload,
-  AlertCircle,
   CheckCircle,
-  Clock,
   Sparkles,
-  Lightbulb,
   Rocket
 } from 'lucide-react';
 
@@ -122,7 +106,7 @@ const AIDashboard: React.FC = () => {
           loss: Math.random() * 0.5 + 0.1
         },
         lastUpdated: new Date(Date.now() - Math.random() * 86400000).toISOString()
-      }));
+      })) as AIModel[];
     };
 
     const generateTasks = (): AITask[] => {
@@ -141,7 +125,7 @@ const AIDashboard: React.FC = () => {
         progress: Math.floor(Math.random() * 100),
         estimatedTime: Math.floor(Math.random() * 120) + 10,
         priority: priorities[Math.floor(Math.random() * priorities.length)]
-      }));
+      })) as AITask[];
     };
 
     const initialModels = generateModels();

@@ -3,12 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Settings,
   Palette,
-  Globe,
   Shield,
   Cpu,
   Brain,
-  Network,
-  Database,
   Bell,
   Eye,
   Lock,
@@ -20,10 +17,8 @@ import {
   RotateCcw,
   Download,
   Upload,
-  Trash2,
   AlertTriangle,
-  CheckCircle,
-  Info
+  CheckCircle
 } from 'lucide-react';
 
 interface SettingsState {
@@ -163,10 +158,10 @@ const AdvancedSettings: React.FC = () => {
       let current: any = newSettings;
       
       for (let i = 0; i < keys.length - 1; i++) {
-        current = current[keys[i]];
+        current = current[keys[i] as string];
       }
       
-      current[keys[keys.length - 1]] = value;
+      current[keys[keys.length - 1] as string] = value;
       setHasChanges(true);
       return newSettings;
     });

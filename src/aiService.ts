@@ -1,4 +1,4 @@
-import { AI_CONFIG, AI_PERSONALITIES } from './config';
+import { AI_PERSONALITIES } from './config';
 
 // واجهة الرسالة للـ API
 interface Message {
@@ -6,19 +6,19 @@ interface Message {
   content: string;
 }
 
-// واجهة الاستجابة من OpenAI API
-interface OpenAIResponse {
-  choices: Array<{
-    message: {
-      content: string;
-    };
-  }>;
-  usage: {
-    prompt_tokens: number;
-    completion_tokens: number;
-    total_tokens: number;
-  };
-}
+// واجهة الاستجابة من OpenAI API (محجوزة للاستخدام المستقبلي)
+// interface OpenAIResponse {
+//   choices: Array<{
+//     message: {
+//       content: string;
+//     };
+//   }>;
+//   usage: {
+//     prompt_tokens: number;
+//     completion_tokens: number;
+//     total_tokens: number;
+//   };
+// }
 
 // خدمة الذكاء الاصطناعي
 export class AIService {
@@ -74,7 +74,7 @@ export class AIService {
   // إرسال رسالة إلى OpenAI API
   private async sendToOpenAI(
     message: string,
-    personalityConfig: any
+    _personalityConfig: any
   ): Promise<{
     response: string;
     confidence: number;
@@ -110,7 +110,7 @@ export class AIService {
 
   // توليد استجابة محاكية ذكية
   private generateMockResponse(message: string, personality: keyof typeof AI_PERSONALITIES): string {
-    const personalityConfig = AI_PERSONALITIES[personality];
+    const _personalityConfig = AI_PERSONALITIES[personality];
     const lowerMessage = message.toLowerCase();
     
     // استجابات مخصصة حسب الشخصية

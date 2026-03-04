@@ -2,51 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Atom,
-  Zap,
   Activity,
   BarChart3,
-  PieChart,
-  TrendingUp,
-  TrendingDown,
   Cpu,
-  Database,
-  Server,
-  Cloud,
-  Network,
   Settings,
-  Play,
-  Pause,
-  Square,
-  RotateCcw,
-  Download,
-  Upload,
-  AlertCircle,
   CheckCircle,
   Clock,
-  Sparkles,
-  Lightbulb,
   Target,
-  Layers,
-  Binary,
   Waves,
-  Orbit,
   Gauge,
   FlaskConical,
-  Microscope,
-  Calculator,
   GitBranch,
-  Shuffle,
-  RotateCcw as Rotate,
-  Maximize,
-  Minimize,
   Eye,
   EyeOff,
-  Info,
-  HelpCircle,
-  BookOpen,
-  FileText,
   Code,
-  Terminal
+  Key,
+  Search
 } from 'lucide-react';
 
 interface QuantumCircuit {
@@ -160,7 +131,7 @@ const QuantumDashboard: React.FC = () => {
             errorRate: Math.random() * 0.1
           } : undefined
         };
-      });
+      }) as QuantumCircuit[];
     };
 
     const generateProcessors = (): QuantumProcessor[] => {
@@ -179,7 +150,7 @@ const QuantumDashboard: React.FC = () => {
         temperature: Math.random() * 0.02 + 0.01,
         status: i < 4 ? 'online' : statuses[Math.floor(Math.random() * statuses.length)],
         utilization: Math.random() * 100
-      }));
+      })) as QuantumProcessor[];
     };
 
     const generateExperiments = (): QuantumExperiment[] => {
@@ -201,7 +172,7 @@ const QuantumDashboard: React.FC = () => {
         priority: priorities[Math.floor(Math.random() * priorities.length)],
         researcher: researchers[Math.floor(Math.random() * researchers.length)],
         description: getExperimentDescription(i)
-      }));
+      })) as QuantumExperiment[];
     };
 
     const initialCircuits = generateCircuits();
@@ -280,7 +251,7 @@ const QuantumDashboard: React.FC = () => {
       'تطبيق التعلم الآلي الكمي'
     ];
     
-    return descriptions[index % descriptions.length];
+    return descriptions[index % descriptions.length] ?? '';
   };
 
   const getAlgorithmName = (algorithm: string) => {

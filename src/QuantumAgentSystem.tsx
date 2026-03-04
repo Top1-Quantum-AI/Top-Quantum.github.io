@@ -56,7 +56,7 @@ const QuantumAgentSystem: React.FC = () => {
     }
   };
   const [isSystemActive, setIsSystemActive] = useState(false);
-  const [quantumField, setQuantumField] = useState(0);
+  const [_quantumField, setQuantumField] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // إنشاء الوكلاء الكميين

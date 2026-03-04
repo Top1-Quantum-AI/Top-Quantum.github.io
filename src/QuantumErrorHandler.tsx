@@ -74,7 +74,7 @@ class QuantumErrorCore {
   }
 
   // Quantum Superposition Error Handling
-  handleErrorWithSuperposition(error: string): string {
+  handleErrorWithSuperposition(_error: string): string {
     const states = [
       'Analytics disabled - Privacy mode active',
       'Fallback analytics system engaged',
@@ -92,7 +92,7 @@ class QuantumErrorCore {
       this.updateQuantumState();
     }
     
-    return states[quantumIndex];
+    return states[quantumIndex] ?? 'Error bypassed through quantum tunneling';
   }
 
   // Update quantum state based on error resolution
