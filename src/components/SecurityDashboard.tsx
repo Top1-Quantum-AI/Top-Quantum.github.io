@@ -5,10 +5,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   Lock,
-  Unlock,
-  Key,
   Eye,
-  EyeOff,
   AlertTriangle,
   CheckCircle,
   XCircle,
@@ -16,8 +13,6 @@ import {
   Activity,
   Users,
   Server,
-  Globe,
-  Wifi,
   Database,
   FileText,
   Settings,
@@ -25,26 +20,11 @@ import {
   Target,
   Scan,
   Bug,
-  UserCheck,
   UserX,
   Bell,
   BellOff,
-  Filter,
-  Search,
-  Download,
-  Upload,
-  RefreshCw,
-  MoreVertical,
-  TrendingUp,
-  TrendingDown,
   BarChart3,
-  PieChart,
-  LineChart,
-  Fingerprint,
-  Smartphone,
-  Laptop,
   HardDrive,
-  Cloud,
   Network
 } from 'lucide-react';
 
@@ -105,7 +85,7 @@ const SecurityDashboard: React.FC = () => {
     failedLogins: 0
   });
   const [accessLogs, setAccessLogs] = useState<AccessLog[]>([]);
-  const [systemStatus, setSystemStatus] = useState<SystemStatus>({
+  const [systemStatus] = useState<SystemStatus>({
     firewall: 'active',
     antivirus: 'active',
     encryption: 'enabled',
@@ -138,12 +118,12 @@ const SecurityDashboard: React.FC = () => {
           status: statuses[Math.floor(Math.random() * statuses.length)],
           source: `192.168.1.${Math.floor(Math.random() * 255)}`,
           target: `server-${Math.floor(Math.random() * 10) + 1}`,
-          description: getThreatDescription(type, severity),
+          description: getThreatDescription(type ?? 'malware', severity ?? 'medium'),
           timestamp: new Date(Date.now() - Math.random() * 86400000 * 7).toISOString(),
           affectedSystems: [`نظام ${Math.floor(Math.random() * 5) + 1}`, `خادم ${Math.floor(Math.random() * 3) + 1}`],
-          mitigationSteps: getMitigationSteps(type)
+          mitigationSteps: getMitigationSteps(type ?? 'malware')
         };
-      });
+      }) as SecurityThreat[];
     };
 
     const generateAccessLogs = (): AccessLog[] => {
@@ -166,7 +146,7 @@ const SecurityDashboard: React.FC = () => {
           success: action !== 'access_denied' ? Math.random() > 0.2 : false,
           riskLevel: riskLevels[Math.floor(Math.random() * riskLevels.length)]
         };
-      });
+      }) as AccessLog[];
     };
 
     const initialThreats = generateThreats();
@@ -206,7 +186,7 @@ const SecurityDashboard: React.FC = () => {
       
       // محاكاة تهديدات جديدة أحياناً
       if (Math.random() < 0.1) {
-        const newThreat = generateThreats()[0];
+        const newThreat = generateThreats()[0]!;
         setThreats(prev => [newThreat, ...prev.slice(0, 14)]);
       }
     }, 5000);
@@ -214,7 +194,7 @@ const SecurityDashboard: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const getThreatDescription = (type: string, severity: string): string => {
+  const getThreatDescription = (type: string, _severity: string): string => {
     const descriptions = {
       malware: 'تم اكتشاف برمجية خبيثة تحاول الوصول للنظام',
       phishing: 'محاولة تصيد إلكتروني لسرقة بيانات المستخدمين',
@@ -304,7 +284,7 @@ const SecurityDashboard: React.FC = () => {
     }
   };
 
-  const getSystemStatusIcon = (status: string, system: string) => {
+  const getSystemStatusIcon = (status: string, _system: string) => {
     if (status === 'active' || status === 'enabled' || status === 'completed' || status === 'connected') {
       return <CheckCircle className="w-5 h-5 text-green-500" />;
     } else if (status === 'inactive' || status === 'disabled' || status === 'failed' || status === 'disconnected') {

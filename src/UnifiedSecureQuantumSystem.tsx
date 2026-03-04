@@ -110,7 +110,7 @@ const UnifiedSecureQuantumSystem: React.FC = () => {
   });
 
   const [isVerifying, setIsVerifying] = useState(false);
-  const [verificationResults, setVerificationResults] = useState<QuantumVerification[]>([]);
+  const [_verificationResults, setVerificationResults] = useState<QuantumVerification[]>([]);
   const [masterSecretCode, setMasterSecretCode] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -156,6 +156,7 @@ const UnifiedSecureQuantumSystem: React.FC = () => {
     
     for (let i = 0; i < services.length; i++) {
       const service = services[i];
+      if (!service) continue;
       
       // تحديث حالة الخدمة إلى "جاري التحقق"
       setServices(prev => prev.map(s => 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Brain, MessageCircle, Settings, Zap, Database, Activity } from 'lucide-react';
 import { aiService } from './aiService';
+import { AI_PERSONALITIES } from './config';
 import { OpenAIService } from './openaiService';
 import './index.css';
 
@@ -11,11 +12,6 @@ interface QuantumState {
   probability: number;
   energy: number;
   active: boolean;
-}
-
-interface LoginCredentials {
-  password: string;
-  secretCode: string;
 }
 
 interface GeneratedUser {
@@ -117,13 +113,6 @@ interface AIMessage {
   personality?: string;
 }
 
-interface KnowledgeEntry {
-  input: string;
-  output: string;
-  weight: number;
-  frequency: number;
-  timestamp: number;
-}
 
 interface QuantumWeight {
   id: string;
@@ -188,8 +177,8 @@ const UnifiedQuantumSystem: React.FC = () => {
   const [messages, setMessages] = useState<AIMessage[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [aiPersonality, setAiPersonality] = useState('analytical');
-  const [aiProvider, setAiProvider] = useState<'OpenAI'>('OpenAI');
-  const [learningRate, setLearningRate] = useState(0.1);
+  const [aiProvider, _setAiProvider] = useState<'OpenAI'>('OpenAI');
+  const [learningRate, _setLearningRate] = useState(0.1);
   const [neuralActivity, setNeuralActivity] = useState<number[]>([]);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   
@@ -238,7 +227,7 @@ const UnifiedQuantumSystem: React.FC = () => {
     { id: '2', name: 'ذكاء الوعي الاصطناعي', accuracy: 94.3, status: 'learning', consciousness_level: 23.8 }
   ]);
 
-  const [investmentOpportunities] = useState<InvestmentOpportunity[]>([
+  const [_investmentOpportunities] = useState<InvestmentOpportunity[]>([
     { id: '1', sector: 'الحوسبة الكمومية', potential_return: 340.5, risk_level: 'medium', quantum_advantage: 89.2 },
     { id: '2', sector: 'الذكاء الاصطناعي الكمومي', potential_return: 520.8, risk_level: 'high', quantum_advantage: 95.7 }
   ]);
@@ -481,7 +470,7 @@ const UnifiedQuantumSystem: React.FC = () => {
           vx: (Math.random() - 0.5) * 2,
           vy: (Math.random() - 0.5) * 2,
           size: Math.random() * 4 + 2,
-          color: ['#00ffff', '#ff00ff', '#ffff00', '#00ff00'][Math.floor(Math.random() * 4)]
+          color: (['#00ffff', '#ff00ff', '#ffff00', '#00ff00'][Math.floor(Math.random() * 4)] ?? '#00ffff')
         });
       }
       setParticles(newParticles);
@@ -520,31 +509,6 @@ const UnifiedQuantumSystem: React.FC = () => {
       default: return 'text-gray-400';
     }
   };
-
-  // المصفوفة الكمية للمعالجة - مستوحاة من نظريات بلانك
-  const quantumMatrix = useRef([
-    [0.8, 0.2, 0.1, 0.3],
-    [0.3, 0.7, 0.4, 0.2],
-    [0.1, 0.4, 0.9, 0.1],
-    [0.2, 0.1, 0.3, 0.8]
-  ]);
-
-  // خوارزمية الشبكة العصبية الكمية
-  const quantumNeuralProcess = useCallback((input: string) => {
-    const words = input.toLowerCase().split(' ');
-    const wordVectors = words.map(word =>
-      word.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) / 100
-    );
-
-    // تطبيق التحويل الكمي
-    const processedVectors = wordVectors.map((vector, i) => {
-      return quantumMatrix.current[i % 4].reduce((sum, weight, j) =>
-        sum + weight * Math.sin(vector * Math.PI / (j + 1)), 0
-      );
-    });
-
-    return processedVectors.reduce((acc, val) => acc + val, 0) / processedVectors.length;
-  }, []);
 
   // دالة تحديث الأوزان الكمومية باستخدام المعادلة الجديدة
   const updateQuantumWeights = useCallback((confidence: number, aiFeedback: number) => {
@@ -603,60 +567,6 @@ const UnifiedQuantumSystem: React.FC = () => {
     }
   }, [learningRate, knowledgeBase, quantumWeights, updateQuantumWeights]);
 
-  // محرك الاستجابة الذكية
-  const generateResponse = useCallback(async (input: string) => {
-    const quantumScore = quantumNeuralProcess(input);
-    const inputHash = input.toLowerCase().replace(/\s+/g, '');
-    const existingKnowledge = knowledgeBase.find(kb => kb.topic.toLowerCase().replace(/\s+/g, '') === inputHash);
-
-    // تحليل السياق والمشاعر
-    const emotionalWeights = {
-      positive: input.match(/جميل|رائع|ممتاز|شكرا|أحب/g)?.length || 0,
-      negative: input.match(/سيء|مشكلة|خطأ|لا أفهم|صعب/g)?.length || 0,
-      question: input.match(/ما|كيف|لماذا|متى|أين|هل|\?/g)?.length || 0
-    };
-
-    let response = '';
-    let confidence = 0.5;
-
-    if (existingKnowledge && existingKnowledge.weight > 0.3) {
-      response = existingKnowledge.output;
-      confidence = existingKnowledge.weight;
-    } else if (emotionalWeights.question > 0) {
-      const questionTypes = [
-        'هذا سؤال مثير للاهتمام. دعني أحلله من منظور رياضي...',
-        'بناءً على التحليل الكمي للبيانات، يمكنني القول...',
-        'وفقاً للخوارزميات المتقدمة، النتيجة تشير إلى...',
-        'من خلال معالجة الأنماط المعقدة، أستنتج أن...'
-      ];
-      response = questionTypes[Math.floor(quantumScore * questionTypes.length)];
-      confidence = 0.7 + quantumScore * 0.3;
-    } else if (emotionalWeights.positive > emotionalWeights.negative) {
-      response = 'أقدر تفاعلك الإيجابي! دعني أساعدك بمزيد من التفصيل الرياضي...';
-      confidence = 0.8;
-    } else if (emotionalWeights.negative > 0) {
-      response = 'أفهم قلقك. دعني أعيد تحليل المسألة بطريقة أكثر وضوحاً...';
-      confidence = 0.6;
-    } else {
-      const generalResponses = [
-        'معالجة البيانات تتم وفق نموذج كمي متقدم...',
-        'التحليل الرياضي يشير إلى عدة احتمالات...',
-        'بناءً على الخوارزميات العصبية، يمكنني تقديم...',
-        'النظام يعمل على تحليل المدخلات بدقة عالية...'
-      ];
-      response = generalResponses[Math.floor(quantumScore * generalResponses.length)];
-      confidence = 0.5 + quantumScore * 0.4;
-    }
-
-    // محاكاة النشاط العصبي
-    const newActivity = Array.from({length: 20}, () =>
-      Math.random() * confidence * 100
-    );
-    setNeuralActivity(newActivity);
-
-    return { response, confidence, quantumScore };
-  }, [quantumNeuralProcess, knowledgeBase]);
-
   // اختبار OpenAI مع الكود الجديد
   const testOpenAIPrompt = async () => {
     try {
@@ -698,7 +608,7 @@ const UnifiedQuantumSystem: React.FC = () => {
 
     try {
       // استخدام OpenAI API
-      const aiResponse = await aiService.sendMessage(messageToSend, aiPersonality);
+      const aiResponse = await aiService.sendMessage(messageToSend, aiPersonality as keyof typeof AI_PERSONALITIES);
       
       const aiMessage: AIMessage = {
         type: 'ai',
