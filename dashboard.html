@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة التحكم الكمومية | Quantum AI Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep:    #0a0f1e;
+      --bg-card:    #0f172a;
+      --border:     #1e2d4a;
+      --purple:     #a855f7;
+      --purple-dim: #581c87;
+      --cyan:       #22d3ee;
+      --green:      #4ade80;
+      --red:        #f87171;
+      --yellow:     #fbbf24;
+      --text:       #e2e8f0;
+      --muted:      #64748b;
+    }
+
+    body {
+      font-family: Tahoma, 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at top, #1a0533 0%, var(--bg-deep) 60%);
+      min-height: 100vh;
+      color: var(--text);
+      padding: 24px 16px 48px;
+    }
+
+    /* ─── Header ─── */
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      display: inline-block;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: conic-gradient(var(--purple), var(--cyan), var(--purple));
+      animation: spin 6s linear infinite;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .logo::after {
+      content: '⚛';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      animation: spin 6s linear infinite reverse;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    h1 {
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--purple), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Status Bar ─── */
+    .status-bar {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot.online  { background: var(--green);  box-shadow: 0 0 8px var(--green); }
+    .dot.warning { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+    .dot.offline { background: var(--red);    box-shadow: 0 0 8px var(--red); }
+
+    /* ─── Metrics ─── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    .metric-card:hover { border-color: var(--purple-dim); transform: translateY(-2px); }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--purple);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ─── Nav Cards ─── */
+    .section-title {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto 48px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--card-from, var(--purple)), var(--card-to, var(--cyan)));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover { border-color: var(--purple-dim); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(88,28,135,0.25); }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon { font-size: 2rem; }
+    .card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+    .card-desc  { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    .card-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: var(--purple-dim);
+      color: var(--purple);
+      align-self: flex-start;
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+      padding-top: 24px;
+    }
+
+    /* ─── Live clock ─── */
+    #clock { color: var(--cyan); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo" aria-hidden="true"></div>
+    <h1>لوحة التحكم الكمومية</h1>
+    <p class="subtitle">Quantum AI Control Dashboard &nbsp;|&nbsp; <span id="clock">--:--:--</span></p>
+  </header>
+
+  <div class="status-bar">
+    <div class="status-item"><span class="dot online"></span> نظام الكم — متصل</div>
+    <div class="status-item"><span class="dot online"></span> الذكاء الاصطناعي — نشط</div>
+    <div class="status-item"><span class="dot warning"></span> قاعدة البيانات — مراقبة</div>
+    <div class="status-item"><span class="dot online"></span> الأمان — محمي</div>
+  </div>
+
+  <div class="metrics" aria-label="مقاييس النظام">
+    <div class="metric-card">
+      <div class="metric-value" id="m-uptime">99.9<span style="font-size:1rem">%</span></div>
+      <div class="metric-label">وقت التشغيل / Uptime</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value" id="m-qubits">128</div>
+      <div class="metric-label">كيوبت نشط / Active Qubits</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value" id="m-threats">0</div>
+      <div class="metric-label">تهديدات / Threats Blocked</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value" id="m-users">—</div>
+      <div class="metric-label">المستخدمون / Users</div>
+    </div>
+  </div>
+
+  <p class="section-title">الأقسام الرئيسية / Sections</p>
+
+  <div class="cards">
+
+    <a href="/" class="card" style="--card-from:#a855f7;--card-to:#7c3aed;">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">النظام الرئيسي</div>
+      <div class="card-desc">الواجهة التفاعلية الكاملة — نظام الثورة الكمية المتقدم مع جميع الوحدات.</div>
+      <span class="card-badge">React App</span>
+    </a>
+
+    <a href="/chat.html" class="card" style="--card-from:#22d3ee;--card-to:#0891b2;">
+      <div class="card-icon">💬</div>
+      <div class="card-title">مساعد الكم الذكي</div>
+      <div class="card-desc">تحدّث مع المساعد الكمومي وتلقَّ ردوداً فورية في ثلاثة أوضاع مختلفة.</div>
+      <span class="card-badge">Chat</span>
+    </a>
+
+    <a href="/quantum.html" class="card" style="--card-from:#4ade80;--card-to:#16a34a;">
+      <div class="card-icon">⚛️</div>
+      <div class="card-title">محطة الكم</div>
+      <div class="card-desc">لوحة البيانات المتقدمة، تحليل الجسيمات، ومراقبة الحالة الكمومية في الوقت الفعلي.</div>
+      <span class="card-badge">Quantum Lab</span>
+    </a>
+
+    <div class="card" style="opacity:.6;cursor:default;">
+      <div class="card-icon">🔐</div>
+      <div class="card-title">لوحة الأمان المتقدمة</div>
+      <div class="card-desc">مراقبة التهديدات، السجلات الأمنية، وتحليل الثغرات — متاح من التطبيق الرئيسي.</div>
+      <span class="card-badge" style="background:#1e293b;color:var(--muted);">في التطبيق</span>
+    </div>
+
+    <div class="card" style="opacity:.6;cursor:default;">
+      <div class="card-icon">📊</div>
+      <div class="card-title">تحليلات الاستثمار</div>
+      <div class="card-desc">عروض المستثمرين والتقارير المالية المتقدمة — متاح من التطبيق الرئيسي.</div>
+      <span class="card-badge" style="background:#1e293b;color:var(--muted);">في التطبيق</span>
+    </div>
+
+    <div class="card" style="opacity:.6;cursor:default;">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">نظام الوكلاء الذاتيين</div>
+      <div class="card-desc">AutoGPT وأعوان الذكاء الاصطناعي المستقلون — متاح من التطبيق الرئيسي.</div>
+      <span class="card-badge" style="background:#1e293b;color:var(--muted);">في التطبيق</span>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Top1 Quantum AI &copy; <span id="year"></span> &mdash; جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    // Live clock
+    function tick() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString('ar-SA', { hour12: false });
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Animate counters
+    function animateCounter(el, target, suffix = '') {
+      let current = 0;
+      const step = Math.ceil(target / 40);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current + suffix;
+        if (current >= target) clearInterval(timer);
+      }, 40);
+    }
+
+    animateCounter(document.getElementById('m-qubits'), 128);
+    animateCounter(document.getElementById('m-threats'), 0);
+
+    // Simulate user count
+    document.getElementById('m-users').textContent = Math.floor(Math.random() * 50 + 10);
+  </script>
+
+</body>
+</html>
