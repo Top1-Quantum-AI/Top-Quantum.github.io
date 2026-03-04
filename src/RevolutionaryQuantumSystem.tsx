@@ -1,22 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Atom, Brain, Network, Activity, Zap, Settings, BarChart3, Cpu, Database, Gauge, Shield, Eye, AlertTriangle, Users, Workflow, Target, Layers, Sparkles, Moon, Sun, Command, Search, Palette, LayoutGrid, List, ToggleLeft, ToggleRight, Monitor, Smartphone, Tablet } from 'lucide-react';
+import { Atom, Brain, Network, Activity, Zap, BarChart3, Shield, AlertTriangle, Users, Workflow, Target, Layers, Sparkles, Moon, Sun, Command, Search, Palette, LayoutGrid, type LucideIcon } from 'lucide-react';
 import localforage from 'localforage';
-
-// إصلاحات الأمان المتقدمة
-const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
-  const bytes = new Uint8Array(buffer);
-  let binary = '';
-  for (let i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary);
-};
-
-const generateSecureKey = (): string => {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  return arrayBufferToBase64(array.buffer);
-};
 
 // واجهة حالات التحميل المنفصلة
 interface ProcessingStates {
@@ -38,14 +22,6 @@ interface SecureLog {
   timestamp: number;
   userId?: string;
 }
-
-// الثوابت الفيزيائية الكمية
-const PLANCK_CONSTANT = 6.62607015e-34; // J⋅s
-const REDUCED_PLANCK = PLANCK_CONSTANT / (2 * Math.PI); // ℏ
-const LIGHT_SPEED = 299792458; // m/s
-const BOLTZMANN_CONSTANT = 1.380649e-23; // J/K
-const ELEMENTARY_CHARGE = 1.602176634e-19; // C
-const FINE_STRUCTURE_CONSTANT = 7.2973525693e-3; // α
 
 // واجهات النظام الموحد
 interface UnifiedQuantumState {
@@ -94,7 +70,7 @@ interface QuantumModule {
   id: string;
   name: string;
   nameAr: string;
-  icon: React.ComponentType;
+  icon: LucideIcon;
   status: 'active' | 'inactive' | 'processing' | 'error';
   efficiency: number;
   quantumAdvantage: number;
@@ -124,7 +100,7 @@ interface CommandAction {
   id: string;
   label: string;
   labelAr: string;
-  icon: React.ComponentType;
+  icon: LucideIcon;
   category: 'theme' | 'navigation' | 'quantum' | 'ai' | 'security';
   action: () => void;
   shortcut?: string;
@@ -196,8 +172,8 @@ const RevolutionaryQuantumSystem: React.FC = () => {
   const [learningProgress, setLearningProgress] = useState(0.0);
   const [modelAccuracy, setModelAccuracy] = useState(0.0);
   const [trainingEpochs, setTrainingEpochs] = useState(0);
-  const [isRTL] = useState(true);
-  const [logs, setLogs] = useState<SecureLog[]>([]);
+  const [_isRTL] = useState(true);
+  const [_logs, setLogs] = useState<SecureLog[]>([]);
   
   // المراجع للإلغاء والتنظيف
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -255,7 +231,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
   }, []);
 
   // دالة طباعة PDF للتحليلات والاكتشافات
-  const printToPDF = (cardTitle: string, cardData?: any) => {
+  const printToPDF = (cardTitle: string, _cardData?: any) => {
     // إنشاء محتوى HTML للطباعة
     const printContent = `
       <html>
@@ -636,7 +612,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     const controller = new AbortController();
     abortControllerRef.current = controller;
     
-    await addSecureLog('info', `بدء محاكاة النموذج: ${modelType}`, 'QuantumSimulation');
+    await addSecureLog({ level: 'info', message: `بدء محاكاة النموذج: ${modelType}`, module: 'QuantumSimulation' });
     
     try {
     
@@ -680,14 +656,16 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     setSimulationData(model);
     
     const startTime = Date.now();
+    const maxEpochs = 'maxEpochs' in model ? model.maxEpochs : 50;
+    const baseLearningRate = 'learningRate' in model ? model.learningRate : 0.001;
     
     // محاكاة التدريب مع أرقام حقيقية وذاكرة أسية
-    for (let epoch = 1; epoch <= (model.maxEpochs || 50); epoch++) {
+    for (let epoch = 1; epoch <= (maxEpochs || 50); epoch++) {
       await new Promise(resolve => setTimeout(resolve, 150));
       setTrainingEpochs(epoch);
       
       // حساب الدقة مع نموذج أسي حقيقي
-      const progress = epoch / (model.maxEpochs || 50);
+      const progress = epoch / (maxEpochs || 50);
       const exponentialGrowth = 1 - Math.exp(-progress * 3.456789);
       const baseAccuracy = 20.123456 + exponentialGrowth * 75.876543;
       const quantumNoise = (Math.random() - 0.5) * 2.345678 * realQuantumParams.thermalNoise * 1000;
@@ -697,7 +675,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       const loss = Math.exp(-progress * 2.789123) * 0.567891 + Math.random() * 0.123456;
       
       // معدل التعلم التكيفي
-      const adaptiveLearningRate = model.learningRate * Math.exp(-epoch * 0.001234567);
+      const adaptiveLearningRate = baseLearningRate * Math.exp(-epoch * 0.001234567);
       
       setModelAccuracy(accuracy);
       
@@ -724,7 +702,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       
       // التحقق من الإلغاء
       if (controller.signal.aborted) {
-        await addSecureLog('warning', 'تم إلغاء المحاكاة الكمية', 'QuantumSimulation');
+        await addSecureLog({ level: 'warning', message: 'تم إلغاء المحاكاة الكمية', module: 'QuantumSimulation' });
         return;
       }
       
@@ -750,10 +728,10 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       }].slice(-30) // الاحتفاظ بآخر 30 محاكاة
     }));
     
-    await addSecureLog('success', `اكتملت المحاكاة بنجاح: ${modelType}`, 'QuantumSimulation');
+    await addSecureLog({ level: 'success', message: `اكتملت المحاكاة بنجاح: ${modelType}`, module: 'QuantumSimulation' });
     
     } catch (error) {
-      await addSecureLog('error', `خطأ في المحاكاة: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, 'QuantumSimulation');
+      await addSecureLog({ level: 'error', message: `خطأ في المحاكاة: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, module: 'QuantumSimulation' });
     } finally {
       setProcessingStates(prev => ({ ...prev, isRunningQuantum: false }));
       abortControllerRef.current = null;
@@ -769,7 +747,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     const controller = new AbortController();
     abortControllerRef.current = controller;
     
-    await addSecureLog('info', 'بدء عملية تعلم الوكلاء الكمية', 'AgentLearning');
+    await addSecureLog({ level: 'info', message: 'بدء عملية تعلم الوكلاء الكمية', module: 'AgentLearning' });
     
     try {
     
@@ -783,13 +761,12 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     ];
     
     let episodeCount = 0;
-    const startTime = Date.now();
     
     for (let i = 0; i < learningPhases.length; i++) {
       const phase = learningPhases[i];
       
       // محاكاة التعلم الأسي لكل مرحلة
-      const phaseSteps = Math.floor(phase.duration / 100);
+      const phaseSteps = Math.floor((phase?.duration ?? 0) / 100);
       
       for (let step = 0; step < phaseSteps; step++) {
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -814,7 +791,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
         
         // التحقق من الإلغاء
         if (controller.signal.aborted) {
-          await addSecureLog('warning', 'تم إلغاء عملية تعلم الوكلاء', 'AgentLearning');
+          await addSecureLog({ level: 'warning', message: 'تم إلغاء عملية تعلم الوكلاء', module: 'AgentLearning' });
           return;
         }
         
@@ -843,10 +820,10 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       }
     }
     
-    await addSecureLog('success', 'اكتملت عملية تعلم الوكلاء بنجاح', 'AgentLearning');
+    await addSecureLog({ level: 'success', message: 'اكتملت عملية تعلم الوكلاء بنجاح', module: 'AgentLearning' });
     
     } catch (error) {
-      await addSecureLog('error', `خطأ في تعلم الوكلاء: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, 'AgentLearning');
+      await addSecureLog({ level: 'error', message: `خطأ في تعلم الوكلاء: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, module: 'AgentLearning' });
     } finally {
       setProcessingStates(prev => ({ ...prev, isLearning: false }));
       abortControllerRef.current = null;
@@ -856,7 +833,6 @@ const RevolutionaryQuantumSystem: React.FC = () => {
   const [activeModule, setActiveModule] = useState('unified-dashboard');
   const [isSystemActive, setIsSystemActive] = useState(false);
   const [revolutionMode, setRevolutionMode] = useState(false);
-  const animationRef = useRef<number>();
 
   // حالات الثيم الذكي ولوحة الأوامر
   const [smartTheme, setSmartTheme] = useState<SmartTheme>({
@@ -1013,6 +989,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
 
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [isSystemActive]);
 
   // تفعيل وضع الثورة العلمية
@@ -1869,7 +1846,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                     <div className="quantum-card bg-gradient-to-br from-purple-600/20 to-pink-600/20 p-4 rounded-lg border border-purple-500/30">
                       <div className="text-xs text-purple-300 mb-1 glow-text">التماسك الكمي</div>
                       <div className="text-2xl font-bold text-pink-300">
-                        {(exponentialMemory.agentData[exponentialMemory.agentData.length - 1]?.quantumCoherence * 100).toFixed(6)}%
+                        {((exponentialMemory.agentData[exponentialMemory.agentData.length - 1]?.quantumCoherence ?? 0) * 100).toFixed(6)}%
                       </div>
                       <div className="text-xs text-gray-400">Quantum Coherence</div>
                     </div>
@@ -1883,25 +1860,25 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                         <div className="quantum-card bg-gradient-to-br from-cyan-600/20 to-blue-600/20 p-3 rounded-lg border border-cyan-500/30">
                           <div className="text-xs text-cyan-300 mb-1">التماسك</div>
                           <div className="text-lg font-bold text-blue-300">
-                            {(exponentialMemory.quantumStates[exponentialMemory.quantumStates.length - 1]?.coherence * 100).toFixed(4)}%
+                            {((exponentialMemory.quantumStates[exponentialMemory.quantumStates.length - 1]?.coherence ?? 0) * 100).toFixed(4)}%
                           </div>
                         </div>
                         <div className="quantum-card bg-gradient-to-br from-green-600/20 to-emerald-600/20 p-3 rounded-lg border border-green-500/30">
                           <div className="text-xs text-green-300 mb-1">التشابك</div>
                           <div className="text-lg font-bold text-emerald-300">
-                            {(exponentialMemory.quantumStates[exponentialMemory.quantumStates.length - 1]?.entanglement * 100).toFixed(4)}%
+                            {((exponentialMemory.quantumStates[exponentialMemory.quantumStates.length - 1]?.entanglement ?? 0) * 100).toFixed(4)}%
                           </div>
                         </div>
                         <div className="quantum-card bg-gradient-to-br from-yellow-600/20 to-amber-600/20 p-3 rounded-lg border border-yellow-500/30">
                           <div className="text-xs text-yellow-300 mb-1">التراكب</div>
                           <div className="text-lg font-bold text-amber-300">
-                            {(exponentialMemory.quantumStates[exponentialMemory.quantumStates.length - 1]?.superposition * 100).toFixed(4)}%
+                            {((exponentialMemory.quantumStates[exponentialMemory.quantumStates.length - 1]?.superposition ?? 0) * 100).toFixed(4)}%
                           </div>
                         </div>
                         <div className="quantum-card bg-gradient-to-br from-red-600/20 to-orange-600/20 p-3 rounded-lg border border-red-500/30">
                           <div className="text-xs text-red-300 mb-1">فقدان التماسك</div>
                           <div className="text-lg font-bold text-orange-300">
-                            {(exponentialMemory.quantumStates[exponentialMemory.quantumStates.length - 1]?.decoherence * 1000).toFixed(6)}
+                            {((exponentialMemory.quantumStates[exponentialMemory.quantumStates.length - 1]?.decoherence ?? 0) * 1000).toFixed(6)}
                           </div>
                         </div>
                         <div className="quantum-card bg-gradient-to-br from-indigo-600/20 to-purple-600/20 p-3 rounded-lg border border-indigo-500/30">
