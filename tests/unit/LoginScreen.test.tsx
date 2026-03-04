@@ -69,7 +69,7 @@ describe('LoginScreen Component', () => {
     const onLogin = vi.fn();
     render(<LoginScreen {...defaultProps} onLogin={onLogin} />);
     const input = screen.getByPlaceholderText('أدخل اسم المستخدم الكمي');
-    fireEvent.keyPress(input, { key: 'Enter', charCode: 13 });
+    fireEvent.keyDown(input, { key: 'Enter', charCode: 13 });
     expect(onLogin).toHaveBeenCalledTimes(1);
   });
 
@@ -77,7 +77,7 @@ describe('LoginScreen Component', () => {
     const onLogin = vi.fn();
     render(<LoginScreen {...defaultProps} onLogin={onLogin} />);
     const input = screen.getByPlaceholderText('أدخل كلمة السر الآمنة');
-    fireEvent.keyPress(input, { key: 'Enter', charCode: 13 });
+    fireEvent.keyDown(input, { key: 'Enter', charCode: 13 });
     expect(onLogin).toHaveBeenCalledTimes(1);
   });
 

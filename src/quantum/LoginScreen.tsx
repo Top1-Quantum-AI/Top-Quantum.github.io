@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface LoginScreenProps {
   loginUsername: string;
@@ -7,6 +7,14 @@ interface LoginScreenProps {
   onUsernameChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
   onLogin: () => void;
+}
+
+interface ParticleData {
+  left: string;
+  top: string;
+  animationDelay: string;
+  animationDuration: string;
+  transform: string;
 }
 
 /** شاشة تسجيل الدخول الكمية */
@@ -18,7 +26,20 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
   onPasswordChange,
   onLogin,
 }) => {
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  /** توليد بيانات الجسيمات مرة واحدة فقط لتجنب الـ flicker عند إعادة التصيير */
+  const particles = useMemo<ParticleData[]>(
+    () =>
+      Array.from({ length: 100 }, () => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`,
+        animationDuration: `${2 + Math.random() * 4}s`,
+        transform: `scale(${0.5 + Math.random() * 1.5})`,
+      })),
+    [],
+  );
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') onLogin();
   };
 
@@ -33,16 +54,16 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
 
       {/* جسيمات كمية متحركة */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 100 }).map((_, i) => (
+        {particles.map((p, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full animate-pulse"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 4}s`,
-              transform: `scale(${0.5 + Math.random() * 1.5})`,
+              left: p.left,
+              top: p.top,
+              animationDelay: p.animationDelay,
+              animationDuration: p.animationDuration,
+              transform: p.transform,
               filter: 'blur(0.5px)',
               boxShadow: '0 0 10px currentColor',
             }}
@@ -112,7 +133,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
                   onChange={(e) => onUsernameChange(e.target.value)}
                   className="w-full px-6 py-4 bg-gray-900/50 border-2 border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 backdrop-blur-sm"
                   placeholder="أدخل اسم المستخدم الكمي"
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyDown}
                 />
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-cyan-400 opacity-50">⚡</div>
               </div>
@@ -130,7 +151,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
                   onChange={(e) => onPasswordChange(e.target.value)}
                   className="w-full px-6 py-4 bg-gray-900/50 border-2 border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 backdrop-blur-sm"
                   placeholder="أدخل كلمة السر الآمنة"
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyDown}
                 />
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-purple-400 opacity-50">🛡️</div>
               </div>
