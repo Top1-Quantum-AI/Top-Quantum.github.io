@@ -919,12 +919,91 @@ const AdvancedSecurityDashboard: React.FC = () => {
     setTimeout(() => setIsScanning(false), 3000);
   };
 
-  const renderThreats = () => <div />;
-  const renderLogs = () => <div />;
-  const renderSystems = () => <div />;
-  const renderVulnerabilities = () => <div />;
-  const renderQuantumSecurity = () => <div />;
+  const renderThreats = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+      <div className="flex items-center mb-4 space-x-3 space-x-reverse">
+        <ShieldAlert className="w-5 h-5 text-red-500" />
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          تهديدات الأمان
+        </h2>
+      </div>
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        سيتم عرض التهديدات الأمنية النشطة، ومستويات الخطورة، وحالة المعالجة في هذا القسم.
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-500">
+        لا توجد بيانات مفصلة متاحة حالياً، أو لم يتم تفعيل هذه الميزة بعد في بيئة العرض.
+      </p>
+    </div>
+  );
 
+  const renderLogs = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+      <div className="flex items-center mb-4 space-x-3 space-x-reverse">
+        <FileText className="w-5 h-5 text-blue-500" />
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          سجلات الأحداث
+        </h2>
+      </div>
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        في هذا التبويب ستجد سجلات الأنشطة الأمنية، محاولات الاختراق، والتنبيهات التاريخية.
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-500">
+        لم يتم تحميل أي سجلات في هذه الواجهة بعد. يمكن ربط النظام بمصدر السجلات لاحقاً.
+      </p>
+    </div>
+  );
+
+  const renderSystems = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+      <div className="flex items-center mb-4 space-x-3 space-x-reverse">
+        <Server className="w-5 h-5 text-green-500" />
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          الأنظمة والخدمات
+        </h2>
+      </div>
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        يعرض هذا القسم حالة الأنظمة الحرجة، توفر الخدمات، ونقاط المراقبة الأمنية المرتبطة بها.
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-500">
+        لا توجد أنظمة مرتبطة حالياً. قم بربط البنية التحتية الفعلية لعرض حالتها هنا.
+      </p>
+    </div>
+  );
+
+  const renderVulnerabilities = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+      <div className="flex items-center mb-4 space-x-3 space-x-reverse">
+        <Bug className="w-5 h-5 text-yellow-500" />
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          الثغرات الأمنية
+        </h2>
+      </div>
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        هنا سيتم عرض الثغرات المكتشفة، درجة خطورتها، وحالة معالجتها في بيئة الإنتاج.
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-500">
+        لم يتم تسجيل أي ثغرات حتى الآن أو لم يتم تفعيل خاصية فحص الثغرات في هذه النسخة.
+      </p>
+    </div>
+  );
+
+  const renderQuantumSecurity = () => (
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+      <div className="flex items-center mb-4 space-x-3 space-x-reverse">
+        <Hexagon className="w-5 h-5 text-purple-500" />
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          الأمان الكمي
+        </h2>
+      </div>
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        يعرض هذا القسم إعدادات الأمان المقاوم للهجمات الكمية، والحالة العامة للبروتوكولات الكمية.
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-500">
+        هذه الواجهة تمثل عرضاً توضيحياً، ولم يتم بعد ربطها بنظام كمي حقيقي. يمكن توسيعها لاحقاً
+        لعرض مؤشرات أداء وقياسات فعلية.
+      </p>
+    </div>
+  );
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-7xl mx-auto">
