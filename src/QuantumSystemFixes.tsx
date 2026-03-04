@@ -131,7 +131,7 @@ class SecureQuantumEncryption {
 
   // إصلاح 9: إخفاء المفتاح العام في الإنتاج
   getPublicKeyForDisplay(): string {
-    if (process.env['NODE_ENV'] === 'production') {
+    if (import.meta.env.PROD) {
       return 'مخفي لأغراض الأمان';
     }
     return 'مفتاح عام للعرض التوضيحي فقط';
