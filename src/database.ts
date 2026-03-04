@@ -88,11 +88,6 @@ class QuantumDatabase {
    * إنشاء جداول قاعدة البيانات الأساسية
    * يتم إنشاء جميع الجداول المطلوبة للنظام الكمي
    */
-  private async _createTables(): Promise<void> {
-    // لا حاجة لإنشاء جداول في النظام المؤقت
-    console.log('تم إنشاء الجداول (مؤقت)');
-  }
-
   private async createDefaultUser(): Promise<void> {
     // إنشاء مستخدم افتراضي للاختبار
     const defaultUser = {
@@ -103,22 +98,6 @@ class QuantumDatabase {
     };
     await localforage.setItem('user_admin@quantum.com', defaultUser);
     console.log('تم إنشاء المستخدم الافتراضي: admin@quantum.com / admin123');
-  }
-
-  private async _insertDefaultData(): Promise<void> {
-    // Insert default projects
-    const defaultProjects = [
-      ['محاكي الكم المتقدم', 'محاكي متطور للحالات الكمية', 'active', 85],
-      ['خوارزمية التشفير الكمي', 'تطوير خوارزميات تشفير كمية متقدمة', 'completed', 100],
-      ['شبكة الاتصال الكمي', 'بناء شبكة اتصالات كمية آمنة', 'paused', 60]
-    ];
-
-    for (const [name, description, status, progress] of defaultProjects) {
-      this.db.run(
-        'INSERT OR IGNORE INTO quantum_projects (name, description, status, progress) VALUES (?, ?, ?, ?)',
-        [name, description, status, progress]
-      );
-    }
   }
 
   async saveDatabase(): Promise<void> {

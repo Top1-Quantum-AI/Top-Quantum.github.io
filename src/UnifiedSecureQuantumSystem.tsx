@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Shield, Lock, Key, CheckCircle, AlertTriangle, Activity, Brain, Zap } from 'lucide-react';
+import { MASTER_SECRET_CODE } from './config/credentials';
 
 // نظام كمي موحد آمن مع التحقق من جميع الخدمات
 // مبني على مبادئ ماكس بلانك مع الحفاظ على الرقم السري الموحد
@@ -115,7 +116,7 @@ const UnifiedSecureQuantumSystem: React.FC = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // الرقم السري الموحد الرئيسي
-  const MASTER_SECRET_CODE = '511';
+  // MASTER_SECRET_CODE مستورد من config/credentials
 
   // توليد رقم سري فريد لكل خدمة
   const generateServiceSecretCode = (serviceId: string): string => {

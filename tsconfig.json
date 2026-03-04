@@ -3,6 +3,9 @@
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "allowJs": true,
+    // NOTE: skipLibCheck is true because @testing-library/jest-dom types require
+    // @types/jest which conflicts with vitest/globals type declarations. This will
+    // be set to false once the library version conflict is resolved upstream.
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

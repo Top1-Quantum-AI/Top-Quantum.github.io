@@ -110,7 +110,6 @@ export class AIService {
 
   // توليد استجابة محاكية ذكية
   private generateMockResponse(message: string, personality: keyof typeof AI_PERSONALITIES): string {
-    const _personalityConfig = AI_PERSONALITIES[personality];
     const lowerMessage = message.toLowerCase();
     
     // استجابات مخصصة حسب الشخصية

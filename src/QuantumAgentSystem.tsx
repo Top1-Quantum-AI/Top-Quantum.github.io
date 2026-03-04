@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { SYSTEM_USERNAME, SYSTEM_PASSWORD } from './config/credentials';
 
 // نظام الوكلاء الكمي المتقدم - Quantum Agent System
 // مبني على مبادئ ماكس بلانك ونظرية الكم
@@ -32,8 +33,8 @@ const QuantumAgentSystem: React.FC = () => {
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const correctUsername = '511';
-  const correctPassword = '511';
+  const correctUsername = SYSTEM_USERNAME;
+  const correctPassword = SYSTEM_PASSWORD;
 
   const [agents, setAgents] = useState<QuantumAgent[]>([]);
   const [systemMetrics, setSystemMetrics] = useState<SystemMetrics>({

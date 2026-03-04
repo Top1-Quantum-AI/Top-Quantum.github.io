@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RotateCcw, Cpu, Database, FileText, Search } from 'lucide-react';
+import { SYSTEM_USERNAME, SYSTEM_PASSWORD } from './config/credentials';
 
 const WorkflowDiagnosticTool = () => {
   // حالة تسجيل الدخول
@@ -7,8 +8,8 @@ const WorkflowDiagnosticTool = () => {
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const correctUsername = '511';
-  const correctPassword = '511';
+  const correctUsername = SYSTEM_USERNAME;
+  const correctPassword = SYSTEM_PASSWORD;
 
   const [systemState, setSystemState] = useState('analyzing');
   const [agents, setAgents] = useState([

@@ -56,7 +56,6 @@ interface SecureLog {
 
 // إصلاح 7: فئة التشفير الكمي المحسنة
 class SecureQuantumEncryption {
-  private _secretKey: string | null = null;
   private keyPair: CryptoKeyPair | null = null;
 
   constructor() {
@@ -127,14 +126,7 @@ class SecureQuantumEncryption {
     } catch (error) {
       console.error('خطأ في فك التشفير:', error);
       return null;
-    } finally {
-      // إصلاح 8: مسح المفتاح السري بعد الاستخدام
-      this.clearSecretKey();
     }
-  }
-
-  private clearSecretKey(): void {
-    this.secretKey = null;
   }
 
   // إصلاح 9: إخفاء المفتاح العام في الإنتاج
