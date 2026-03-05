@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Atom, Brain, Network, Activity, Zap, Settings, BarChart3, Cpu, Database, Gauge, Shield, Eye, AlertTriangle, Users, Workflow, Target, Layers, Sparkles, Moon, Sun, Command, Search, Palette, LayoutGrid, List, ToggleLeft, ToggleRight, Monitor, Smartphone, Tablet } from 'lucide-react';
 import localforage from 'localforage';
 
@@ -130,12 +130,32 @@ interface CommandAction {
   shortcut?: string;
 }
 
+const LOCK_DURATION_S = 30;
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOGIN_LOCK_KEY = 'qs_lock_until';
+const LOGIN_ATTEMPTS_KEY = 'qs_login_attempts';
+
 const RevolutionaryQuantumSystem: React.FC = () => {
   // حالة تسجيل الدخول
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  // تهيئة محاولات الدخول من التخزين المحلي لمنع الالتفاف عبر إعادة التحميل
+  const [loginAttempts, setLoginAttempts] = useState(() => {
+    const stored = parseInt(sessionStorage.getItem(LOGIN_ATTEMPTS_KEY) ?? '0', 10);
+    return isNaN(stored) ? 0 : stored;
+  });
+  const [isLoginLocked, setIsLoginLocked] = useState(() => {
+    const lockUntil = parseInt(sessionStorage.getItem(LOGIN_LOCK_KEY) ?? '0', 10);
+    return Date.now() < lockUntil;
+  });
+  const [lockCountdown, setLockCountdown] = useState(() => {
+    const lockUntil = parseInt(sessionStorage.getItem(LOGIN_LOCK_KEY) ?? '0', 10);
+    const remaining = Math.ceil((lockUntil - Date.now()) / 1000);
+    return remaining > 0 ? remaining : 0;
+  });
   const correctUsername = '511';
   const correctPassword = '511';
 
@@ -636,7 +656,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     const controller = new AbortController();
     abortControllerRef.current = controller;
     
-    await addSecureLog('info', `بدء محاكاة النموذج: ${modelType}`, 'QuantumSimulation');
+    await addSecureLog({ level: 'info', message: `بدء محاكاة النموذج: ${modelType}`, module: 'QuantumSimulation' });
     
     try {
     
@@ -724,7 +744,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       
       // التحقق من الإلغاء
       if (controller.signal.aborted) {
-        await addSecureLog('warning', 'تم إلغاء المحاكاة الكمية', 'QuantumSimulation');
+        await addSecureLog({ level: 'warning', message: 'تم إلغاء المحاكاة الكمية', module: 'QuantumSimulation' });
         return;
       }
       
@@ -750,10 +770,10 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       }].slice(-30) // الاحتفاظ بآخر 30 محاكاة
     }));
     
-    await addSecureLog('success', `اكتملت المحاكاة بنجاح: ${modelType}`, 'QuantumSimulation');
+    await addSecureLog({ level: 'success', message: `اكتملت المحاكاة بنجاح: ${modelType}`, module: 'QuantumSimulation' });
     
     } catch (error) {
-      await addSecureLog('error', `خطأ في المحاكاة: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, 'QuantumSimulation');
+      await addSecureLog({ level: 'error', message: `خطأ في المحاكاة: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, module: 'QuantumSimulation' });
     } finally {
       setProcessingStates(prev => ({ ...prev, isRunningQuantum: false }));
       abortControllerRef.current = null;
@@ -769,7 +789,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     const controller = new AbortController();
     abortControllerRef.current = controller;
     
-    await addSecureLog('info', 'بدء عملية تعلم الوكلاء الكمية', 'AgentLearning');
+    await addSecureLog({ level: 'info', message: 'بدء عملية تعلم الوكلاء الكمية', module: 'AgentLearning' });
     
     try {
     
@@ -814,7 +834,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
         
         // التحقق من الإلغاء
         if (controller.signal.aborted) {
-          await addSecureLog('warning', 'تم إلغاء عملية تعلم الوكلاء', 'AgentLearning');
+          await addSecureLog({ level: 'warning', message: 'تم إلغاء عملية تعلم الوكلاء', module: 'AgentLearning' });
           return;
         }
         
@@ -843,10 +863,10 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       }
     }
     
-    await addSecureLog('success', 'اكتملت عملية تعلم الوكلاء بنجاح', 'AgentLearning');
+    await addSecureLog({ level: 'success', message: 'اكتملت عملية تعلم الوكلاء بنجاح', module: 'AgentLearning' });
     
     } catch (error) {
-      await addSecureLog('error', `خطأ في تعلم الوكلاء: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, 'AgentLearning');
+      await addSecureLog({ level: 'error', message: `خطأ في تعلم الوكلاء: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`, module: 'AgentLearning' });
     } finally {
       setProcessingStates(prev => ({ ...prev, isLearning: false }));
       abortControllerRef.current = null;
@@ -978,15 +998,46 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     }
   ];
 
-  // دالة تسجيل الدخول
+  // دالة تسجيل الدخول مع حماية من القوة الغاشمة
   const handleLogin = () => {
+    if (isLoginLocked) return;
+
     if (loginUsername === correctUsername && loginPassword === correctPassword) {
       setIsLoggedIn(true);
       setLoginError('');
+      setLoginAttempts(0);
+      sessionStorage.removeItem(LOGIN_ATTEMPTS_KEY);
+      sessionStorage.removeItem(LOGIN_LOCK_KEY);
     } else {
-      setLoginError('اسم المستخدم أو كلمة السر غير صحيح');
+      const newAttempts = loginAttempts + 1;
+      setLoginAttempts(newAttempts);
+      sessionStorage.setItem(LOGIN_ATTEMPTS_KEY, String(newAttempts));
+      if (newAttempts >= MAX_LOGIN_ATTEMPTS) {
+        const lockUntil = Date.now() + LOCK_DURATION_S * 1000;
+        sessionStorage.setItem(LOGIN_LOCK_KEY, String(lockUntil));
+        setIsLoginLocked(true);
+        setLockCountdown(LOCK_DURATION_S);
+        setLoginError(`تم تجاوز الحد الأقصى للمحاولات. يرجى الانتظار ${LOCK_DURATION_S} ثانية`);
+      } else {
+        setLoginError(`اسم المستخدم أو كلمة السر غير صحيح (${newAttempts}/${MAX_LOGIN_ATTEMPTS} محاولات)`);
+      }
     }
   };
+
+  // مؤقت إلغاء القفل
+  useEffect(() => {
+    if (!isLoginLocked) return;
+    if (lockCountdown <= 0) {
+      setIsLoginLocked(false);
+      setLoginAttempts(0);
+      setLoginError('');
+      sessionStorage.removeItem(LOGIN_LOCK_KEY);
+      sessionStorage.removeItem(LOGIN_ATTEMPTS_KEY);
+      return;
+    }
+    const timer = setTimeout(() => setLockCountdown(prev => prev - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [isLoginLocked, lockCountdown]);
 
   // تحديث النظام في الوقت الفعلي
   useEffect(() => {
@@ -1064,6 +1115,35 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isCommandPaletteOpen]);
 
+  // جسيمات كمية ثابتة لتفادي إعادة الحساب عند كل render
+  const loginParticles = useMemo(() => Array.from({ length: 100 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    delay: Math.random() * 3,
+    duration: 2 + Math.random() * 4,
+    scale: 0.5 + Math.random() * 1.5,
+  })), []);
+
+  // جسيمات لوحة التحكم الثابتة
+  const dashboardParticles = useMemo(() => Array.from({ length: 150 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    delay: Math.random() * 3,
+    duration: 2 + Math.random() * 3,
+  })), []);
+
+  // خطوط الشبكة العصبية الثابتة
+  const neuralLines = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    x1: Math.random() * 100,
+    y1: Math.random() * 100,
+    x2: Math.random() * 100,
+    y2: Math.random() * 100,
+    delay: Math.random() * 2,
+  })), []);
+
   // واجهة تسجيل الدخول الفائقة الإبداع
   if (!isLoggedIn) {
     return (
@@ -1077,16 +1157,16 @@ const RevolutionaryQuantumSystem: React.FC = () => {
         
         {/* جسيمات كمية متحركة */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {Array.from({ length: 100 }).map((_, i) => (
+          {loginParticles.map((p) => (
             <div
-              key={i}
+              key={p.id}
               className="absolute w-1 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full animate-pulse"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 4}s`,
-                transform: `scale(${0.5 + Math.random() * 1.5})`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
+                animationDelay: `${p.delay}s`,
+                animationDuration: `${p.duration}s`,
+                transform: `scale(${p.scale})`,
                 filter: 'blur(0.5px)',
                 boxShadow: '0 0 10px currentColor'
               }}
@@ -1159,7 +1239,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                     onChange={(e) => setLoginUsername(e.target.value)}
                     className="w-full px-6 py-4 bg-gray-900/50 border-2 border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 backdrop-blur-sm"
                     placeholder="أدخل اسم المستخدم الكمي"
-                    onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                    onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                   />
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-cyan-400 opacity-50">
                     ⚡
@@ -1179,7 +1259,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                     onChange={(e) => setLoginPassword(e.target.value)}
                     className="w-full px-6 py-4 bg-gray-900/50 border-2 border-gray-600/50 rounded-2xl text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 backdrop-blur-sm"
                     placeholder="أدخل كلمة السر الآمنة"
-                    onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                    onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                   />
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-purple-400 opacity-50">
                     🛡️
@@ -1195,6 +1275,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                     <div className="flex items-center justify-center space-x-2">
                       <span className="animate-bounce">⚠️</span>
                       <span>{loginError}</span>
+                      {isLoginLocked && <span className="font-mono text-yellow-400">({lockCountdown}s)</span>}
                       <span className="animate-bounce" style={{animationDelay: '0.5s'}}>⚠️</span>
                     </div>
                   </div>
@@ -1206,11 +1287,12 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 rounded-2xl blur opacity-30 group-hover:opacity-60 transition-opacity" />
                 <button
                   onClick={handleLogin}
-                  className="relative w-full px-8 py-5 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg"
+                  disabled={isLoginLocked}
+                  className="relative w-full px-8 py-5 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-500 hover:via-purple-500 hover:to-pink-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg"
                 >
                   <div className="flex items-center justify-center space-x-3">
                     <span className="animate-pulse">🚀</span>
-                    <span>دخول النظام الثوري</span>
+                    <span>{isLoginLocked ? `انتظر ${lockCountdown}s` : 'دخول النظام الثوري'}</span>
                     <span className="animate-pulse" style={{animationDelay: '0.5s'}}>⚡</span>
                   </div>
                 </button>
@@ -1223,6 +1305,9 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                  </div>
                  <div className="text-xs text-gray-600">
                    تشفير كمي • حماية متعددة الطبقات • ذكاء اصطناعي
+                 </div>
+                 <div className="text-xs text-gray-600 font-mono border border-gray-700/40 rounded-lg px-3 py-2 bg-gray-900/30">
+                   💡 بيانات الدخول التجريبية: المستخدم <span className="text-cyan-400">511</span> / كلمة المرور <span className="text-cyan-400">511</span>
                  </div>
                  
                  {/* اسم المخترع بتصميم إبداعي */}
@@ -1276,32 +1361,32 @@ const RevolutionaryQuantumSystem: React.FC = () => {
           <div className="cosmic-field-bg" />
         )}
         <div className="quantum-particles cosmic-resonance">
-          {Array.from({ length: 150 }).map((_, i) => (
+          {dashboardParticles.map((p) => (
             <div
-              key={i}
+              key={p.id}
               className={`absolute w-1 h-1 rounded-full quantum-icon ${
                 revolutionMode ? 'bg-yellow-400 glow-text' : 'bg-cyan-400'
               }`}
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 3}s`
+                left: `${p.left}%`,
+                top: `${p.top}%`,
+                animationDelay: `${p.delay}s`,
+                animationDuration: `${p.duration}s`
               }}
             />
           ))}
           {/* شبكة عصبية كمية */}
           <svg className="neural-network" viewBox="0 0 100 100">
-            {Array.from({ length: 20 }).map((_, i) => (
+            {neuralLines.map((line) => (
               <line
-                key={i}
-                x1={Math.random() * 100}
-                y1={Math.random() * 100}
-                x2={Math.random() * 100}
-                y2={Math.random() * 100}
+                key={line.id}
+                x1={line.x1}
+                y1={line.y1}
+                x2={line.x2}
+                y2={line.y2}
                 className="neural-connection"
                 style={{
-                  animationDelay: `${Math.random() * 2}s`
+                  animationDelay: `${line.delay}s`
                 }}
               />
             ))}
@@ -2806,7 +2891,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                       <li>• التداول عالي التردد</li>
                     </ul>
                     <div className="text-xs text-center mb-3">
-                      <div className="text-indigo-400 glow-text">معدل الكشف: {(95 + Math.random() * 4).toFixed(1)}%</div>
+                      <div className="text-indigo-400 glow-text">معدل الكشف: 97.3%</div>
                     </div>
                     <div className="flex gap-1">
                       <button className="flex-1 px-2 py-1 bg-indigo-600/30 border border-indigo-500/50 rounded text-xs text-indigo-300 hover:bg-indigo-600/50 transition-all duration-300">
@@ -2838,7 +2923,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                       <li>• التنبؤ بالآثار الجانبية</li>
                     </ul>
                     <div className="text-xs text-center mb-3">
-                      <div className="text-green-400 glow-text">تسريع الاكتشاف: {Math.floor(Math.random() * 5 + 8)}x</div>
+                      <div className="text-green-400 glow-text">تسريع الاكتشاف: 10x</div>
                     </div>
                     <div className="flex gap-1">
                       <button className="flex-1 px-2 py-1 bg-green-600/30 border border-green-500/50 rounded text-xs text-green-300 hover:bg-green-600/50 transition-all duration-300">
@@ -2870,7 +2955,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                       <li>• القيادة الذاتية</li>
                     </ul>
                     <div className="text-xs text-center mb-3">
-                      <div className="text-purple-400 glow-text">توفير الوقود: {(25 + Math.random() * 15).toFixed(1)}%</div>
+                      <div className="text-purple-400 glow-text">توفير الوقود: 32.5%</div>
                     </div>
                     <div className="flex gap-1">
                       <button className="flex-1 px-2 py-1 bg-purple-600/30 border border-purple-500/50 rounded text-xs text-purple-300 hover:bg-purple-600/50 transition-all duration-300">
@@ -2902,7 +2987,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                       <li>• تحليل التغير المناخي</li>
                     </ul>
                     <div className="text-xs text-center mb-3">
-                      <div className="text-yellow-400 glow-text">دقة التنبؤ: {(92 + Math.random() * 7).toFixed(1)}%</div>
+                      <div className="text-yellow-400 glow-text">دقة التنبؤ: 95.8%</div>
                     </div>
                     <div className="flex gap-1">
                       <button className="flex-1 px-2 py-1 bg-yellow-600/30 border border-yellow-500/50 rounded text-xs text-yellow-300 hover:bg-yellow-600/50 transition-all duration-300">

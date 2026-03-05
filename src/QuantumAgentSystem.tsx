@@ -258,7 +258,7 @@ const QuantumAgentSystem: React.FC = () => {
                 onChange={(e) => setLoginPassword(e.target.value)}
                 className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                 placeholder="أدخل كلمة السر"
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
               />
             </div>
             {loginError && (

@@ -768,7 +768,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                  onChange={(e) => setLoginUsername(e.target.value)}
                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
                  placeholder="أدخل اسم المستخدم"
-                 onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                 onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                />
              </div>
              
@@ -780,7 +780,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                  onChange={(e) => setLoginPassword(e.target.value)}
                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
                  placeholder="أدخل كلمة السر"
-                 onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                 onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                />
              </div>
             
@@ -989,7 +989,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ابحث عن أي موضوع أو مشكلة معقدة..."
                   className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
-                  onKeyPress={(e) => e.key === 'Enter' && performSearch(searchQuery)}
+                  onKeyDown={(e) => e.key === 'Enter' && performSearch(searchQuery)}
                 />
                 <button
                   onClick={() => performSearch(searchQuery)}
@@ -1404,7 +1404,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="كلمة السر الجديدة"
                         className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none"
-                        onKeyPress={(e) => e.key === 'Enter' && changeCredentials()}
+                        onKeyDown={(e) => e.key === 'Enter' && changeCredentials()}
                       />
                     </div>
                   </div>
@@ -1447,7 +1447,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                   onChange={(e) => setNewUsername(e.target.value)}
                   placeholder="اسم المستخدم الجديد"
                   className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
-                  onKeyPress={(e) => e.key === 'Enter' && generateNewUser()}
+                  onKeyDown={(e) => e.key === 'Enter' && generateNewUser()}
                 />
                 <button
                   onClick={generateNewUser}
@@ -1639,7 +1639,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                 type="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && !processingStates.isProcessingAI && handleSendMessage()}
+                onKeyDown={(e) => e.key === 'Enter' && !processingStates.isProcessingAI && handleSendMessage()}
                 placeholder="اكتب رسالتك هنا..."
                 disabled={processingStates.isProcessingAI}
                 className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none disabled:opacity-50"

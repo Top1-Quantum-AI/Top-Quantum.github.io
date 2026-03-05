@@ -692,7 +692,7 @@ const QuantumAIHybridSystem: React.FC = () => {
                 onChange={(e) => setLoginUsername(e.target.value)}
                 className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
                 placeholder="أدخل اسم المستخدم"
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
               />
             </div>
             
@@ -704,7 +704,7 @@ const QuantumAIHybridSystem: React.FC = () => {
                 onChange={(e) => setLoginPassword(e.target.value)}
                 className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
                 placeholder="أدخل كلمة السر"
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
               />
             </div>
             
