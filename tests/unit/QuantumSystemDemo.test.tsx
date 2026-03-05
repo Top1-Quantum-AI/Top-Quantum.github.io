@@ -26,7 +26,7 @@ vi.mock('../../src/config', () => ({
   AI_CONFIG: {
     OPENAI_API_KEY: 'test-key',
     OPENAI_API_URL: 'https://api.openai.com/v1/chat/completions',
-    OPENAI_MODEL: 'gpt-3.5-turbo',
+    OPENAI_MODEL: 'o1-mini',
     MAX_TOKENS: 1000,
     TEMPERATURE: 0.7,
   },

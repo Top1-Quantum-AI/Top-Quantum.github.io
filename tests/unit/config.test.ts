@@ -14,8 +14,8 @@ describe('AI_CONFIG', () => {
     expect(AI_CONFIG.OPENAI_API_URL).toBe('https://api.openai.com/v1/chat/completions');
   });
 
-  it('OPENAI_MODEL يجب أن يكون gpt-3.5-turbo', () => {
-    expect(AI_CONFIG.OPENAI_MODEL).toBe('gpt-3.5-turbo');
+  it('OPENAI_MODEL يجب أن يكون o1-mini', () => {
+    expect(AI_CONFIG.OPENAI_MODEL).toBe('o1-mini');
   });
 
   it('MAX_TOKENS يجب أن يكون رقم موجب', () => {

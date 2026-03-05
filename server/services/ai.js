@@ -442,7 +442,7 @@ class AIService extends EventEmitter {
     const personalityConfig = this.personalities[personality] || this.personalities.quantum_assistant;
     
     const requestConfig = {
-      model: options.model || 'gpt-4',
+      model: options.model || 'o1',
       messages,
       temperature: options.temperature ?? personalityConfig.temperature,
       max_tokens: options.maxTokens || 2000,

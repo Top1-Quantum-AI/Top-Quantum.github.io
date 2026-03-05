@@ -3,7 +3,7 @@ export const AI_CONFIG = {
   // إعدادات OpenAI API
   OPENAI_API_KEY: (import.meta as unknown as { env: Record<string, string | undefined> }).env['VITE_OPENAI_API_KEY'] || 'your-openai-api-key-here',
   OPENAI_API_URL: 'https://api.openai.com/v1/chat/completions',
-  OPENAI_MODEL: 'gpt-3.5-turbo',
+  OPENAI_MODEL: 'o1-mini',
   
   // إعدادات عامة
   MAX_TOKENS: 1000,

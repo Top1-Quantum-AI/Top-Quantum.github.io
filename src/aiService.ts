@@ -113,7 +113,7 @@ export class AIService {
     const lowerMessage = message.toLowerCase();
     
     // استجابات مخصصة حسب الشخصية
-    const providerPrefix = '[OpenAI GPT] ';
+    const providerPrefix = '[OpenAI] ';
     
     const responses = {
       analytical: [

@@ -1456,7 +1456,7 @@ const UnifiedQuantumSystem: React.FC = () => {
               </h3>
               <div className="flex items-center gap-4">
                 <div className="px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white">
-                  OpenAI GPT
+                  OpenAI
                 </div>
                 <select
                   value={aiPersonality}

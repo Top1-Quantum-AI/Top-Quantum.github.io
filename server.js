@@ -46,7 +46,7 @@ const AI_CONFIG = {
     // إعدادات OpenAI API
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     OPENAI_API_URL: 'https://api.openai.com/v1/chat/completions',
-    OPENAI_MODEL: 'gpt-3.5-turbo',
+    OPENAI_MODEL: 'o1-mini',
     
     // إعدادات عامة
     MAX_TOKENS: 1000,

@@ -465,7 +465,7 @@ class AIService {
       }));
 
       const completion = await this.openai.chat.completions.create({
-        model: options.model || 'gpt-3.5-turbo',
+        model: options.model || 'o1-mini',
         messages: openAIMessages,
         temperature: options.temperature || 0.7,
         max_tokens: options.maxTokens || 1000,

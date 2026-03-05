@@ -92,7 +92,7 @@ const QuantumSystemDemo: React.FC = () => {
     {
       icon: <Brain className="w-6 h-6" />,
       title: 'الذكاء الاصطناعي التوليدي',
-      description: 'دمج GPT مع أنظمة كمية لتحليل البيانات وتوليد الاستجابات الذكية.',
+      description: 'دمج الذكاء الاصطناعي مع أنظمة كمية لتحليل البيانات وتوليد الاستجابات الذكية.',
       status: 'active',
     },
     {
