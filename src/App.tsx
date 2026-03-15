@@ -8,6 +8,7 @@ import AuthPage from './pages/AuthPage';
 import AdvancedQuantumDashboard from './AdvancedQuantumDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import OnboardingTour from './components/OnboardingTour';
+import { ProtectedRoute, AdminRoute, GuestRoute } from './components/RouteGuards';
 
 // ─── System Status Interface ─────────────────────────────────
 interface SystemStatus {
@@ -294,10 +295,10 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/register" element={<AuthPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/login" element={<GuestRoute><AuthPage /></GuestRoute>} />
+        <Route path="/register" element={<GuestRoute><AuthPage /></GuestRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
         <Route path="/demo" element={<DemoPage />} />
       </Routes>
     </ErrorBoundary>
