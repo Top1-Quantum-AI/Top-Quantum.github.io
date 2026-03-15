@@ -26,6 +26,7 @@ import {
   Menu,
   X
 } from 'lucide-react';
+import AIAnalysisDashboard from './components/AIAnalysisDashboard';
 
 // أنواع البيانات المتقدمة
 interface QuantumState {
@@ -735,6 +736,15 @@ const AdvancedQuantumDashboard: React.FC = () => {
               </div>
             </div>
           </div>
+        );
+
+      case 'analytics':
+        return (
+          <AIAnalysisDashboard
+            systemMetrics={systemMetrics}
+            quantumStates={quantumStates}
+            securityMetrics={securityMetrics}
+          />
         );
 
       default:
