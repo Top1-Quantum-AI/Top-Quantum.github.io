@@ -1,37 +1,179 @@
-# Contributor Covenant Code of Conduct
+# Multi-stage Dockerfile للنظام الكمي المتقدم
+# Advanced Quantum AI System Container
 
-## Our Pledge
-We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+# مرحلة البناء الأساسية
+FROM node:20-alpine AS base
 
-## Our Standards
-Examples of behavior that contributes to creating a positive environment include:
+# إعداد متغيرات البناء
+ARG NODE_ENV=production
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION=1.0.0
 
-- Using welcoming and inclusive language
-- Being respectful of differing viewpoints and experiences
-- Gracefully accepting constructive criticism
-- Focusing on what is best for the community
-- Showing empathy towards other community members
+# إضافة البيانات الوصفية
+LABEL maintainer="Quantum AI Team <quantum@company.com>" \
+      org.opencontainers.image.title="Quantum AI System" \
+      org.opencontainers.image.description="Advanced Hybrid Quantum AI System" \
+      org.opencontainers.image.version="$VERSION" \
+      org.opencontainers.image.created="$BUILD_DATE" \
+      org.opencontainers.image.revision="$VCS_REF" \
+      org.opencontainers.image.vendor="Quantum AI Company" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.source="https://github.com/company/quantum-ai-system"
 
-Examples of unacceptable behavior by participants include:
+# تثبيت الأدوات الأساسية والمكتبات المطلوبة
+RUN apk add --no-cache \
+    dumb-init \
+    python3 \
+    py3-pip \
+    make \
+    g++ \
+    libc6-compat \
+    openssl \
+    ca-certificates \
+    && rm -rf /var/cache/apk/*
 
-- The use of sexualized language or imagery and unwelcome sexual attention or advances
-- Trolling, insulting or derogatory comments, and personal or political attacks
-- Public or private harassment
-- Publishing others' private information, such as a physical or electronic address, without explicit permission
-- Other conduct which could reasonably be considered inappropriate in a professional setting
+# إنشاء مستخدم غير جذر للأمان
+RUN addgroup -g 1001 -S quantum && \
+    adduser -S quantum -u 1001 -G quantum
 
-## Our Responsibilities
-Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any instances of unacceptable behavior.
+# إعداد دليل العمل
+WORKDIR /app
 
-Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
+# نسخ ملفات إدارة التبعيات
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY jest.config.js ./
+COPY .eslintrc.json ./
 
-## Scope
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community.
+# ================================
+# مرحلة تثبيت التبعيات
+# ================================
+FROM base AS dependencies
 
-## Enforcement
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [your-email@example.com](mailto:your-email@example.com). All complaints will be reviewed and investigated promptly and fairly.
+# تثبيت جميع التبعيات (للبناء والإنتاج)
+RUN npm ci --include=dev --prefer-offline --no-audit
 
-All project leaders are obligated to respect the privacy and security of the reporter of any incident.
+# ================================
+# مرحلة البناء
+# ================================
+FROM dependencies AS build
 
-## Attribution
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.0, available at https://www.contributor-covenant.org/version/2/0/.
+# نسخ الكود المصدري
+COPY src/ ./src/
+COPY server/ ./server/
+COPY public/ ./public/
+COPY index.html ./
+COPY vite.config.ts ./
+
+# بناء التطبيق
+RUN npm run build && \
+    npm run build:server
+
+# تنظيف ملفات البناء غير المطلوبة
+RUN rm -rf src/ && \
+    rm -rf node_modules/@types && \
+    rm -rf node_modules/.cache
+
+# ================================
+# مرحلة تبعيات الإنتاج
+# ================================
+FROM base AS production-deps
+
+# تثبيت تبعيات الإنتاج فقط
+RUN npm ci --omit=dev --prefer-offline --no-audit && \
+    npm cache clean --force
+
+# ================================
+# مرحلة الإنتاج النهائية
+# ================================
+FROM base AS production
+
+# إعداد متغيرات البيئة
+ENV NODE_ENV=production \
+    PORT=3000 \
+    HOST=0.0.0.0 \
+    NODE_OPTIONS="--max-old-space-size=2048" \
+    UV_THREADPOOL_SIZE=128
+
+# نسخ تبعيات الإنتاج
+COPY --from=production-deps --chown=quantum:quantum /app/node_modules ./node_modules
+
+# نسخ الملفات المبنية
+COPY --from=build --chown=quantum:quantum /app/dist ./dist
+COPY --from=build --chown=quantum:quantum /app/server-dist ./server-dist
+COPY --from=build --chown=quantum:quantum /app/package.json ./package.json
+
+# نسخ الملفات الإضافية المطلوبة
+COPY --chown=quantum:quantum server.js ./
+COPY --chown=quantum:quantum README.md ./
+
+# إنشاء الدلائل المطلوبة
+RUN mkdir -p /app/logs /app/data /app/temp && \
+    chown -R quantum:quantum /app/logs /app/data /app/temp
+
+# إعداد الأذونات الأمنية
+RUN chmod -R 755 /app && \
+    chmod -R 700 /app/logs /app/data /app/temp
+
+# التبديل للمستخدم غير الجذر
+USER quantum
+
+# فحص صحة الحاوية
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
+
+# كشف المنافذ
+EXPOSE 3000
+
+# نقطة الدخول الآمنة
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "server.js"]
+
+# ================================
+# مرحلة التطوير (اختيارية)
+# ================================
+FROM dependencies AS development
+
+# إعداد متغيرات بيئة التطوير
+ENV NODE_ENV=development \
+    PORT=3000 \
+    HOST=0.0.0.0
+
+# نسخ جميع الملفات للتطوير
+COPY --chown=quantum:quantum . .
+
+# إنشاء الدلائل المطلوبة
+RUN mkdir -p /app/logs /app/data /app/temp && \
+    chown -R quantum:quantum /app
+
+# التبديل للمستخدم غير الجذر
+USER quantum
+
+# كشف المنافذ للتطوير
+EXPOSE 3000 5173
+
+# أمر التطوير
+CMD ["npm", "run", "dev"]
+
+# ================================
+# مرحلة الاختبار (اختيارية)
+# ================================
+FROM dependencies AS test
+
+# إعداد متغيرات بيئة الاختبار
+ENV NODE_ENV=test \
+    CI=true
+
+# نسخ جميع الملفات للاختبار
+COPY --chown=quantum:quantum . .
+
+# إنشاء دليل تقارير الاختبار
+RUN mkdir -p /app/coverage /app/test-results && \
+    chown -R quantum:quantum /app
+
+# التبديل للمستخدم غير الجذر
+USER quantum
+
+# أمر الاختبار
+CMD ["npm", "test"]

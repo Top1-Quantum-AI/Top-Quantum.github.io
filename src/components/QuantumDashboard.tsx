@@ -2,51 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Atom,
-  Zap,
   Activity,
   BarChart3,
-  PieChart,
-  TrendingUp,
-  TrendingDown,
   Cpu,
-  Database,
-  Server,
-  Cloud,
-  Network,
   Settings,
-  Play,
-  Pause,
-  Square,
-  RotateCcw,
-  Download,
-  Upload,
-  AlertCircle,
   CheckCircle,
   Clock,
-  Sparkles,
-  Lightbulb,
   Target,
-  Layers,
-  Binary,
-  Waves,
-  Orbit,
-  Gauge,
   FlaskConical,
-  Microscope,
-  Calculator,
-  GitBranch,
-  Shuffle,
-  RotateCcw as Rotate,
-  Maximize,
-  Minimize,
   Eye,
   EyeOff,
-  Info,
-  HelpCircle,
-  BookOpen,
-  FileText,
+  Key,
+  Search,
+  Waves,
   Code,
-  Terminal
+  Gauge,
+  GitBranch
 } from 'lucide-react';
 
 interface QuantumCircuit {
@@ -59,7 +30,7 @@ interface QuantumCircuit {
   executionTime: number;
   status: 'idle' | 'running' | 'completed' | 'error';
   algorithm: 'shor' | 'grover' | 'vqe' | 'qaoa' | 'qft' | 'custom';
-  results?: QuantumResult;
+  results?: QuantumResult | undefined;
 }
 
 interface QuantumResult {
@@ -145,8 +116,8 @@ const QuantumDashboard: React.FC = () => {
           depth: Math.floor(gates / qubits) + Math.floor(Math.random() * 5),
           fidelity: Math.random() * 0.3 + 0.7,
           executionTime: Math.random() * 1000 + 100,
-          status: statuses[Math.floor(Math.random() * statuses.length)],
-          algorithm: algorithms[Math.floor(Math.random() * algorithms.length)],
+          status: statuses[Math.floor(Math.random() * statuses.length)] ?? 'idle',
+          algorithm: algorithms[Math.floor(Math.random() * algorithms.length)] ?? 'custom',
           results: Math.random() > 0.5 ? {
             measurements: {
               '|00⟩': Math.random(),
@@ -172,12 +143,12 @@ const QuantumDashboard: React.FC = () => {
         id: `processor-${i + 1}`,
         name: `معالج كمي ${i + 1}`,
         qubits: [5, 16, 27, 53, 127, 433][i] || Math.floor(Math.random() * 100) + 50,
-        connectivity: connectivities[Math.floor(Math.random() * connectivities.length)],
+        connectivity: connectivities[Math.floor(Math.random() * connectivities.length)] ?? 'linear',
         gateTime: Math.random() * 100 + 10,
         coherenceTime: Math.random() * 200 + 50,
         errorRate: Math.random() * 0.05 + 0.001,
         temperature: Math.random() * 0.02 + 0.01,
-        status: i < 4 ? 'online' : statuses[Math.floor(Math.random() * statuses.length)],
+        status: i < 4 ? 'online' : (statuses[Math.floor(Math.random() * statuses.length)] ?? 'online'),
         utilization: Math.random() * 100
       }));
     };
@@ -194,12 +165,12 @@ const QuantumDashboard: React.FC = () => {
       return Array.from({ length: 20 }, (_, i) => ({
         id: `experiment-${i + 1}`,
         name: `تجربة كمية ${i + 1}`,
-        type: types[Math.floor(Math.random() * types.length)],
-        status: statuses[Math.floor(Math.random() * statuses.length)],
+        type: types[Math.floor(Math.random() * types.length)] ?? 'algorithm',
+        status: statuses[Math.floor(Math.random() * statuses.length)] ?? 'pending',
         progress: Math.floor(Math.random() * 100),
         estimatedTime: Math.floor(Math.random() * 240) + 30,
-        priority: priorities[Math.floor(Math.random() * priorities.length)],
-        researcher: researchers[Math.floor(Math.random() * researchers.length)],
+        priority: priorities[Math.floor(Math.random() * priorities.length)] ?? 'medium',
+        researcher: researchers[Math.floor(Math.random() * researchers.length)] ?? 'باحث',
         description: getExperimentDescription(i)
       }));
     };
@@ -280,7 +251,7 @@ const QuantumDashboard: React.FC = () => {
       'تطبيق التعلم الآلي الكمي'
     ];
     
-    return descriptions[index % descriptions.length];
+    return descriptions[index % descriptions.length] ?? 'تجربة كمية';
   };
 
   const getAlgorithmName = (algorithm: string) => {

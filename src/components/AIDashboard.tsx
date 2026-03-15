@@ -3,38 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Brain,
   Cpu,
-  Zap,
-  TrendingUp,
-  TrendingDown,
   Activity,
-  BarChart3,
-  PieChart,
   Target,
   Layers,
-  Network,
   Eye,
   MessageSquare,
-  Image,
-  FileText,
-  Music,
-  Video,
-  Code,
-  Database,
-  Cloud,
-  Server,
   Settings,
   Play,
   Pause,
-  Square,
-  RotateCcw,
-  Download,
-  Upload,
-  AlertCircle,
   CheckCircle,
-  Clock,
   Sparkles,
-  Lightbulb,
-  Rocket
+  Rocket,
+  Database,
+  Zap,
+  Server,
+  BarChart3,
+  PieChart
 } from 'lucide-react';
 
 interface AIModel {
@@ -106,8 +90,8 @@ const AIDashboard: React.FC = () => {
       return Array.from({ length: 8 }, (_, i) => ({
         id: `model-${i + 1}`,
         name: `نموذج الذكاء الاصطناعي ${i + 1}`,
-        type: modelTypes[Math.floor(Math.random() * modelTypes.length)],
-        status: i < 6 ? statuses[Math.floor(Math.random() * 3)] : 'error',
+        type: modelTypes[Math.floor(Math.random() * modelTypes.length)] ?? 'ml',
+        status: i < 6 ? (statuses[Math.floor(Math.random() * 3)] ?? 'ready') : 'error',
         accuracy: Math.floor(Math.random() * 30) + 70,
         performance: {
           speed: Math.floor(Math.random() * 100) + 50,
@@ -136,11 +120,11 @@ const AIDashboard: React.FC = () => {
       return Array.from({ length: 12 }, (_, i) => ({
         id: `task-${i + 1}`,
         name: `مهمة ${i + 1}`,
-        type: taskTypes[Math.floor(Math.random() * taskTypes.length)],
-        status: statuses[Math.floor(Math.random() * statuses.length)],
+        type: taskTypes[Math.floor(Math.random() * taskTypes.length)] ?? 'classification',
+        status: statuses[Math.floor(Math.random() * statuses.length)] ?? 'pending',
         progress: Math.floor(Math.random() * 100),
         estimatedTime: Math.floor(Math.random() * 120) + 10,
-        priority: priorities[Math.floor(Math.random() * priorities.length)]
+        priority: priorities[Math.floor(Math.random() * priorities.length)] ?? 'medium'
       }));
     };
 
@@ -581,7 +565,7 @@ const AIDashboard: React.FC = () => {
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => setViewMode(id as any)}
+                onClick={() => setViewMode(id as 'overview' | 'models' | 'tasks' | 'analytics')}
                 className={`flex items-center space-x-2 space-x-reverse py-4 border-b-2 font-medium text-sm transition-colors ${
                   viewMode === id
                     ? 'border-primary-500 text-primary-600 dark:text-primary-400'

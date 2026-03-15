@@ -4,48 +4,28 @@ import {
   Shield,
   ShieldAlert,
   ShieldCheck,
-  Lock,
-  Unlock,
-  Key,
   Eye,
-  EyeOff,
   AlertTriangle,
   CheckCircle,
   XCircle,
-  Clock,
-  Activity,
-  Users,
-  Server,
-  Globe,
-  Wifi,
   Database,
-  FileText,
   Settings,
   Zap,
   Target,
   Scan,
   Bug,
-  UserCheck,
   UserX,
   Bell,
   BellOff,
-  Filter,
-  Search,
-  Download,
-  Upload,
-  RefreshCw,
-  MoreVertical,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  PieChart,
-  LineChart,
-  Fingerprint,
-  Smartphone,
-  Laptop,
+  Clock,
   HardDrive,
-  Cloud,
-  Network
+  Activity,
+  Network,
+  Lock,
+  Users,
+  BarChart3,
+  FileText,
+  Server
 } from 'lucide-react';
 
 interface SecurityThreat {
@@ -105,7 +85,7 @@ const SecurityDashboard: React.FC = () => {
     failedLogins: 0
   });
   const [accessLogs, setAccessLogs] = useState<AccessLog[]>([]);
-  const [systemStatus, setSystemStatus] = useState<SystemStatus>({
+  const [systemStatus] = useState<SystemStatus>({
     firewall: 'active',
     antivirus: 'active',
     encryption: 'enabled',
@@ -128,14 +108,14 @@ const SecurityDashboard: React.FC = () => {
         ['detected', 'investigating', 'mitigated', 'resolved'];
       
       return Array.from({ length: 15 }, (_, i) => {
-        const type = threatTypes[Math.floor(Math.random() * threatTypes.length)];
-        const severity = severities[Math.floor(Math.random() * severities.length)];
+        const type = threatTypes[Math.floor(Math.random() * threatTypes.length)] ?? 'malware';
+        const severity = severities[Math.floor(Math.random() * severities.length)] ?? 'low';
         
         return {
           id: `threat-${i + 1}`,
           type,
           severity,
-          status: statuses[Math.floor(Math.random() * statuses.length)],
+          status: statuses[Math.floor(Math.random() * statuses.length)] ?? 'detected',
           source: `192.168.1.${Math.floor(Math.random() * 255)}`,
           target: `server-${Math.floor(Math.random() * 10) + 1}`,
           description: getThreatDescription(type, severity),
@@ -154,17 +134,17 @@ const SecurityDashboard: React.FC = () => {
       const riskLevels: Array<'low' | 'medium' | 'high'> = ['low', 'medium', 'high'];
       
       return Array.from({ length: 50 }, (_, i) => {
-        const action = actions[Math.floor(Math.random() * actions.length)];
+        const action = actions[Math.floor(Math.random() * actions.length)] ?? 'login';
         
         return {
           id: `log-${i + 1}`,
-          user: users[Math.floor(Math.random() * users.length)],
+          user: users[Math.floor(Math.random() * users.length)] ?? 'مستخدم',
           action,
-          resource: resources[Math.floor(Math.random() * resources.length)],
+          resource: resources[Math.floor(Math.random() * resources.length)] ?? 'النظام',
           ip: `192.168.1.${Math.floor(Math.random() * 255)}`,
           timestamp: new Date(Date.now() - Math.random() * 86400000 * 3).toISOString(),
           success: action !== 'access_denied' ? Math.random() > 0.2 : false,
-          riskLevel: riskLevels[Math.floor(Math.random() * riskLevels.length)]
+          riskLevel: riskLevels[Math.floor(Math.random() * riskLevels.length)] ?? 'low'
         };
       });
     };
@@ -207,14 +187,16 @@ const SecurityDashboard: React.FC = () => {
       // محاكاة تهديدات جديدة أحياناً
       if (Math.random() < 0.1) {
         const newThreat = generateThreats()[0];
-        setThreats(prev => [newThreat, ...prev.slice(0, 14)]);
+        if (newThreat) {
+          setThreats(prev => [newThreat, ...prev.slice(0, 14)]);
+        }
       }
     }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const getThreatDescription = (type: string, severity: string): string => {
+  const getThreatDescription = (type: string, _severity: string): string => {
     const descriptions = {
       malware: 'تم اكتشاف برمجية خبيثة تحاول الوصول للنظام',
       phishing: 'محاولة تصيد إلكتروني لسرقة بيانات المستخدمين',
@@ -304,7 +286,7 @@ const SecurityDashboard: React.FC = () => {
     }
   };
 
-  const getSystemStatusIcon = (status: string, system: string) => {
+  const getSystemStatusIcon = (status: string, _system: string) => {
     if (status === 'active' || status === 'enabled' || status === 'completed' || status === 'connected') {
       return <CheckCircle className="w-5 h-5 text-green-500" />;
     } else if (status === 'inactive' || status === 'disabled' || status === 'failed' || status === 'disconnected') {
@@ -721,7 +703,7 @@ const SecurityDashboard: React.FC = () => {
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => setViewMode(id as any)}
+                onClick={() => setViewMode(id as 'overview' | 'threats' | 'logs' | 'systems')}
                 className={`flex items-center space-x-2 space-x-reverse py-4 border-b-2 font-medium text-sm transition-colors ${
                   viewMode === id
                     ? 'border-red-500 text-red-600 dark:text-red-400'

@@ -1,172 +1,37 @@
-{
-  "$schema": "https://json.schemastore.org/prettierrc",
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 100,
-  "tabWidth": 2,
-  "useTabs": false,
-  "quoteProps": "as-needed",
-  "jsxSingleQuote": true,
-  "bracketSpacing": true,
-  "bracketSameLine": false,
-  "arrowParens": "avoid",
-  "endOfLine": "lf",
-  "embeddedLanguageFormatting": "auto",
-  "htmlWhitespaceSensitivity": "css",
-  "insertPragma": false,
-  "jsxBracketSameLine": false,
-  "proseWrap": "preserve",
-  "requirePragma": false,
-  "vueIndentScriptAndStyle": false,
-  "overrides": [
-    {
-      "files": "*.json",
-      "options": {
-        "printWidth": 120,
-        "tabWidth": 2
-      }
-    },
-    {
-      "files": "*.md",
-      "options": {
-        "printWidth": 80,
-        "proseWrap": "always",
-        "tabWidth": 2
-      }
-    },
-    {
-      "files": "*.yml",
-      "options": {
-        "tabWidth": 2,
-        "singleQuote": false
-      }
-    },
-    {
-      "files": "*.yaml",
-      "options": {
-        "tabWidth": 2,
-        "singleQuote": false
-      }
-    },
-    {
-      "files": "*.tsx",
-      "options": {
-        "jsxSingleQuote": true,
-        "bracketSameLine": false
-      }
-    },
-    {
-      "files": "*.ts",
-      "options": {
-        "parser": "typescript"
-      }
-    },
-    {
-      "files": "*.js",
-      "options": {
-        "parser": "babel"
-      }
-    },
-    {
-      "files": "*.jsx",
-      "options": {
-        "parser": "babel",
-        "jsxSingleQuote": true
-      }
-    },
-    {
-      "files": "*.css",
-      "options": {
-        "parser": "css",
-        "singleQuote": false
-      }
-    },
-    {
-      "files": "*.scss",
-      "options": {
-        "parser": "scss",
-        "singleQuote": false
-      }
-    },
-    {
-      "files": "*.less",
-      "options": {
-        "parser": "less",
-        "singleQuote": false
-      }
-    },
-    {
-      "files": "*.html",
-      "options": {
-        "parser": "html",
-        "printWidth": 120,
-        "htmlWhitespaceSensitivity": "ignore"
-      }
-    },
-    {
-      "files": "*.vue",
-      "options": {
-        "parser": "vue",
-        "vueIndentScriptAndStyle": true
-      }
-    },
-    {
-      "files": "*.graphql",
-      "options": {
-        "parser": "graphql"
-      }
-    },
-    {
-      "files": "*.gql",
-      "options": {
-        "parser": "graphql"
-      }
-    },
-    {
-      "files": "package*.json",
-      "options": {
-        "printWidth": 120,
-        "tabWidth": 2,
-        "useTabs": false
-      }
-    },
-    {
-      "files": "*.config.js",
-      "options": {
-        "printWidth": 120,
-        "singleQuote": true
-      }
-    },
-    {
-      "files": "*.config.ts",
-      "options": {
-        "printWidth": 120,
-        "singleQuote": true
-      }
-    },
-    {
-      "files": "Dockerfile*",
-      "options": {
-        "parser": "sh",
-        "printWidth": 120
-      }
-    },
-    {
-      "files": "*.sh",
-      "options": {
-        "parser": "sh",
-        "printWidth": 120,
-        "tabWidth": 4,
-        "useTabs": false
-      }
-    },
-    {
-      "files": "*.env*",
-      "options": {
-        "parser": "sh",
-        "printWidth": 120
-      }
-    }
-  ]
-}
+# Contributor Covenant Code of Conduct
+
+## Our Pledge
+We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+
+## Our Standards
+Examples of behavior that contributes to creating a positive environment include:
+
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+- Showing empathy towards other community members
+
+Examples of unacceptable behavior by participants include:
+
+- The use of sexualized language or imagery and unwelcome sexual attention or advances
+- Trolling, insulting or derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical or electronic address, without explicit permission
+- Other conduct which could reasonably be considered inappropriate in a professional setting
+
+## Our Responsibilities
+Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any instances of unacceptable behavior.
+
+Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
+
+## Scope
+This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the project or its community.
+
+## Enforcement
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at [your-email@example.com](mailto:your-email@example.com). All complaints will be reviewed and investigated promptly and fairly.
+
+All project leaders are obligated to respect the privacy and security of the reporter of any incident.
+
+## Attribution
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.0, available at https://www.contributor-covenant.org/version/2/0/.

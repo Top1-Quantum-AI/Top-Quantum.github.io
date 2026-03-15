@@ -4,7 +4,6 @@ import {
   Atom,
   Brain,
   Shield,
-  Database,
   Settings,
   BarChart3,
   Zap,
@@ -13,26 +12,17 @@ import {
   Network,
   Eye,
   AlertTriangle,
-  CheckCircle,
-  XCircle,
   TrendingUp,
   Server,
-  Cloud,
   Monitor,
-  Terminal,
-  Code,
   FileText,
   Download,
-  Upload,
   Play,
   Pause,
   Square,
   RefreshCw,
-  Search,
-  Filter,
   Bell,
   User,
-  HelpCircle,
   Menu,
   X
 } from 'lucide-react';
@@ -80,20 +70,34 @@ interface SystemMetrics {
   activeConnections: number;
 }
 
+interface Notification {
+  id: string;
+  message: string;
+  type: 'info' | 'warning' | 'error' | 'success';
+  timestamp: Date;
+}
+
+interface RealTimeDataPoint {
+  timestamp: Date;
+  quantum: number;
+  ai: number;
+  security: number;
+}
+
 const AdvancedQuantumDashboard: React.FC = () => {
   // حالات النظام الرئيسية
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
-  const [notifications, setNotifications] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [_notifications] = useState<Notification[]>([]);
+  const [_isLoading] = useState(false);
   
   // بيانات النظام
   const [quantumStates, setQuantumStates] = useState<QuantumState[]>([]);
   const [aiAgents, setAiAgents] = useState<AIAgent[]>([]);
   const [securityMetrics, setSecurityMetrics] = useState<SecurityMetrics | null>(null);
   const [systemMetrics, setSystemMetrics] = useState<SystemMetrics | null>(null);
-  const [realTimeData, setRealTimeData] = useState<any[]>([]);
+  const [realTimeData, setRealTimeData] = useState<RealTimeDataPoint[]>([]);
 
   // تحديث البيانات في الوقت الفعلي
   useEffect(() => {
@@ -406,7 +410,7 @@ const AdvancedQuantumDashboard: React.FC = () => {
             <button
               onClick={() => updateSystemData()}
               className={`p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors ${
-                isLoading ? 'animate-spin' : ''
+                _isLoading ? 'animate-spin' : ''
               }`}
             >
               <RefreshCw className="w-5 h-5" />
@@ -414,7 +418,7 @@ const AdvancedQuantumDashboard: React.FC = () => {
             
             <button className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors relative">
               <Bell className="w-5 h-5" />
-              {notifications.length > 0 && (
+              {_notifications.length > 0 && (
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
               )}
             </button>
@@ -423,7 +427,7 @@ const AdvancedQuantumDashboard: React.FC = () => {
               onClick={() => setDarkMode(!darkMode)}
               className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
             >
-              {darkMode ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+              {darkMode ? <Eye className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
             
             <button className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors">

@@ -1,36 +1,56 @@
-# Contribution Guidelines
+# Frontend Development Dockerfile
+# ملف Docker للتطوير للواجهة الأمامية
 
-## Getting Started
-Welcome! We're excited that you want to contribute to our project. To get started, fork the repository and clone it to your local machine.
+FROM node:20-alpine AS base
 
-## Development Setup
-1. Ensure you have the necessary software installed. Refer to our [Installation Guide](link to installation guide) for details.
-2. Set up a virtual environment:  `python -m venv venv`
-3. Activate the virtual environment:  
-   - On Windows:  `venv\Scripts\activate`
-   - On macOS/Linux:  `source venv/bin/activate`
+# إعداد متغيرات البيئة
+ENV NODE_ENV=development \
+    VITE_HOST=0.0.0.0 \
+    VITE_PORT=5173
 
-## Making Changes
-1. Create a new branch for your feature or bug fix:  `git checkout -b feature/my-feature`
-2. Make your changes and ensure code quality and style.
+# تثبيت الأدوات الأساسية
+RUN apk add --no-cache \
+    dumb-init \
+    python3 \
+    make \
+    g++ \
+    libc6-compat
 
-## Code Style
-We follow [PEP 8](https://www.python.org/dev/peps/pep-0008/) coding style guidelines. Ensure your code adheres to these standards.
+# إنشاء مستخدم غير جذر للأمان
+RUN addgroup -g 1001 -S viteuser && \
+    adduser -S viteuser -u 1001 -G viteuser
 
-## Testing
-Before submitting your changes, ensure that all tests pass. Run the following command:  `pytest`
+# إعداد دليل العمل
+WORKDIR /app
 
-## Commit Messages
-Use clear, concise commit messages. Start with a verb and use the present tense. Example:  `Add feature to improve performance`
+# نسخ ملفات إدارة التبعيات
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY vite.config.ts ./
 
-## Submitting Changes
-1. Push your changes to your fork:  `git push origin feature/my-feature`
-2. Open a pull request against the `main` branch of this repository.
+# تثبيت التبعيات
+RUN npm ci --include=dev --prefer-offline
 
-## Reporting Issues
-If you encounter any issues, please report them on our [issues page](link to issues page) by providing a detailed description of the problem.
+# نسخ الكود المصدري
+COPY src/ ./src/
+COPY public/ ./public/
+COPY index.html ./
+COPY .eslintrc.json ./
 
-## Code of Conduct
-We expect all contributors to maintain a welcoming and respectful environment. Please read our [Code of Conduct](link to code of conduct) before participating.
+# إنشاء الدلائل المطلوبة وإعداد الأذونات
+RUN mkdir -p /app/node_modules/.vite && \
+    chown -R viteuser:viteuser /app
 
-Thank you for contributing!
+# التبديل للمستخدم غير الجذر
+USER viteuser
+
+# فحص صحة الحاوية
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:5173/ || exit 1
+
+# كشف المنفذ
+EXPOSE 5173
+
+# نقطة الدخول الآمنة
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]

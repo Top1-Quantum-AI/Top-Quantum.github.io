@@ -5,58 +5,23 @@ import {
   ShieldAlert,
   ShieldCheck,
   Lock,
-  Unlock,
   Key,
-  Eye,
-  EyeOff,
   AlertTriangle,
   CheckCircle,
   XCircle,
-  Clock,
-  Activity,
-  Users,
   Server,
-  Network,
   Database,
   FileText,
   Settings,
-  Refresh,
-  Download,
-  Upload,
-  Search,
-  Filter,
-  MoreVertical,
   TrendingUp,
   TrendingDown,
   Zap,
-  Wifi,
-  WifiOff,
-  Globe,
-  MapPin,
-  Calendar,
-  User,
-  UserCheck,
-  UserX,
-  Fingerprint,
-  Smartphone,
-  Monitor,
-  HardDrive,
-  Cpu,
-  MemoryStick,
   Bug,
-  Skull,
   Target,
   Crosshair,
   Radar,
   Scan,
-  ScanLine,
   Binary,
-  Code,
-  Terminal,
-  FileCode,
-  Layers,
-  GitBranch,
-  Hash,
   Hexagon
 } from 'lucide-react';
 
@@ -223,16 +188,18 @@ const AdvancedSecurityDashboard: React.FC = () => {
         ['active', 'mitigated', 'investigating', 'resolved'];
       
       return Array.from({ length: 25 }, (_, i) => {
-        const type = threatTypes[Math.floor(Math.random() * threatTypes.length)];
-        const severity = severities[Math.floor(Math.random() * severities.length)];
+        const type = threatTypes[Math.floor(Math.random() * threatTypes.length)] ?? 'malware';
+        const severity = severities[Math.floor(Math.random() * severities.length)] ?? 'low';
+        const status = statuses[Math.floor(Math.random() * statuses.length)] ?? 'active';
+        const targets = ['web-server-01', 'db-server-02', 'quantum-processor-01', 'ai-system-03'] as const;
         
         return {
           id: `threat-${i + 1}`,
           type,
           severity,
-          status: statuses[Math.floor(Math.random() * statuses.length)],
+          status,
           source: `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-          target: ['web-server-01', 'db-server-02', 'quantum-processor-01', 'ai-system-03'][Math.floor(Math.random() * 4)],
+          target: targets[Math.floor(Math.random() * targets.length)] ?? 'web-server-01',
           timestamp: new Date(Date.now() - Math.random() * 86400000 * 7),
           description: getThreatDescription(type, severity),
           affectedSystems: getAffectedSystems(),
@@ -252,14 +219,14 @@ const AdvancedSecurityDashboard: React.FC = () => {
       
       return Array.from({ length: 100 }, (_, i) => ({
         id: `log-${i + 1}`,
-        user: users[Math.floor(Math.random() * users.length)],
-        action: actions[Math.floor(Math.random() * actions.length)],
-        resource: resources[Math.floor(Math.random() * resources.length)],
+        user: users[Math.floor(Math.random() * users.length)] ?? 'admin',
+        action: actions[Math.floor(Math.random() * actions.length)] ?? 'login',
+        resource: resources[Math.floor(Math.random() * resources.length)] ?? 'dashboard',
         timestamp: new Date(Date.now() - Math.random() * 86400000 * 3),
         ip: `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-        location: locations[Math.floor(Math.random() * locations.length)],
-        device: devices[Math.floor(Math.random() * devices.length)],
-        status: statuses[Math.floor(Math.random() * statuses.length)],
+        location: locations[Math.floor(Math.random() * locations.length)] ?? 'الرياض',
+        device: devices[Math.floor(Math.random() * devices.length)] ?? 'Desktop',
+        status: statuses[Math.floor(Math.random() * statuses.length)] ?? 'success',
         riskScore: Math.floor(Math.random() * 100)
       }));
     };
@@ -273,7 +240,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
         id: `system-${i + 1}`,
         name: getSystemName(type),
         type,
-        status: i < 4 ? 'active' : statuses[Math.floor(Math.random() * statuses.length)],
+        status: i < 4 ? 'active' as const : statuses[Math.floor(Math.random() * statuses.length)] ?? 'active',
         lastUpdate: new Date(Date.now() - Math.random() * 86400000 * 30),
         version: `${Math.floor(Math.random() * 5) + 1}.${Math.floor(Math.random() * 10)}.${Math.floor(Math.random() * 10)}`,
         effectiveness: Math.random() * 30 + 70,
@@ -293,12 +260,12 @@ const AdvancedSecurityDashboard: React.FC = () => {
       
       return Array.from({ length: 15 }, (_, i) => ({
         id: `vuln-${i + 1}`,
-        system: systems[Math.floor(Math.random() * systems.length)],
-        vulnerability: vulnerabilityTypes[Math.floor(Math.random() * vulnerabilityTypes.length)],
-        severity: severities[Math.floor(Math.random() * severities.length)],
+        system: systems[Math.floor(Math.random() * systems.length)] ?? 'Web Server',
+        vulnerability: vulnerabilityTypes[Math.floor(Math.random() * vulnerabilityTypes.length)] ?? 'SQL Injection',
+        severity: severities[Math.floor(Math.random() * severities.length)] ?? 'low',
         cvss: Math.random() * 10,
         discovered: new Date(Date.now() - Math.random() * 86400000 * 60),
-        status: statuses[Math.floor(Math.random() * statuses.length)],
+        status: statuses[Math.floor(Math.random() * statuses.length)] ?? 'open',
         quantumThreat: Math.random() > 0.7
       }));
     };
@@ -623,287 +590,6 @@ const AdvancedSecurityDashboard: React.FC = () => {
     setRecommendations(initialRecommendations);
     setSecurityAnalyses(initialAnalyses);
     setRiskAssessment(initialRiskAssessment);
-          priority: 'critical',
-          category: 'quantum',
-          impact: 'حماية شاملة ضد التهديدات الكمية المستقبلية',
-          effort: 'high',
-          timeline: '6-12 شهر',
-          cost: 'high',
-          roi: 85,
-          implementationSteps: [
-            'تقييم البنية التحتية الحالية',
-            'اختيار خوارزميات التشفير المناسبة',
-            'تطوير خطة التنفيذ التدريجي',
-            'تدريب الفريق التقني',
-            'تنفيذ النظام الجديد',
-            'اختبار وتحسين الأداء'
-          ],
-          relatedThreats: ['quantum_attack'],
-          quantumRelevant: true
-        },
-        {
-          id: 'rec-2',
-          title: 'تعزيز نظام كشف التسلل بالذكاء الاصطناعي',
-          description: 'دمج تقنيات التعلم الآلي المتقدمة لتحسين دقة كشف التهديدات',
-          priority: 'high',
-          category: 'technology',
-          impact: 'تحسين معدل كشف التهديدات بنسبة 40%',
-          effort: 'medium',
-          timeline: '3-6 أشهر',
-          cost: 'medium',
-          roi: 75,
-          implementationSteps: [
-            'تحليل أنماط التهديدات الحالية',
-            'تطوير نماذج التعلم الآلي',
-            'تدريب النماذج على البيانات التاريخية',
-            'دمج النظام مع البنية الحالية',
-            'مراقبة وتحسين الأداء'
-          ],
-          relatedThreats: ['malware', 'intrusion', 'data_breach'],
-          quantumRelevant: false
-        },
-        {
-          id: 'rec-3',
-          title: 'برنامج تدريب الأمان السيبراني',
-          description: 'تطوير برنامج تدريبي شامل للموظفين حول أفضل ممارسات الأمان السيبراني',
-          priority: 'medium',
-          category: 'training',
-          impact: 'تقليل الأخطاء البشرية بنسبة 60%',
-          effort: 'low',
-          timeline: '2-3 أشهر',
-          cost: 'low',
-          roi: 90,
-          implementationSteps: [
-            'تقييم المستوى الحالي للوعي الأمني',
-            'تطوير محتوى التدريب المخصص',
-            'تنفيذ جلسات التدريب',
-            'إجراء اختبارات التقييم',
-            'متابعة وتحديث المحتوى'
-          ],
-          relatedThreats: ['phishing', 'malware'],
-          quantumRelevant: false
-        },
-        {
-          id: 'rec-4',
-          title: 'تطبيق نظام المصادقة متعددة العوامل الكمية',
-          description: 'استخدام تقنيات الكم في أنظمة المصادقة لضمان أمان أعلى',
-          priority: 'high',
-          category: 'quantum',
-          impact: 'حماية متقدمة ضد هجمات المصادقة',
-          effort: 'high',
-          timeline: '4-8 أشهر',
-          cost: 'high',
-          roi: 80,
-          implementationSteps: [
-            'دراسة تقنيات المصادقة الكمية',
-            'تصميم النظام المتكامل',
-            'تطوير واختبار النماذج الأولية',
-            'التنفيذ التدريجي',
-            'التدريب والدعم'
-          ],
-          relatedThreats: ['intrusion', 'data_breach'],
-          quantumRelevant: true
-        },
-        {
-          id: 'rec-5',
-          title: 'تحسين سياسات النسخ الاحتياطي والاستعادة',
-          description: 'تطوير استراتيجية شاملة للنسخ الاحتياطي مع التشفير الكمي',
-          priority: 'medium',
-          category: 'policy',
-          impact: 'ضمان استمرارية العمل في حالات الطوارئ',
-          effort: 'medium',
-          timeline: '2-4 أشهر',
-          cost: 'medium',
-          roi: 70,
-          implementationSteps: [
-            'مراجعة السياسات الحالية',
-            'تحديد متطلبات النسخ الاحتياطي',
-            'تطوير إجراءات الاستعادة',
-            'اختبار عمليات الاستعادة',
-            'تدريب الفريق على الإجراءات'
-          ],
-          relatedThreats: ['ransomware', 'data_breach'],
-          quantumRelevant: true
-        }
-      ];
-    };
-
-    // توليد التحليلات الأمنية
-    const generateAnalyses = (): SecurityAnalysis[] => {
-      return [
-        {
-          id: 'analysis-1',
-          type: 'trend',
-          title: 'اتجاه متزايد في الهجمات الكمية',
-          description: 'لوحظ ارتفاع بنسبة 300% في محاولات الهجمات الكمية خلال الشهر الماضي',
-          severity: 'critical',
-          confidence: 92,
-          timeframe: 'الشهر الماضي',
-          affectedSystems: ['quantum_crypto', 'encryption'],
-          metrics: {
-            'نمو الهجمات': 300,
-            'معدل النجاح': 15,
-            'الأنظمة المتأثرة': 8
-          },
-          recommendations: [
-            'تسريع تطبيق التشفير المقاوم للكم',
-            'تعزيز مراقبة الأنظمة الكمية',
-            'تطوير استراتيجيات دفاع متقدمة'
-          ],
-          quantumImplications: [
-            'ضرورة الانتقال للتشفير الكمي',
-            'تحديث بروتوكولات الأمان',
-            'الاستثمار في تقنيات الحماية الكمية'
-          ]
-        },
-        {
-          id: 'analysis-2',
-          type: 'pattern',
-          title: 'نمط مشبوه في محاولات الوصول',
-          description: 'تم رصد نمط غير طبيعي في محاولات الوصول من مواقع جغرافية محددة',
-          severity: 'warning',
-          confidence: 87,
-          timeframe: 'الأسبوعين الماضيين',
-          affectedSystems: ['web_server', 'database'],
-          metrics: {
-            'محاولات الوصول': 1250,
-            'المواقع المشبوهة': 5,
-            'معدل الفشل': 95
-          },
-          recommendations: [
-            'تعزيز قواعد جدار الحماية',
-            'تطبيق قيود جغرافية إضافية',
-            'مراقبة مكثفة للأنشطة المشبوهة'
-          ],
-          quantumImplications: [
-            'استخدام التشفير الكمي للحماية',
-            'تطبيق مصادقة كمية متقدمة'
-          ]
-        },
-        {
-          id: 'analysis-3',
-          type: 'anomaly',
-          title: 'شذوذ في استهلاك موارد النظام',
-          description: 'ارتفاع غير مبرر في استهلاك موارد المعالجة والذاكرة',
-          severity: 'warning',
-          confidence: 78,
-          timeframe: 'الأسبوع الماضي',
-          affectedSystems: ['ai_system', 'quantum_processor'],
-          metrics: {
-            'استهلاك المعالج': 85,
-            'استهلاك الذاكرة': 92,
-            'الشبكة': 67
-          },
-          recommendations: [
-            'فحص شامل للبرمجيات الخبيثة',
-            'مراجعة العمليات الجارية',
-            'تحسين إدارة الموارد'
-          ],
-          quantumImplications: [
-            'حماية المعالجات الكمية',
-            'مراقبة العمليات الكمية'
-          ]
-        },
-        {
-          id: 'analysis-4',
-          type: 'prediction',
-          title: 'توقع زيادة هجمات الفدية',
-          description: 'النماذج التنبؤية تشير إلى احتمالية زيادة هجمات الفدية بنسبة 45% في الشهر القادم',
-          severity: 'critical',
-          confidence: 89,
-          timeframe: 'الشهر القادم',
-          affectedSystems: ['database', 'file_server'],
-          metrics: {
-            'احتمالية الزيادة': 45,
-            'الأنظمة المعرضة': 12,
-            'التأثير المتوقع': 78
-          },
-          recommendations: [
-            'تعزيز النسخ الاحتياطية',
-            'تحديث أنظمة مكافحة الفدية',
-            'تدريب الموظفين على التعامل مع التهديدات'
-          ],
-          quantumImplications: [
-            'استخدام التشفير الكمي للنسخ الاحتياطية',
-            'تطوير حلول استعادة كمية'
-          ]
-        },
-        {
-          id: 'analysis-5',
-          type: 'risk_assessment',
-          title: 'تقييم المخاطر الشامل',
-          description: 'تحليل شامل لمستوى المخاطر الحالي والتوصيات للتحسين',
-          severity: 'info',
-          confidence: 95,
-          timeframe: 'التقييم الحالي',
-          affectedSystems: ['all_systems'],
-          metrics: {
-            'مستوى المخاطر العام': 65,
-            'المخاطر الكمية': 72,
-            'الامتثال': 88
-          },
-          recommendations: [
-            'تحسين الأمان الكمي',
-            'تعزيز السياسات الأمنية',
-            'زيادة الاستثمار في التدريب'
-          ],
-          quantumImplications: [
-            'الحاجة لاستراتيجية كمية شاملة',
-            'تطوير قدرات الدفاع الكمي'
-          ]
-        }
-      ];
-    };
-
-    // توليد تقييم المخاطر
-    const generateRiskAssessment = (): RiskAssessment => {
-      return {
-        overallRisk: 68,
-        riskFactors: [
-          {
-            name: 'التهديدات الكمية',
-            score: 75,
-            weight: 0.25,
-            description: 'مخاطر متزايدة من الهجمات الكمية المتقدمة'
-          },
-          {
-            name: 'الثغرات الأمنية',
-            score: 60,
-            weight: 0.20,
-            description: 'وجود ثغرات في الأنظمة القديمة'
-          },
-          {
-            name: 'العامل البشري',
-            score: 55,
-            weight: 0.15,
-            description: 'مخاطر ناتجة عن الأخطاء البشرية'
-          },
-          {
-            name: 'البنية التحتية',
-            score: 70,
-            weight: 0.20,
-            description: 'تحديات في البنية التحتية الحالية'
-          },
-          {
-            name: 'الامتثال التنظيمي',
-            score: 45,
-            weight: 0.20,
-            description: 'فجوات في الامتثال للمعايير الدولية'
-          }
-        ],
-        quantumRisk: 72,
-        complianceScore: 78,
-        businessImpact: {
-          financial: 85,
-          operational: 70,
-          reputational: 90
-        }
-      };
-    };
-
-    setRecommendations(generateRecommendations());
-    setSecurityAnalyses(generateAnalyses());
-    setRiskAssessment(generateRiskAssessment());
 
     // تحديث البيانات كل 5 ثوانٍ
     const interval = setInterval(() => {
@@ -926,7 +612,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const getThreatDescription = (type: string, severity: string): string => {
+  const getThreatDescription = (type: string, _severity: string): string => {
     const descriptions = {
       malware: 'تم اكتشاف برمجية خبيثة تحاول الوصول إلى النظام',
       phishing: 'محاولة خداع للحصول على بيانات حساسة',
@@ -1235,363 +921,205 @@ const AdvancedSecurityDashboard: React.FC = () => {
     </div>
   );
 
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">لوحة الأمان المتقدمة</h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">مراقبة وإدارة أمان النظام الكمي</p>
-          </div>
-          <div className="flex items-center space-x-4 space-x-reverse">
-            <button
-              onClick={() => setQuantumMode(!quantumMode)}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                quantumMode
-                  ? 'bg-purple-600 text-white hover:bg-purple-700'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300'
-              }`}
-            >
-              {quantumMode ? 'الوضع الكمي' : 'الوضع التقليدي'}
-            </button>
-            <button
-              onClick={performSecurityScan}
-              disabled={isScanning}
-              className="flex items-center space-x-2 space-x-reverse px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-            >
-              <Scan className={`w-4 h-4 ${isScanning ? 'animate-spin' : ''}`} />
-              <span>{isScanning ? 'جاري الفحص...' : 'فحص أمني'}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation Tabs */}
-        <div className="flex space-x-1 space-x-reverse bg-gray-100 dark:bg-gray-800 rounded-lg p-1 mb-8">
-          {[
-            { id: 'overview', label: 'نظرة عامة', icon: Shield },
-            { id: 'threats', label: 'التهديدات', icon: ShieldAlert },
-            { id: 'logs', label: 'السجلات', icon: FileText },
-            { id: 'systems', label: 'الأنظمة', icon: Server },
-            { id: 'vulnerabilities', label: 'الثغرات', icon: Bug },
-            { id: 'quantum', label: 'الأمان الكمي', icon: Hexagon },
-            { id: 'recommendations', label: 'التوصيات', icon: CheckCircle },
-            { id: 'analysis', label: 'التحليلات', icon: TrendingUp },
-            { id: 'risk', label: 'تقييم المخاطر', icon: AlertTriangle }
-          ].map(tab => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center space-x-2 space-x-reverse px-4 py-2 rounded-md font-medium transition-colors ${
-                  activeTab === tab.id
-                    ? 'bg-white dark:bg-gray-700 text-blue-600 shadow-sm'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
+  const renderThreats = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">التهديدات الأمنية</h2>
+        <div className="flex items-center space-x-4 space-x-reverse">
+          <select
+            value={filterSeverity}
+            onChange={e => setFilterSeverity(e.target.value)}
+            className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm"
           >
-            {activeTab === 'overview' && renderOverview()}
-            {activeTab === 'threats' && renderThreats()}
-            {activeTab === 'logs' && renderLogs()}
-            {activeTab === 'systems' && renderSystems()}
-            {activeTab === 'vulnerabilities' && renderVulnerabilities()}
-            {activeTab === 'quantum' && renderQuantumSecurity()}
-            {activeTab === 'recommendations' && renderRecommendations()}
-            {activeTab === 'analysis' && renderAnalysis()}
-            {activeTab === 'risk' && renderRiskAssessment()}
-          </motion.div>
-        </AnimatePresence>
+            <option value="all">جميع المستويات</option>
+            <option value="critical">حرج</option>
+            <option value="high">عالي</option>
+            <option value="medium">متوسط</option>
+            <option value="low">منخفض</option>
+          </select>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            placeholder="بحث..."
+            className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm"
+          />
+        </div>
       </div>
-
-      {/* Threat Details Modal */}
-      <AnimatePresence>
-        {selectedThreat && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-            onClick={() => setSelectedThreat(null)}
+      <div className="space-y-3">
+        {filteredThreats.map(threat => (
+          <div
+            key={threat.id}
+            onClick={() => setSelectedThreat(threat)}
+            className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-shadow"
           >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
-              onClick={e => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">تفاصيل التهديد</h2>
-                <button
-                  onClick={() => setSelectedThreat(null)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                  <XCircle className="w-6 h-6" />
-                </button>
+            <div className="flex items-center space-x-3 space-x-reverse">
+              <div className={`p-2 rounded-lg ${getSeverityColor(threat.severity)}`}>
+                {getThreatIcon(threat.type)}
               </div>
-
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">الوصف</h3>
-                  <p className="text-gray-600 dark:text-gray-400">{selectedThreat.description}</p>
+              <div>
+                <span className="font-medium text-gray-900 dark:text-white">{threat.description}</span>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  {threat.source} → {threat.target}
                 </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">المصدر</h3>
-                    <p className="text-gray-600 dark:text-gray-400">{selectedThreat.source}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">الهدف</h3>
-                    <p className="text-gray-600 dark:text-gray-400">{selectedThreat.target}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">الأنظمة المتأثرة</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedThreat.affectedSystems.map(system => (
-                      <span key={system} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm">
-                        {system}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">خطوات التخفيف</h3>
-                  <ul className="space-y-2">
-                    {selectedThreat.mitigationSteps.map((step, index) => (
-                      <li key={index} className="flex items-start space-x-2 space-x-reverse">
-                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600 dark:text-gray-400">{step}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {selectedThreat.quantumResistant && (
-                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-                    <div className="flex items-center space-x-2 space-x-reverse mb-2">
-                      <Hexagon className="w-5 h-5 text-purple-600" />
-                      <h3 className="font-semibold text-purple-900 dark:text-purple-100">مقاوم للتهديدات الكمية</h3>
-                    </div>
-                    <p className="text-purple-700 dark:text-purple-300 text-sm">
-                      هذا التهديد يستخدم تقنيات مقاومة للحوسبة الكمية ويتطلب دفاعات متقدمة.
-                    </p>
-                  </div>
-                )}
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+            <div className="flex items-center space-x-2 space-x-reverse">
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(threat.severity)}`}>
+                {getSeverityText(threat.severity)}
+              </span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(threat.status)}`}>
+                {getStatusText(threat.status)}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                مركز الأمان المتقدم
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400">
-                مراقبة وإدارة الأمان التقليدي والكمي
-              </p>
+  const renderLogs = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">سجلات الوصول</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">المستخدم</th>
+              <th className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">الإجراء</th>
+              <th className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">المورد</th>
+              <th className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">الموقع</th>
+              <th className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">الحالة</th>
+              <th className="px-4 py-3 text-right text-gray-600 dark:text-gray-400">المخاطرة</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+            {accessLogs.slice(0, 20).map(log => (
+              <tr key={log.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                <td className="px-4 py-3 text-gray-900 dark:text-white">{log.user}</td>
+                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{log.action}</td>
+                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{log.resource}</td>
+                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{log.location}</td>
+                <td className="px-4 py-3">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(log.status)}`}>
+                    {getStatusText(log.status)}
+                  </span>
+                </td>
+                <td className="px-4 py-3">
+                  <div className="flex items-center">
+                    <div className="w-16 bg-gray-200 dark:bg-gray-600 rounded-full h-2 mr-2">
+                      <div
+                        className={`h-2 rounded-full ${log.riskScore >= 70 ? 'bg-red-500' : log.riskScore >= 40 ? 'bg-yellow-500' : 'bg-green-500'}`}
+                        style={{ width: `${log.riskScore}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-gray-600 dark:text-gray-400">{log.riskScore}</span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  const renderSystems = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">أنظمة الأمان</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {securitySystems.map(system => (
+          <div key={system.id} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3 space-x-reverse">
+                <div className={`p-2 rounded-lg ${getStatusColor(system.status)}`}>
+                  {getSystemIcon(system.type)}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{system.name}</h3>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">v{system.version}</span>
+                </div>
+              </div>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(system.status)}`}>
+                {getStatusText(system.status)}
+              </span>
             </div>
-            
-            <div className="flex items-center space-x-4 space-x-reverse">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600 dark:text-gray-400">الفعالية</span>
+                <span className="font-medium">{system.effectiveness.toFixed(1)}%</span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${system.effectiveness}%` }} />
+              </div>
+            </div>
+            {system.quantumReady && (
+              <div className="mt-3 flex items-center text-xs text-purple-600">
+                <Hexagon className="w-3 h-3 mr-1" />
+                جاهز كمياً
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderVulnerabilities = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">تقييم الثغرات</h2>
+      <div className="space-y-3">
+        {vulnerabilities.map(vuln => (
+          <div key={vuln.id} className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-gray-900 dark:text-white">{vuln.vulnerability}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">النظام: {vuln.system}</p>
+              </div>
               <div className="flex items-center space-x-2 space-x-reverse">
-                <span className="text-sm text-gray-600 dark:text-gray-400">الوضع الكمي:</span>
-                <button
-                  onClick={() => setIsQuantumMode(!isQuantumMode)}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    isQuantumMode ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600'
-                  }`}
-                >
-                  <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      isQuantumMode ? 'translate-x-6' : 'translate-x-1'
-                    }`}
-                  />
-                </button>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(vuln.severity)}`}>
+                  {getSeverityText(vuln.severity)}
+                </span>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(vuln.status)}`}>
+                  {getStatusText(vuln.status)}
+                </span>
+                <span className="text-sm font-mono text-gray-600 dark:text-gray-400">
+                  CVSS: {vuln.cvss.toFixed(1)}
+                </span>
               </div>
-              
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                آخر تحديث: {metrics.lastScan.toLocaleTimeString('ar-SA')}
+            </div>
+            {vuln.quantumThreat && (
+              <div className="mt-2 flex items-center text-xs text-purple-600">
+                <Hexagon className="w-3 h-3 mr-1" />
+                تهديد كمي
               </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderQuantumSecurity = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">الأمان الكمي</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          { label: 'توزيع المفاتيح الكمية', value: quantumMetrics.keyDistribution },
+          { label: 'أمان التشابك', value: quantumMetrics.entanglementSecurity },
+          { label: 'العشوائية الكمية', value: quantumMetrics.quantumRandomness },
+          { label: 'التشفير ما بعد الكمي', value: quantumMetrics.postQuantumCrypto },
+          { label: 'إدارة المفاتيح الكمية', value: quantumMetrics.quantumKeyManagement },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{label}</h3>
+            <div className="text-2xl font-bold text-purple-600 mb-2">{value.toFixed(1)}%</div>
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+              <div className="bg-purple-500 h-2 rounded-full transition-all" style={{ width: `${value}%` }} />
             </div>
           </div>
-        </div>
-
-        {/* Navigation Tabs */}
-        <div className="mb-8">
-          <nav className="flex space-x-8 space-x-reverse">
-            {[
-              { id: 'overview', label: 'نظرة عامة', icon: Activity },
-              { id: 'threats', label: 'التهديدات', icon: ShieldAlert },
-              { id: 'logs', label: 'السجلات', icon: FileText },
-              { id: 'systems', label: 'الأنظمة', icon: Server },
-              { id: 'vulnerabilities', label: 'نقاط الضعف', icon: AlertTriangle },
-              { id: 'quantum', label: 'الأمان الكمي', icon: Hexagon }
-            ].map(({ id, label, icon: Icon }) => (
-              <button
-                key={id}
-                onClick={() => setViewMode(id as any)}
-                className={`flex items-center space-x-2 space-x-reverse px-4 py-2 rounded-lg font-medium transition-colors ${
-                  viewMode === id
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        {/* Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={viewMode}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-          >
-            {viewMode === 'overview' && renderOverview()}
-            {viewMode === 'threats' && renderThreats()}
-            {viewMode === 'logs' && renderLogs()}
-            {viewMode === 'systems' && renderSystems()}
-            {viewMode === 'vulnerabilities' && renderVulnerabilities()}
-            {viewMode === 'quantum' && renderQuantumSecurity()}
-          </motion.div>
-        </AnimatePresence>
+        ))}
       </div>
-
-      {/* Threat Details Modal */}
-      <AnimatePresence>
-        {selectedThreat && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-            onClick={() => setSelectedThreat(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-start justify-between mb-6">
-                <div className="flex items-start space-x-4 space-x-reverse">
-                  <div className={`p-3 rounded-lg ${getSeverityColor(selectedThreat.severity)}`}>
-                    {getThreatIcon(selectedThreat.type)}
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                      تفاصيل التهديد
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      {selectedThreat.description}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setSelectedThreat(null)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                  <XCircle className="w-6 h-6" />
-                </button>
-              </div>
-
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">المصدر:</span>
-                    <div className="font-semibold text-gray-900 dark:text-white">{selectedThreat.source}</div>
-                  </div>
-                  <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">الهدف:</span>
-                    <div className="font-semibold text-gray-900 dark:text-white">{selectedThreat.target}</div>
-                  </div>
-                  <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">المستوى:</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(selectedThreat.severity)}`}>
-                      {getSeverityText(selectedThreat.severity)}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">الحالة:</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedThreat.status)}`}>
-                      {getStatusText(selectedThreat.status)}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">الأنظمة المتأثرة:</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedThreat.affectedSystems.map(system => (
-                      <span key={system} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm">
-                        {system}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">خطوات التخفيف:</h3>
-                  <ul className="space-y-2">
-                    {selectedThreat.mitigationSteps.map((step, index) => (
-                      <li key={index} className="flex items-start space-x-2 space-x-reverse">
-                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700 dark:text-gray-300">{step}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {selectedThreat.quantumResistant && (
-                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                    <div className="flex items-center space-x-2 space-x-reverse mb-2">
-                      <Hexagon className="w-5 h-5 text-purple-600" />
-                      <span className="font-semibold text-purple-600">حماية كمية</span>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      هذا التهديد يتطلب تدابير حماية كمية متقدمة للتعامل معه بفعالية.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 
@@ -1794,12 +1322,11 @@ const AdvancedSecurityDashboard: React.FC = () => {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">تقييم المخاطر الشامل</h2>
         <button className="flex items-center space-x-2 space-x-reverse px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-          <Refresh className="w-4 h-4" />
+          <Scan className="w-4 h-4" />
           <span>تحديث التقييم</span>
         </button>
       </div>
 
-      {/* Overall Risk Score */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center">
           <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">المخاطر الإجمالية</h3>
@@ -1826,10 +1353,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
           <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">المخاطر الكمية</h3>
           <div className="text-3xl font-bold text-purple-600 mb-2">{riskAssessment.quantumRisk}</div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-            <div
-              className="bg-purple-500 h-2 rounded-full transition-all"
-              style={{ width: `${riskAssessment.quantumRisk}%` }}
-            />
+            <div className="bg-purple-500 h-2 rounded-full transition-all" style={{ width: `${riskAssessment.quantumRisk}%` }} />
           </div>
         </div>
 
@@ -1837,10 +1361,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
           <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">نقاط الامتثال</h3>
           <div className="text-3xl font-bold text-blue-600 mb-2">{riskAssessment.complianceScore}</div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-            <div
-              className="bg-blue-500 h-2 rounded-full transition-all"
-              style={{ width: `${riskAssessment.complianceScore}%` }}
-            />
+            <div className="bg-blue-500 h-2 rounded-full transition-all" style={{ width: `${riskAssessment.complianceScore}%` }} />
           </div>
         </div>
 
@@ -1853,7 +1374,6 @@ const AdvancedSecurityDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Risk Factors */}
       <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">عوامل المخاطر</h3>
         <div className="space-y-4">
@@ -1889,7 +1409,6 @@ const AdvancedSecurityDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Business Impact Breakdown */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
@@ -1898,14 +1417,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
           </h3>
           <div className="text-2xl font-bold text-green-600 mb-2">{riskAssessment.businessImpact.financial}%</div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3">
-            <div
-              className="bg-green-500 h-2 rounded-full transition-all"
-              style={{ width: `${riskAssessment.businessImpact.financial}%` }}
-            />
+            <div className="bg-green-500 h-2 rounded-full transition-all" style={{ width: `${riskAssessment.businessImpact.financial}%` }} />
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            تقييم التأثير المالي المحتمل للمخاطر الأمنية على العمليات التجارية
-          </p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
@@ -1915,33 +1428,191 @@ const AdvancedSecurityDashboard: React.FC = () => {
           </h3>
           <div className="text-2xl font-bold text-blue-600 mb-2">{riskAssessment.businessImpact.operational}%</div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3">
-            <div
-              className="bg-blue-500 h-2 rounded-full transition-all"
-              style={{ width: `${riskAssessment.businessImpact.operational}%` }}
-            />
+            <div className="bg-blue-500 h-2 rounded-full transition-all" style={{ width: `${riskAssessment.businessImpact.operational}%` }} />
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            تأثير المخاطر على العمليات اليومية وكفاءة الأنظمة
-          </p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-            <Users className="w-5 h-5 mr-2 text-purple-600" />
+            <Shield className="w-5 h-5 mr-2 text-purple-600" />
             التأثير السمعي
           </h3>
           <div className="text-2xl font-bold text-purple-600 mb-2">{riskAssessment.businessImpact.reputational}%</div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3">
-            <div
-              className="bg-purple-500 h-2 rounded-full transition-all"
-              style={{ width: `${riskAssessment.businessImpact.reputational}%` }}
-            />
+            <div className="bg-purple-500 h-2 rounded-full transition-all" style={{ width: `${riskAssessment.businessImpact.reputational}%` }} />
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            تأثير الحوادث الأمنية على سمعة المؤسسة وثقة العملاء
-          </p>
         </div>
       </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">لوحة الأمان المتقدمة</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">مراقبة وإدارة أمان النظام الكمي</p>
+          </div>
+          <div className="flex items-center space-x-4 space-x-reverse">
+            <button
+              onClick={() => setIsQuantumMode(!isQuantumMode)}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                isQuantumMode
+                  ? 'bg-purple-600 text-white hover:bg-purple-700'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              {isQuantumMode ? 'الوضع الكمي' : 'الوضع التقليدي'}
+            </button>
+            <button
+              onClick={startSecurityScan}
+              disabled={scanInProgress}
+              className="flex items-center space-x-2 space-x-reverse px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+            >
+              <Scan className={`w-4 h-4 ${scanInProgress ? 'animate-spin' : ''}`} />
+              <span>{scanInProgress ? 'جاري الفحص...' : 'فحص أمني'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex space-x-1 space-x-reverse bg-gray-100 dark:bg-gray-800 rounded-lg p-1 mb-8">
+          {[
+            { id: 'overview', label: 'نظرة عامة', icon: Shield },
+            { id: 'threats', label: 'التهديدات', icon: ShieldAlert },
+            { id: 'logs', label: 'السجلات', icon: FileText },
+            { id: 'systems', label: 'الأنظمة', icon: Server },
+            { id: 'vulnerabilities', label: 'الثغرات', icon: Bug },
+            { id: 'quantum', label: 'الأمان الكمي', icon: Hexagon },
+            { id: 'recommendations', label: 'التوصيات', icon: CheckCircle },
+            { id: 'analysis', label: 'التحليلات', icon: TrendingUp },
+            { id: 'risk', label: 'تقييم المخاطر', icon: AlertTriangle }
+          ].map(tab => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setViewMode(tab.id as typeof viewMode)}
+                className={`flex items-center space-x-2 space-x-reverse px-4 py-2 rounded-md font-medium transition-colors ${
+                  viewMode === tab.id
+                    ? 'bg-white dark:bg-gray-700 text-blue-600 shadow-sm'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={viewMode}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            {viewMode === 'overview' && renderOverview()}
+            {viewMode === 'threats' && renderThreats()}
+            {viewMode === 'logs' && renderLogs()}
+            {viewMode === 'systems' && renderSystems()}
+            {viewMode === 'vulnerabilities' && renderVulnerabilities()}
+            {viewMode === 'quantum' && renderQuantumSecurity()}
+            {viewMode === 'recommendations' && renderRecommendations()}
+            {viewMode === 'analysis' && renderAnalysis()}
+            {viewMode === 'risk' && renderRiskAssessment()}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Threat Details Modal */}
+      <AnimatePresence>
+        {selectedThreat && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setSelectedThreat(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">تفاصيل التهديد</h2>
+                <button
+                  onClick={() => setSelectedThreat(null)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <XCircle className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">الوصف</h3>
+                  <p className="text-gray-600 dark:text-gray-400">{selectedThreat.description}</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">المصدر</h3>
+                    <p className="text-gray-600 dark:text-gray-400">{selectedThreat.source}</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">الهدف</h3>
+                    <p className="text-gray-600 dark:text-gray-400">{selectedThreat.target}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">الأنظمة المتأثرة</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedThreat.affectedSystems.map(system => (
+                      <span key={system} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm">
+                        {system}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">خطوات التخفيف</h3>
+                  <ul className="space-y-2">
+                    {selectedThreat.mitigationSteps.map((step, index) => (
+                      <li key={index} className="flex items-start space-x-2 space-x-reverse">
+                        <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600 dark:text-gray-400">{step}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {selectedThreat.quantumResistant && (
+                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                    <div className="flex items-center space-x-2 space-x-reverse mb-2">
+                      <Hexagon className="w-5 h-5 text-purple-600" />
+                      <h3 className="font-semibold text-purple-900 dark:text-purple-100">مقاوم للتهديدات الكمية</h3>
+                    </div>
+                    <p className="text-purple-700 dark:text-purple-300 text-sm">
+                      هذا التهديد يستخدم تقنيات مقاومة للحوسبة الكمية ويتطلب دفاعات متقدمة.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

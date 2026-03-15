@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Wifi,
-  Globe,
   Server,
   Activity,
   Zap,
@@ -11,21 +9,13 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  Download,
-  Upload,
-  Signal,
-  Router,
-  Database,
-  Cloud,
   Lock,
-  Unlock,
   Eye,
   EyeOff,
   RefreshCw,
   Settings,
   BarChart3,
-  TrendingUp,
-  TrendingDown
+  Globe
 } from 'lucide-react';
 
 interface NetworkNode {
@@ -82,8 +72,8 @@ const NetworkDashboard: React.FC = () => {
       return Array.from({ length: 12 }, (_, i) => ({
         id: `node-${i + 1}`,
         name: `عقدة ${i + 1}`,
-        type: nodeTypes[Math.floor(Math.random() * nodeTypes.length)],
-        status: i < 8 ? 'online' : statuses[Math.floor(Math.random() * statuses.length)],
+        type: nodeTypes[Math.floor(Math.random() * nodeTypes.length)] ?? 'classical',
+        status: i < 8 ? 'online' : (statuses[Math.floor(Math.random() * statuses.length)] ?? 'online'),
         location: {
           x: 100 + (i % 4) * 150,
           y: 100 + Math.floor(i / 4) * 120
