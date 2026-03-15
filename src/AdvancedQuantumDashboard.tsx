@@ -20,7 +20,6 @@ import {
   FileText,
   Play,
   RefreshCw,
-  Bell,
   User,
   Menu,
   X,
@@ -43,9 +42,12 @@ import {
   Crown,
   CreditCard,
   Download,
+  Key,
 } from 'lucide-react';
 import AIAnalysisDashboard from './components/AIAnalysisDashboard';
 import SubscriptionDashboard from './components/SubscriptionDashboard';
+import NotificationCenter, { NotificationBell, addNotification } from './components/NotificationCenter';
+import ApiKeysDashboard from './components/ApiKeysDashboard';
 import {
   getCurrentUser, logoutUser, trackSimulation,
   getUsagePercentages, getCurrentLimits, PLANS, getTrialDaysRemaining, hasFeature,
@@ -65,15 +67,6 @@ import {
   type GateName,
   type SimulationResult,
 } from './services/quantumSimulator';
-
-// ─── Interfaces ─────────────────────────────────────────────────
-
-interface Notification {
-  id: string;
-  message: string;
-  type: 'info' | 'warning' | 'error' | 'success';
-  timestamp: Date;
-}
 
 // ─── SparkLine ──────────────────────────────────────────────────
 
@@ -268,10 +261,10 @@ const AdvancedQuantumDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [darkMode] = useState(true);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [showNotifications, setShowNotifications] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [showSubscription, setShowSubscription] = useState(false);
+  const [showNotificationCenter, setShowNotificationCenter] = useState(false);
+  const [showApiKeys, setShowApiKeys] = useState(false);
 
   // Subscription
   const userProfile = getCurrentUser();
@@ -311,15 +304,11 @@ const AdvancedQuantumDashboard: React.FC = () => {
       if (rep.anomalies.length > 0) {
         const latest = rep.anomalies[rep.anomalies.length - 1];
         if (latest && Date.now() - latest.timestamp < 3000) {
-          setNotifications(prev => [
-            ...prev.slice(-9),
-            {
-              id: latest.id,
-              message: latest.description,
-              type: latest.severity === 'critical' ? 'error' : latest.severity === 'high' ? 'warning' : 'info',
-              timestamp: new Date(latest.timestamp),
-            },
-          ]);
+          addNotification(
+            latest.severity === 'critical' ? 'security' : 'system',
+            'تنبيه النظام',
+            latest.description,
+          );
         }
       }
     }, 2000);
@@ -336,12 +325,11 @@ const AdvancedQuantumDashboard: React.FC = () => {
   const runSimulation = useCallback(() => {
     // Track usage against plan limits
     if (!trackSimulation()) {
-      setNotifications(prev => [...prev, {
-        id: `limit-${Date.now()}`,
-        message: 'وصلت للحد الأقصى من عمليات المحاكاة هذا الشهر. قم بترقية خطتك.',
-        type: 'warning',
-        timestamp: new Date(),
-      }]);
+      addNotification(
+        'billing',
+        'حد المحاكاة',
+        'وصلت للحد الأقصى من عمليات المحاكاة هذا الشهر. قم بترقية خطتك.',
+      );
       return;
     }
 
@@ -515,49 +503,14 @@ const AdvancedQuantumDashboard: React.FC = () => {
           <button onClick={handleRefresh} className={`p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors ${isRefreshing ? 'animate-spin' : ''}`}>
             <RefreshCw className="w-4 h-4 text-gray-400" />
           </button>
-          <div className="relative">
-            <button onClick={() => setShowNotifications(!showNotifications)} className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors relative">
-              <Bell className="w-4 h-4 text-gray-400" />
-              {notifications.length > 0 && (
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[10px] flex items-center justify-center text-white font-bold">
-                  {Math.min(notifications.length, 9)}
-                </div>
-              )}
-            </button>
-            <AnimatePresence>
-              {showNotifications && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-                  className="absolute right-0 top-12 w-80 bg-gray-800 border border-gray-700 rounded-xl shadow-2xl z-50 overflow-hidden"
-                >
-                  <div className="p-3 border-b border-gray-700 flex items-center justify-between">
-                    <span className="text-sm font-semibold">الإشعارات</span>
-                    <button onClick={() => setNotifications([])} className="text-xs text-gray-400 hover:text-white">مسح الكل</button>
-                  </div>
-                  <div className="max-h-64 overflow-y-auto">
-                    {notifications.length === 0 ? (
-                      <div className="p-4 text-center text-gray-500 text-sm">لا توجد إشعارات</div>
-                    ) : (
-                      notifications.slice().reverse().map(n => (
-                        <div key={n.id} className="px-3 py-2 border-b border-gray-700/50 hover:bg-gray-700/30 text-sm">
-                          <div className="flex items-start gap-2">
-                            {n.type === 'error' && <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />}
-                            {n.type === 'warning' && <AlertTriangle className="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0" />}
-                            {n.type === 'info' && <Info className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />}
-                            {n.type === 'success' && <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />}
-                            <div>
-                              <p className="text-gray-200">{n.message}</p>
-                              <p className="text-xs text-gray-500 mt-1">{n.timestamp.toLocaleTimeString('ar-SA')}</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          <NotificationBell onClick={() => setShowNotificationCenter(true)} />
+          <button
+            onClick={() => setShowApiKeys(true)}
+            className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
+            title="مفاتيح API"
+          >
+            <Key className="w-4 h-4 text-gray-400" />
+          </button>
           {hasFeature('hasPdfExport') && (
             <button
               onClick={() => { void exportDashboardSnapshot(); }}
@@ -1454,6 +1407,18 @@ const AdvancedQuantumDashboard: React.FC = () => {
           ))}
         </div>
       </div>
+      <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/50">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <Key className="w-5 h-5 text-blue-400" /> مفاتيح API
+        </h3>
+        <p className="text-sm text-gray-400 mb-4">إدارة مفاتيح الوصول لواجهة البرمجة</p>
+        <button
+          onClick={() => setShowApiKeys(true)}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-medium transition-colors"
+        >
+          إدارة مفاتيح API
+        </button>
+      </div>
     </div>
   );
 
@@ -1519,6 +1484,14 @@ const AdvancedQuantumDashboard: React.FC = () => {
       {/* Subscription Dashboard Modal */}
       {showSubscription && (
         <SubscriptionDashboard onClose={() => setShowSubscription(false)} />
+      )}
+      {/* Notification Center Modal */}
+      {showNotificationCenter && (
+        <NotificationCenter onClose={() => setShowNotificationCenter(false)} />
+      )}
+      {/* API Keys Modal */}
+      {showApiKeys && (
+        <ApiKeysDashboard onClose={() => setShowApiKeys(false)} />
       )}
     </div>
   );

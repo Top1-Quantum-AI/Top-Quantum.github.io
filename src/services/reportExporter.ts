@@ -1,12 +1,12 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-interface ReportSection {
+export interface ReportSection {
   title: string;
   data: Record<string, string | number>;
 }
 
-interface ReportOptions {
+export interface ReportOptions {
   title?: string;
   subtitle?: string;
   sections?: ReportSection[];
