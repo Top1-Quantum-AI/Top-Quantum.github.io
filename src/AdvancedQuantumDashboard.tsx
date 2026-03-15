@@ -42,13 +42,15 @@ import {
   LogOut,
   Crown,
   CreditCard,
+  Download,
 } from 'lucide-react';
 import AIAnalysisDashboard from './components/AIAnalysisDashboard';
 import SubscriptionDashboard from './components/SubscriptionDashboard';
 import {
   getCurrentUser, logoutUser, trackSimulation,
-  getUsagePercentages, getCurrentLimits, PLANS, getTrialDaysRemaining,
+  getUsagePercentages, getCurrentLimits, PLANS, getTrialDaysRemaining, hasFeature,
 } from './services/subscriptionService';
+import { exportDashboardSnapshot } from './services/reportExporter';
 import {
   getAnalyticsEngine,
   type AnalyticsReport,
@@ -556,6 +558,16 @@ const AdvancedQuantumDashboard: React.FC = () => {
               )}
             </AnimatePresence>
           </div>
+          {hasFeature('hasPdfExport') && (
+            <button
+              onClick={() => { void exportDashboardSnapshot(); }}
+              className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors flex items-center gap-1.5"
+              title="تصدير PDF"
+            >
+              <Download className="w-4 h-4 text-gray-400" />
+              <span className="text-xs text-gray-400 hidden xl:inline">تصدير</span>
+            </button>
+          )}
           <button
             onClick={() => setShowSubscription(true)}
             className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors flex items-center gap-1.5"
