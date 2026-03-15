@@ -40,8 +40,15 @@ import {
   CheckCircle,
   AlertOctagon,
   LogOut,
+  Crown,
+  CreditCard,
 } from 'lucide-react';
 import AIAnalysisDashboard from './components/AIAnalysisDashboard';
+import SubscriptionDashboard from './components/SubscriptionDashboard';
+import {
+  getCurrentUser, logoutUser, trackSimulation,
+  getUsagePercentages, getCurrentLimits, PLANS, getTrialDaysRemaining,
+} from './services/subscriptionService';
 import {
   getAnalyticsEngine,
   type AnalyticsReport,
@@ -262,6 +269,14 @@ const AdvancedQuantumDashboard: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [showSubscription, setShowSubscription] = useState(false);
+
+  // Subscription
+  const userProfile = getCurrentUser();
+  const currentPlan = userProfile != null ? PLANS[userProfile.subscription.planId] : PLANS.free;
+  const planLimits = getCurrentLimits();
+  const usagePct = getUsagePercentages();
+  const trialDays = getTrialDaysRemaining();
 
   // Analytics
   const engineRef = useRef(getAnalyticsEngine());
@@ -317,20 +332,31 @@ const AdvancedQuantumDashboard: React.FC = () => {
 
   // Quantum simulation
   const runSimulation = useCallback(() => {
+    // Track usage against plan limits
+    if (!trackSimulation()) {
+      setNotifications(prev => [...prev, {
+        id: `limit-${Date.now()}`,
+        message: 'وصلت للحد الأقصى من عمليات المحاكاة هذا الشهر. قم بترقية خطتك.',
+        type: 'warning',
+        timestamp: new Date(),
+      }]);
+      return;
+    }
+
     setIsSimulating(true);
     setTimeout(() => {
       try {
         let qubits: number;
         let gates: GateOp[];
         if (showCustomCircuit) {
-          qubits = customQubits;
+          qubits = Math.min(customQubits, planLimits.maxQubits);
           gates = customGates.length > 0 ? customGates : [{ gate: 'H' as GateName, targets: [0] }];
         } else {
           const algo = algorithms[selectedAlgorithm];
           const config = typeof algo === 'function'
             ? (algo as (n?: number) => { qubits: number; gates: GateOp[] })()
             : algo;
-          qubits = config.qubits;
+          qubits = Math.min(config.qubits, planLimits.maxQubits);
           gates = config.gates;
         }
         setSimResult(simulateCircuit(qubits, gates, numShots, noiseLevel));
@@ -339,7 +365,7 @@ const AdvancedQuantumDashboard: React.FC = () => {
       }
       setIsSimulating(false);
     }, 50);
-  }, [selectedAlgorithm, noiseLevel, numShots, showCustomCircuit, customQubits, customGates]);
+  }, [selectedAlgorithm, noiseLevel, numShots, showCustomCircuit, customQubits, customGates, planLimits.maxQubits]);
 
   const addCustomGate = useCallback((gate: GateName, target: number, control?: number) => {
     setCustomGates(prev => [
@@ -409,6 +435,51 @@ const AdvancedQuantumDashboard: React.FC = () => {
               <div className="text-gray-500">RAM</div>
             </div>
           </div>
+        </div>
+      )}
+      {/* Plan Badge */}
+      {sidebarOpen && (
+        <div className="px-3 pt-2 border-t border-gray-700/50">
+          <button
+            onClick={() => setShowSubscription(true)}
+            className="w-full p-2.5 rounded-lg border transition-all hover:brightness-110"
+            style={{
+              backgroundColor: `${currentPlan.color}10`,
+              borderColor: `${currentPlan.color}30`,
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <Crown className="w-4 h-4" style={{ color: currentPlan.color }} />
+              <div className="text-right flex-1">
+                <p className="text-xs font-semibold" style={{ color: currentPlan.color }}>
+                  {currentPlan.name}
+                </p>
+                <p className="text-[10px] text-gray-500">
+                  {userProfile?.subscription.status === 'trial'
+                    ? `تجريبي — ${trialDays ?? 0} يوم متبقي`
+                    : currentPlan.priceAnnual === 0 ? 'مجاني' : 'نشط'
+                  }
+                </p>
+              </div>
+              <CreditCard className="w-3.5 h-3.5 text-gray-500" />
+            </div>
+            {/* Mini usage bar */}
+            <div className="mt-2 space-y-1">
+              <div className="flex items-center justify-between text-[10px] text-gray-500">
+                <span>المحاكاة</span>
+                <span>{usagePct.simulations.toFixed(0)}%</span>
+              </div>
+              <div className="h-1 bg-gray-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all"
+                  style={{
+                    width: `${Math.max(usagePct.simulations, 2)}%`,
+                    backgroundColor: usagePct.simulations > 90 ? '#ef4444' : currentPlan.color,
+                  }}
+                />
+              </div>
+            </div>
+          </button>
         </div>
       )}
       <div className="p-3 border-t border-gray-700/50">
@@ -485,11 +556,18 @@ const AdvancedQuantumDashboard: React.FC = () => {
               )}
             </AnimatePresence>
           </div>
-          <button className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors">
+          <button
+            onClick={() => setShowSubscription(true)}
+            className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors flex items-center gap-1.5"
+            title="إدارة الاشتراك"
+          >
             <User className="w-4 h-4 text-gray-400" />
+            {userProfile != null && sidebarOpen && (
+              <span className="text-xs text-gray-400 hidden xl:inline">{userProfile.name}</span>
+            )}
           </button>
           <button
-            onClick={() => { localStorage.removeItem('quantum_onboarding_seen'); navigate('/'); }}
+            onClick={() => { logoutUser(); navigate('/'); }}
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 transition-colors text-red-400 hover:text-red-300"
             title="تسجيل الخروج"
           >
@@ -1394,7 +1472,17 @@ const AdvancedQuantumDashboard: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark bg-gray-950 text-white' : 'bg-gray-100 text-gray-900'} transition-colors duration-300`}>
+    <div className={`min-h-screen ${darkMode ? 'dark bg-gray-950 text-white' : 'bg-gray-100 text-gray-900'} transition-colors duration-300`} data-dashboard>
+      {/* Trial Banner */}
+      {trialDays != null && trialDays > 0 && trialDays <= 7 && (
+        <div className="bg-gradient-to-r from-amber-600/90 to-orange-600/90 text-white text-center py-2 px-4 text-sm font-medium flex items-center justify-center gap-2">
+          <Clock className="w-4 h-4" />
+          <span>فترة التجربة تنتهي خلال {trialDays} يوم —</span>
+          <button onClick={() => setShowSubscription(true)} className="underline font-bold hover:no-underline">
+            ترقّ الآن
+          </button>
+        </div>
+      )}
       <div className="flex h-screen">
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
@@ -1408,6 +1496,10 @@ const AdvancedQuantumDashboard: React.FC = () => {
           </main>
         </div>
       </div>
+      {/* Subscription Dashboard Modal */}
+      {showSubscription && (
+        <SubscriptionDashboard onClose={() => setShowSubscription(false)} />
+      )}
     </div>
   );
 };

@@ -12,6 +12,7 @@ const PricingPage: React.FC = () => {
 
   const plans = [
     {
+      planKey: 'free' as const,
       name: 'المجاني',
       nameEn: 'Free',
       price: annual ? 0 : 0,
@@ -35,6 +36,7 @@ const PricingPage: React.FC = () => {
     },
     {
       name: 'الاحترافي',
+      planKey: 'professional' as const,
       nameEn: 'Professional',
       price: annual ? 97 : 127,
       period: annual ? '/شهر (فاتورة سنوية)' : '/شهر',
@@ -56,6 +58,7 @@ const PricingPage: React.FC = () => {
       cta: 'ابدأ التجربة المجانية',
     },
     {
+      planKey: 'enterprise' as const,
       name: 'المؤسسات',
       nameEn: 'Enterprise',
       price: annual ? 497 : 647,
@@ -197,7 +200,7 @@ const PricingPage: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => navigate('/register')}
+                onClick={() => navigate(`/register?plan=${plan.planKey}`)}
                 className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
                   plan.popular
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/20'

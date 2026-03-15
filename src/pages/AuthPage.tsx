@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Atom, Mail, Lock, User, Eye, EyeOff,
   ArrowLeft, CheckCircle, Building2, Globe,
+  Crown, Zap, Star,
 } from 'lucide-react';
+import {
+  createUser, loginUser, getCurrentUser,
+  PLANS, type PlanId,
+} from '../services/subscriptionService';
 
 // ═══════════════════════════════════════════════════════════
 // ─── AUTH PAGE (Login / Register) ─────────────────────────
@@ -13,8 +18,16 @@ import {
 const AuthPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const isLogin = location.pathname === '/login';
 
+  const planParam = searchParams.get('plan');
+  const validPlans: PlanId[] = ['free', 'professional', 'enterprise'];
+  const initialPlan: PlanId = (planParam != null && validPlans.includes(planParam as PlanId))
+    ? planParam as PlanId
+    : 'free';
+
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>(initialPlan);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -46,8 +59,22 @@ const AuthPage: React.FC = () => {
     }
 
     setIsLoading(true);
-    // Simulate auth — navigate after short delay
+
     setTimeout(() => {
+      if (isLogin) {
+        // Try login
+        const user = loginUser(formData.email);
+        if (user == null) {
+          // If no existing profile, create one with free plan on login
+          const existing = getCurrentUser();
+          if (existing == null) {
+            createUser(formData.email.split('@')[0] ?? 'User', formData.email, '', 'free');
+          }
+        }
+      } else {
+        // Register with selected plan
+        createUser(formData.name, formData.email, formData.company, selectedPlan);
+      }
       setIsLoading(false);
       navigate('/dashboard');
     }, 1500);
@@ -214,6 +241,50 @@ const AuthPage: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Plan Selection */}
+                <div>
+                  <label className="block text-sm font-medium mb-3">اختر خطتك</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(['free', 'professional', 'enterprise'] as const).map(planId => {
+                      const plan = PLANS[planId];
+                      const isSelected = selectedPlan === planId;
+                      return (
+                        <button
+                          key={planId}
+                          type="button"
+                          onClick={() => setSelectedPlan(planId)}
+                          className={`relative p-3 rounded-xl border text-center transition-all ${
+                            isSelected
+                              ? 'border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/10'
+                              : 'border-gray-700 bg-gray-800/30 hover:border-gray-600'
+                          }`}
+                        >
+                          {isSelected && (
+                            <div className="absolute -top-1.5 -right-1.5">
+                              <CheckCircle className="w-4 h-4 text-blue-400" />
+                            </div>
+                          )}
+                          <div className="text-lg mb-1">
+                            {planId === 'free' && <Zap className="w-5 h-5 mx-auto text-gray-400" />}
+                            {planId === 'professional' && <Star className="w-5 h-5 mx-auto text-blue-400" />}
+                            {planId === 'enterprise' && <Crown className="w-5 h-5 mx-auto text-purple-400" />}
+                          </div>
+                          <p className="text-xs font-semibold">{plan.name}</p>
+                          <p className="text-[10px] text-gray-500 mt-0.5">
+                            {plan.priceAnnual === 0 ? 'مجاني' : `$${plan.priceAnnual}/شهر`}
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {selectedPlan !== 'free' && (
+                    <p className="text-xs text-green-400 mt-2 flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3" />
+                      تجربة مجانية 14 يوم — بدون بطاقة ائتمان
+                    </p>
+                  )}
+                </div>
+
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -266,9 +337,16 @@ const AuthPage: React.FC = () => {
 
           {!isLogin && (
             <div className="mt-8 pt-6 border-t border-gray-800">
-              <p className="text-xs text-gray-500 text-center mb-4">ما ستحصل عليه مع التجربة المجانية</p>
+              <p className="text-xs text-gray-500 text-center mb-4">
+                ما ستحصل عليه مع خطة {PLANS[selectedPlan].name}
+              </p>
               <div className="grid grid-cols-2 gap-3">
-                {['14 يوم كاملة', '5 كيوبت محاكاة', 'تحليلات AI', 'بدون بطاقة ائتمان'].map((item, i) => (
+                {[
+                  selectedPlan !== 'free' ? '14 يوم تجربة مجانية' : 'مجاني للأبد',
+                  `${PLANS[selectedPlan].limits.maxQubits} كيوبت محاكاة`,
+                  `${!isFinite(PLANS[selectedPlan].limits.maxSimulationsPerMonth) ? '∞' : PLANS[selectedPlan].limits.maxSimulationsPerMonth.toLocaleString()} محاكاة/شهر`,
+                  'بدون بطاقة ائتمان',
+                ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs text-gray-400">
                     <CheckCircle className="w-3.5 h-3.5 text-green-400 flex-shrink-0" />
                     {item}
