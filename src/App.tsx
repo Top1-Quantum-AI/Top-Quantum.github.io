@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage';
 import PricingPage from './pages/PricingPage';
 import AuthPage from './pages/AuthPage';
 import AdvancedQuantumDashboard from './AdvancedQuantumDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import OnboardingTour from './components/OnboardingTour';
 
 // ─── System Status Interface ─────────────────────────────────
@@ -296,6 +297,7 @@ const App: React.FC = () => {
         <Route path="/login" element={<AuthPage />} />
         <Route path="/register" element={<AuthPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/demo" element={<DemoPage />} />
       </Routes>
     </ErrorBoundary>

@@ -579,6 +579,14 @@ const AdvancedQuantumDashboard: React.FC = () => {
             )}
           </button>
           <button
+            onClick={() => navigate('/admin')}
+            className="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors flex items-center gap-1.5"
+            title="لوحة الإدارة"
+          >
+            <Shield className="w-4 h-4 text-orange-400" />
+            <span className="text-xs text-gray-400 hidden xl:inline">إدارة</span>
+          </button>
+          <button
             onClick={() => { logoutUser(); navigate('/'); }}
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 transition-colors text-red-400 hover:text-red-300"
             title="تسجيل الخروج"

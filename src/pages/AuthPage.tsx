@@ -10,6 +10,9 @@ import {
   createUser, loginUser, getCurrentUser,
   PLANS, type PlanId,
 } from '../services/subscriptionService';
+import {
+  apiRegister, apiLogin, checkBackendAvailable, type ApiError,
+} from '../services/apiClient';
 
 // ═══════════════════════════════════════════════════════════
 // ─── AUTH PAGE (Login / Register) ─────────────────────────
@@ -39,7 +42,7 @@ const AuthPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -60,24 +63,49 @@ const AuthPage: React.FC = () => {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      if (isLogin) {
-        // Try login
-        const user = loginUser(formData.email);
-        if (user == null) {
-          // If no existing profile, create one with free plan on login
-          const existing = getCurrentUser();
-          if (existing == null) {
-            createUser(formData.email.split('@')[0] ?? 'User', formData.email, '', 'free');
-          }
+    try {
+      const backendUp = await checkBackendAvailable();
+
+      if (backendUp) {
+        // Real API auth
+        if (isLogin) {
+          const { user } = await apiLogin(formData.email, formData.password);
+          // Sync to local for dashboard compatibility
+          createUser(user.username, user.email, '', selectedPlan);
+        } else {
+          const nameParts = formData.name.split(' ');
+          await apiRegister({
+            username: formData.email.split('@')[0] ?? 'user',
+            email: formData.email,
+            password: formData.password,
+            firstName: nameParts[0] ?? '',
+            lastName: nameParts.slice(1).join(' '),
+          });
+          // Sync to local
+          createUser(formData.name, formData.email, formData.company, selectedPlan);
         }
       } else {
-        // Register with selected plan
-        createUser(formData.name, formData.email, formData.company, selectedPlan);
+        // Fallback: localStorage-only
+        if (isLogin) {
+          const user = loginUser(formData.email);
+          if (user == null) {
+            const existing = getCurrentUser();
+            if (existing == null) {
+              createUser(formData.email.split('@')[0] ?? 'User', formData.email, '', 'free');
+            }
+          }
+        } else {
+          createUser(formData.name, formData.email, formData.company, selectedPlan);
+        }
       }
-      setIsLoading(false);
+
       navigate('/dashboard');
-    }, 1500);
+    } catch (err) {
+      const apiErr = err as ApiError;
+      setError(apiErr.message || 'حدث خطأ. يرجى المحاولة مرة أخرى.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const updateField = (field: string, value: string | boolean) => {

@@ -12,6 +12,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import Redis from 'ioredis';
@@ -25,6 +26,7 @@ import aiRoutes from './routes/ai.js';
 import quantumRoutes from './routes/quantum.js';
 import userRoutes from './routes/user.js';
 import monitoringRoutes from './routes/monitoring.js';
+import adminRoutes from './routes/admin.js';
 
 // Import middleware
 import { authenticateToken } from './middleware/auth.js';
@@ -192,6 +194,9 @@ function setupSecurity() {
  * الوسائل العامة
  */
 function setupMiddleware() {
+  // Cookie parser (must be before routes)
+  app.use(cookieParser());
+
   // Body parsing
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -246,6 +251,7 @@ function setupRoutes() {
   app.use('/api/quantum', authenticateToken, quantumRoutes);
   app.use('/api/user', authenticateToken, userRoutes);
   app.use('/api/monitoring', authenticateToken, monitoringRoutes);
+  app.use('/api/admin', adminRoutes);
 
   // Serve static files in production
   if (process.env.NODE_ENV === 'production') {
