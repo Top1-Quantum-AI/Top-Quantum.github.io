@@ -59,7 +59,7 @@ jobs:
     
     - name: TypeScript Type Check
       run: |
-        npm run typecheck
+        npm run type-check
         echo "✅ TypeScript compilation successful"
     
     - name: ESLint Code Analysis
@@ -531,6 +531,8 @@ jobs:
     needs: [deploy-production, quantum-hardware-tests]
     if: always()
     timeout-minutes: 10
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     
     steps:
     - name: Cleanup old container images
@@ -569,12 +571,12 @@ jobs:
         retention-days: 90
     
     - name: Notify Teams
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/main' && env.SLACK_WEBHOOK_URL
       run: |
         # إرسال إشعارات للفرق
-        curl -X POST -H 'Content-type: application/json' \
+        curl --fail --show-error --silent -X POST -H 'Content-type: application/json' \
           --data '{"text":"🚀 Quantum AI System deployed successfully to production!\nCommit: ${{ github.sha }}\nBranch: ${{ github.ref_name }}"}' \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+          "${{ env.SLACK_WEBHOOK_URL }}"
 
 # إعدادات إضافية للـ Workflow
 concurrency:
