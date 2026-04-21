@@ -19,9 +19,11 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - FRONTEND_URL=http://localhost:5173
+      - MYTHOS_SERVICE_URL=http://mythos-service:8000
     depends_on:
       - mongo
       - redis
+      - mythos-service
     networks:
       - quantum-network
     volumes:
@@ -33,6 +35,24 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  # OpenMythos Python Microservice
+  mythos-service:
+    build:
+      context: .
+      dockerfile: mythos_service/Dockerfile
+    container_name: quantum-mythos
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    networks:
+      - quantum-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   # MongoDB Database
   mongo:

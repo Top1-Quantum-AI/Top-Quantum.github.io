@@ -27,6 +27,7 @@ import quantumRoutes from './routes/quantum.js';
 import userRoutes from './routes/user.js';
 import monitoringRoutes from './routes/monitoring.js';
 import adminRoutes from './routes/admin.js';
+import mythosRoutes from './routes/mythos.js';
 
 // Import middleware
 import { authenticateToken } from './middleware/auth.js';
@@ -252,6 +253,7 @@ function setupRoutes() {
   app.use('/api/user', authenticateToken, userRoutes);
   app.use('/api/monitoring', authenticateToken, monitoringRoutes);
   app.use('/api/admin', adminRoutes);
+  app.use('/api/mythos', mythosRoutes);
 
   // Serve static files in production
   if (process.env.NODE_ENV === 'production') {

@@ -45,6 +45,7 @@ import {
   Key,
 } from 'lucide-react';
 import AIAnalysisDashboard from './components/AIAnalysisDashboard';
+import OpenMythosDashboard from './components/OpenMythosDashboard';
 import SubscriptionDashboard from './components/SubscriptionDashboard';
 import NotificationCenter, { NotificationBell, addNotification } from './components/NotificationCenter';
 import ApiKeysDashboard from './components/ApiKeysDashboard';
@@ -369,6 +370,7 @@ const AdvancedQuantumDashboard: React.FC = () => {
     { id: 'overview', label: 'نظرة عامة', icon: <Monitor className="w-5 h-5" /> },
     { id: 'quantum', label: 'المحاكاة الكمية', icon: <Atom className="w-5 h-5" /> },
     { id: 'ai', label: 'الذكاء الاصطناعي', icon: <Brain className="w-5 h-5" /> },
+    { id: 'mythos', label: 'OpenMythos', icon: <Cpu className="w-5 h-5" /> },
     { id: 'security', label: 'الأمان', icon: <Shield className="w-5 h-5" /> },
     { id: 'analytics', label: 'تحليل AI', icon: <BarChart3 className="w-5 h-5" /> },
     { id: 'system', label: 'مراقبة النظام', icon: <Server className="w-5 h-5" /> },
@@ -1448,6 +1450,7 @@ const AdvancedQuantumDashboard: React.FC = () => {
           } : null}
         />
       );
+      case 'mythos': return <OpenMythosDashboard />;
       case 'system': return renderSystem();
       case 'network': return renderNetwork();
       case 'logs': return renderLogs();
