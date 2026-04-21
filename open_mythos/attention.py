@@ -64,6 +64,14 @@ class GQAAttention(nn.Module):
         self.v_proj = nn.Linear(cfg.dim, cfg.n_kv_heads * self.head_dim, bias=False)
         self.o_proj = nn.Linear(cfg.n_heads * self.head_dim, cfg.dim, bias=False)
 
+        # Pre-allocate causal mask up to max_seq_len and reuse in forward
+        max_T = cfg.max_seq_len
+        self.register_buffer(
+            '_causal_mask',
+            torch.triu(torch.ones(max_T, max_T, dtype=torch.bool), diagonal=1),
+            persistent=False,
+        )
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         B, T, _ = x.shape
 
@@ -80,9 +88,9 @@ class GQAAttention(nn.Module):
         k = k.repeat_interleave(self.n_rep, dim=1)
         v = v.repeat_interleave(self.n_rep, dim=1)
 
-        # Scaled dot-product attention with causal mask
+        # Scaled dot-product attention with pre-allocated causal mask
         attn = torch.matmul(q, k.transpose(-2, -1)) * self.scale
-        mask = torch.triu(torch.ones(T, T, device=x.device, dtype=torch.bool), diagonal=1)
+        mask: torch.Tensor = self._causal_mask[:T, :T]  # type: ignore[index]
         attn = attn.masked_fill(mask[None, None], float('-inf'))
         attn = F.softmax(attn, dim=-1)
 
@@ -134,6 +142,14 @@ class MLAAttention(nn.Module):
         # Output
         self.o_proj = nn.Linear(cfg.n_heads * cfg.v_head_dim, cfg.dim, bias=False)
 
+        # Pre-allocate causal mask up to max_seq_len
+        max_T = cfg.max_seq_len
+        self.register_buffer(
+            '_causal_mask',
+            torch.triu(torch.ones(max_T, max_T, dtype=torch.bool), diagonal=1),
+            persistent=False,
+        )
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         B, T, _ = x.shape
 
@@ -167,7 +183,7 @@ class MLAAttention(nn.Module):
 
         # ── Attention ────────────────────────────────────────
         attn = torch.matmul(q, k.transpose(-2, -1)) * self.scale
-        mask = torch.triu(torch.ones(T, T, device=x.device, dtype=torch.bool), diagonal=1)
+        mask: torch.Tensor = self._causal_mask[:T, :T]  # type: ignore[index]
         attn = attn.masked_fill(mask[None, None], float('-inf'))
         attn = F.softmax(attn, dim=-1)
 

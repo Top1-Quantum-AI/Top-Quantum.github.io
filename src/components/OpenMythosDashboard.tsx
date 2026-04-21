@@ -84,7 +84,7 @@ const InfoCard: React.FC<{
   </div>
 );
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+const MAX_LOG_ENTRIES = 50;
 
 const OpenMythosDashboard: React.FC = () => {
   const [attnType, setAttnType] = useState<'gqa' | 'mla'>('gqa');
@@ -106,7 +106,7 @@ const OpenMythosDashboard: React.FC = () => {
 
   const MODEL_ID = `mythos-${attnType}`;
   const appendLog = (msg: string): void =>
-    setLog(prev => [`[${new Date().toLocaleTimeString('ar-SA')}] ${msg}`, ...prev.slice(0, 49)]);
+    setLog(prev => [`[${new Date().toLocaleTimeString('ar-SA')}] ${msg}`, ...prev.slice(0, MAX_LOG_ENTRIES - 1)]);
 
   // ── Health check ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -116,6 +116,13 @@ const OpenMythosDashboard: React.FC = () => {
   }, []);
 
   // ── Create model ─────────────────────────────────────────────────────────
+  const handleAttnTypeChange = useCallback((t: 'gqa' | 'mla') => {
+    setAttnType(t);
+    setModelInfo(null);
+    setForwardShape(null);
+    setGenShape(null);
+  }, []);
+
   const handleCreate = useCallback(async (): Promise<void> => {
     setError(null);
     setIsCreating(true);
@@ -227,7 +234,7 @@ const OpenMythosDashboard: React.FC = () => {
           {(['gqa', 'mla'] as const).map(t => (
             <button
               key={t}
-              onClick={() => { setAttnType(t); setModelInfo(null); setForwardShape(null); setGenShape(null); }}
+              onClick={() => handleAttnTypeChange(t)}
               className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all border ${
                 attnType === t
                   ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 border-violet-500 text-white shadow-lg shadow-violet-500/20'

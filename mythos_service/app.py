@@ -34,9 +34,9 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],
-    allow_methods=['*'],
-    allow_headers=['*'],
+    allow_origins=os.getenv('MYTHOS_CORS_ORIGINS', 'http://localhost:3001,http://localhost:5173').split(','),
+    allow_methods=['GET', 'POST'],
+    allow_headers=['Content-Type'],
 )
 
 # In-memory model registry
