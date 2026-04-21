@@ -569,12 +569,14 @@ jobs:
         retention-days: 90
     
     - name: Notify Teams
-      if: github.ref == 'refs/heads/main' && secrets.SLACK_WEBHOOK_URL != ''
+      if: github.ref == 'refs/heads/main' && env.SLACK_WEBHOOK_URL != ''
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
         # إرسال إشعارات للفرق
         curl --fail --show-error --silent -X POST -H 'Content-type: application/json' \
           --data '{"text":"🚀 Quantum AI System deployed successfully to production!\nCommit: ${{ github.sha }}\nBranch: ${{ github.ref_name }}"}' \
-          "${{ secrets.SLACK_WEBHOOK_URL }}"
+          "${{ env.SLACK_WEBHOOK_URL }}"
 
 # إعدادات إضافية للـ Workflow
 concurrency:
