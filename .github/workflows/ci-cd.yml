@@ -569,7 +569,7 @@ jobs:
         retention-days: 90
     
     - name: Notify Teams
-      if: github.ref == 'refs/heads/main' && env.SLACK_WEBHOOK_URL != ''
+      if: github.ref == 'refs/heads/main' && secrets.SLACK_WEBHOOK_URL != ''
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
