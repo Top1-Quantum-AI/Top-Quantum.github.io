@@ -59,7 +59,7 @@ jobs:
     
     - name: TypeScript Type Check
       run: |
-        npm run typecheck
+        npm run type-check
         echo "✅ TypeScript compilation successful"
     
     - name: ESLint Code Analysis
