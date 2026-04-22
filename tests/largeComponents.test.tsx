@@ -152,7 +152,7 @@ describe('UnifiedQuantumSystem', () => {
     // Should have input elements for the chat
     const inputs = container.querySelectorAll('input, textarea, button');
     expect(document.body.textContent?.length).toBeGreaterThan(10);
-    expect(inputs.length).toBeGreaterThanOrEqual(0);
+    expect(inputs.length).toBeGreaterThan(0);
   });
 
   it('should initialize with state updates', async () => {
