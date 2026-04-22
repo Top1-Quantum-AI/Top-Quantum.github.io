@@ -80,7 +80,7 @@ describe('RevolutionaryQuantumSystem', () => {
     const { container } = render(<RevolutionaryQuantumSystem />);
     await act(async () => { jest.advanceTimersByTime(200); });
     const buttons = container.querySelectorAll('button');
-    expect(buttons.length).toBeGreaterThanOrEqual(0);
+    expect(buttons.length).toBeGreaterThan(0);
     // The component should render something meaningful
     expect(document.body.textContent?.length).toBeGreaterThan(10);
   });
