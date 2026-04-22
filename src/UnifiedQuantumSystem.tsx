@@ -836,7 +836,7 @@ const UnifiedQuantumSystem: React.FC = () => {
           ].map(tab => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'dashboard' | 'search' | 'simulation' | 'permissions' | 'knowledge' | 'users' | 'ai')}
               className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                 activeTab === tab.id
                   ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/50'

@@ -41,7 +41,6 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
               onChange={(e) => setCommandQuery(e.target.value)}
               placeholder="ابحث عن الأوامر..."
               className="w-full pl-10 pr-4 py-2 bg-gray-700/50 border border-gray-600/30 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none"
-              autoFocus
             />
           </div>
         </div>

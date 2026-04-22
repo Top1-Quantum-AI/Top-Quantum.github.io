@@ -492,7 +492,7 @@ const NetworkDashboard: React.FC = () => {
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => setViewMode(id as any)}
+                onClick={() => setViewMode(id as 'topology' | 'metrics' | 'security')}
                 className={`flex items-center space-x-2 space-x-reverse py-4 border-b-2 font-medium text-sm transition-colors ${
                   viewMode === id
                     ? 'border-primary-500 text-primary-600 dark:text-primary-400'

@@ -951,7 +951,10 @@ const AdvancedSecurityDashboard: React.FC = () => {
         {filteredThreats.map(threat => (
           <div
             key={threat.id}
+            role="button"
+            tabIndex={0}
             onClick={() => setSelectedThreat(threat)}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { setSelectedThreat(threat); } }}
             className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-shadow"
           >
             <div className="flex items-center space-x-3 space-x-reverse">

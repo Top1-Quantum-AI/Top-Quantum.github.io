@@ -785,7 +785,7 @@ const QuantumDashboard: React.FC = () => {
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => setViewMode(id as any)}
+                onClick={() => setViewMode(id as 'overview' | 'circuits' | 'processors' | 'experiments')}
                 className={`flex items-center space-x-2 space-x-reverse py-4 border-b-2 font-medium text-sm transition-colors ${
                   viewMode === id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'

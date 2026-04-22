@@ -96,6 +96,7 @@ describe('LandingPage', () => {
 
   it('should navigate to /register when registration button is clicked', () => {
     const mockNavigate = jest.fn();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/consistent-type-imports
     const reactRouterDom = require('react-router-dom') as typeof import('react-router-dom');
     const useNavigateSpy = jest
       .spyOn(reactRouterDom, 'useNavigate')

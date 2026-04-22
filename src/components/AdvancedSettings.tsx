@@ -92,7 +92,7 @@ const AdvancedSettings: React.FC = () => {
     const savedSettings = localStorage.getItem('quantumSettings');
     if (savedSettings) {
       try {
-        setSettings(JSON.parse(savedSettings));
+        setSettings(JSON.parse(savedSettings) as SettingsState);
       } catch (error) {
         console.error('خطأ في تحميل الإعدادات:', error);
       }
@@ -141,7 +141,7 @@ const AdvancedSettings: React.FC = () => {
       reader.onload = (e) => {
         try {
           const importedSettings = JSON.parse(e.target?.result as string);
-          setSettings(importedSettings);
+          setSettings(importedSettings as SettingsState);
           setHasChanges(true);
         } catch (error) {
           alert('خطأ في استيراد الإعدادات');

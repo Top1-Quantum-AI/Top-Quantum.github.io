@@ -152,5 +152,5 @@ export async function exportDashboardSnapshot(): Promise<void> {
     await exportElementToPDF(body, 'quantum-dashboard-snapshot.pdf');
     return;
   }
-  await exportElementToPDF(dashboard, 'quantum-dashboard-snapshot.pdf');
+  await exportElementToPDF(dashboard as HTMLElement, 'quantum-dashboard-snapshot.pdf');
 }

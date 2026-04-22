@@ -5,16 +5,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-// ─── aiService tests ──────────────────────────────────────
-
 import { aiService } from '../src/aiService';
-
-// ─── openaiService tests ──────────────────────────────────
-
 import { OpenAIService } from '../src/openaiService';
-
-// ─── reportExporter tests ─────────────────────────────────
-
 import { exportDashboardSnapshot, exportDataReport } from '../src/services/reportExporter';
 import WorkflowDiagnosticTool from '../src/WorkflowDiagnosticTool';
 
