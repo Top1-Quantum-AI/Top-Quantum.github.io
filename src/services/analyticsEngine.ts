@@ -106,7 +106,7 @@ const oscillate = (
   amplitude: number,
   t: number,
   period: number,
-  noise = 0.05,
+  noise = 0.05
 ): number => {
   const wave = base + amplitude * Math.sin((2 * Math.PI * t) / period);
   const n = (Math.random() - 0.5) * 2 * noise * base;
@@ -140,8 +140,14 @@ export class AnalyticsEngine {
 
   private initializeHistory(): void {
     const metrics = [
-      'cpu', 'memory', 'network', 'latency',
-      'throughput', 'errorRate', 'quantumUtilization', 'securityScore',
+      'cpu',
+      'memory',
+      'network',
+      'latency',
+      'throughput',
+      'errorRate',
+      'quantumUtilization',
+      'securityScore',
     ];
     for (const m of metrics) {
       this.history.set(m, []);
@@ -151,50 +157,82 @@ export class AnalyticsEngine {
   private initializeNetwork(): void {
     this.networkNodes = [
       {
-        id: 'qp-1', name: 'معالج كمي Alpha', type: 'quantum-processor',
-        status: 'online', x: 200, y: 100,
+        id: 'qp-1',
+        name: 'معالج كمي Alpha',
+        type: 'quantum-processor',
+        status: 'online',
+        x: 200,
+        y: 100,
         metrics: { latency: 0.5, bandwidth: 1000, packetLoss: 0, uptime: 99.99 },
         connections: ['gw-1', 'ai-1', 'sec-1'],
       },
       {
-        id: 'qp-2', name: 'معالج كمي Beta', type: 'quantum-processor',
-        status: 'online', x: 200, y: 300,
+        id: 'qp-2',
+        name: 'معالج كمي Beta',
+        type: 'quantum-processor',
+        status: 'online',
+        x: 200,
+        y: 300,
         metrics: { latency: 0.8, bandwidth: 800, packetLoss: 0.01, uptime: 99.95 },
         connections: ['gw-1', 'ai-2'],
       },
       {
-        id: 'ai-1', name: 'مجموعة AI-1', type: 'ai-cluster',
-        status: 'online', x: 400, y: 50,
+        id: 'ai-1',
+        name: 'مجموعة AI-1',
+        type: 'ai-cluster',
+        status: 'online',
+        x: 400,
+        y: 50,
         metrics: { latency: 2.1, bandwidth: 5000, packetLoss: 0, uptime: 99.97 },
         connections: ['qp-1', 'gw-1', 'st-1'],
       },
       {
-        id: 'ai-2', name: 'مجموعة AI-2', type: 'ai-cluster',
-        status: 'online', x: 400, y: 350,
+        id: 'ai-2',
+        name: 'مجموعة AI-2',
+        type: 'ai-cluster',
+        status: 'online',
+        x: 400,
+        y: 350,
         metrics: { latency: 1.8, bandwidth: 5000, packetLoss: 0, uptime: 99.98 },
         connections: ['qp-2', 'gw-1', 'st-1'],
       },
       {
-        id: 'sec-1', name: 'عقدة أمنية', type: 'security-node',
-        status: 'online', x: 400, y: 200,
+        id: 'sec-1',
+        name: 'عقدة أمنية',
+        type: 'security-node',
+        status: 'online',
+        x: 400,
+        y: 200,
         metrics: { latency: 0.3, bandwidth: 2000, packetLoss: 0, uptime: 99.999 },
         connections: ['qp-1', 'gw-1', 'edge-1'],
       },
       {
-        id: 'gw-1', name: 'بوابة رئيسية', type: 'gateway',
-        status: 'online', x: 600, y: 200,
+        id: 'gw-1',
+        name: 'بوابة رئيسية',
+        type: 'gateway',
+        status: 'online',
+        x: 600,
+        y: 200,
         metrics: { latency: 1.2, bandwidth: 10000, packetLoss: 0.001, uptime: 99.99 },
         connections: ['qp-1', 'qp-2', 'ai-1', 'ai-2', 'sec-1', 'st-1', 'edge-1'],
       },
       {
-        id: 'st-1', name: 'مخزن بيانات', type: 'storage',
-        status: 'online', x: 600, y: 400,
+        id: 'st-1',
+        name: 'مخزن بيانات',
+        type: 'storage',
+        status: 'online',
+        x: 600,
+        y: 400,
         metrics: { latency: 3.5, bandwidth: 8000, packetLoss: 0, uptime: 99.95 },
         connections: ['ai-1', 'ai-2', 'gw-1'],
       },
       {
-        id: 'edge-1', name: 'عقدة حافة', type: 'edge',
-        status: 'online', x: 800, y: 200,
+        id: 'edge-1',
+        name: 'عقدة حافة',
+        type: 'edge',
+        status: 'online',
+        x: 800,
+        y: 200,
         metrics: { latency: 15, bandwidth: 1000, packetLoss: 0.05, uptime: 99.5 },
         connections: ['gw-1', 'sec-1'],
       },
@@ -292,11 +330,46 @@ export class AnalyticsEngine {
       severity: Anomaly['severity'];
       desc: string;
     }> = [
-      { metric: 'cpu', value: snapshot.cpu, threshold: 85, above: true, severity: 'high', desc: 'استخدام المعالج مرتفع بشكل غير طبيعي' },
-      { metric: 'memory', value: snapshot.memory, threshold: 90, above: true, severity: 'critical', desc: 'الذاكرة قريبة من الحد الأقصى' },
-      { metric: 'latency', value: snapshot.latency, threshold: 20, above: true, severity: 'medium', desc: 'زمن الاستجابة مرتفع' },
-      { metric: 'errorRate', value: snapshot.errorRate, threshold: 2, above: true, severity: 'high', desc: 'معدل الأخطاء مرتفع' },
-      { metric: 'securityScore', value: snapshot.securityScore, threshold: 90, above: false, severity: 'critical', desc: 'انخفاض درجة الأمان' },
+      {
+        metric: 'cpu',
+        value: snapshot.cpu,
+        threshold: 85,
+        above: true,
+        severity: 'high',
+        desc: 'استخدام المعالج مرتفع بشكل غير طبيعي',
+      },
+      {
+        metric: 'memory',
+        value: snapshot.memory,
+        threshold: 90,
+        above: true,
+        severity: 'critical',
+        desc: 'الذاكرة قريبة من الحد الأقصى',
+      },
+      {
+        metric: 'latency',
+        value: snapshot.latency,
+        threshold: 20,
+        above: true,
+        severity: 'medium',
+        desc: 'زمن الاستجابة مرتفع',
+      },
+      {
+        metric: 'errorRate',
+        value: snapshot.errorRate,
+        threshold: 2,
+        above: true,
+        severity: 'high',
+        desc: 'معدل الأخطاء مرتفع',
+      },
+      {
+        metric: 'securityScore',
+        value: snapshot.securityScore,
+        threshold: 90,
+        above: false,
+        severity: 'critical',
+        desc: 'انخفاض درجة الأمان',
+      },
     ];
 
     for (const check of checks) {
@@ -319,22 +392,56 @@ export class AnalyticsEngine {
 
   private generateLog(snapshot: MetricSnapshot, now: number): void {
     const possibleLogs: Array<{ level: LogEntry['level']; source: string; message: string }> = [
-      { level: 'info', source: 'quantum-core', message: `حالة المعالج الكمي: ${snapshot.quantumUtilization.toFixed(1)}% استخدام` },
-      { level: 'info', source: 'ai-engine', message: `تحميل نماذج AI: ${snapshot.aiModelLoad.toFixed(1)}%` },
-      { level: 'debug', source: 'system', message: `CPU: ${snapshot.cpu.toFixed(1)}% | RAM: ${snapshot.memory.toFixed(1)}%` },
-      { level: 'info', source: 'network', message: `${snapshot.activeConnections} اتصال نشط | ${snapshot.requestsPerSecond} طلب/ثانية` },
-      { level: 'info', source: 'security', message: `درجة الأمان: ${snapshot.securityScore.toFixed(1)}% | معدل الخطأ: ${snapshot.errorRate.toFixed(2)}%` },
-      { level: 'info', source: 'api-gateway', message: `الإنتاجية: ${snapshot.throughput.toFixed(0)} عملية/ثانية` },
+      {
+        level: 'info',
+        source: 'quantum-core',
+        message: `حالة المعالج الكمي: ${snapshot.quantumUtilization.toFixed(1)}% استخدام`,
+      },
+      {
+        level: 'info',
+        source: 'ai-engine',
+        message: `تحميل نماذج AI: ${snapshot.aiModelLoad.toFixed(1)}%`,
+      },
+      {
+        level: 'debug',
+        source: 'system',
+        message: `CPU: ${snapshot.cpu.toFixed(1)}% | RAM: ${snapshot.memory.toFixed(1)}%`,
+      },
+      {
+        level: 'info',
+        source: 'network',
+        message: `${snapshot.activeConnections} اتصال نشط | ${snapshot.requestsPerSecond} طلب/ثانية`,
+      },
+      {
+        level: 'info',
+        source: 'security',
+        message: `درجة الأمان: ${snapshot.securityScore.toFixed(1)}% | معدل الخطأ: ${snapshot.errorRate.toFixed(2)}%`,
+      },
+      {
+        level: 'info',
+        source: 'api-gateway',
+        message: `الإنتاجية: ${snapshot.throughput.toFixed(0)} عملية/ثانية`,
+      },
     ];
 
     if (snapshot.cpu > 75) {
-      possibleLogs.push({ level: 'warn', source: 'system', message: `تحذير: استخدام المعالج عالي (${snapshot.cpu.toFixed(1)}%)` });
+      possibleLogs.push({
+        level: 'warn',
+        source: 'system',
+        message: `تحذير: استخدام المعالج عالي (${snapshot.cpu.toFixed(1)}%)`,
+      });
     }
     if (snapshot.errorRate > 1.5) {
-      possibleLogs.push({ level: 'error', source: 'system', message: `معدل أخطاء مرتفع: ${snapshot.errorRate.toFixed(2)}%` });
+      possibleLogs.push({
+        level: 'error',
+        source: 'system',
+        message: `معدل أخطاء مرتفع: ${snapshot.errorRate.toFixed(2)}%`,
+      });
     }
 
-    const entry = possibleLogs[Math.floor(Math.random() * possibleLogs.length)] as typeof possibleLogs[0];
+    const entry = possibleLogs[
+      Math.floor(Math.random() * possibleLogs.length)
+    ] as (typeof possibleLogs)[0];
     this.logs.push({
       id: `log-${now}`,
       timestamp: now,
@@ -353,7 +460,10 @@ export class AnalyticsEngine {
       // Slightly fluctuate metrics
       node.metrics.latency = Math.max(0.1, node.metrics.latency + (Math.random() - 0.5) * 0.3);
       node.metrics.bandwidth = Math.max(100, node.metrics.bandwidth + (Math.random() - 0.5) * 50);
-      node.metrics.packetLoss = Math.max(0, Math.min(1, node.metrics.packetLoss + (Math.random() - 0.5) * 0.005));
+      node.metrics.packetLoss = Math.max(
+        0,
+        Math.min(1, node.metrics.packetLoss + (Math.random() - 0.5) * 0.005)
+      );
 
       // Occasionally switch status
       if (Math.random() < 0.002) {
@@ -364,9 +474,18 @@ export class AnalyticsEngine {
 
   getReport(): AnalyticsReport {
     const current = this.lastSnapshot ?? {
-      cpu: 0, memory: 0, disk: 0, network: 0, latency: 0,
-      throughput: 0, errorRate: 0, activeConnections: 0,
-      requestsPerSecond: 0, quantumUtilization: 0, aiModelLoad: 0, securityScore: 0,
+      cpu: 0,
+      memory: 0,
+      disk: 0,
+      network: 0,
+      latency: 0,
+      throughput: 0,
+      errorRate: 0,
+      activeConnections: 0,
+      requestsPerSecond: 0,
+      quantumUtilization: 0,
+      aiModelLoad: 0,
+      securityScore: 0,
     };
 
     const getArr = (key: string): TimeSeriesPoint[] => this.history.get(key) ?? [];
@@ -401,10 +520,38 @@ export class AnalyticsEngine {
     const secArr = getArr('securityScore');
 
     const predictions: Prediction[] = [
-      { metric: 'المعالج', currentValue: current.cpu, predictedValue: meanRevert(current.cpu, 42, 0.3, 0), confidence: 85, timeHorizon: '5 دقائق', trend: trend(cpuArr) },
-      { metric: 'الذاكرة', currentValue: current.memory, predictedValue: meanRevert(current.memory, 60, 0.3, 0), confidence: 90, timeHorizon: '5 دقائق', trend: trend(memArr) },
-      { metric: 'الشبكة', currentValue: current.network, predictedValue: meanRevert(current.network, 55, 0.3, 0), confidence: 75, timeHorizon: '5 دقائق', trend: trend(netArr) },
-      { metric: 'الأمان', currentValue: current.securityScore, predictedValue: meanRevert(current.securityScore, 97.5, 0.1, 0), confidence: 92, timeHorizon: '10 دقائق', trend: trend(secArr) },
+      {
+        metric: 'المعالج',
+        currentValue: current.cpu,
+        predictedValue: meanRevert(current.cpu, 42, 0.3, 0),
+        confidence: 85,
+        timeHorizon: '5 دقائق',
+        trend: trend(cpuArr),
+      },
+      {
+        metric: 'الذاكرة',
+        currentValue: current.memory,
+        predictedValue: meanRevert(current.memory, 60, 0.3, 0),
+        confidence: 90,
+        timeHorizon: '5 دقائق',
+        trend: trend(memArr),
+      },
+      {
+        metric: 'الشبكة',
+        currentValue: current.network,
+        predictedValue: meanRevert(current.network, 55, 0.3, 0),
+        confidence: 75,
+        timeHorizon: '5 دقائق',
+        trend: trend(netArr),
+      },
+      {
+        metric: 'الأمان',
+        currentValue: current.securityScore,
+        predictedValue: meanRevert(current.securityScore, 97.5, 0.1, 0),
+        confidence: 92,
+        timeHorizon: '10 دقائق',
+        trend: trend(secArr),
+      },
     ];
 
     return {

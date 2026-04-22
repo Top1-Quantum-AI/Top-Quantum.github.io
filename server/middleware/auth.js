@@ -17,84 +17,80 @@ export const authMiddleware = async (req, res, next) => {
   try {
     // 1) Getting token and check if it's there - الحصول على الرمز والتحقق من وجوده
     let token;
-    
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-    ) {
+
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
     }
-    
+
     if (!token) {
       return res.status(401).json({
         success: false,
         error: 'غير مصرح لك بالوصول. يرجى تسجيل الدخول.',
-        errorEn: 'You are not logged in! Please log in to get access.'
+        errorEn: 'You are not logged in! Please log in to get access.',
       });
     }
-    
+
     // 2) Verification token - التحقق من الرمز
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    
+
     // 3) Check if user still exists - التحقق من وجود المستخدم
     const currentUser = await User.findById(decoded.userId);
     if (!currentUser) {
       return res.status(401).json({
         success: false,
         error: 'المستخدم الذي ينتمي إليه هذا الرمز لم يعد موجوداً.',
-        errorEn: 'The user belonging to this token does no longer exist.'
+        errorEn: 'The user belonging to this token does no longer exist.',
       });
     }
-    
+
     // 4) Check if user is active - التحقق من نشاط المستخدم
     if (!currentUser.isActive) {
       return res.status(401).json({
         success: false,
         error: 'حسابك غير نشط. يرجى الاتصال بالدعم.',
-        errorEn: 'Your account is not active. Please contact support.'
+        errorEn: 'Your account is not active. Please contact support.',
       });
     }
-    
+
     // 5) Check if account is locked - التحقق من قفل الحساب
     if (currentUser.isLocked) {
       return res.status(423).json({
         success: false,
         error: 'حسابك مقفل مؤقتاً. يرجى المحاولة لاحقاً.',
-        errorEn: 'Your account is temporarily locked. Please try again later.'
+        errorEn: 'Your account is temporarily locked. Please try again later.',
       });
     }
-    
+
     // 6) Update last activity - تحديث آخر نشاط
     currentUser.lastActivity = new Date();
     await currentUser.save({ validateBeforeSave: false });
-    
+
     // GRANT ACCESS TO PROTECTED ROUTE - منح الوصول للمسار المحمي
     req.user = currentUser;
     next();
-    
   } catch (error) {
     console.error('Auth middleware error:', error);
-    
+
     if (error.name === 'JsonWebTokenError') {
       return res.status(401).json({
         success: false,
         error: 'رمز غير صالح. يرجى تسجيل الدخول مرة أخرى!',
-        errorEn: 'Invalid token. Please log in again!'
+        errorEn: 'Invalid token. Please log in again!',
       });
     } else if (error.name === 'TokenExpiredError') {
       return res.status(401).json({
         success: false,
         error: 'انتهت صلاحية الرمز! يرجى تسجيل الدخول مرة أخرى.',
-        errorEn: 'Your token has expired! Please log in again.'
+        errorEn: 'Your token has expired! Please log in again.',
       });
     }
-    
+
     return res.status(500).json({
       success: false,
       error: 'خطأ في الخادم الداخلي',
-      errorEn: 'Internal server error'
+      errorEn: 'Internal server error',
     });
   }
 };
@@ -111,10 +107,10 @@ export const restrictTo = (...roles) => {
       return res.status(403).json({
         success: false,
         error: 'ليس لديك صلاحية للقيام بهذا الإجراء',
-        errorEn: 'You do not have permission to perform this action'
+        errorEn: 'You do not have permission to perform this action',
       });
     }
-    
+
     next();
   };
 };
@@ -128,7 +124,7 @@ export const trackApiUsage = (tokenCost = 1) => {
   return async (req, res, next) => {
     try {
       const user = req.user;
-      
+
       // Check if user has exceeded daily limits - التحقق من تجاوز الحدود اليومية
       if (user.apiUsage.dailyRequests >= user.apiUsage.limits.dailyRequests) {
         return res.status(429).json({
@@ -140,12 +136,12 @@ export const trackApiUsage = (tokenCost = 1) => {
             dailyTokens: user.apiUsage.limits.dailyTokens,
             current: {
               requests: user.apiUsage.dailyRequests,
-              tokens: user.apiUsage.dailyTokens
-            }
-          }
+              tokens: user.apiUsage.dailyTokens,
+            },
+          },
         });
       }
-      
+
       if (user.apiUsage.dailyTokens + tokenCost > user.apiUsage.limits.dailyTokens) {
         return res.status(429).json({
           success: false,
@@ -156,30 +152,29 @@ export const trackApiUsage = (tokenCost = 1) => {
             dailyTokens: user.apiUsage.limits.dailyTokens,
             current: {
               requests: user.apiUsage.dailyRequests,
-              tokens: user.apiUsage.dailyTokens
-            }
-          }
+              tokens: user.apiUsage.dailyTokens,
+            },
+          },
         });
       }
-      
+
       // Update usage - تحديث الاستخدام
       await user.updateApiUsage(1, tokenCost);
-      
+
       // Add usage info to request - إضافة معلومات الاستخدام للطلب
       req.apiUsage = {
         requestsUsed: user.apiUsage.dailyRequests + 1,
         tokensUsed: user.apiUsage.dailyTokens + tokenCost,
-        limits: user.apiUsage.limits
+        limits: user.apiUsage.limits,
       };
-      
+
       next();
-      
     } catch (error) {
       console.error('API usage tracking error:', error);
       return res.status(500).json({
         success: false,
         error: 'خطأ في تتبع استخدام API',
-        errorEn: 'API usage tracking error'
+        errorEn: 'API usage tracking error',
       });
     }
   };
@@ -193,21 +188,18 @@ export const trackApiUsage = (tokenCost = 1) => {
 export const optionalAuth = async (req, res, next) => {
   try {
     let token;
-    
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-    ) {
+
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
     }
-    
+
     if (token && token !== 'loggedout') {
       try {
         const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
         const currentUser = await User.findById(decoded.userId);
-        
+
         if (currentUser && currentUser.isActive && !currentUser.isLocked) {
           req.user = currentUser;
         }
@@ -217,9 +209,8 @@ export const optionalAuth = async (req, res, next) => {
         console.log('Optional auth - invalid token:', error.message);
       }
     }
-    
+
     next();
-    
   } catch (error) {
     console.error('Optional auth middleware error:', error);
     next(); // Continue without authentication
@@ -237,10 +228,10 @@ export const requireEmailVerification = (req, res, next) => {
       success: false,
       error: 'يرجى التحقق من بريدك الإلكتروني أولاً',
       errorEn: 'Please verify your email first',
-      requiresEmailVerification: true
+      requiresEmailVerification: true,
     });
   }
-  
+
   next();
 };
 
@@ -253,7 +244,7 @@ export const requireSubscription = (requiredTier = 'premium') => {
   return (req, res, next) => {
     const user = req.user;
     const subscription = user.subscription;
-    
+
     // Check if subscription is active - التحقق من نشاط الاشتراك
     if (!subscription.isActive || subscription.expiresAt < new Date()) {
       return res.status(403).json({
@@ -264,22 +255,22 @@ export const requireSubscription = (requiredTier = 'premium') => {
           current: subscription.tier,
           required: requiredTier,
           isActive: subscription.isActive,
-          expiresAt: subscription.expiresAt
-        }
+          expiresAt: subscription.expiresAt,
+        },
       });
     }
-    
+
     // Check subscription tier - فحص مستوى الاشتراك
     const tierLevels = {
-      'free': 0,
-      'basic': 1,
-      'premium': 2,
-      'enterprise': 3
+      free: 0,
+      basic: 1,
+      premium: 2,
+      enterprise: 3,
     };
-    
+
     const userTierLevel = tierLevels[subscription.tier] || 0;
     const requiredTierLevel = tierLevels[requiredTier] || 0;
-    
+
     if (userTierLevel < requiredTierLevel) {
       return res.status(403).json({
         success: false,
@@ -289,11 +280,11 @@ export const requireSubscription = (requiredTier = 'premium') => {
           current: subscription.tier,
           required: requiredTier,
           isActive: subscription.isActive,
-          expiresAt: subscription.expiresAt
-        }
+          expiresAt: subscription.expiresAt,
+        },
       });
     }
-    
+
     next();
   };
 };
@@ -305,32 +296,32 @@ export const requireSubscription = (requiredTier = 'premium') => {
  */
 export const userBasedRateLimit = (baseLimit = 10, windowMs = 15 * 60 * 1000) => {
   const userRequests = new Map();
-  
+
   return (req, res, next) => {
     const userId = req.user?.id || req.ip;
     const now = Date.now();
-    
+
     // Get user's rate limit based on subscription - الحصول على حد المعدل للمستخدم بناءً على الاشتراك
     let userLimit = baseLimit;
     if (req.user) {
       const subscription = req.user.subscription;
       const multipliers = {
-        'free': 1,
-        'basic': 2,
-        'premium': 5,
-        'enterprise': 10
+        free: 1,
+        basic: 2,
+        premium: 5,
+        enterprise: 10,
       };
       userLimit = baseLimit * (multipliers[subscription.tier] || 1);
     }
-    
+
     // Clean old requests - تنظيف الطلبات القديمة
     if (!userRequests.has(userId)) {
       userRequests.set(userId, []);
     }
-    
+
     const requests = userRequests.get(userId);
     const validRequests = requests.filter(time => now - time < windowMs);
-    
+
     if (validRequests.length >= userLimit) {
       return res.status(429).json({
         success: false,
@@ -339,22 +330,22 @@ export const userBasedRateLimit = (baseLimit = 10, windowMs = 15 * 60 * 1000) =>
         rateLimit: {
           limit: userLimit,
           remaining: 0,
-          resetTime: new Date(now + windowMs)
-        }
+          resetTime: new Date(now + windowMs),
+        },
       });
     }
-    
+
     // Add current request - إضافة الطلب الحالي
     validRequests.push(now);
     userRequests.set(userId, validRequests);
-    
+
     // Add rate limit headers - إضافة رؤوس حد المعدل
     res.set({
       'X-RateLimit-Limit': userLimit,
       'X-RateLimit-Remaining': userLimit - validRequests.length,
-      'X-RateLimit-Reset': new Date(now + windowMs)
+      'X-RateLimit-Reset': new Date(now + windowMs),
     });
-    
+
     next();
   };
 };
@@ -367,5 +358,5 @@ export default {
   optionalAuth,
   requireEmailVerification,
   requireSubscription,
-  userBasedRateLimit
+  userBasedRateLimit,
 };

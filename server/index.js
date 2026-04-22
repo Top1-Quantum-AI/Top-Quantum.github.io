@@ -1,7 +1,7 @@
 /**
  * Quantum AI System - Production Server
  * خادم النظام الكمي للذكاء الاصطناعي - بيئة الإنتاج
- * 
+ *
  * This is the main server file that initializes and runs the quantum AI system
  * هذا هو ملف الخادم الرئيسي الذي يقوم بتهيئة وتشغيل نظام الذكاء الاصطناعي الكمي
  */
@@ -92,7 +92,6 @@ async function connectDatabase() {
     await redis.connect();
     console.log('✅ Redis connected successfully');
     console.log('✅ تم الاتصال بـ Redis بنجاح');
-
   } catch (error) {
     console.error('❌ Database connection failed:', error.message);
     console.error('❌ فشل الاتصال بقاعدة البيانات:', error.message);
@@ -108,18 +107,18 @@ function initializeServices() {
   try {
     // Initialize monitoring service
     monitoringService = new MonitoringService(redis);
-    
+
     // Initialize quantum service
     quantumService = new QuantumService();
-    
+
     // Initialize AI service
     aiService = new AIService({
       openaiApiKey: process.env.OPENAI_API_KEY,
       redis: redis,
       rateLimitConfig: {
         windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 100 // requests per window
-      }
+        max: 100, // requests per window
+      },
     });
 
     console.log('✅ All services initialized successfully');
@@ -137,22 +136,24 @@ function initializeServices() {
  */
 function setupSecurity() {
   // Helmet for security headers
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'"],
-        fontSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        mediaSrc: ["'self'"],
-        frameSrc: ["'none'"],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrc: ["'self'"],
+          imgSrc: ["'self'", 'data:', 'https:'],
+          connectSrc: ["'self'"],
+          fontSrc: ["'self'"],
+          objectSrc: ["'none'"],
+          mediaSrc: ["'self'"],
+          frameSrc: ["'none'"],
+        },
       },
-    },
-    crossOriginEmbedderPolicy: false
-  }));
+      crossOriginEmbedderPolicy: false,
+    })
+  );
 
   // CORS configuration
   const corsOptions = {
@@ -176,7 +177,7 @@ function setupSecurity() {
     max: process.env.RATE_LIMIT_MAX || 100, // limit each IP to 100 requests per windowMs
     message: {
       error: 'Too many requests from this IP, please try again later.',
-      message: 'طلبات كثيرة جداً من هذا العنوان، يرجى المحاولة لاحقاً.'
+      message: 'طلبات كثيرة جداً من هذا العنوان، يرجى المحاولة لاحقاً.',
     },
     standardHeaders: true,
     legacyHeaders: false,
@@ -233,7 +234,7 @@ function setupRoutes() {
           mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
           redis: redis.status === 'ready' ? 'connected' : 'disconnected',
         },
-        version: process.env.npm_package_version || '1.0.0'
+        version: process.env.npm_package_version || '1.0.0',
       };
 
       res.status(200).json(health);
@@ -241,7 +242,7 @@ function setupRoutes() {
       res.status(500).json({
         status: 'unhealthy',
         error: error.message,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   });
@@ -260,7 +261,7 @@ function setupRoutes() {
     const buildPath = join(__dirname, '../dist');
     if (fs.existsSync(buildPath)) {
       app.use(express.static(buildPath));
-      
+
       // Handle React Router
       app.get('*', (req, res) => {
         res.sendFile(join(buildPath, 'index.html'));
@@ -273,7 +274,7 @@ function setupRoutes() {
     res.status(404).json({
       error: 'Route not found',
       message: 'المسار غير موجود',
-      path: req.originalUrl
+      path: req.originalUrl,
     });
   });
 
@@ -289,7 +290,7 @@ function setupRoutes() {
  * إغلاق نظيف للخادم
  */
 function setupGracefulShutdown(server) {
-  const gracefulShutdown = async (signal) => {
+  const gracefulShutdown = async signal => {
     console.log(`\n🔄 Received ${signal}. Starting graceful shutdown...`);
     console.log(`\n🔄 تم استلام إشارة ${signal}. بدء الإغلاق النظيف...`);
 
@@ -340,7 +341,7 @@ function setupGracefulShutdown(server) {
   process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
   // Handle uncaught exceptions
-  process.on('uncaughtException', (error) => {
+  process.on('uncaughtException', error => {
     console.error('❌ Uncaught Exception:', error);
     console.error('❌ استثناء غير معالج:', error);
     gracefulShutdown('UNCAUGHT_EXCEPTION');
@@ -386,7 +387,7 @@ async function startServer() {
       console.log(`🌐 البيئة: ${process.env.NODE_ENV || 'development'}`);
       console.log(`📊 Health check: http://localhost:${PORT}/health`);
       console.log(`📊 فحص الصحة: http://localhost:${PORT}/health`);
-      
+
       if (process.env.NODE_ENV !== 'production') {
         console.log(`🔧 API Documentation: http://localhost:${PORT}/api-docs`);
         console.log(`🔧 وثائق API: http://localhost:${PORT}/api-docs`);
@@ -414,7 +415,7 @@ async function startServer() {
 // Start the server if this file is run directly
 const isDirectRun = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
 if (isDirectRun) {
-  startServer().catch((error) => {
+  startServer().catch(error => {
     console.error('❌ Server startup failed:', error);
     console.error('❌ فشل بدء تشغيل الخادم:', error);
     process.exit(1);

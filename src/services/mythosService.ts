@@ -60,10 +60,7 @@ export interface HealthStatus {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────
 
-const request = async <T>(
-  path: string,
-  options?: RequestInit,
-): Promise<T> => {
+const request = async <T>(path: string, options?: RequestInit): Promise<T> => {
   const res = await fetch(`${BASE}${path}`, {
     headers: { 'Content-Type': 'application/json' },
     ...options,
@@ -78,10 +75,7 @@ const request = async <T>(
 // ─── API ──────────────────────────────────────────────────────────────────
 
 /** Create a new model instance on the Python service. */
-export const createModel = (
-  modelId: string,
-  config: MythosConfigInput,
-): Promise<ModelInfo> =>
+export const createModel = (modelId: string, config: MythosConfigInput): Promise<ModelInfo> =>
   request<ModelInfo>('/models/create', {
     method: 'POST',
     body: JSON.stringify({ model_id: modelId, config }),
@@ -103,7 +97,7 @@ export const listModels = (): Promise<{ models: ModelInfo[] }> =>
 export const forwardPass = (
   modelId: string,
   inputIds: number[][],
-  nLoops = 4,
+  nLoops = 4
 ): Promise<ForwardResult> =>
   request<ForwardResult>(`/models/${modelId}/forward`, {
     method: 'POST',
@@ -122,7 +116,7 @@ export const generateTokens = (
   maxNewTokens = 20,
   nLoops = 4,
   temperature = 1.0,
-  topK = 50,
+  topK = 50
 ): Promise<GenerateResult> =>
   request<GenerateResult>(`/models/${modelId}/generate`, {
     method: 'POST',
@@ -136,5 +130,4 @@ export const generateTokens = (
   });
 
 /** Check the health of the Python microservice. */
-export const getMythosHealth = (): Promise<HealthStatus> =>
-  request<HealthStatus>('/health');
+export const getMythosHealth = (): Promise<HealthStatus> => request<HealthStatus>('/health');

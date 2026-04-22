@@ -12,19 +12,26 @@ import PricingPage from '../src/pages/PricingPage';
 jest.mock('framer-motion', () => ({
   motion: {
     div: ({ children, ...p }: React.HTMLProps<HTMLDivElement>) => <div {...p}>{children}</div>,
-    section: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <section {...p}>{children}</section>,
+    section: ({ children, ...p }: React.HTMLProps<HTMLElement>) => (
+      <section {...p}>{children}</section>
+    ),
     h1: ({ children, ...p }: React.HTMLProps<HTMLHeadingElement>) => <h1 {...p}>{children}</h1>,
     h2: ({ children, ...p }: React.HTMLProps<HTMLHeadingElement>) => <h2 {...p}>{children}</h2>,
     p: ({ children, ...p }: React.HTMLProps<HTMLParagraphElement>) => <p {...p}>{children}</p>,
     span: ({ children, ...p }: React.HTMLProps<HTMLSpanElement>) => <span {...p}>{children}</span>,
-    button: ({ children, ...p }: React.HTMLProps<HTMLButtonElement>) =>
-      <button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{children}</button>,
+    button: ({ children, ...p }: React.HTMLProps<HTMLButtonElement>) => (
+      <button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{children}</button>
+    ),
     a: ({ children, ...p }: React.HTMLProps<HTMLAnchorElement>) => <a {...p}>{children}</a>,
     li: ({ children, ...p }: React.HTMLProps<HTMLLIElement>) => <li {...p}>{children}</li>,
     ul: ({ children, ...p }: React.HTMLProps<HTMLUListElement>) => <ul {...p}>{children}</ul>,
     nav: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <nav {...p}>{children}</nav>,
-    header: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <header {...p}>{children}</header>,
-    footer: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <footer {...p}>{children}</footer>,
+    header: ({ children, ...p }: React.HTMLProps<HTMLElement>) => (
+      <header {...p}>{children}</header>
+    ),
+    footer: ({ children, ...p }: React.HTMLProps<HTMLElement>) => (
+      <footer {...p}>{children}</footer>
+    ),
     img: (p: React.HTMLProps<HTMLImageElement>) => <img {...p} />,
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
@@ -33,10 +40,18 @@ jest.mock('framer-motion', () => ({
 }));
 
 const renderLanding = () =>
-  render(<MemoryRouter><LandingPage /></MemoryRouter>);
+  render(
+    <MemoryRouter>
+      <LandingPage />
+    </MemoryRouter>
+  );
 
 const renderPricing = () =>
-  render(<MemoryRouter><PricingPage /></MemoryRouter>);
+  render(
+    <MemoryRouter>
+      <PricingPage />
+    </MemoryRouter>
+  );
 
 // ─── LandingPage ──────────────────────────────────────────
 
@@ -98,9 +113,7 @@ describe('LandingPage', () => {
     const mockNavigate = jest.fn();
     // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/consistent-type-imports
     const reactRouterDom = require('react-router-dom') as typeof import('react-router-dom');
-    const useNavigateSpy = jest
-      .spyOn(reactRouterDom, 'useNavigate')
-      .mockReturnValue(mockNavigate);
+    const useNavigateSpy = jest.spyOn(reactRouterDom, 'useNavigate').mockReturnValue(mockNavigate);
 
     renderLanding();
     // Just verify the page rendered — navigation is tested via App

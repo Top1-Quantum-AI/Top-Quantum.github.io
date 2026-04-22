@@ -5,4 +5,3 @@ Object.assign(globalThis, { TextEncoder, TextDecoder });
 process.env['VITE_API_URL'] = process.env['VITE_API_URL'] ?? '/api';
 process.env['VITE_OPENAI_API_KEY'] = process.env['VITE_OPENAI_API_KEY'] ?? '';
 process.env['VITE_GROQ_API_KEY'] = process.env['VITE_GROQ_API_KEY'] ?? '';
-

@@ -1,7 +1,7 @@
 # Docker Compose للنظام الكمي المتقدم
 # Advanced Quantum System Docker Compose Configuration
 
-version: '3.8'
+version: "3.8"
 
 services:
   # API Gateway - بوابة النظام الموحدة
@@ -53,10 +53,10 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '1.0'
+          cpus: "1.0"
         reservations:
           memory: 1G
-          cpus: '0.5'
+          cpus: "0.5"
 
   # AI Agents Service - خدمة وكلاء الذكاء الاصطناعي
   ai-agents:
@@ -78,7 +78,7 @@ services:
       resources:
         limits:
           memory: 1G
-          cpus: '0.5'
+          cpus: "0.5"
 
   # Quantum Dashboard Service - لوحة التحكم
   quantum-dashboard:
@@ -132,12 +132,7 @@ services:
       - "8222:8222"
     networks:
       - quantum-network
-    command: [
-      "--jetstream",
-      "--store_dir=/data",
-      "--max_memory=1G",
-      "--max_file=10G"
-    ]
+    command: ["--jetstream", "--store_dir=/data", "--max_memory=1G", "--max_file=10G"]
     volumes:
       - nats-data:/data
 
@@ -178,12 +173,12 @@ services:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--storage.tsdb.retention.time=200h'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--storage.tsdb.retention.time=200h"
+      - "--web.enable-lifecycle"
 
   # Grafana - لوحات المراقبة
   grafana:

@@ -35,42 +35,84 @@ type Gate2x2 = [[Complex, Complex], [Complex, Complex]];
 const H: Gate2x2 = (() => {
   const s = 1 / Math.sqrt(2);
   return [
-    [{ re: s, im: 0 }, { re: s, im: 0 }],
-    [{ re: s, im: 0 }, { re: -s, im: 0 }],
+    [
+      { re: s, im: 0 },
+      { re: s, im: 0 },
+    ],
+    [
+      { re: s, im: 0 },
+      { re: -s, im: 0 },
+    ],
   ];
 })();
 
 const X: Gate2x2 = [
-  [{ re: 0, im: 0 }, { re: 1, im: 0 }],
-  [{ re: 1, im: 0 }, { re: 0, im: 0 }],
+  [
+    { re: 0, im: 0 },
+    { re: 1, im: 0 },
+  ],
+  [
+    { re: 1, im: 0 },
+    { re: 0, im: 0 },
+  ],
 ];
 
 const Y: Gate2x2 = [
-  [{ re: 0, im: 0 }, { re: 0, im: 1 }],
-  [{ re: 0, im: -1 }, { re: 0, im: 0 }],
+  [
+    { re: 0, im: 0 },
+    { re: 0, im: 1 },
+  ],
+  [
+    { re: 0, im: -1 },
+    { re: 0, im: 0 },
+  ],
 ];
 
 const Z: Gate2x2 = [
-  [{ re: 1, im: 0 }, { re: 0, im: 0 }],
-  [{ re: 0, im: 0 }, { re: -1, im: 0 }],
+  [
+    { re: 1, im: 0 },
+    { re: 0, im: 0 },
+  ],
+  [
+    { re: 0, im: 0 },
+    { re: -1, im: 0 },
+  ],
 ];
 
 const T: Gate2x2 = [
-  [{ re: 1, im: 0 }, { re: 0, im: 0 }],
-  [{ re: 0, im: 0 }, { re: Math.cos(Math.PI / 4), im: Math.sin(Math.PI / 4) }],
+  [
+    { re: 1, im: 0 },
+    { re: 0, im: 0 },
+  ],
+  [
+    { re: 0, im: 0 },
+    { re: Math.cos(Math.PI / 4), im: Math.sin(Math.PI / 4) },
+  ],
 ];
 
 const S: Gate2x2 = [
-  [{ re: 1, im: 0 }, { re: 0, im: 0 }],
-  [{ re: 0, im: 0 }, { re: 0, im: 1 }],
+  [
+    { re: 1, im: 0 },
+    { re: 0, im: 0 },
+  ],
+  [
+    { re: 0, im: 0 },
+    { re: 0, im: 1 },
+  ],
 ];
 
 const Rx = (theta: number): Gate2x2 => {
   const c = Math.cos(theta / 2);
   const s = Math.sin(theta / 2);
   return [
-    [{ re: c, im: 0 }, { re: 0, im: -s }],
-    [{ re: 0, im: -s }, { re: c, im: 0 }],
+    [
+      { re: c, im: 0 },
+      { re: 0, im: -s },
+    ],
+    [
+      { re: 0, im: -s },
+      { re: c, im: 0 },
+    ],
   ];
 };
 
@@ -78,22 +120,44 @@ const Ry = (theta: number): Gate2x2 => {
   const c = Math.cos(theta / 2);
   const s = Math.sin(theta / 2);
   return [
-    [{ re: c, im: 0 }, { re: -s, im: 0 }],
-    [{ re: s, im: 0 }, { re: c, im: 0 }],
+    [
+      { re: c, im: 0 },
+      { re: -s, im: 0 },
+    ],
+    [
+      { re: s, im: 0 },
+      { re: c, im: 0 },
+    ],
   ];
 };
 
 const Rz = (theta: number): Gate2x2 => [
-  [{ re: Math.cos(theta / 2), im: -Math.sin(theta / 2) }, { re: 0, im: 0 }],
-  [{ re: 0, im: 0 }, { re: Math.cos(theta / 2), im: Math.sin(theta / 2) }],
+  [
+    { re: Math.cos(theta / 2), im: -Math.sin(theta / 2) },
+    { re: 0, im: 0 },
+  ],
+  [
+    { re: 0, im: 0 },
+    { re: Math.cos(theta / 2), im: Math.sin(theta / 2) },
+  ],
 ];
 
 // ─── Gate Type ──────────────────────────────────────────────────
 
 export type GateName =
-  | 'H' | 'X' | 'Y' | 'Z' | 'T' | 'S'
-  | 'Rx' | 'Ry' | 'Rz'
-  | 'CNOT' | 'SWAP' | 'Toffoli' | 'Measure';
+  | 'H'
+  | 'X'
+  | 'Y'
+  | 'Z'
+  | 'T'
+  | 'S'
+  | 'Rx'
+  | 'Ry'
+  | 'Rz'
+  | 'CNOT'
+  | 'SWAP'
+  | 'Toffoli'
+  | 'Measure';
 
 export interface GateOp {
   gate: GateName;
@@ -119,16 +183,26 @@ export interface SimulationResult {
 
 const getGateMatrix = (name: GateName, params?: number[]): Gate2x2 | null => {
   switch (name) {
-    case 'H': return H;
-    case 'X': return X;
-    case 'Y': return Y;
-    case 'Z': return Z;
-    case 'T': return T;
-    case 'S': return S;
-    case 'Rx': return Rx(params?.[0] ?? 0);
-    case 'Ry': return Ry(params?.[0] ?? 0);
-    case 'Rz': return Rz(params?.[0] ?? 0);
-    default: return null;
+    case 'H':
+      return H;
+    case 'X':
+      return X;
+    case 'Y':
+      return Y;
+    case 'Z':
+      return Z;
+    case 'T':
+      return T;
+    case 'S':
+      return S;
+    case 'Rx':
+      return Rx(params?.[0] ?? 0);
+    case 'Ry':
+      return Ry(params?.[0] ?? 0);
+    case 'Rz':
+      return Rz(params?.[0] ?? 0);
+    default:
+      return null;
   }
 };
 
@@ -137,7 +211,7 @@ const applySingleQubitGate = (
   state: Complex[],
   _numQubits: number,
   target: number,
-  gate: Gate2x2,
+  gate: Gate2x2
 ): Complex[] => {
   const dim = state.length;
   const result: Complex[] = state.map(c => ({ ...c }));
@@ -156,11 +230,7 @@ const applySingleQubitGate = (
 };
 
 /** Apply CNOT gate */
-const applyCNOT = (
-  state: Complex[],
-  control: number,
-  target: number,
-): Complex[] => {
+const applyCNOT = (state: Complex[], control: number, target: number): Complex[] => {
   const dim = state.length;
   const result: Complex[] = state.map(c => ({ ...c }));
   const cBit = 1 << control;
@@ -177,11 +247,7 @@ const applyCNOT = (
 };
 
 /** Apply SWAP gate */
-const applySWAP = (
-  state: Complex[],
-  q1: number,
-  q2: number,
-): Complex[] => {
+const applySWAP = (state: Complex[], q1: number, q2: number): Complex[] => {
   const dim = state.length;
   const result: Complex[] = state.map(c => ({ ...c }));
   const b1 = 1 << q1;
@@ -202,12 +268,7 @@ const applySWAP = (
 };
 
 /** Apply Toffoli (CCX) gate */
-const applyToffoli = (
-  state: Complex[],
-  c1: number,
-  c2: number,
-  target: number,
-): Complex[] => {
+const applyToffoli = (state: Complex[], c1: number, c2: number, target: number): Complex[] => {
   const dim = state.length;
   const result: Complex[] = state.map(c => ({ ...c }));
   const cb1 = 1 << c1;
@@ -228,7 +289,7 @@ const applyToffoli = (
 const measureAll = (
   state: Complex[],
   numQubits: number,
-  numShots: number,
+  numShots: number
 ): Record<string, number> => {
   const probs = state.map(c => cxMag2(c));
   const counts: Record<string, number> = {};
@@ -252,15 +313,21 @@ const measureAll = (
 /** Compute reduced density matrix and Bloch sphere coordinates per qubit */
 const computeBlochSpheres = (
   state: Complex[],
-  numQubits: number,
+  numQubits: number
 ): Array<{ qubit: number; theta: number; phi: number }> => {
   const result: Array<{ qubit: number; theta: number; phi: number }> = [];
 
   for (let q = 0; q < numQubits; q++) {
     // Trace out everything except qubit q to get 2x2 reduced density matrix
     const rho: [[Complex, Complex], [Complex, Complex]] = [
-      [{ re: 0, im: 0 }, { re: 0, im: 0 }],
-      [{ re: 0, im: 0 }, { re: 0, im: 0 }],
+      [
+        { re: 0, im: 0 },
+        { re: 0, im: 0 },
+      ],
+      [
+        { re: 0, im: 0 },
+        { re: 0, im: 0 },
+      ],
     ];
     const bit = 1 << q;
 
@@ -292,12 +359,9 @@ const computeBlochSpheres = (
 };
 
 /** Compute entanglement map - simplified concurrence estimation */
-const computeEntanglementMap = (
-  state: Complex[],
-  numQubits: number,
-): boolean[][] => {
+const computeEntanglementMap = (state: Complex[], numQubits: number): boolean[][] => {
   const map: boolean[][] = Array.from({ length: numQubits }, () =>
-    Array.from({ length: numQubits }, () => false),
+    Array.from({ length: numQubits }, () => false)
   );
 
   for (let q1 = 0; q1 < numQubits; q1++) {
@@ -305,7 +369,10 @@ const computeEntanglementMap = (
       // Check if qubits are entangled by comparing product-state overlap
       const b1 = 1 << q1;
       const b2 = 1 << q2;
-      let p00 = 0, p01 = 0, p10 = 0, p11 = 0;
+      let p00 = 0,
+        p01 = 0,
+        p10 = 0,
+        p11 = 0;
 
       for (let i = 0; i < state.length; i++) {
         const v1 = (i & b1) !== 0 ? 1 : 0;
@@ -336,7 +403,7 @@ export const simulateCircuit = (
   numQubits: number,
   gates: GateOp[],
   numShots = 1024,
-  noiseLevel = 0,
+  noiseLevel = 0
 ): SimulationResult => {
   const start = performance.now();
 
@@ -346,7 +413,7 @@ export const simulateCircuit = (
 
   const dim = 1 << numQubits;
   let state: Complex[] = Array.from({ length: dim }, (_, i) =>
-    i === 0 ? { re: 1, im: 0 } : { re: 0, im: 0 },
+    i === 0 ? { re: 1, im: 0 } : { re: 0, im: 0 }
   );
 
   let gateCount = 0;
@@ -374,7 +441,7 @@ export const simulateCircuit = (
         state,
         op.controls[0] as number,
         op.controls[1] as number,
-        op.targets[0] as number,
+        op.targets[0] as number
       );
     } else {
       const mat = getGateMatrix(op.gate, op.params);

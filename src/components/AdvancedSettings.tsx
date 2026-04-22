@@ -17,7 +17,7 @@ import {
   Download,
   Upload,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
@@ -61,24 +61,24 @@ const defaultSettings: SettingsState = {
     system: true,
     quantum: true,
     security: true,
-    ai: false
+    ai: false,
   },
   performance: {
     animations: true,
     autoSave: true,
     caching: true,
-    compression: false
+    compression: false,
   },
   privacy: {
     analytics: false,
     crashReports: true,
-    dataCollection: false
+    dataCollection: false,
   },
   advanced: {
     debugMode: false,
     experimentalFeatures: false,
-    developerMode: false
-  }
+    developerMode: false,
+  },
 };
 
 const AdvancedSettings: React.FC = () => {
@@ -138,7 +138,7 @@ const AdvancedSettings: React.FC = () => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = e => {
         try {
           const importedSettings = JSON.parse(e.target?.result as string);
           setSettings(importedSettings as SettingsState);
@@ -156,14 +156,14 @@ const AdvancedSettings: React.FC = () => {
       const newSettings = { ...prev };
       const keys = path.split('.');
       let current: Record<string, unknown> = newSettings as Record<string, unknown>;
-      
+
       for (let i = 0; i < keys.length - 1; i++) {
         const key = keys[i];
         if (key !== undefined) {
           current = current[key] as Record<string, unknown>;
         }
       }
-      
+
       const lastKey = keys[keys.length - 1];
       if (lastKey !== undefined) {
         current[lastKey] = value;
@@ -182,42 +182,42 @@ const AdvancedSettings: React.FC = () => {
     { id: 'notifications', label: 'الإشعارات', icon: Bell },
     { id: 'performance', label: 'الأداء', icon: Zap },
     { id: 'privacy', label: 'الخصوصية', icon: Eye },
-    { id: 'advanced', label: 'متقدم', icon: Lock }
+    { id: 'advanced', label: 'متقدم', icon: Lock },
   ];
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'general':
         return (
-          <div className="space-y-6">
+          <div className='space-y-6'>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
                 اللغة
               </label>
               <select
                 value={settings.language}
-                onChange={(e) => updateSetting('language', e.target.value)}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                onChange={e => updateSetting('language', e.target.value)}
+                className='w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
               >
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-                <option value="es">Español</option>
+                <option value='ar'>العربية</option>
+                <option value='en'>English</option>
+                <option value='fr'>Français</option>
+                <option value='es'>Español</option>
               </select>
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
                 وضع الكم
               </label>
               <select
                 value={settings.quantumMode}
-                onChange={(e) => updateSetting('quantumMode', e.target.value)}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                onChange={e => updateSetting('quantumMode', e.target.value)}
+                className='w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
               >
-                <option value="basic">أساسي</option>
-                <option value="advanced">متقدم</option>
-                <option value="expert">خبير</option>
+                <option value='basic'>أساسي</option>
+                <option value='advanced'>متقدم</option>
+                <option value='expert'>خبير</option>
               </select>
             </div>
           </div>
@@ -225,16 +225,16 @@ const AdvancedSettings: React.FC = () => {
 
       case 'appearance':
         return (
-          <div className="space-y-6">
+          <div className='space-y-6'>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
                 المظهر
               </label>
-              <div className="grid grid-cols-3 gap-3">
+              <div className='grid grid-cols-3 gap-3'>
                 {[
                   { value: 'light', label: 'فاتح', icon: Sun },
                   { value: 'dark', label: 'داكن', icon: Moon },
-                  { value: 'auto', label: 'تلقائي', icon: Monitor }
+                  { value: 'auto', label: 'تلقائي', icon: Monitor },
                 ].map(({ value, label, icon: Icon }) => (
                   <button
                     key={value}
@@ -245,8 +245,8 @@ const AdvancedSettings: React.FC = () => {
                         : 'border-gray-300 dark:border-gray-600 hover:border-primary-300'
                     }`}
                   >
-                    <Icon className="w-6 h-6" />
-                    <span className="text-sm">{label}</span>
+                    <Icon className='w-6 h-6' />
+                    <span className='text-sm'>{label}</span>
                   </button>
                 ))}
               </div>
@@ -256,20 +256,20 @@ const AdvancedSettings: React.FC = () => {
 
       case 'security':
         return (
-          <div className="space-y-6">
+          <div className='space-y-6'>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
                 مستوى الأمان
               </label>
               <select
                 value={settings.securityLevel}
-                onChange={(e) => updateSetting('securityLevel', e.target.value)}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                onChange={e => updateSetting('securityLevel', e.target.value)}
+                className='w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
               >
-                <option value="low">منخفض</option>
-                <option value="medium">متوسط</option>
-                <option value="high">عالي</option>
-                <option value="maximum">أقصى</option>
+                <option value='low'>منخفض</option>
+                <option value='medium'>متوسط</option>
+                <option value='high'>عالي</option>
+                <option value='maximum'>أقصى</option>
               </select>
             </div>
           </div>
@@ -277,13 +277,17 @@ const AdvancedSettings: React.FC = () => {
 
       case 'notifications':
         return (
-          <div className="space-y-6">
+          <div className='space-y-6'>
             {Object.entries(settings.notifications).map(([key, value]) => (
-              <div key={key} className="flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {key === 'system' ? 'النظام' :
-                   key === 'quantum' ? 'الكم' :
-                   key === 'security' ? 'الأمان' : 'الذكاء الاصطناعي'}
+              <div key={key} className='flex items-center justify-between'>
+                <label className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                  {key === 'system'
+                    ? 'النظام'
+                    : key === 'quantum'
+                      ? 'الكم'
+                      : key === 'security'
+                        ? 'الأمان'
+                        : 'الذكاء الاصطناعي'}
                 </label>
                 <button
                   onClick={() => updateSetting(`notifications.${key}`, !value)}
@@ -304,13 +308,17 @@ const AdvancedSettings: React.FC = () => {
 
       case 'performance':
         return (
-          <div className="space-y-6">
+          <div className='space-y-6'>
             {Object.entries(settings.performance).map(([key, value]) => (
-              <div key={key} className="flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {key === 'animations' ? 'الرسوم المتحركة' :
-                   key === 'autoSave' ? 'الحفظ التلقائي' :
-                   key === 'caching' ? 'التخزين المؤقت' : 'الضغط'}
+              <div key={key} className='flex items-center justify-between'>
+                <label className='text-sm font-medium text-gray-700 dark:text-gray-300'>
+                  {key === 'animations'
+                    ? 'الرسوم المتحركة'
+                    : key === 'autoSave'
+                      ? 'الحفظ التلقائي'
+                      : key === 'caching'
+                        ? 'التخزين المؤقت'
+                        : 'الضغط'}
                 </label>
                 <button
                   onClick={() => updateSetting(`performance.${key}`, !value)}
@@ -335,18 +343,18 @@ const AdvancedSettings: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+    <div className='max-w-6xl mx-auto p-6'>
+      <div className='bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden'>
         {/* Header */}
-        <div className="bg-gradient-to-r from-primary-600 to-secondary-600 p-6 text-white">
-          <h1 className="text-2xl font-bold mb-2">الإعدادات المتقدمة</h1>
-          <p className="opacity-90">تخصيص النظام الكمي المتقدم</p>
+        <div className='bg-gradient-to-r from-primary-600 to-secondary-600 p-6 text-white'>
+          <h1 className='text-2xl font-bold mb-2'>الإعدادات المتقدمة</h1>
+          <p className='opacity-90'>تخصيص النظام الكمي المتقدم</p>
         </div>
 
-        <div className="flex">
+        <div className='flex'>
           {/* Sidebar */}
-          <div className="w-64 bg-gray-50 dark:bg-gray-900 p-4">
-            <nav className="space-y-2">
+          <div className='w-64 bg-gray-50 dark:bg-gray-900 p-4'>
+            <nav className='space-y-2'>
               {tabs.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
@@ -357,7 +365,7 @@ const AdvancedSettings: React.FC = () => {
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className='w-5 h-5' />
                   <span>{label}</span>
                 </button>
               ))}
@@ -365,8 +373,8 @@ const AdvancedSettings: React.FC = () => {
           </div>
 
           {/* Content */}
-          <div className="flex-1 p-6">
-            <AnimatePresence mode="wait">
+          <div className='flex-1 p-6'>
+            <AnimatePresence mode='wait'>
               <motion.div
                 key={activeTab}
                 initial={{ opacity: 0, y: 20 }}
@@ -379,44 +387,39 @@ const AdvancedSettings: React.FC = () => {
             </AnimatePresence>
 
             {/* Action Buttons */}
-            <div className="mt-8 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-6">
-              <div className="flex space-x-3 space-x-reverse">
+            <div className='mt-8 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-6'>
+              <div className='flex space-x-3 space-x-reverse'>
                 <button
                   onClick={exportSettings}
-                  className="flex items-center space-x-2 space-x-reverse px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                  className='flex items-center space-x-2 space-x-reverse px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors'
                 >
-                  <Download className="w-4 h-4" />
+                  <Download className='w-4 h-4' />
                   <span>تصدير</span>
                 </button>
-                
-                <label className="flex items-center space-x-2 space-x-reverse px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors cursor-pointer">
-                  <Upload className="w-4 h-4" />
+
+                <label className='flex items-center space-x-2 space-x-reverse px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors cursor-pointer'>
+                  <Upload className='w-4 h-4' />
                   <span>استيراد</span>
-                  <input
-                    type="file"
-                    accept=".json"
-                    onChange={importSettings}
-                    className="hidden"
-                  />
+                  <input type='file' accept='.json' onChange={importSettings} className='hidden' />
                 </label>
-                
+
                 <button
                   onClick={resetSettings}
-                  className="flex items-center space-x-2 space-x-reverse px-4 py-2 text-red-600 hover:text-red-800 transition-colors"
+                  className='flex items-center space-x-2 space-x-reverse px-4 py-2 text-red-600 hover:text-red-800 transition-colors'
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className='w-4 h-4' />
                   <span>إعادة تعيين</span>
                 </button>
               </div>
 
-              <div className="flex items-center space-x-3 space-x-reverse">
+              <div className='flex items-center space-x-3 space-x-reverse'>
                 {hasChanges && (
-                  <span className="text-sm text-amber-600 dark:text-amber-400 flex items-center space-x-1 space-x-reverse">
-                    <AlertTriangle className="w-4 h-4" />
+                  <span className='text-sm text-amber-600 dark:text-amber-400 flex items-center space-x-1 space-x-reverse'>
+                    <AlertTriangle className='w-4 h-4' />
                     <span>تغييرات غير محفوظة</span>
                   </span>
                 )}
-                
+
                 <button
                   onClick={saveSettings}
                   disabled={!hasChanges || saveStatus === 'saving'}
@@ -427,15 +430,18 @@ const AdvancedSettings: React.FC = () => {
                   }`}
                 >
                   {saveStatus === 'saving' ? (
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
                   ) : saveStatus === 'saved' ? (
-                    <CheckCircle className="w-4 h-4" />
+                    <CheckCircle className='w-4 h-4' />
                   ) : (
-                    <Save className="w-4 h-4" />
+                    <Save className='w-4 h-4' />
                   )}
                   <span>
-                    {saveStatus === 'saving' ? 'جاري الحفظ...' :
-                     saveStatus === 'saved' ? 'تم الحفظ' : 'حفظ'}
+                    {saveStatus === 'saving'
+                      ? 'جاري الحفظ...'
+                      : saveStatus === 'saved'
+                        ? 'تم الحفظ'
+                        : 'حفظ'}
                   </span>
                 </button>
               </div>

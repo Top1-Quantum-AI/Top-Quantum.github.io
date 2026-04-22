@@ -312,7 +312,7 @@ router.get('/audit-logs', async (req, res) => {
     res.status(200).json({
       success: true,
       data: {
-        logs: logs.map((l) => ({
+        logs: logs.map(l => ({
           userId: l._id,
           username: l.username,
           email: l.email,

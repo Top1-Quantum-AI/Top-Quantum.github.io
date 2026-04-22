@@ -26,15 +26,7 @@
     },
     "project": ["./tsconfig.eslint.json", "./tsconfig.node.json"]
   },
-  "plugins": [
-    "react",
-    "react-hooks",
-    "@typescript-eslint",
-    "security",
-    "import",
-    "jsx-a11y",
-    "unused-imports"
-  ],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "security", "import", "jsx-a11y", "unused-imports"],
   "rules": {
     // TypeScript specific rules
     "@typescript-eslint/no-unused-vars": "warn",
@@ -121,14 +113,7 @@
     "import/order": [
       "error",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ],
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",

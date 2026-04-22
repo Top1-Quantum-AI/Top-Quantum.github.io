@@ -24,50 +24,50 @@ spec:
     spec:
       serviceAccountName: prometheus
       containers:
-      - name: prometheus
-        image: prom/prometheus:v2.45.0
-        ports:
-        - containerPort: 9090
-          name: web
-        args:
-        - --config.file=/etc/prometheus/prometheus.yml
-        - --storage.tsdb.path=/prometheus/
-        - --web.console.libraries=/etc/prometheus/console_libraries
-        - --web.console.templates=/etc/prometheus/consoles
-        - --storage.tsdb.retention.time=15d
-        - --web.enable-lifecycle
-        - --web.enable-admin-api
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "2Gi"
-            cpu: "500m"
-        volumeMounts:
-        - name: prometheus-config
-          mountPath: /etc/prometheus
-        - name: prometheus-data
-          mountPath: /prometheus
-        livenessProbe:
-          httpGet:
-            path: /-/healthy
-            port: 9090
-          initialDelaySeconds: 30
-          periodSeconds: 15
-        readinessProbe:
-          httpGet:
-            path: /-/ready
-            port: 9090
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: prometheus
+          image: prom/prometheus:v2.45.0
+          ports:
+            - containerPort: 9090
+              name: web
+          args:
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --storage.tsdb.path=/prometheus/
+            - --web.console.libraries=/etc/prometheus/console_libraries
+            - --web.console.templates=/etc/prometheus/consoles
+            - --storage.tsdb.retention.time=15d
+            - --web.enable-lifecycle
+            - --web.enable-admin-api
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "500m"
+          volumeMounts:
+            - name: prometheus-config
+              mountPath: /etc/prometheus
+            - name: prometheus-data
+              mountPath: /prometheus
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9090
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: 9090
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
-      - name: prometheus-config
-        configMap:
-          name: prometheus-config
-      - name: prometheus-data
-        persistentVolumeClaim:
-          claimName: prometheus-data-pvc
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config
+        - name: prometheus-data
+          persistentVolumeClaim:
+            claimName: prometheus-data-pvc
 
 ---
 # Prometheus Service
@@ -81,10 +81,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 9090
-    targetPort: 9090
-    protocol: TCP
-    name: web
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+      name: web
   selector:
     app: prometheus
 
@@ -103,16 +103,16 @@ data:
       external_labels:
         cluster: 'quantum-ai-cluster'
         environment: 'production'
-    
+
     rule_files:
     - "/etc/prometheus/quantum-rules.yml"
-    
+
     alerting:
       alertmanagers:
       - static_configs:
         - targets:
           - alertmanager:9093
-    
+
     scrape_configs:
     # Kubernetes API Server
     - job_name: 'kubernetes-apiservers'
@@ -126,7 +126,7 @@ data:
       - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
         action: keep
         regex: default;kubernetes;https
-    
+
     # Kubernetes Nodes
     - job_name: 'kubernetes-nodes'
       kubernetes_sd_configs:
@@ -144,7 +144,7 @@ data:
         regex: (.+)
         target_label: __metrics_path__
         replacement: /api/v1/nodes/${1}/proxy/metrics
-    
+
     # Quantum AI Services
     - job_name: 'quantum-api-gateway'
       kubernetes_sd_configs:
@@ -166,7 +166,7 @@ data:
         action: replace
         target_label: __metrics_path__
         regex: (.+)
-    
+
     - job_name: 'quantum-core'
       kubernetes_sd_configs:
       - role: pod
@@ -189,7 +189,7 @@ data:
         target_label: __address__
         regex: (.+)
         replacement: ${1}
-    
+
     - job_name: 'ai-agents'
       kubernetes_sd_configs:
       - role: pod
@@ -207,7 +207,7 @@ data:
         action: replace
         target_label: __metrics_path__
         regex: (.+)
-    
+
     - job_name: 'security-service'
       kubernetes_sd_configs:
       - role: pod
@@ -221,23 +221,23 @@ data:
       - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
         action: keep
         regex: true
-    
+
     # Infrastructure Services
     - job_name: 'redis'
       static_configs:
       - targets: ['redis-service:6379']
       metrics_path: /metrics
-    
+
     - job_name: 'mongodb'
       static_configs:
       - targets: ['mongodb-service:27017']
       metrics_path: /metrics
-    
+
     - job_name: 'nats'
       static_configs:
       - targets: ['nats-service:8222']
       metrics_path: /metrics
-  
+
   quantum-rules.yml: |
     groups:
     - name: quantum-ai-alerts
@@ -340,52 +340,52 @@ spec:
         tier: monitoring
     spec:
       containers:
-      - name: grafana
-        image: grafana/grafana:10.0.0
-        ports:
-        - containerPort: 3000
-          name: web
-        env:
-        - name: GF_SECURITY_ADMIN_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: grafana-secrets
-              key: admin-password
-        - name: GF_INSTALL_PLUGINS
-          value: "grafana-piechart-panel,grafana-worldmap-panel,grafana-clock-panel"
-        - name: GF_FEATURE_TOGGLES_ENABLE
-          value: "publicDashboards"
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "512Mi"
-            cpu: "200m"
-        volumeMounts:
-        - name: grafana-data
-          mountPath: /var/lib/grafana
-        - name: grafana-config
-          mountPath: /etc/grafana/provisioning
-        livenessProbe:
-          httpGet:
-            path: /api/health
-            port: 3000
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /api/health
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: grafana
+          image: grafana/grafana:10.0.0
+          ports:
+            - containerPort: 3000
+              name: web
+          env:
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secrets
+                  key: admin-password
+            - name: GF_INSTALL_PLUGINS
+              value: "grafana-piechart-panel,grafana-worldmap-panel,grafana-clock-panel"
+            - name: GF_FEATURE_TOGGLES_ENABLE
+              value: "publicDashboards"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+          volumeMounts:
+            - name: grafana-data
+              mountPath: /var/lib/grafana
+            - name: grafana-config
+              mountPath: /etc/grafana/provisioning
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
-      - name: grafana-data
-        persistentVolumeClaim:
-          claimName: grafana-data-pvc
-      - name: grafana-config
-        configMap:
-          name: grafana-config
+        - name: grafana-data
+          persistentVolumeClaim:
+            claimName: grafana-data-pvc
+        - name: grafana-config
+          configMap:
+            name: grafana-config
 
 ---
 # Grafana Service
@@ -399,10 +399,10 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 3000
-    targetPort: 3000
-    protocol: TCP
-    name: web
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: web
   selector:
     app: grafana
 
@@ -428,7 +428,7 @@ data:
       access: proxy
       url: http://jaeger-service:16686
       editable: true
-  
+
   dashboards.yml: |
     apiVersion: 1
     providers:
@@ -464,45 +464,45 @@ spec:
         tier: tracing
     spec:
       containers:
-      - name: jaeger
-        image: jaegertracing/all-in-one:1.47
-        ports:
-        - containerPort: 16686
-          name: web
-        - containerPort: 14268
-          name: collector
-        - containerPort: 6831
-          name: agent-compact
-          protocol: UDP
-        - containerPort: 6832
-          name: agent-binary
-          protocol: UDP
-        env:
-        - name: COLLECTOR_OTLP_ENABLED
-          value: "true"
-        - name: SPAN_STORAGE_TYPE
-          value: "memory"
-        - name: MEMORY_MAX_TRACES
-          value: "50000"
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "512Mi"
-            cpu: "200m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 16686
-          initialDelaySeconds: 30
-          periodSeconds: 15
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 16686
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: jaeger
+          image: jaegertracing/all-in-one:1.47
+          ports:
+            - containerPort: 16686
+              name: web
+            - containerPort: 14268
+              name: collector
+            - containerPort: 6831
+              name: agent-compact
+              protocol: UDP
+            - containerPort: 6832
+              name: agent-binary
+              protocol: UDP
+          env:
+            - name: COLLECTOR_OTLP_ENABLED
+              value: "true"
+            - name: SPAN_STORAGE_TYPE
+              value: "memory"
+            - name: MEMORY_MAX_TRACES
+              value: "50000"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 16686
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 16686
+            initialDelaySeconds: 5
+            periodSeconds: 5
 
 ---
 # Jaeger Service
@@ -516,22 +516,22 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 16686
-    targetPort: 16686
-    protocol: TCP
-    name: web
-  - port: 14268
-    targetPort: 14268
-    protocol: TCP
-    name: collector
-  - port: 6831
-    targetPort: 6831
-    protocol: UDP
-    name: agent-compact
-  - port: 6832
-    targetPort: 6832
-    protocol: UDP
-    name: agent-binary
+    - port: 16686
+      targetPort: 16686
+      protocol: TCP
+      name: web
+    - port: 14268
+      targetPort: 14268
+      protocol: TCP
+      name: collector
+    - port: 6831
+      targetPort: 6831
+      protocol: UDP
+      name: agent-compact
+    - port: 6832
+      targetPort: 6832
+      protocol: UDP
+      name: agent-binary
   selector:
     app: jaeger
 
@@ -557,46 +557,46 @@ spec:
         tier: monitoring
     spec:
       containers:
-      - name: alertmanager
-        image: prom/alertmanager:v0.25.0
-        ports:
-        - containerPort: 9093
-          name: web
-        args:
-        - --config.file=/etc/alertmanager/alertmanager.yml
-        - --storage.path=/alertmanager
-        - --web.external-url=http://alertmanager:9093
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "50m"
-          limits:
-            memory: "256Mi"
-            cpu: "100m"
-        volumeMounts:
-        - name: alertmanager-config
-          mountPath: /etc/alertmanager
-        - name: alertmanager-data
-          mountPath: /alertmanager
-        livenessProbe:
-          httpGet:
-            path: /-/healthy
-            port: 9093
-          initialDelaySeconds: 30
-          periodSeconds: 15
-        readinessProbe:
-          httpGet:
-            path: /-/ready
-            port: 9093
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: alertmanager
+          image: prom/alertmanager:v0.25.0
+          ports:
+            - containerPort: 9093
+              name: web
+          args:
+            - --config.file=/etc/alertmanager/alertmanager.yml
+            - --storage.path=/alertmanager
+            - --web.external-url=http://alertmanager:9093
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
+          volumeMounts:
+            - name: alertmanager-config
+              mountPath: /etc/alertmanager
+            - name: alertmanager-data
+              mountPath: /alertmanager
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9093
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: 9093
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
-      - name: alertmanager-config
-        configMap:
-          name: alertmanager-config
-      - name: alertmanager-data
-        persistentVolumeClaim:
-          claimName: alertmanager-data-pvc
+        - name: alertmanager-config
+          configMap:
+            name: alertmanager-config
+        - name: alertmanager-data
+          persistentVolumeClaim:
+            claimName: alertmanager-data-pvc
 
 ---
 # AlertManager Service
@@ -610,10 +610,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 9093
-    targetPort: 9093
-    protocol: TCP
-    name: web
+    - port: 9093
+      targetPort: 9093
+      protocol: TCP
+      name: web
   selector:
     app: alertmanager
 
@@ -630,7 +630,7 @@ data:
       smtp_smarthost: 'localhost:587'
       smtp_from: 'quantum-ai-alerts@company.com'
       slack_api_url: 'YOUR_SLACK_WEBHOOK_URL'
-    
+
     route:
       group_by: ['alertname', 'cluster', 'service']
       group_wait: 10s
@@ -648,7 +648,7 @@ data:
         receiver: 'security-team'
         group_wait: 0s
         repeat_interval: 15m
-    
+
     receivers:
     - name: 'quantum-team'
       email_configs:
@@ -664,7 +664,7 @@ data:
       - channel: '#quantum-alerts'
         title: 'Quantum AI Alert'
         text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
-    
+
     - name: 'quantum-critical'
       email_configs:
       - to: 'quantum-oncall@company.com'
@@ -681,7 +681,7 @@ data:
         title: '🚨 CRITICAL: Quantum AI System'
         text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
         send_resolved: true
-    
+
     - name: 'security-team'
       email_configs:
       - to: 'security@company.com'
@@ -758,21 +758,21 @@ kind: ClusterRole
 metadata:
   name: prometheus
 rules:
-- apiGroups: [""]
-  resources:
-  - nodes
-  - nodes/proxy
-  - services
-  - endpoints
-  - pods
-  verbs: ["get", "list", "watch"]
-- apiGroups:
-  - extensions
-  resources:
-  - ingresses
-  verbs: ["get", "list", "watch"]
-- nonResourceURLs: ["/metrics"]
-  verbs: ["get"]
+  - apiGroups: [""]
+    resources:
+      - nodes
+      - nodes/proxy
+      - services
+      - endpoints
+      - pods
+    verbs: ["get", "list", "watch"]
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs: ["get", "list", "watch"]
+  - nonResourceURLs: ["/metrics"]
+    verbs: ["get"]
 
 ---
 # ClusterRoleBinding for Prometheus
@@ -785,9 +785,9 @@ roleRef:
   kind: ClusterRole
   name: prometheus
 subjects:
-- kind: ServiceAccount
-  name: prometheus
-  namespace: quantum-ai-system
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: quantum-ai-system
 
 ---
 # Grafana Secrets

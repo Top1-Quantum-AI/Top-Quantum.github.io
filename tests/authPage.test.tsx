@@ -61,8 +61,9 @@ jest.mock('framer-motion', () => ({
     h1: ({ children, ...p }: React.HTMLProps<HTMLHeadingElement>) => <h1 {...p}>{children}</h1>,
     h2: ({ children, ...p }: React.HTMLProps<HTMLHeadingElement>) => <h2 {...p}>{children}</h2>,
     p: ({ children, ...p }: React.HTMLProps<HTMLParagraphElement>) => <p {...p}>{children}</p>,
-    button: ({ children, ...p }: React.HTMLProps<HTMLButtonElement>) =>
-      <button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{children}</button>,
+    button: ({ children, ...p }: React.HTMLProps<HTMLButtonElement>) => (
+      <button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{children}</button>
+    ),
     span: ({ children, ...p }: React.HTMLProps<HTMLSpanElement>) => <span {...p}>{children}</span>,
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
@@ -72,9 +73,9 @@ const renderLogin = () =>
   render(
     <MemoryRouter initialEntries={['/login']}>
       <Routes>
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/register" element={<AuthPage />} />
-        <Route path="/dashboard" element={<div>Dashboard</div>} />
+        <Route path='/login' element={<AuthPage />} />
+        <Route path='/register' element={<AuthPage />} />
+        <Route path='/dashboard' element={<div>Dashboard</div>} />
       </Routes>
     </MemoryRouter>
   );
@@ -83,9 +84,9 @@ const renderRegister = () =>
   render(
     <MemoryRouter initialEntries={['/register']}>
       <Routes>
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/register" element={<AuthPage />} />
-        <Route path="/dashboard" element={<div>Dashboard</div>} />
+        <Route path='/login' element={<AuthPage />} />
+        <Route path='/register' element={<AuthPage />} />
+        <Route path='/dashboard' element={<div>Dashboard</div>} />
       </Routes>
     </MemoryRouter>
   );
@@ -122,7 +123,10 @@ describe('AuthPage – Login mode', () => {
     const mockLogin = apiLogin as jest.Mock;
     const mockCheck = checkBackendAvailable as jest.Mock;
     mockCheck.mockResolvedValue(true);
-    mockLogin.mockResolvedValue({ user: { id: '1', email: 'test@test.com', username: 'test' }, token: 'token' });
+    mockLogin.mockResolvedValue({
+      user: { id: '1', email: 'test@test.com', username: 'test' },
+      token: 'token',
+    });
 
     renderLogin();
     await user.type(screen.getByPlaceholderText('name@company.com'), 'test@example.com');
@@ -193,7 +197,10 @@ describe('AuthPage – Register mode', () => {
     const mockRegister = apiRegister as jest.Mock;
     const mockCheck = checkBackendAvailable as jest.Mock;
     mockCheck.mockResolvedValue(true);
-    mockRegister.mockResolvedValue({ user: { id: '1', email: 'new@test.com', username: 'new' }, token: 'token' });
+    mockRegister.mockResolvedValue({
+      user: { id: '1', email: 'new@test.com', username: 'new' },
+      token: 'token',
+    });
 
     renderRegister();
     await user.type(screen.getByPlaceholderText('أدخل اسمك الكامل'), 'Test User');

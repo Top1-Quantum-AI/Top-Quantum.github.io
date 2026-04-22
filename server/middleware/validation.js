@@ -18,18 +18,31 @@ function validateAgainstSchema(data, schema) {
       if (value !== undefined && rules.type) {
         const actual = Array.isArray(value) ? 'array' : typeof value;
         if (actual !== rules.type) {
-          errors.push({ field: key, message: `Expected ${rules.type}`, messageAr: `يجب أن يكون ${rules.type}` });
+          errors.push({
+            field: key,
+            message: `Expected ${rules.type}`,
+            messageAr: `يجب أن يكون ${rules.type}`,
+          });
         }
       }
-      if (value !== undefined && rules.minLength && typeof value === 'string' && value.length < rules.minLength) {
-        errors.push({ field: key, message: `Minimum length ${rules.minLength}` , messageAr: `الحد الأدنى للطول ${rules.minLength}`});
+      if (
+        value !== undefined &&
+        rules.minLength &&
+        typeof value === 'string' &&
+        value.length < rules.minLength
+      ) {
+        errors.push({
+          field: key,
+          message: `Minimum length ${rules.minLength}`,
+          messageAr: `الحد الأدنى للطول ${rules.minLength}`,
+        });
       }
     }
   }
   return errors;
 }
 
-export const validateRequest = (schema) => (req, res, next) => {
+export const validateRequest = schema => (req, res, next) => {
   try {
     const data = { ...(req.body || {}), ...(req.params || {}), ...(req.query || {}) };
     const errors = validateAgainstSchema(data, schema);

@@ -94,10 +94,7 @@ export function clearToken(): void {
 
 // ─── Fetch Wrapper ──────────────────────────────────────
 
-async function apiFetch<T>(
-  path: string,
-  options: RequestInit = {}
-): Promise<ApiResponse<T>> {
+async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
   const token = getToken();
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -119,11 +116,7 @@ async function apiFetch<T>(
 
   const json = (await res.json()) as ApiResponse<T>;
   if (!res.ok) {
-    throw new ApiError(
-      json.error ?? json.errorEn ?? `HTTP ${res.status}`,
-      res.status,
-      json
-    );
+    throw new ApiError(json.error ?? json.errorEn ?? `HTTP ${res.status}`, res.status, json);
   }
   return json;
 }
@@ -189,9 +182,7 @@ export async function apiGetProfile(): Promise<ApiUser> {
   return res.data!.user;
 }
 
-export async function apiUpdateProfile(
-  data: Record<string, unknown>
-): Promise<ApiUser> {
+export async function apiUpdateProfile(data: Record<string, unknown>): Promise<ApiUser> {
   const res = await apiFetch<{ user: ApiUser }>('/user/profile', {
     method: 'PUT',
     body: JSON.stringify(data),
@@ -233,13 +224,10 @@ export async function adminUpdateUser(
   id: string,
   data: { role?: string; isActive?: boolean; plan?: string }
 ): Promise<ApiUser> {
-  const res = await apiFetch<{ user: ApiUser }>(
-    `/admin/users/${encodeURIComponent(id)}`,
-    {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    }
-  );
+  const res = await apiFetch<{ user: ApiUser }>(`/admin/users/${encodeURIComponent(id)}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
   return res.data!.user;
 }
 
@@ -249,12 +237,8 @@ export async function adminDeactivateUser(id: string): Promise<void> {
   });
 }
 
-export async function adminGetAuditLogs(
-  limit = 50
-): Promise<AuditLogEntry[]> {
-  const res = await apiFetch<{ logs: AuditLogEntry[] }>(
-    `/admin/audit-logs?limit=${limit}`
-  );
+export async function adminGetAuditLogs(limit = 50): Promise<AuditLogEntry[]> {
+  const res = await apiFetch<{ logs: AuditLogEntry[] }>(`/admin/audit-logs?limit=${limit}`);
   return res.data!.logs;
 }
 

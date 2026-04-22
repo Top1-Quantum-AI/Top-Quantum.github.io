@@ -15,19 +15,19 @@ function buildErrorResponse(err, req) {
     name === 'ValidationError' || err.isJoi
       ? 'validation_error'
       : name === 'JsonWebTokenError' || name === 'TokenExpiredError'
-      ? 'auth_error'
-      : name === 'RateLimitError'
-      ? 'rate_limit_error'
-      : statusCode >= 500
-      ? 'server_error'
-      : 'client_error';
+        ? 'auth_error'
+        : name === 'RateLimitError'
+          ? 'rate_limit_error'
+          : statusCode >= 500
+            ? 'server_error'
+            : 'client_error';
 
   const traceId = req.headers['x-trace-id'] || req.id || undefined;
 
   // Bilingual message
   const defaultMessages = {
     en: 'An unexpected error occurred. Please try again later.',
-    ar: 'حدث خطأ غير متوقع. يرجى المحاولة لاحقًا.'
+    ar: 'حدث خطأ غير متوقع. يرجى المحاولة لاحقًا.',
   };
 
   const details = !isProd ? safeErrorDetails(err) : undefined;
@@ -44,8 +44,8 @@ function buildErrorResponse(err, req) {
       method: req.method,
       traceId,
       timestamp: new Date().toISOString(),
-      details
-    }
+      details,
+    },
   };
 }
 
@@ -54,7 +54,10 @@ function safeErrorDetails(err) {
   return {
     stack: err.stack,
     code: err.code,
-    cause: err.cause && typeof err.cause === 'object' ? { name: err.cause.name, message: err.cause.message } : undefined,
+    cause:
+      err.cause && typeof err.cause === 'object'
+        ? { name: err.cause.name, message: err.cause.message }
+        : undefined,
     context: err.context,
   };
 }
@@ -68,7 +71,8 @@ export const errorHandler = (err, req, res, next) => {
     }
 
     // Derive status code
-    const statusCode = err.statusCode && Number.isInteger(err.statusCode) ? err.statusCode : (err.status || 500);
+    const statusCode =
+      err.statusCode && Number.isInteger(err.statusCode) ? err.statusCode : err.status || 500;
 
     // Build structured body
     const body = buildErrorResponse(err, req);
@@ -76,7 +80,9 @@ export const errorHandler = (err, req, res, next) => {
     // Minimal server-side logging (without secrets)
     const logLevel = statusCode >= 500 ? 'ERROR' : 'WARN';
     const traceId = body.error.traceId ? ` [traceId=${body.error.traceId}]` : '';
-    console[statusCode >= 500 ? 'error' : 'warn'](`${logLevel}${traceId}: ${body.error.name}: ${body.error.message}`);
+    console[statusCode >= 500 ? 'error' : 'warn'](
+      `${logLevel}${traceId}: ${body.error.name}: ${body.error.message}`
+    );
 
     // Respond
     res.status(statusCode).json(body);
@@ -92,8 +98,8 @@ export const errorHandler = (err, req, res, next) => {
           message: 'Internal server error while handling another error',
           messageAr: 'حدث خطأ داخلي أثناء معالجة خطأ آخر',
           statusCode: 500,
-          timestamp: new Date().toISOString()
-        }
+          timestamp: new Date().toISOString(),
+        },
       });
     } catch (_) {
       // Give up gracefully

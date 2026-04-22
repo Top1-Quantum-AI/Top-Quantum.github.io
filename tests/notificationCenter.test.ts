@@ -1,10 +1,7 @@
 /**
  * Notification Center Tests
  */
-import {
-  addNotification,
-  getUnreadCount,
-} from '../src/components/NotificationCenter';
+import { addNotification, getUnreadCount } from '../src/components/NotificationCenter';
 
 describe('NotificationCenter utilities', () => {
   beforeEach(() => {

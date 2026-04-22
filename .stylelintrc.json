@@ -66,15 +66,7 @@
     "scss/at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": [
-          "tailwind",
-          "apply",
-          "variants",
-          "responsive",
-          "screen",
-          "layer",
-          "config"
-        ]
+        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen", "layer", "config"]
       }
     ],
     "color-hex-case": "lower",
@@ -110,11 +102,7 @@
     "property-no-unknown": [
       true,
       {
-        "ignoreProperties": [
-          "composes",
-          "compose-with",
-          "font-display"
-        ]
+        "ignoreProperties": ["composes", "compose-with", "font-display"]
       }
     ],
     "keyframe-declaration-no-important": true,
@@ -126,22 +114,14 @@
     "declaration-empty-line-before": [
       "always",
       {
-        "except": [
-          "after-declaration",
-          "first-nested"
-        ],
-        "ignore": [
-          "after-comment",
-          "inside-single-line-block"
-        ]
+        "except": ["after-declaration", "first-nested"],
+        "ignore": ["after-comment", "inside-single-line-block"]
       }
     ],
     "declaration-block-no-duplicate-properties": [
       true,
       {
-        "ignore": [
-          "consecutive-duplicates-with-different-values"
-        ]
+        "ignore": ["consecutive-duplicates-with-different-values"]
       }
     ],
     "declaration-block-no-shorthand-property-overrides": true,
@@ -178,12 +158,8 @@
     "rule-empty-line-before": [
       "always-multi-line",
       {
-        "except": [
-          "first-nested"
-        ],
-        "ignore": [
-          "after-comment"
-        ]
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
       }
     ],
     "media-feature-colon-space-after": "always",
@@ -199,13 +175,8 @@
     "at-rule-empty-line-before": [
       "always",
       {
-        "except": [
-          "blockless-after-same-name-blockless",
-          "first-nested"
-        ],
-        "ignore": [
-          "after-comment"
-        ]
+        "except": ["blockless-after-same-name-blockless", "first-nested"],
+        "ignore": ["after-comment"]
       }
     ],
     "at-rule-name-case": "lower",
@@ -214,12 +185,8 @@
     "comment-empty-line-before": [
       "always",
       {
-        "except": [
-          "first-nested"
-        ],
-        "ignore": [
-          "stylelint-commands"
-        ]
+        "except": ["first-nested"],
+        "ignore": ["stylelint-commands"]
       }
     ],
     "comment-whitespace-inside": "always",
@@ -229,9 +196,7 @@
     "max-line-length": [
       100,
       {
-        "ignore": [
-          "non-comments"
-        ]
+        "ignore": ["non-comments"]
       }
     ],
     "no-eol-whitespace": true,
@@ -259,9 +224,7 @@
     "scss/at-extend-no-missing-placeholder": true,
     "scss/at-function-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "scss/at-import-no-partial-leading-underscore": true,
-    "scss/at-import-partial-extension-blacklist": [
-      "scss"
-    ],
+    "scss/at-import-partial-extension-blacklist": ["scss"],
     "scss/at-mixin-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "scss/dollar-variable-colon-space-after": "always",
     "scss/dollar-variable-colon-space-before": "never",
@@ -284,57 +247,30 @@
   },
   "overrides": [
     {
-      "files": [
-        "*.vue",
-        "**/*.vue"
-      ],
+      "files": ["*.vue", "**/*.vue"],
       "customSyntax": "postcss-html"
     },
     {
-      "files": [
-        "*.html",
-        "**/*.html"
-      ],
+      "files": ["*.html", "**/*.html"],
       "customSyntax": "postcss-html"
     },
     {
-      "files": [
-        "*.jsx",
-        "**/*.jsx",
-        "*.tsx",
-        "**/*.tsx"
-      ],
+      "files": ["*.jsx", "**/*.jsx", "*.tsx", "**/*.tsx"],
       "customSyntax": "@stylelint/postcss-css-in-js"
     },
     {
-      "files": [
-        "*.module.css",
-        "**/*.module.css",
-        "*.module.scss",
-        "**/*.module.scss"
-      ],
+      "files": ["*.module.css", "**/*.module.css", "*.module.scss", "**/*.module.scss"],
       "rules": {
         "selector-pseudo-class-no-unknown": [
           true,
           {
-            "ignorePseudoClasses": [
-              "export",
-              "import",
-              "global",
-              "local",
-              "external"
-            ]
+            "ignorePseudoClasses": ["export", "import", "global", "local", "external"]
           }
         ]
       }
     },
     {
-      "files": [
-        "*.quantum.css",
-        "**/*.quantum.css",
-        "*.quantum.scss",
-        "**/*.quantum.scss"
-      ],
+      "files": ["*.quantum.css", "**/*.quantum.css", "*.quantum.scss", "**/*.quantum.scss"],
       "rules": {
         "property-no-unknown": [
           true,

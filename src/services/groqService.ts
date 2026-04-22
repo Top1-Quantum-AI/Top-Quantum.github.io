@@ -30,7 +30,9 @@ export async function sendChatMessage(
   const allMessages: ChatMessage[] = [
     {
       role: 'system',
-      content: systemPrompt ?? `أنت محلل ذكاء اصطناعي متخصص في أنظمة الحوسبة الكمية والأمن السيبراني. 
+      content:
+        systemPrompt ??
+        `أنت محلل ذكاء اصطناعي متخصص في أنظمة الحوسبة الكمية والأمن السيبراني. 
 أجب باللغة العربية دائماً. قدم تحليلات دقيقة ومفيدة مع توصيات عملية.
 أنت جزء من "النظام الكمي المتقدم - Top1 Quantum AI".`,
     },
@@ -68,9 +70,7 @@ export async function sendChatMessage(
   return content;
 }
 
-export async function analyzeSystemData(
-  systemData: Record<string, unknown>
-): Promise<string> {
+export async function analyzeSystemData(systemData: Record<string, unknown>): Promise<string> {
   const prompt = `قم بتحليل بيانات النظام التالية وقدم تقريراً شاملاً:
 
 \`\`\`json
@@ -88,9 +88,7 @@ ${JSON.stringify(systemData, null, 2)}
   return sendChatMessage([{ role: 'user', content: prompt }]);
 }
 
-export async function analyzeSecurityThreats(
-  threats: Record<string, unknown>[]
-): Promise<string> {
+export async function analyzeSecurityThreats(threats: Record<string, unknown>[]): Promise<string> {
   const prompt = `حلل التهديدات الأمنية التالية وقدم تقريراً أمنياً مفصلاً:
 
 \`\`\`json

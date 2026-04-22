@@ -6,7 +6,12 @@
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
-import { authMiddleware, trackApiUsage, optionalAuth, requireSubscription } from '../middleware/auth.js';
+import {
+  authMiddleware,
+  trackApiUsage,
+  optionalAuth,
+  requireSubscription,
+} from '../middleware/auth.js';
 import { aiService, quantumService } from '../index.js';
 import Conversation from '../models/Conversation.js';
 
@@ -18,14 +23,14 @@ const aiChatLimiter = rateLimit({
   max: 20, // 20 requests per window for free users
   message: {
     error: 'تم تجاوز عدد طلبات الدردشة المسموح بها. حاول مرة أخرى بعد 15 دقيقة.',
-    errorEn: 'Too many chat requests. Please try again after 15 minutes.'
+    errorEn: 'Too many chat requests. Please try again after 15 minutes.',
   },
   standardHeaders: true,
   legacyHeaders: false,
-  skip: (req) => {
+  skip: req => {
     // Skip rate limiting for premium users - تخطي تحديد المعدل للمستخدمين المميزين
     return req.user && ['premium', 'enterprise'].includes(req.user.subscription.tier);
-  }
+  },
 });
 
 const quantumLimiter = rateLimit({
@@ -33,11 +38,11 @@ const quantumLimiter = rateLimit({
   max: 10, // 10 quantum operations per hour for free users
   message: {
     error: 'تم تجاوز عدد العمليات الكمية المسموح بها. حاول مرة أخرى بعد ساعة.',
-    errorEn: 'Too many quantum operations. Please try again after 1 hour.'
+    errorEn: 'Too many quantum operations. Please try again after 1 hour.',
   },
-  skip: (req) => {
+  skip: req => {
     return req.user && ['premium', 'enterprise'].includes(req.user.subscription.tier);
-  }
+  },
 });
 
 /**
@@ -48,54 +53,55 @@ const quantumLimiter = rateLimit({
 router.post('/chat', authMiddleware, aiChatLimiter, trackApiUsage(10), async (req, res) => {
   try {
     const { message, personality, temperature, conversationId, language } = req.body;
-    
+
     // Validation - التحقق من صحة البيانات
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       return res.status(400).json({
         success: false,
         error: 'الرسالة مطلوبة ولا يمكن أن تكون فارغة',
-        errorEn: 'Message is required and cannot be empty'
+        errorEn: 'Message is required and cannot be empty',
       });
     }
-    
+
     if (message.length > 4000) {
       return res.status(400).json({
         success: false,
         error: 'الرسالة طويلة جداً. الحد الأقصى 4000 حرف',
-        errorEn: 'Message too long. Maximum 4000 characters'
+        errorEn: 'Message too long. Maximum 4000 characters',
       });
     }
-    
+
     // Get or create conversation - الحصول على المحادثة أو إنشاؤها
     let conversation = null;
     if (conversationId) {
       conversation = await Conversation.findOne({
         _id: conversationId,
-        user: req.user._id
+        user: req.user._id,
       });
-      
+
       if (!conversation) {
         return res.status(404).json({
           success: false,
           error: 'المحادثة غير موجودة',
-          errorEn: 'Conversation not found'
+          errorEn: 'Conversation not found',
         });
       }
     }
-    
+
     // Prepare AI request - تحضير طلب الذكاء الاصطناعي
     const aiRequest = {
       message: message.trim(),
-      personality: personality || req.user.quantumPreferences.defaultPersonality || 'quantum_assistant',
+      personality:
+        personality || req.user.quantumPreferences.defaultPersonality || 'quantum_assistant',
       temperature: temperature || req.user.quantumPreferences.preferredTemperature || 0.7,
       language: language || req.user.profile.language || 'ar',
       userId: req.user._id.toString(),
-      conversationHistory: conversation ? conversation.messages.slice(-10) : [] // Last 10 messages
+      conversationHistory: conversation ? conversation.messages.slice(-10) : [], // Last 10 messages
     };
-    
+
     // Process with AI service - المعالجة بخدمة الذكاء الاصطناعي
     const aiResponse = await aiService.sendMessage(aiRequest.message, aiRequest);
-    
+
     // Create or update conversation - إنشاء أو تحديث المحادثة
     if (!conversation && req.user.quantumPreferences.saveConversationHistory) {
       conversation = new Conversation({
@@ -104,20 +110,20 @@ router.post('/chat', authMiddleware, aiChatLimiter, trackApiUsage(10), async (re
         settings: {
           personality: aiRequest.personality,
           temperature: aiRequest.temperature,
-          language: aiRequest.language
-        }
+          language: aiRequest.language,
+        },
       });
     }
-    
+
     // Add messages to conversation - إضافة الرسائل للمحادثة
     if (conversation) {
       // Add user message - إضافة رسالة المستخدم
       await conversation.addMessage({
         role: 'user',
         content: message,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
-      
+
       // Add AI response - إضافة رد الذكاء الاصطناعي
       await conversation.addMessage({
         role: 'assistant',
@@ -127,19 +133,19 @@ router.post('/chat', authMiddleware, aiChatLimiter, trackApiUsage(10), async (re
           personality: aiRequest.personality,
           temperature: aiRequest.temperature,
           tokensUsed: aiResponse.tokensUsed,
-          confidence: aiResponse.confidence
+          confidence: aiResponse.confidence,
         },
         quantumMetrics: aiResponse.quantumMetrics,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
-      
+
       await conversation.save();
     }
-    
+
     // Log successful interaction - تسجيل التفاعل الناجح
     console.log(`✅ AI chat completed for user: ${req.user.username}`);
     console.log(`✅ تم إكمال دردشة الذكاء الاصطناعي للمستخدم: ${req.user.username}`);
-    
+
     res.status(200).json({
       success: true,
       data: {
@@ -152,30 +158,29 @@ router.post('/chat', authMiddleware, aiChatLimiter, trackApiUsage(10), async (re
           tokensUsed: aiResponse.tokensUsed,
           confidence: aiResponse.confidence,
           quantumMetrics: aiResponse.quantumMetrics,
-          processingTime: aiResponse.processingTime
+          processingTime: aiResponse.processingTime,
         },
         usage: {
           requestsRemaining: req.apiUsage.limits.dailyRequests - req.apiUsage.requestsUsed,
-          tokensRemaining: req.apiUsage.limits.dailyTokens - req.apiUsage.tokensUsed
-        }
-      }
+          tokensRemaining: req.apiUsage.limits.dailyTokens - req.apiUsage.tokensUsed,
+        },
+      },
     });
-    
   } catch (error) {
     console.error('AI chat error:', error);
-    
+
     if (error.message.includes('rate limit') || error.message.includes('quota')) {
       return res.status(429).json({
         success: false,
         error: 'تم تجاوز حد الاستخدام. يرجى المحاولة لاحقاً.',
-        errorEn: 'Usage limit exceeded. Please try again later.'
+        errorEn: 'Usage limit exceeded. Please try again later.',
       });
     }
-    
+
     res.status(500).json({
       success: false,
       error: 'خطأ في معالجة طلب الذكاء الاصطناعي',
-      errorEn: 'Error processing AI request'
+      errorEn: 'Error processing AI request',
     });
   }
 });
@@ -185,54 +190,61 @@ router.post('/chat', authMiddleware, aiChatLimiter, trackApiUsage(10), async (re
  * @desc    Analyze text with quantum enhancement - تحليل النص بالتعزيز الكمي
  * @access  Private (Premium)
  */
-router.post('/quantum-analyze', 
-  authMiddleware, 
+router.post(
+  '/quantum-analyze',
+  authMiddleware,
   requireSubscription('premium'),
-  quantumLimiter, 
-  trackApiUsage(20), 
+  quantumLimiter,
+  trackApiUsage(20),
   async (req, res) => {
     try {
       const { text, analysisType, quantumDepth } = req.body;
-      
+
       // Validation - التحقق من صحة البيانات
       if (!text || typeof text !== 'string' || text.trim().length === 0) {
         return res.status(400).json({
           success: false,
           error: 'النص مطلوب للتحليل',
-          errorEn: 'Text is required for analysis'
+          errorEn: 'Text is required for analysis',
         });
       }
-      
+
       if (text.length > 10000) {
         return res.status(400).json({
           success: false,
           error: 'النص طويل جداً للتحليل الكمي. الحد الأقصى 10000 حرف',
-          errorEn: 'Text too long for quantum analysis. Maximum 10000 characters'
+          errorEn: 'Text too long for quantum analysis. Maximum 10000 characters',
         });
       }
-      
-      const validAnalysisTypes = ['sentiment', 'complexity', 'concepts', 'quantum_state', 'entanglement'];
+
+      const validAnalysisTypes = [
+        'sentiment',
+        'complexity',
+        'concepts',
+        'quantum_state',
+        'entanglement',
+      ];
       if (analysisType && !validAnalysisTypes.includes(analysisType)) {
         return res.status(400).json({
           success: false,
           error: 'نوع التحليل غير صالح',
           errorEn: 'Invalid analysis type',
-          validTypes: validAnalysisTypes
+          validTypes: validAnalysisTypes,
         });
       }
-      
+
       // Perform quantum analysis - إجراء التحليل الكمي
       const analysis = await aiService.quantumAnalyzeText({
         text: text.trim(),
         analysisType: analysisType || 'concepts',
         quantumDepth: Math.min(quantumDepth || 3, 5), // Max depth of 5
-        userId: req.user._id.toString()
+        userId: req.user._id.toString(),
       });
-      
+
       // Log quantum analysis - تسجيل التحليل الكمي
       console.log(`✅ Quantum analysis completed for user: ${req.user.username}`);
       console.log(`✅ تم إكمال التحليل الكمي للمستخدم: ${req.user.username}`);
-      
+
       res.status(200).json({
         success: true,
         data: {
@@ -241,21 +253,20 @@ router.post('/quantum-analyze',
             textLength: text.length,
             analysisType: analysisType || 'concepts',
             quantumDepth: quantumDepth || 3,
-            processingTime: analysis.processingTime
+            processingTime: analysis.processingTime,
           },
           usage: {
             requestsRemaining: req.apiUsage.limits.dailyRequests - req.apiUsage.requestsUsed,
-            tokensRemaining: req.apiUsage.limits.dailyTokens - req.apiUsage.tokensUsed
-          }
-        }
+            tokensRemaining: req.apiUsage.limits.dailyTokens - req.apiUsage.tokensUsed,
+          },
+        },
       });
-      
     } catch (error) {
       console.error('Quantum analysis error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في التحليل الكمي',
-        errorEn: 'Quantum analysis error'
+        errorEn: 'Quantum analysis error',
       });
     }
   }
@@ -269,35 +280,34 @@ router.post('/quantum-analyze',
 router.get('/personalities', optionalAuth, (req, res) => {
   try {
     const personalities = aiService.getAvailablePersonalities();
-    
+
     // Filter personalities based on subscription - تصفية الشخصيات بناءً على الاشتراك
     const userTier = req.user?.subscription?.tier || 'free';
     const filteredPersonalities = personalities.filter(p => {
       if (p.requiresSubscription) {
-        const tierLevels = { 'free': 0, 'basic': 1, 'premium': 2, 'enterprise': 3 };
+        const tierLevels = { free: 0, basic: 1, premium: 2, enterprise: 3 };
         const userLevel = tierLevels[userTier] || 0;
         const requiredLevel = tierLevels[p.requiresSubscription] || 0;
         return userLevel >= requiredLevel;
       }
       return true;
     });
-    
+
     res.status(200).json({
       success: true,
       data: {
         personalities: filteredPersonalities,
         userTier,
         totalAvailable: filteredPersonalities.length,
-        totalPersonalities: personalities.length
-      }
+        totalPersonalities: personalities.length,
+      },
     });
-    
   } catch (error) {
     console.error('Get personalities error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في الحصول على الشخصيات',
-      errorEn: 'Error getting personalities'
+      errorEn: 'Error getting personalities',
     });
   }
 });
@@ -310,7 +320,7 @@ router.get('/personalities', optionalAuth, (req, res) => {
 router.get('/usage-stats', authMiddleware, async (req, res) => {
   try {
     const stats = await aiService.getUserUsageStats(req.user._id.toString());
-    
+
     res.status(200).json({
       success: true,
       data: {
@@ -318,22 +328,21 @@ router.get('/usage-stats', authMiddleware, async (req, res) => {
         currentUsage: {
           dailyRequests: req.user.apiUsage.dailyRequests,
           dailyTokens: req.user.apiUsage.dailyTokens,
-          limits: req.user.apiUsage.limits
+          limits: req.user.apiUsage.limits,
         },
         subscription: {
           tier: req.user.subscription.tier,
           isActive: req.user.subscription.isActive,
-          expiresAt: req.user.subscription.expiresAt
-        }
-      }
+          expiresAt: req.user.subscription.expiresAt,
+        },
+      },
     });
-    
   } catch (error) {
     console.error('Get usage stats error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في الحصول على إحصائيات الاستخدام',
-      errorEn: 'Error getting usage statistics'
+      errorEn: 'Error getting usage statistics',
     });
   }
 });
@@ -346,63 +355,62 @@ router.get('/usage-stats', authMiddleware, async (req, res) => {
 router.post('/feedback', authMiddleware, async (req, res) => {
   try {
     const { conversationId, messageId, rating, feedback, category } = req.body;
-    
+
     // Validation - التحقق من صحة البيانات
     if (!conversationId || !messageId) {
       return res.status(400).json({
         success: false,
         error: 'معرف المحادثة ومعرف الرسالة مطلوبان',
-        errorEn: 'Conversation ID and message ID are required'
+        errorEn: 'Conversation ID and message ID are required',
       });
     }
-    
+
     if (rating && (rating < 1 || rating > 5)) {
       return res.status(400).json({
         success: false,
         error: 'التقييم يجب أن يكون بين 1 و 5',
-        errorEn: 'Rating must be between 1 and 5'
+        errorEn: 'Rating must be between 1 and 5',
       });
     }
-    
+
     // Find conversation - البحث عن المحادثة
     const conversation = await Conversation.findOne({
       _id: conversationId,
-      user: req.user._id
+      user: req.user._id,
     });
-    
+
     if (!conversation) {
       return res.status(404).json({
         success: false,
         error: 'المحادثة غير موجودة',
-        errorEn: 'Conversation not found'
+        errorEn: 'Conversation not found',
       });
     }
-    
+
     // Add feedback - إضافة التقييم
     const feedbackData = {
       rating: rating || null,
       feedback: feedback || '',
       category: category || 'general',
-      timestamp: new Date()
+      timestamp: new Date(),
     };
-    
+
     await conversation.addFeedback(messageId, feedbackData);
-    
+
     console.log(`✅ Feedback submitted by user: ${req.user.username}`);
     console.log(`✅ تم إرسال التقييم من المستخدم: ${req.user.username}`);
-    
+
     res.status(200).json({
       success: true,
       message: 'تم إرسال التقييم بنجاح',
-      messageEn: 'Feedback submitted successfully'
+      messageEn: 'Feedback submitted successfully',
     });
-    
   } catch (error) {
     console.error('Submit feedback error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في إرسال التقييم',
-      errorEn: 'Error submitting feedback'
+      errorEn: 'Error submitting feedback',
     });
   }
 });
@@ -415,24 +423,23 @@ router.post('/feedback', authMiddleware, async (req, res) => {
 router.get('/health', async (req, res) => {
   try {
     const health = await aiService.getHealthStatus();
-    
+
     res.status(200).json({
       success: true,
       data: {
         status: health.status,
         services: health.services,
         metrics: health.metrics,
-        timestamp: new Date()
-      }
+        timestamp: new Date(),
+      },
     });
-    
   } catch (error) {
     console.error('AI health check error:', error);
     res.status(503).json({
       success: false,
       error: 'خطأ في فحص صحة الخدمة',
       errorEn: 'Service health check error',
-      status: 'unhealthy'
+      status: 'unhealthy',
     });
   }
 });

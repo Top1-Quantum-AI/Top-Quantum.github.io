@@ -21,5 +21,7 @@ export const aiService = {
     void personality;
     return Promise.resolve(defaultResponse);
   },
-  clearHistory: (): void => { /* no-op */ },
+  clearHistory: (): void => {
+    /* no-op */
+  },
 };

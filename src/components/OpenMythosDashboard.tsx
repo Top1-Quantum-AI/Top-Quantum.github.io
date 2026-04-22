@@ -71,16 +71,16 @@ const InfoCard: React.FC<{
   color: string;
   icon: React.ReactNode;
 }> = ({ label, value, color, icon }) => (
-  <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 flex items-center gap-4">
+  <div className='bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 flex items-center gap-4'>
     <div
-      className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+      className='w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0'
       style={{ background: `${color}22` }}
     >
       <span style={{ color }}>{icon}</span>
     </div>
-    <div className="min-w-0">
-      <p className="text-xs text-gray-400">{label}</p>
-      <p className="text-sm font-semibold text-white truncate">{value}</p>
+    <div className='min-w-0'>
+      <p className='text-xs text-gray-400'>{label}</p>
+      <p className='text-sm font-semibold text-white truncate'>{value}</p>
     </div>
   </div>
 );
@@ -107,7 +107,10 @@ const OpenMythosDashboard: React.FC = () => {
 
   const MODEL_ID = `mythos-${attnType}`;
   const appendLog = (msg: string): void =>
-    setLog(prev => [`[${new Date().toLocaleTimeString('ar-SA')}] ${msg}`, ...prev.slice(0, MAX_LOG_ENTRIES - 1)]);
+    setLog(prev => [
+      `[${new Date().toLocaleTimeString('ar-SA')}] ${msg}`,
+      ...prev.slice(0, MAX_LOG_ENTRIES - 1),
+    ]);
 
   // ── Health check ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -155,7 +158,7 @@ const OpenMythosDashboard: React.FC = () => {
     try {
       // Batch of 2 sequences, length 16
       const ids = Array.from({ length: 2 }, () =>
-        Array.from({ length: 16 }, () => Math.floor(Math.random() * 1000)),
+        Array.from({ length: 16 }, () => Math.floor(Math.random() * 1000))
       );
       appendLog(`تشغيل forward pass بـ ${nLoops} حلقات...`);
       const result = await forwardPass(MODEL_ID, ids, nLoops);
@@ -177,7 +180,7 @@ const OpenMythosDashboard: React.FC = () => {
     setIsGenerating(true);
     try {
       const ids = Array.from({ length: 2 }, () =>
-        Array.from({ length: 16 }, () => Math.floor(Math.random() * 1000)),
+        Array.from({ length: 16 }, () => Math.floor(Math.random() * 1000))
       );
       appendLog(`توليد ${maxNewTokens} رمز بـ ${nLoops} حلقات...`);
       const result = await generateTokens(MODEL_ID, ids, maxNewTokens, nLoops, temperature);
@@ -196,42 +199,42 @@ const OpenMythosDashboard: React.FC = () => {
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/25">
-            <Brain className="w-5 h-5 text-white" />
+      <div className='flex items-center justify-between'>
+        <div className='flex items-center gap-3'>
+          <div className='w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/25'>
+            <Brain className='w-5 h-5 text-white' />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white">OpenMythos</h2>
-            <p className="text-xs text-gray-400">نموذج لغوي هجين: Transformer + Recurrent + MoE</p>
+            <h2 className='text-lg font-bold text-white'>OpenMythos</h2>
+            <p className='text-xs text-gray-400'>نموذج لغوي هجين: Transformer + Recurrent + MoE</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 text-xs">
-          {serviceOnline === null && <Loader2 className="w-4 h-4 animate-spin text-gray-400" />}
+        <div className='flex items-center gap-2 text-xs'>
+          {serviceOnline === null && <Loader2 className='w-4 h-4 animate-spin text-gray-400' />}
           {serviceOnline === true && (
-            <span className="flex items-center gap-1 text-green-400">
-              <CheckCircle className="w-4 h-4" /> الخدمة متاحة
+            <span className='flex items-center gap-1 text-green-400'>
+              <CheckCircle className='w-4 h-4' /> الخدمة متاحة
             </span>
           )}
           {serviceOnline === false && (
-            <span className="flex items-center gap-1 text-red-400">
-              <AlertCircle className="w-4 h-4" /> الخدمة غير متاحة
+            <span className='flex items-center gap-1 text-red-400'>
+              <AlertCircle className='w-4 h-4' /> الخدمة غير متاحة
             </span>
           )}
         </div>
       </div>
 
       {/* Config panel */}
-      <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-5 space-y-4">
-        <div className="flex items-center gap-2 text-sm font-semibold text-gray-300 mb-2">
-          <Settings2 className="w-4 h-4 text-violet-400" />
+      <div className='bg-gray-800/50 border border-gray-700/50 rounded-xl p-5 space-y-4'>
+        <div className='flex items-center gap-2 text-sm font-semibold text-gray-300 mb-2'>
+          <Settings2 className='w-4 h-4 text-violet-400' />
           إعداد النموذج
         </div>
 
         {/* Attention type */}
-        <div className="flex gap-3">
+        <div className='flex gap-3'>
           {(['gqa', 'mla'] as const).map(t => (
             <button
               key={t}
@@ -248,46 +251,63 @@ const OpenMythosDashboard: React.FC = () => {
         </div>
 
         {/* Sliders */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
           <div>
-            <label className="text-xs text-gray-400 mb-1 block">حلقات التكرار (n_loops): {nLoops}</label>
+            <label className='text-xs text-gray-400 mb-1 block'>
+              حلقات التكرار (n_loops): {nLoops}
+            </label>
             <input
-              type="range" min={1} max={8}
-              step={1} value={nLoops}
+              type='range'
+              min={1}
+              max={8}
+              step={1}
+              value={nLoops}
               onChange={e => setNLoops(Number(e.target.value))}
-              className="w-full accent-violet-500"
+              className='w-full accent-violet-500'
             />
           </div>
           <div>
-            <label className="text-xs text-gray-400 mb-1 block">رموز التوليد: {maxNewTokens}</label>
+            <label className='text-xs text-gray-400 mb-1 block'>رموز التوليد: {maxNewTokens}</label>
             <input
-              type="range" min={1} max={64}
-              step={1} value={maxNewTokens}
+              type='range'
+              min={1}
+              max={64}
+              step={1}
+              value={maxNewTokens}
               onChange={e => setMaxNewTokens(Number(e.target.value))}
-              className="w-full accent-fuchsia-500"
+              className='w-full accent-fuchsia-500'
             />
           </div>
           <div>
-            <label className="text-xs text-gray-400 mb-1 block">الحرارة: {temperature.toFixed(2)}</label>
+            <label className='text-xs text-gray-400 mb-1 block'>
+              الحرارة: {temperature.toFixed(2)}
+            </label>
             <input
-              type="range" min={0.1} max={2}
-              step={0.05} value={temperature}
+              type='range'
+              min={0.1}
+              max={2}
+              step={0.05}
+              value={temperature}
               onChange={e => setTemperature(Number(e.target.value))}
-              className="w-full accent-pink-500"
+              className='w-full accent-pink-500'
             />
           </div>
         </div>
 
         {/* Action buttons */}
-        <div className="flex flex-wrap gap-3 pt-1">
+        <div className='flex flex-wrap gap-3 pt-1'>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleCreate}
             disabled={isBusy}
-            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-all"
+            className='flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-all'
           >
-            {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Cpu className="w-4 h-4" />}
+            {isCreating ? (
+              <Loader2 className='w-4 h-4 animate-spin' />
+            ) : (
+              <Cpu className='w-4 h-4' />
+            )}
             إنشاء النموذج
           </motion.button>
 
@@ -296,9 +316,13 @@ const OpenMythosDashboard: React.FC = () => {
             whileTap={{ scale: 0.97 }}
             onClick={handleForward}
             disabled={isBusy || !modelInfo}
-            className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-all"
+            className='flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-all'
           >
-            {isRunning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+            {isRunning ? (
+              <Loader2 className='w-4 h-4 animate-spin' />
+            ) : (
+              <Play className='w-4 h-4' />
+            )}
             Forward Pass
           </motion.button>
 
@@ -307,9 +331,13 @@ const OpenMythosDashboard: React.FC = () => {
             whileTap={{ scale: 0.97 }}
             onClick={handleGenerate}
             disabled={isBusy || !modelInfo}
-            className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-all"
+            className='flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-semibold disabled:opacity-50 transition-all'
           >
-            {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+            {isGenerating ? (
+              <Loader2 className='w-4 h-4 animate-spin' />
+            ) : (
+              <Zap className='w-4 h-4' />
+            )}
             توليد الرموز
           </motion.button>
         </div>
@@ -317,63 +345,63 @@ const OpenMythosDashboard: React.FC = () => {
 
       {/* Error */}
       {error && (
-        <div className="flex items-center gap-3 bg-red-900/30 border border-red-500/30 rounded-xl p-4 text-sm text-red-300">
-          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+        <div className='flex items-center gap-3 bg-red-900/30 border border-red-500/30 rounded-xl p-4 text-sm text-red-300'>
+          <AlertCircle className='w-5 h-5 flex-shrink-0' />
           {error}
         </div>
       )}
 
       {/* Model info cards */}
       {modelInfo && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
           <InfoCard
-            label="المعاملات"
+            label='المعاملات'
             value={modelInfo.total_parameters.toLocaleString('ar-SA')}
-            color="#a855f7"
-            icon={<Brain className="w-5 h-5" />}
+            color='#a855f7'
+            icon={<Brain className='w-5 h-5' />}
           />
           <InfoCard
-            label="نوع الانتباه"
+            label='نوع الانتباه'
             value={attnType.toUpperCase()}
-            color="#06b6d4"
-            icon={<Activity className="w-5 h-5" />}
+            color='#06b6d4'
+            icon={<Activity className='w-5 h-5' />}
           />
           <InfoCard
-            label="ρ(A) – الاستقرار"
+            label='ρ(A) – الاستقرار'
             value={
               spectralRadius !== null
                 ? `${spectralRadius.toFixed(4)} ${spectralRadius < 1 ? '✓' : '✗'}`
                 : '—'
             }
             color={spectralRadius !== null && spectralRadius < 1 ? '#22c55e' : '#ef4444'}
-            icon={<CheckCircle className="w-5 h-5" />}
+            icon={<CheckCircle className='w-5 h-5' />}
           />
           <InfoCard
-            label="حلقات التكرار"
+            label='حلقات التكرار'
             value={`${nLoops} / ${modelInfo.config['max_loop_iters'] as number}`}
-            color="#f59e0b"
-            icon={<RefreshCw className="w-5 h-5" />}
+            color='#f59e0b'
+            icon={<RefreshCw className='w-5 h-5' />}
           />
         </div>
       )}
 
       {/* Results */}
       {(forwardShape ?? genShape) && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
           {forwardShape && (
-            <div className="bg-blue-900/20 border border-blue-500/30 rounded-xl p-4">
-              <p className="text-xs text-blue-400 mb-1">شكل Logits</p>
-              <code className="text-white font-mono text-sm">[{forwardShape.join(', ')}]</code>
-              <p className="text-xs text-gray-500 mt-1">
+            <div className='bg-blue-900/20 border border-blue-500/30 rounded-xl p-4'>
+              <p className='text-xs text-blue-400 mb-1'>شكل Logits</p>
+              <code className='text-white font-mono text-sm'>[{forwardShape.join(', ')}]</code>
+              <p className='text-xs text-gray-500 mt-1'>
                 [batch={forwardShape[0]}, seq={forwardShape[1]}, vocab={forwardShape[2]}]
               </p>
             </div>
           )}
           {genShape && (
-            <div className="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-4">
-              <p className="text-xs text-emerald-400 mb-1">شكل الإخراج المولّد</p>
-              <code className="text-white font-mono text-sm">[{genShape.join(', ')}]</code>
-              <p className="text-xs text-gray-500 mt-1">
+            <div className='bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-4'>
+              <p className='text-xs text-emerald-400 mb-1'>شكل الإخراج المولّد</p>
+              <code className='text-white font-mono text-sm'>[{genShape.join(', ')}]</code>
+              <p className='text-xs text-gray-500 mt-1'>
                 [batch={genShape[0]}, seq_total={genShape[1]}]
               </p>
             </div>
@@ -383,11 +411,11 @@ const OpenMythosDashboard: React.FC = () => {
 
       {/* Log */}
       {log.length > 0 && (
-        <div className="bg-gray-900/70 border border-gray-700/50 rounded-xl p-4">
-          <p className="text-xs text-gray-500 mb-2 font-mono">سجل العمليات</p>
-          <div className="space-y-1 max-h-48 overflow-y-auto">
+        <div className='bg-gray-900/70 border border-gray-700/50 rounded-xl p-4'>
+          <p className='text-xs text-gray-500 mb-2 font-mono'>سجل العمليات</p>
+          <div className='space-y-1 max-h-48 overflow-y-auto'>
             {log.map((entry, i) => (
-              <p key={i} className="text-xs font-mono text-gray-300">
+              <p key={i} className='text-xs font-mono text-gray-300'>
                 {entry}
               </p>
             ))}

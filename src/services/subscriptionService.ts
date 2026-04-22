@@ -243,9 +243,8 @@ export function changePlan(planId: PlanId, billingCycle: 'monthly' | 'annual'): 
   user.subscription.startDate = now.toISOString();
   user.subscription.endDate = endDate.toISOString();
   user.subscription.status = planId === 'free' ? 'active' : 'trial';
-  user.subscription.trialEndsAt = planId === 'free'
-    ? null
-    : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
+  user.subscription.trialEndsAt =
+    planId === 'free' ? null : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
 
   saveUser(user);
   return user;
@@ -316,13 +315,15 @@ export function getUsagePercentages(): { simulations: number; aiQueries: number 
   const plan = PLANS[user.subscription.planId];
   if (plan == null) return { simulations: 0, aiQueries: 0 };
 
-  const simPct = plan.limits.maxSimulationsPerMonth === Infinity
-    ? 0
-    : (user.subscription.usage.simulationsThisMonth / plan.limits.maxSimulationsPerMonth) * 100;
+  const simPct =
+    plan.limits.maxSimulationsPerMonth === Infinity
+      ? 0
+      : (user.subscription.usage.simulationsThisMonth / plan.limits.maxSimulationsPerMonth) * 100;
 
-  const aiPct = plan.limits.maxAiQueriesPerMonth === Infinity
-    ? 0
-    : (user.subscription.usage.aiQueriesThisMonth / plan.limits.maxAiQueriesPerMonth) * 100;
+  const aiPct =
+    plan.limits.maxAiQueriesPerMonth === Infinity
+      ? 0
+      : (user.subscription.usage.aiQueriesThisMonth / plan.limits.maxAiQueriesPerMonth) * 100;
 
   return { simulations: Math.min(simPct, 100), aiQueries: Math.min(aiPct, 100) };
 }

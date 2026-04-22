@@ -16,7 +16,7 @@ class QuantumState {
     this.numQubits = numQubits;
     this.numStates = Math.pow(2, numQubits);
     this.amplitudes = new Array(this.numStates).fill(null).map(() => new Complex(0, 0));
-    
+
     // Initialize to |0...0⟩ state
     this.amplitudes[0] = new Complex(1, 0);
   }
@@ -45,10 +45,12 @@ class QuantumState {
    * تطبيع الحالة الكمية
    */
   normalize() {
-    const norm = Math.sqrt(this.amplitudes.reduce((sum, amp) => {
-      return sum + Math.pow(amp.abs(), 2);
-    }, 0));
-    
+    const norm = Math.sqrt(
+      this.amplitudes.reduce((sum, amp) => {
+        return sum + Math.pow(amp.abs(), 2);
+      }, 0)
+    );
+
     if (norm > 0) {
       this.amplitudes = this.amplitudes.map(amp => amp.div(norm));
     }
@@ -80,7 +82,7 @@ class QuantumState {
     if (vector.length !== this.numStates) {
       throw new Error('Vector length must match number of states');
     }
-    
+
     this.amplitudes = vector.map(v => new Complex(v.real || 0, v.imag || 0));
     this.normalize();
   }
@@ -98,7 +100,11 @@ class QuantumState {
 
   // Added: import state from serialized object
   import(stateData) {
-    const vector = Array.isArray(stateData) ? stateData : (stateData && stateData.amplitudes) ? stateData.amplitudes : null;
+    const vector = Array.isArray(stateData)
+      ? stateData
+      : stateData && stateData.amplitudes
+        ? stateData.amplitudes
+        : null;
     if (!vector) {
       throw new Error('Invalid state format for import');
     }
@@ -113,7 +119,12 @@ class QuantumState {
     if (controlQubit === targetQubit) {
       throw new Error('Control and target qubits must be different');
     }
-    if (controlQubit < 0 || controlQubit >= this.numQubits || targetQubit < 0 || targetQubit >= this.numQubits) {
+    if (
+      controlQubit < 0 ||
+      controlQubit >= this.numQubits ||
+      targetQubit < 0 ||
+      targetQubit >= this.numQubits
+    ) {
       throw new Error('Qubit index out of range');
     }
     gate.apply(this, [controlQubit, targetQubit]);
@@ -130,7 +141,7 @@ class QuantumState {
       let result = 0;
       for (let i = 0; i < targetQubits.length; i++) {
         const bit = (stateIndex >> (totalQubits - 1 - targetQubits[i])) & 1;
-        result |= (bit << (targetQubits.length - 1 - i));
+        result |= bit << (targetQubits.length - 1 - i);
       }
       return result;
     };
@@ -145,13 +156,17 @@ class QuantumState {
     };
 
     // Reduced density matrix (complex entries)
-    const rho = new Array(subsystemStates).fill(null).map(() => new Array(subsystemStates).fill(null).map(() => new Complex(0, 0)));
+    const rho = new Array(subsystemStates)
+      .fill(null)
+      .map(() => new Array(subsystemStates).fill(null).map(() => new Complex(0, 0)));
     for (let i = 0; i < this.numStates; i++) {
       for (let j = 0; j < this.numStates; j++) {
         const iSub = extractTargetBits(i, subsystemQubits, this.numQubits);
         const jSub = extractTargetBits(j, subsystemQubits, this.numQubits);
         if (environmentStatesMatch(i, j, subsystemQubits, this.numQubits)) {
-          rho[iSub][jSub] = rho[iSub][jSub].add(this.amplitudes[i].mul(this.amplitudes[j].conjugate()));
+          rho[iSub][jSub] = rho[iSub][jSub].add(
+            this.amplitudes[i].mul(this.amplitudes[j].conjugate())
+          );
         }
       }
     }
@@ -159,7 +174,10 @@ class QuantumState {
     // Eigenvalues (handle 2x2 exactly, else diagonal approximation)
     let eigenvalues;
     if (rho.length === 2) {
-      const a = rho[0][0].re, b = rho[0][1].re, c = rho[1][0].re, d = rho[1][1].re;
+      const a = rho[0][0].re,
+        b = rho[0][1].re,
+        c = rho[1][0].re,
+        d = rho[1][1].re;
       const tr = a + d;
       const det = a * d - b * c;
       const disc = tr * tr - 4 * det;
@@ -187,7 +205,7 @@ class QuantumState {
       numQubits: this.numQubits,
       amplitudes: this.getAmplitudes(),
       probabilities: this.getAllProbabilities(),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -218,11 +236,11 @@ class QuantumState {
       if (!Array.isArray(targetQubits)) {
         targetQubits = [targetQubits];
       }
-      
+
       result = targetQubits.map(qubit => {
         return (measuredState >> (this.numQubits - 1 - qubit)) & 1;
       });
-      
+
       if (result.length === 1) {
         result = result[0];
       }
@@ -275,14 +293,14 @@ class QuantumGate {
     }
 
     const newAmplitudes = new Array(state.numStates).fill(null).map(() => new Complex(0, 0));
-    
+
     for (let i = 0; i < state.numStates; i++) {
       const inputState = this.extractTargetBits(i, targetQubits, state.numQubits);
-      
+
       for (let j = 0; j < this.matrix.length; j++) {
         const outputState = this.insertTargetBits(i, j, targetQubits, state.numQubits);
         const matrixElement = this.matrix[j][inputState];
-        
+
         if (matrixElement && !matrixElement.equals(0)) {
           newAmplitudes[outputState] = newAmplitudes[outputState].add(
             state.amplitudes[i].mul(matrixElement)
@@ -290,7 +308,7 @@ class QuantumGate {
         }
       }
     }
-    
+
     state.amplitudes = newAmplitudes;
   }
 
@@ -302,7 +320,7 @@ class QuantumGate {
     let result = 0;
     for (let i = 0; i < targetQubits.length; i++) {
       const bit = (stateIndex >> (totalQubits - 1 - targetQubits[i])) & 1;
-      result |= (bit << (targetQubits.length - 1 - i));
+      result |= bit << (targetQubits.length - 1 - i);
     }
     return result;
   }
@@ -313,17 +331,17 @@ class QuantumGate {
    */
   insertTargetBits(originalIndex, newBits, targetQubits, totalQubits) {
     let result = originalIndex;
-    
+
     for (let i = 0; i < targetQubits.length; i++) {
       const bitPos = totalQubits - 1 - targetQubits[i];
       const newBit = (newBits >> (targetQubits.length - 1 - i)) & 1;
-      
+
       // Clear the bit
       result &= ~(1 << bitPos);
       // Set the new bit
-      result |= (newBit << bitPos);
+      result |= newBit << bitPos;
     }
-    
+
     return result;
   }
 }
@@ -338,10 +356,10 @@ class QuantumService extends EventEmitter {
     this.gates = new Map();
     this.circuits = new Map();
     this.simulationHistory = [];
-    
+
     // Initialize standard gates
     this.initializeStandardGates();
-    
+
     console.log('✅ Quantum Service initialized');
     console.log('✅ تم تهيئة خدمة الحوسبة الكمية');
   }
@@ -354,58 +372,62 @@ class QuantumService extends EventEmitter {
     // Pauli-X Gate (NOT)
     const pauliX = new QuantumGate('X', [
       [new Complex(0, 0), new Complex(1, 0)],
-      [new Complex(1, 0), new Complex(0, 0)]
+      [new Complex(1, 0), new Complex(0, 0)],
     ]);
     this.gates.set('X', pauliX);
 
     // Pauli-Y Gate
     const pauliY = new QuantumGate('Y', [
       [new Complex(0, 0), new Complex(0, -1)],
-      [new Complex(0, 1), new Complex(0, 0)]
+      [new Complex(0, 1), new Complex(0, 0)],
     ]);
     this.gates.set('Y', pauliY);
 
     // Pauli-Z Gate
     const pauliZ = new QuantumGate('Z', [
       [new Complex(1, 0), new Complex(0, 0)],
-      [new Complex(0, 0), new Complex(-1, 0)]
+      [new Complex(0, 0), new Complex(-1, 0)],
     ]);
     this.gates.set('Z', pauliZ);
 
     // Hadamard Gate
     const hadamard = new QuantumGate('H', [
-      [new Complex(1/Math.sqrt(2), 0), new Complex(1/Math.sqrt(2), 0)],
-      [new Complex(1/Math.sqrt(2), 0), new Complex(-1/Math.sqrt(2), 0)]
+      [new Complex(1 / Math.sqrt(2), 0), new Complex(1 / Math.sqrt(2), 0)],
+      [new Complex(1 / Math.sqrt(2), 0), new Complex(-1 / Math.sqrt(2), 0)],
     ]);
     this.gates.set('H', hadamard);
 
     // Phase Gate (S)
     const phase = new QuantumGate('S', [
       [new Complex(1, 0), new Complex(0, 0)],
-      [new Complex(0, 0), new Complex(0, 1)]
+      [new Complex(0, 0), new Complex(0, 1)],
     ]);
     this.gates.set('S', phase);
 
     // T Gate
     const tGate = new QuantumGate('T', [
       [new Complex(1, 0), new Complex(0, 0)],
-      [new Complex(0, 0), new Complex(1/Math.sqrt(2), 1/Math.sqrt(2))]
+      [new Complex(0, 0), new Complex(1 / Math.sqrt(2), 1 / Math.sqrt(2))],
     ]);
     this.gates.set('T', tGate);
 
     // CNOT Gate (2-qubit)
-    const cnot = new QuantumGate('CNOT', [
-      [new Complex(1, 0), new Complex(0, 0), new Complex(0, 0), new Complex(0, 0)],
-      [new Complex(0, 0), new Complex(1, 0), new Complex(0, 0), new Complex(0, 0)],
-      [new Complex(0, 0), new Complex(0, 0), new Complex(0, 0), new Complex(1, 0)],
-      [new Complex(0, 0), new Complex(0, 0), new Complex(1, 0), new Complex(0, 0)]
-    ], 2);
+    const cnot = new QuantumGate(
+      'CNOT',
+      [
+        [new Complex(1, 0), new Complex(0, 0), new Complex(0, 0), new Complex(0, 0)],
+        [new Complex(0, 0), new Complex(1, 0), new Complex(0, 0), new Complex(0, 0)],
+        [new Complex(0, 0), new Complex(0, 0), new Complex(0, 0), new Complex(1, 0)],
+        [new Complex(0, 0), new Complex(0, 0), new Complex(1, 0), new Complex(0, 0)],
+      ],
+      2
+    );
     this.gates.set('CNOT', cnot);
 
     // Identity Gate
     const identity = new QuantumGate('I', [
       [new Complex(1, 0), new Complex(0, 0)],
-      [new Complex(0, 0), new Complex(1, 0)]
+      [new Complex(0, 0), new Complex(1, 0)],
     ]);
     this.gates.set('I', identity);
   }
@@ -418,7 +440,7 @@ class QuantumService extends EventEmitter {
     if (numQubits < 1 || numQubits > 20) {
       throw new Error('Number of qubits must be between 1 and 20');
     }
-    
+
     return new QuantumState(numQubits);
   }
 
@@ -444,11 +466,11 @@ class QuantumService extends EventEmitter {
     }
 
     gate.apply(state, targetQubits);
-    
+
     this.emit('gateApplied', {
       gate: gateName,
       targetQubits,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     return state;
@@ -479,11 +501,11 @@ class QuantumService extends EventEmitter {
       if (!Array.isArray(targetQubits)) {
         targetQubits = [targetQubits];
       }
-      
+
       result = targetQubits.map(qubit => {
         return (measuredState >> (state.numQubits - 1 - qubit)) & 1;
       });
-      
+
       if (result.length === 1) {
         result = result[0];
       }
@@ -500,7 +522,7 @@ class QuantumService extends EventEmitter {
       result,
       measuredState,
       probabilities,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     return result;
@@ -538,7 +560,7 @@ class QuantumService extends EventEmitter {
     let result = 0;
     for (let i = 0; i < targetQubits.length; i++) {
       const bit = (stateIndex >> (totalQubits - 1 - targetQubits[i])) & 1;
-      result |= (bit << (targetQubits.length - 1 - i));
+      result |= bit << (targetQubits.length - 1 - i);
     }
     return result;
   }
@@ -549,12 +571,12 @@ class QuantumService extends EventEmitter {
    */
   createSuperposition(numQubits, amplitudes = null) {
     const state = this.createQuantumState(numQubits);
-    
+
     if (amplitudes) {
       if (amplitudes.length !== state.numStates) {
         throw new Error('Amplitudes array length must match number of states');
       }
-      
+
       state.amplitudes = amplitudes.map(amp => {
         if (typeof amp === 'number') {
           return new Complex(amp, 0);
@@ -564,14 +586,14 @@ class QuantumService extends EventEmitter {
           return new Complex(amp, 0);
         }
       });
-      
+
       state.normalize();
     } else {
       // Create equal superposition
       const amplitude = new Complex(1 / Math.sqrt(state.numStates), 0);
       state.amplitudes = state.amplitudes.map(() => amplitude);
     }
-    
+
     return state;
   }
 
@@ -586,7 +608,7 @@ class QuantumService extends EventEmitter {
 
     const state = this.createQuantumState(numQubits);
     const steps = [];
-    
+
     // Step 1: Create superposition
     for (let i = 0; i < numQubits; i++) {
       this.applyGate(state, 'H', i);
@@ -595,27 +617,27 @@ class QuantumService extends EventEmitter {
 
     // Calculate optimal number of iterations
     const N = Math.pow(2, numQubits);
-    const optimalIterations = Math.floor(Math.PI / 4 * Math.sqrt(N));
+    const optimalIterations = Math.floor((Math.PI / 4) * Math.sqrt(N));
 
     // Grover iterations
     for (let iter = 0; iter < optimalIterations; iter++) {
       // Oracle: flip the phase of target state
       state.amplitudes[targetState] = state.amplitudes[targetState].mul(-1);
-      
+
       // Diffusion operator
       // Apply H to all qubits
       for (let i = 0; i < numQubits; i++) {
         this.applyGate(state, 'H', i);
       }
-      
+
       // Flip phase of |0...0⟩ state
       state.amplitudes[0] = state.amplitudes[0].mul(-1);
-      
+
       // Apply H to all qubits again
       for (let i = 0; i < numQubits; i++) {
         this.applyGate(state, 'H', i);
       }
-      
+
       steps.push({ step: `iteration_${iter + 1}`, state: state.clone() });
     }
 
@@ -627,7 +649,7 @@ class QuantumService extends EventEmitter {
       finalState: state,
       steps,
       successProbability: state.getProbability(targetState),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     this.simulationHistory.push(result);
@@ -643,35 +665,35 @@ class QuantumService extends EventEmitter {
   quantumFourierTransform(state) {
     const n = state.numQubits;
     const steps = [];
-    
+
     for (let i = 0; i < n; i++) {
       // Apply Hadamard gate
       this.applyGate(state, 'H', i);
-      
+
       // Apply controlled phase gates
       for (let j = i + 1; j < n; j++) {
         const angle = Math.PI / Math.pow(2, j - i);
         this.applyControlledPhase(state, i, j, angle);
       }
-      
+
       steps.push({ step: `qft_step_${i}`, state: state.clone() });
     }
-    
+
     // Reverse the order of qubits
     this.reverseQubits(state);
     steps.push({ step: 'reverse_qubits', state: state.clone() });
-    
+
     const result = {
       algorithm: 'QFT',
       numQubits: n,
       finalState: state,
       steps,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
-    
+
     this.simulationHistory.push(result);
     this.emit('algorithmCompleted', result);
-    
+
     return result;
   }
 
@@ -684,9 +706,14 @@ class QuantumService extends EventEmitter {
       [new Complex(1, 0), new Complex(0, 0), new Complex(0, 0), new Complex(0, 0)],
       [new Complex(0, 0), new Complex(1, 0), new Complex(0, 0), new Complex(0, 0)],
       [new Complex(0, 0), new Complex(0, 0), new Complex(1, 0), new Complex(0, 0)],
-      [new Complex(0, 0), new Complex(0, 0), new Complex(0, 0), new Complex(Math.cos(angle), Math.sin(angle))]
+      [
+        new Complex(0, 0),
+        new Complex(0, 0),
+        new Complex(0, 0),
+        new Complex(Math.cos(angle), Math.sin(angle)),
+      ],
     ];
-    
+
     const gate = new QuantumGate('CPhase', phaseMatrix, 2);
     gate.apply(state, [controlQubit, targetQubit]);
   }
@@ -698,16 +725,16 @@ class QuantumService extends EventEmitter {
   reverseQubits(state) {
     const n = state.numQubits;
     const newAmplitudes = new Array(state.numStates).fill(null).map(() => new Complex(0, 0));
-    
+
     for (let i = 0; i < state.numStates; i++) {
       let reversedIndex = 0;
       for (let j = 0; j < n; j++) {
         const bit = (i >> j) & 1;
-        reversedIndex |= (bit << (n - 1 - j));
+        reversedIndex |= bit << (n - 1 - j);
       }
       newAmplitudes[reversedIndex] = state.amplitudes[i];
     }
-    
+
     state.amplitudes = newAmplitudes;
   }
 
@@ -719,39 +746,38 @@ class QuantumService extends EventEmitter {
     if (!Array.isArray(subsystemQubits)) {
       subsystemQubits = [subsystemQubits];
     }
-    
+
     const subsystemSize = subsystemQubits.length;
     const subsystemStates = Math.pow(2, subsystemSize);
-    
+
     // Calculate reduced density matrix
     const reducedDensityMatrix = new Array(subsystemStates)
       .fill(null)
       .map(() => new Array(subsystemStates).fill(null).map(() => new Complex(0, 0)));
-    
+
     for (let i = 0; i < state.numStates; i++) {
       for (let j = 0; j < state.numStates; j++) {
         const iSubsystem = this.extractTargetBits(i, subsystemQubits, state.numQubits);
         const jSubsystem = this.extractTargetBits(j, subsystemQubits, state.numQubits);
-        
+
         if (this.environmentStatesMatch(i, j, subsystemQubits, state.numQubits)) {
-          reducedDensityMatrix[iSubsystem][jSubsystem] = 
-            reducedDensityMatrix[iSubsystem][jSubsystem].add(
-              state.amplitudes[i].mul(state.amplitudes[j].conjugate())
-            );
+          reducedDensityMatrix[iSubsystem][jSubsystem] = reducedDensityMatrix[iSubsystem][
+            jSubsystem
+          ].add(state.amplitudes[i].mul(state.amplitudes[j].conjugate()));
         }
       }
     }
-    
+
     // Calculate eigenvalues and entropy
     const eigenvalues = this.calculateEigenvalues(reducedDensityMatrix);
     let entropy = 0;
-    
+
     for (const eigenvalue of eigenvalues) {
       if (eigenvalue > 1e-10) {
         entropy -= eigenvalue * Math.log2(eigenvalue);
       }
     }
-    
+
     return entropy;
   }
 
@@ -766,10 +792,10 @@ class QuantumService extends EventEmitter {
         environmentQubits.push(i);
       }
     }
-    
+
     const env1 = this.extractTargetBits(state1, environmentQubits, totalQubits);
     const env2 = this.extractTargetBits(state2, environmentQubits, totalQubits);
-    
+
     return env1 === env2;
   }
 
@@ -783,20 +809,17 @@ class QuantumService extends EventEmitter {
       const b = matrix[0][1].re;
       const c = matrix[1][0].re;
       const d = matrix[1][1].re;
-      
+
       const trace = a + d;
       const det = a * d - b * c;
       const discriminant = trace * trace - 4 * det;
-      
+
       if (discriminant >= 0) {
         const sqrt_disc = Math.sqrt(discriminant);
-        return [
-          (trace + sqrt_disc) / 2,
-          (trace - sqrt_disc) / 2
-        ];
+        return [(trace + sqrt_disc) / 2, (trace - sqrt_disc) / 2];
       }
     }
-    
+
     // For larger matrices, return diagonal elements as approximation
     return matrix.map((row, i) => Math.max(0, row[i].re));
   }
@@ -810,11 +833,14 @@ class QuantumService extends EventEmitter {
       totalSimulations: this.simulationHistory.length,
       algorithms: {
         grover: this.simulationHistory.filter(s => s.algorithm === 'Grover').length,
-        qft: this.simulationHistory.filter(s => s.algorithm === 'QFT').length
+        qft: this.simulationHistory.filter(s => s.algorithm === 'QFT').length,
       },
-      averageQubits: this.simulationHistory.length > 0 ? 
-        this.simulationHistory.reduce((sum, s) => sum + s.numQubits, 0) / this.simulationHistory.length : 0,
-      recentSimulations: this.simulationHistory.slice(-10)
+      averageQubits:
+        this.simulationHistory.length > 0
+          ? this.simulationHistory.reduce((sum, s) => sum + s.numQubits, 0) /
+            this.simulationHistory.length
+          : 0,
+      recentSimulations: this.simulationHistory.slice(-10),
     };
   }
 
@@ -836,7 +862,7 @@ class QuantumService extends EventEmitter {
       numQubits: state.numQubits,
       amplitudes: state.getStateVector(),
       probabilities: state.getAllProbabilities(),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -877,18 +903,18 @@ class QuantumService extends EventEmitter {
       numQubits: 3,
       state: {
         amplitudes: [
-          { real: 1/Math.sqrt(2), imag: 0 },
+          { real: 1 / Math.sqrt(2), imag: 0 },
           { real: 0, imag: 0 },
           { real: 0, imag: 0 },
           { real: 0, imag: 0 },
-          { real: 1/Math.sqrt(2), imag: 0 },
+          { real: 1 / Math.sqrt(2), imag: 0 },
           { real: 0, imag: 0 },
           { real: 0, imag: 0 },
-          { real: 0, imag: 0 }
-        ]
+          { real: 0, imag: 0 },
+        ],
       },
       createdAt: new Date(),
-      lastModified: new Date()
+      lastModified: new Date(),
     };
   }
 
@@ -906,20 +932,20 @@ class QuantumService extends EventEmitter {
           id: `state_${userId}_1`,
           name: 'Bell State',
           numQubits: 2,
-          createdAt: new Date()
+          createdAt: new Date(),
         },
         {
           id: `state_${userId}_2`,
           name: 'GHZ State',
           numQubits: 3,
-          createdAt: new Date()
-        }
+          createdAt: new Date(),
+        },
       ],
       page,
       totalPages: 1,
       total: 2,
       hasNext: false,
-      hasPrev: false
+      hasPrev: false,
     };
   }
 
@@ -973,13 +999,13 @@ class QuantumService extends EventEmitter {
         break;
       }
     }
-    
+
     return {
       algorithm: 'Shor',
       input: numberToFactor,
       factors: factors.length > 0 ? factors : [1, numberToFactor],
       success: factors.length > 0,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -989,14 +1015,14 @@ class QuantumService extends EventEmitter {
    */
   async runVQE(numQubits, hamiltonian) {
     console.log(`Running VQE with ${numQubits} qubits`);
-    
+
     return {
       algorithm: 'VQE',
       numQubits,
       groundStateEnergy: -1.5 * Math.random(),
       iterations: Math.floor(Math.random() * 100) + 50,
       convergence: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -1024,7 +1050,7 @@ class QuantumService extends EventEmitter {
         complexity: 'O(√N)',
         minQubits: 2,
         maxQubits: 8,
-        requiresSubscription: 'basic'
+        requiresSubscription: 'basic',
       },
       {
         name: 'Quantum Fourier Transform',
@@ -1034,7 +1060,7 @@ class QuantumService extends EventEmitter {
         complexity: 'O(n²)',
         minQubits: 2,
         maxQubits: 10,
-        requiresSubscription: 'basic'
+        requiresSubscription: 'basic',
       },
       {
         name: "Shor's Factorization",
@@ -1044,7 +1070,7 @@ class QuantumService extends EventEmitter {
         complexity: 'O((log n)³)',
         minQubits: 4,
         maxQubits: 12,
-        requiresSubscription: 'premium'
+        requiresSubscription: 'premium',
       },
       {
         name: 'Variational Quantum Eigensolver',
@@ -1054,8 +1080,8 @@ class QuantumService extends EventEmitter {
         complexity: 'O(poly(n))',
         minQubits: 2,
         maxQubits: 8,
-        requiresSubscription: 'premium'
-      }
+        requiresSubscription: 'premium',
+      },
     ];
   }
 
@@ -1069,13 +1095,13 @@ class QuantumService extends EventEmitter {
       services: {
         quantumSimulator: 'operational',
         gates: this.gates.size,
-        circuits: this.circuits.size
+        circuits: this.circuits.size,
       },
       metrics: {
         totalSimulations: this.simulationHistory.length,
         uptime: process.uptime(),
-        memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024 // MB
-      }
+        memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB
+      },
     };
   }
 
@@ -1099,18 +1125,18 @@ class QuantumService extends EventEmitter {
     switch (gateType) {
       case 'RX':
         return new QuantumGate('RX', [
-          [new Complex(Math.cos(angle/2), 0), new Complex(0, -Math.sin(angle/2))],
-          [new Complex(0, -Math.sin(angle/2)), new Complex(Math.cos(angle/2), 0)]
+          [new Complex(Math.cos(angle / 2), 0), new Complex(0, -Math.sin(angle / 2))],
+          [new Complex(0, -Math.sin(angle / 2)), new Complex(Math.cos(angle / 2), 0)],
         ]);
       case 'RY':
         return new QuantumGate('RY', [
-          [new Complex(Math.cos(angle/2), 0), new Complex(-Math.sin(angle/2), 0)],
-          [new Complex(Math.sin(angle/2), 0), new Complex(Math.cos(angle/2), 0)]
+          [new Complex(Math.cos(angle / 2), 0), new Complex(-Math.sin(angle / 2), 0)],
+          [new Complex(Math.sin(angle / 2), 0), new Complex(Math.cos(angle / 2), 0)],
         ]);
       case 'RZ':
         return new QuantumGate('RZ', [
-          [new Complex(Math.cos(angle/2), -Math.sin(angle/2)), new Complex(0, 0)],
-          [new Complex(0, 0), new Complex(Math.cos(angle/2), Math.sin(angle/2))]
+          [new Complex(Math.cos(angle / 2), -Math.sin(angle / 2)), new Complex(0, 0)],
+          [new Complex(0, 0), new Complex(Math.cos(angle / 2), Math.sin(angle / 2))],
         ]);
       default:
         throw new Error(`Unknown rotation gate: ${gateType}`);
@@ -1125,8 +1151,8 @@ class QuantumService extends EventEmitter {
     if (!Array.isArray(matrix) || matrix.length === 0) {
       throw new Error('Invalid matrix for custom gate');
     }
-    
-    const complexMatrix = matrix.map(row => 
+
+    const complexMatrix = matrix.map(row =>
       row.map(element => {
         if (typeof element === 'number') {
           return new Complex(element, 0);
@@ -1136,7 +1162,7 @@ class QuantumService extends EventEmitter {
         return new Complex(0, 0);
       })
     );
-    
+
     return new QuantumGate('CUSTOM', complexMatrix);
   }
 }

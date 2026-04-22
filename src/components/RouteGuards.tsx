@@ -16,7 +16,7 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
   const location = useLocation();
 
   if (user == null) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to='/login' state={{ from: location.pathname }} replace />;
   }
 
   return <>{children}</>;
@@ -31,16 +31,15 @@ export const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }
   const location = useLocation();
 
   if (user == null) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to='/login' state={{ from: location.pathname }} replace />;
   }
 
   // Check admin: look for 'admin' in name/email or explicit role marker
   const isAdmin =
-    user.email.includes('admin') ||
-    localStorage.getItem('quantum_user_role') === 'admin';
+    user.email.includes('admin') || localStorage.getItem('quantum_user_role') === 'admin';
 
   if (!isAdmin) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to='/dashboard' replace />;
   }
 
   return <>{children}</>;
@@ -54,7 +53,7 @@ export const GuestRoute: React.FC<{ children: React.ReactNode }> = ({ children }
   const user = getCurrentUser();
 
   if (user != null) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to='/dashboard' replace />;
   }
 
   return <>{children}</>;

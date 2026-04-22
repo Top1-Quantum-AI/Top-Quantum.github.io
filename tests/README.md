@@ -1,19 +1,23 @@
 # Testing Suite Documentation
 
-This is the comprehensive testing suite for the Top1-Quantum-AI project, designed to ensure code quality and functionality through rigorous testing.
+This is the comprehensive testing suite for the Top1-Quantum-AI project,
+designed to ensure code quality and functionality through rigorous testing.
 
 ## Directory Structure
 
 - `tests/`
   - `unit/` - Contains unit tests for individual components.
-  - `integration/` - Contains tests that check the integration between different components.
+  - `integration/` - Contains tests that check the integration between different
+    components.
   - `e2e/` - Contains end-to-end tests covering the entire application flow.
 
 ## Unit Tests
 
-Unit tests are designed to test specific functions or components in isolation. Use the `unit/` directory for all unit tests.
+Unit tests are designed to test specific functions or components in isolation.
+Use the `unit/` directory for all unit tests.
 
 ### Example Unit Test
+
 ```typescript
 import { myFunction } from '../../src/myFunction';
 
@@ -26,9 +30,11 @@ describe('myFunction', () => {
 
 ## Integration Tests
 
-Integration tests are meant to test the interaction between multiple components. Use the `integration/` directory for all integration tests.
+Integration tests are meant to test the interaction between multiple components.
+Use the `integration/` directory for all integration tests.
 
 ### Example Integration Test
+
 ```typescript
 import { componentA } from '../../src/componentA';
 import { componentB } from '../../src/componentB';
@@ -42,9 +48,11 @@ describe('Integration between ComponentA and ComponentB', () => {
 
 ## End-to-End Tests
 
-End-to-end tests simulate real user scenarios and ensure the system works as a whole. Use the `e2e/` directory for all end-to-end tests.
+End-to-end tests simulate real user scenarios and ensure the system works as a
+whole. Use the `e2e/` directory for all end-to-end tests.
 
 ### Example End-to-End Test
+
 ```typescript
 import { launchApp } from '../../src/app';
 
@@ -61,9 +69,14 @@ To run the tests, use the following command:
 ```bash
 npm test
 ```
+
 ---
-> Note: Ensure you have the necessary testing framework installed, like Jest or Mocha.
+
+> Note: Ensure you have the necessary testing framework installed, like Jest or
+> Mocha.
 
 ## Conclusion
 
-This testing suite is crucial for maintaining high code quality and ensuring reliability. Please follow the directory structure and testing guidelines for each type of test.
+This testing suite is crucial for maintaining high code quality and ensuring
+reliability. Please follow the directory structure and testing guidelines for
+each type of test.

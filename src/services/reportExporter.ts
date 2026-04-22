@@ -148,7 +148,7 @@ export function exportDataReport(options: ReportOptions): void {
 export async function exportDashboardSnapshot(): Promise<void> {
   const dashboard = document.querySelector('[data-dashboard]');
   if (dashboard == null) {
-    const {body} = document;
+    const { body } = document;
     await exportElementToPDF(body, 'quantum-dashboard-snapshot.pdf');
     return;
   }

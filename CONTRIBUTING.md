@@ -1,6 +1,7 @@
 # دليل المساهمة | Contribution Guide
 
-مرحباً بك! نحن سعداء باهتمامك بالمساهمة في **Top1 Quantum AI**. يرجى قراءة هذا الدليل قبل البدء.
+مرحباً بك! نحن سعداء باهتمامك بالمساهمة في **Top1 Quantum AI**. يرجى قراءة هذا
+الدليل قبل البدء.
 
 ---
 
@@ -20,14 +21,14 @@
 
 ## متطلبات البيئة
 
-| الأداة | الإصدار المطلوب | التحقق |
-|--------|----------------|--------|
-| **Node.js** | 20 LTS+ | `node --version` |
-| **npm** | 9+ | `npm --version` |
-| **Python** | 3.11+ | `python --version` |
-| **Docker** | 24+ | `docker --version` |
-| **Docker Compose** | 2.20+ | `docker compose version` |
-| **Git** | 2.40+ | `git --version` |
+| الأداة             | الإصدار المطلوب | التحقق                   |
+| ------------------ | --------------- | ------------------------ |
+| **Node.js**        | 20 LTS+         | `node --version`         |
+| **npm**            | 9+              | `npm --version`          |
+| **Python**         | 3.11+           | `python --version`       |
+| **Docker**         | 24+             | `docker --version`       |
+| **Docker Compose** | 2.20+           | `docker compose version` |
+| **Git**            | 2.40+           | `git --version`          |
 
 ---
 
@@ -125,14 +126,14 @@ Top1-Quantum-AI.github.io/
 
 ## فروع Git
 
-| الفرع | الغرض |
-|-------|--------|
-| `main` | الإصدار الإنتاجي المستقر |
-| `develop` | التطوير المستمر |
-| `feature/<name>` | ميزة جديدة |
-| `fix/<name>` | إصلاح خطأ |
-| `hotfix/<name>` | إصلاح عاجل للإنتاج |
-| `docs/<name>` | تحديث التوثيق |
+| الفرع            | الغرض                    |
+| ---------------- | ------------------------ |
+| `main`           | الإصدار الإنتاجي المستقر |
+| `develop`        | التطوير المستمر          |
+| `feature/<name>` | ميزة جديدة               |
+| `fix/<name>`     | إصلاح خطأ                |
+| `hotfix/<name>`  | إصلاح عاجل للإنتاج       |
+| `docs/<name>`    | تحديث التوثيق            |
 
 ```bash
 # إنشاء فرع جديد
@@ -146,6 +147,7 @@ git checkout -b feature/my-awesome-feature
 ## معايير الكود
 
 ### TypeScript / React
+
 - **Strict mode** مُفعَّل — لا يُسمح بـ `any`
 - استخدم `?.` و`??` بدلاً من الفحوصات اليدوية للـ null
 - أنواع صريحة على جميع الدوال والحدود البرمجية
@@ -163,6 +165,7 @@ npm run format
 ```
 
 ### Python
+
 - اتبع **PEP 8** مع سطر بحد أقصى 100 حرف
 - استخدم type hints في جميع التوقيعات
 - نسّق مع `black` وافحص مع `ruff`
@@ -218,18 +221,19 @@ pytest tests/python/ --cov=open_mythos --cov-report=term-missing
 [optional footer]
 ```
 
-| النوع | الاستخدام |
-|-------|----------|
-| `feat` | ميزة جديدة |
-| `fix` | إصلاح خطأ |
-| `docs` | تحديث التوثيق |
-| `style` | تنسيق (بدون تغيير منطق) |
-| `refactor` | إعادة هيكلة الكود |
-| `test` | إضافة أو تحديث اختبارات |
-| `chore` | مهام البناء أو الصيانة |
-| `perf` | تحسين الأداء |
+| النوع      | الاستخدام               |
+| ---------- | ----------------------- |
+| `feat`     | ميزة جديدة              |
+| `fix`      | إصلاح خطأ               |
+| `docs`     | تحديث التوثيق           |
+| `style`    | تنسيق (بدون تغيير منطق) |
+| `refactor` | إعادة هيكلة الكود       |
+| `test`     | إضافة أو تحديث اختبارات |
+| `chore`    | مهام البناء أو الصيانة  |
+| `perf`     | تحسين الأداء            |
 
 **أمثلة:**
+
 ```bash
 git commit -m "feat(quantum): add KV-cache to OpenMythos generation"
 git commit -m "fix(auth): handle expired JWT tokens gracefully"
@@ -251,7 +255,8 @@ git commit -m "test(components): add unit tests for QuantumDashboard"
 
 ## الإبلاغ عن المشكلات
 
-استخدم [قوالب GitHub Issues](https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io/issues/new/choose):
+استخدم
+[قوالب GitHub Issues](https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io/issues/new/choose):
 
 - 🐛 **Bug Report** — الإبلاغ عن خطأ
 - ✨ **Feature Request** — اقتراح ميزة جديدة
@@ -261,7 +266,8 @@ git commit -m "test(components): add unit tests for QuantumDashboard"
 
 ## مدونة السلوك
 
-نلتزم بتوفير بيئة مرحبة ومحترمة للجميع. يرجى قراءة [مدونة السلوك](CODE_OF_CONDUCT.md) قبل المشاركة.
+نلتزم بتوفير بيئة مرحبة ومحترمة للجميع. يرجى قراءة
+[مدونة السلوك](CODE_OF_CONDUCT.md) قبل المشاركة.
 
 ---
 

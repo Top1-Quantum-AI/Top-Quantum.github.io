@@ -11,31 +11,31 @@ import crypto from 'crypto';
 class AIService extends EventEmitter {
   constructor(config) {
     super();
-    
+
     this.config = {
       openaiApiKey: config.openaiApiKey,
       redis: config.redis,
       rateLimitConfig: config.rateLimitConfig || {
         windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 100 // requests per window
+        max: 100, // requests per window
       },
       cacheConfig: {
         ttl: 3600, // 1 hour
-        maxSize: 1000
+        maxSize: 1000,
       },
       quantumConfig: {
         enabled: true,
-        confidenceThreshold: 0.7
-      }
+        confidenceThreshold: 0.7,
+      },
     };
-    
+
     // Initialize OpenAI client
     if (this.config.openaiApiKey) {
       this.openai = new OpenAI({
-        apiKey: this.config.openaiApiKey
+        apiKey: this.config.openaiApiKey,
       });
     }
-    
+
     this.redis = config.redis;
     this.conversationHistory = new Map();
     this.rateLimitStore = new Map();
@@ -44,9 +44,9 @@ class AIService extends EventEmitter {
       totalTokens: 0,
       cacheHits: 0,
       cacheMisses: 0,
-      errors: 0
+      errors: 0,
     };
-    
+
     // AI Personalities with quantum-enhanced prompts
     this.personalities = {
       quantum_assistant: {
@@ -66,9 +66,9 @@ class AIService extends EventEmitter {
         - واضح ومفهوم
         - يجمع بين العمق النظري والتطبيق العملي
         - يحترم مبادئ عدم اليقين الكمي`,
-        temperature: 0.7
+        temperature: 0.7,
       },
-      
+
       creative_quantum: {
         name: 'مبدع كمي',
         nameEn: 'Creative Quantum',
@@ -86,9 +86,9 @@ class AIService extends EventEmitter {
         - يجمع بين العلم والفن
         - يستكشف الاحتماليات اللانهائية
         - يحتضن الغموض والتعقيد`,
-        temperature: 0.9
+        temperature: 0.9,
       },
-      
+
       analytical_quantum: {
         name: 'محلل كمي',
         nameEn: 'Analytical Quantum',
@@ -106,9 +106,9 @@ class AIService extends EventEmitter {
         - يعتمد على البيانات والأدلة
         - يقدر عدم اليقين والاحتماليات
         - دقيق في التحليل والاستنتاج`,
-        temperature: 0.3
+        temperature: 0.3,
       },
-      
+
       educational_quantum: {
         name: 'معلم كمي',
         nameEn: 'Educational Quantum',
@@ -126,10 +126,10 @@ class AIService extends EventEmitter {
         - يشجع على الاستكشاف والتجريب
         - يحترم مستويات التعلم المختلفة
         - يستخدم أمثلة واقعية ومألوفة`,
-        temperature: 0.6
-      }
+        temperature: 0.6,
+      },
     };
-    
+
     console.log('✅ AI Service initialized with quantum capabilities');
     console.log('✅ تم تهيئة خدمة الذكاء الاصطناعي مع القدرات الكمية');
   }
@@ -141,18 +141,18 @@ class AIService extends EventEmitter {
   async sendMessage(message, options = {}) {
     try {
       const startTime = Date.now();
-      
+
       // Validate input
       if (!message || typeof message !== 'string') {
         throw new Error('Message must be a non-empty string');
       }
-      
+
       // Check rate limiting
       await this.checkRateLimit(options.userId || 'anonymous');
-      
+
       // Generate cache key
       const cacheKey = this.generateCacheKey(message, options);
-      
+
       // Check cache first
       const cachedResponse = await this.getCachedResponse(cacheKey);
       if (cachedResponse) {
@@ -160,52 +160,51 @@ class AIService extends EventEmitter {
         this.emit('cacheHit', { message, cacheKey });
         return cachedResponse;
       }
-      
+
       this.usageStats.cacheMisses++;
-      
+
       // Prepare conversation context
       const conversationId = options.conversationId || 'default';
       const personality = options.personality || 'quantum_assistant';
       const history = this.getConversationHistory(conversationId);
-      
+
       // Apply quantum enhancement to message
       const quantumEnhancedMessage = await this.applyQuantumEnhancement(message, options);
-      
+
       // Prepare messages for OpenAI
       const messages = this.prepareMessages(quantumEnhancedMessage, personality, history);
-      
+
       // Send to OpenAI
       const response = await this.callOpenAI(messages, personality, options);
-      
+
       // Process and enhance response
       const processedResponse = await this.processResponse(response, options);
-      
+
       // Update conversation history
       this.updateConversationHistory(conversationId, message, processedResponse.content);
-      
+
       // Cache the response
       await this.cacheResponse(cacheKey, processedResponse);
-      
+
       // Update usage statistics
       this.updateUsageStats(response, Date.now() - startTime);
-      
+
       // Emit events
       this.emit('messageProcessed', {
         message,
         response: processedResponse,
         processingTime: Date.now() - startTime,
         personality,
-        conversationId
+        conversationId,
       });
-      
+
       return processedResponse;
-      
     } catch (error) {
       this.usageStats.errors++;
       this.emit('error', { error, message, options });
-      
+
       console.error('AI Service Error:', error);
-      
+
       // Return fallback response
       return this.generateFallbackResponse(message, error);
     }
@@ -219,22 +218,21 @@ class AIService extends EventEmitter {
     if (!this.config.quantumConfig.enabled) {
       return message;
     }
-    
+
     try {
       // Analyze message for quantum concepts
       const quantumConcepts = this.detectQuantumConcepts(message);
-      
+
       // Apply quantum context if relevant
       if (quantumConcepts.length > 0) {
         const quantumContext = this.generateQuantumContext(quantumConcepts);
         return `${quantumContext}\n\nالسؤال الأصلي: ${message}`;
       }
-      
+
       // Apply quantum thinking patterns
       const quantumThinking = this.applyQuantumThinking(message);
-      
+
       return quantumThinking;
-      
     } catch (error) {
       console.warn('Quantum enhancement failed, using original message:', error);
       return message;
@@ -247,30 +245,30 @@ class AIService extends EventEmitter {
    */
   detectQuantumConcepts(message) {
     const quantumKeywords = {
-      'تراكب': 'superposition',
-      'تشابك': 'entanglement',
-      'كمي': 'quantum',
-      'كيوبت': 'qubit',
-      'قياس': 'measurement',
-      'احتمال': 'probability',
-      'موجة': 'wave',
-      'جسيم': 'particle',
-      'هايزنبرغ': 'heisenberg',
-      'شرودنغر': 'schrodinger',
-      'بلانك': 'planck',
-      'فوتون': 'photon',
-      'إلكترون': 'electron'
+      تراكب: 'superposition',
+      تشابك: 'entanglement',
+      كمي: 'quantum',
+      كيوبت: 'qubit',
+      قياس: 'measurement',
+      احتمال: 'probability',
+      موجة: 'wave',
+      جسيم: 'particle',
+      هايزنبرغ: 'heisenberg',
+      شرودنغر: 'schrodinger',
+      بلانك: 'planck',
+      فوتون: 'photon',
+      إلكترون: 'electron',
     };
-    
+
     const concepts = [];
     const lowerMessage = message.toLowerCase();
-    
+
     for (const [arabic, english] of Object.entries(quantumKeywords)) {
       if (lowerMessage.includes(arabic) || lowerMessage.includes(english)) {
         concepts.push({ arabic, english });
       }
     }
-    
+
     return concepts;
   }
 
@@ -281,16 +279,16 @@ class AIService extends EventEmitter {
   generateQuantumContext(concepts) {
     const contextParts = [
       'تم اكتشاف مفاهيم كمية في سؤالك. سأطبق منهجية ماكس بلانك في التحليل:',
-      ''
+      '',
     ];
-    
+
     concepts.forEach(concept => {
       contextParts.push(`• ${concept.arabic} (${concept.english})`);
     });
-    
+
     contextParts.push('');
     contextParts.push('سأستخدم مبادئ الحوسبة الكمية في تحليل وحل هذا السؤال.');
-    
+
     return contextParts.join('\n');
   }
 
@@ -301,7 +299,7 @@ class AIService extends EventEmitter {
   applyQuantumThinking(message) {
     // Add quantum thinking context
     const quantumPrefix = `تطبيق مبادئ التفكير الكمي:\n• التراكب: استكشاف حلول متعددة متزامنة\n• عدم اليقين: تقدير الاحتماليات والشكوك\n• التشابك: ربط المفاهيم المترابطة\n\n`;
-    
+
     return quantumPrefix + message;
   }
 
@@ -312,27 +310,33 @@ class AIService extends EventEmitter {
   async checkRateLimit(userId) {
     const now = Date.now();
     const windowStart = now - this.config.rateLimitConfig.windowMs;
-    
+
     // Get user's request history
     let userRequests = this.rateLimitStore.get(userId) || [];
-    
+
     // Remove old requests outside the window
     userRequests = userRequests.filter(timestamp => timestamp > windowStart);
-    
+
     // Check if limit exceeded
     if (userRequests.length >= this.config.rateLimitConfig.max) {
-      throw new Error(`Rate limit exceeded. Maximum ${this.config.rateLimitConfig.max} requests per ${this.config.rateLimitConfig.windowMs / 1000} seconds.`);
+      throw new Error(
+        `Rate limit exceeded. Maximum ${this.config.rateLimitConfig.max} requests per ${this.config.rateLimitConfig.windowMs / 1000} seconds.`
+      );
     }
-    
+
     // Add current request
     userRequests.push(now);
     this.rateLimitStore.set(userId, userRequests);
-    
+
     // Store in Redis if available
     if (this.redis) {
       try {
         const key = `rate_limit:${userId}`;
-        await this.redis.setex(key, Math.ceil(this.config.rateLimitConfig.windowMs / 1000), JSON.stringify(userRequests));
+        await this.redis.setex(
+          key,
+          Math.ceil(this.config.rateLimitConfig.windowMs / 1000),
+          JSON.stringify(userRequests)
+        );
       } catch (error) {
         console.warn('Failed to store rate limit in Redis:', error);
       }
@@ -348,9 +352,9 @@ class AIService extends EventEmitter {
       message: message.trim().toLowerCase(),
       personality: options.personality || 'quantum_assistant',
       temperature: options.temperature,
-      maxTokens: options.maxTokens
+      maxTokens: options.maxTokens,
     };
-    
+
     return crypto.createHash('sha256').update(JSON.stringify(keyData)).digest('hex');
   }
 
@@ -362,7 +366,7 @@ class AIService extends EventEmitter {
     if (!this.redis) {
       return null;
     }
-    
+
     try {
       const cached = await this.redis.get(`ai_cache:${cacheKey}`);
       if (cached) {
@@ -374,7 +378,7 @@ class AIService extends EventEmitter {
     } catch (error) {
       console.warn('Cache retrieval failed:', error);
     }
-    
+
     return null;
   }
 
@@ -386,12 +390,12 @@ class AIService extends EventEmitter {
     if (!this.redis) {
       return;
     }
-    
+
     try {
       const cacheData = { ...response };
       delete cacheData.cached;
       delete cacheData.cacheTimestamp;
-      
+
       await this.redis.setex(
         `ai_cache:${cacheKey}`,
         this.config.cacheConfig.ttl,
@@ -407,15 +411,16 @@ class AIService extends EventEmitter {
    * تحضير الرسائل لـ OpenAI
    */
   prepareMessages(message, personality, history) {
-    const personalityConfig = this.personalities[personality] || this.personalities.quantum_assistant;
-    
+    const personalityConfig =
+      this.personalities[personality] || this.personalities.quantum_assistant;
+
     const messages = [
       {
         role: 'system',
-        content: personalityConfig.systemPrompt
-      }
+        content: personalityConfig.systemPrompt,
+      },
     ];
-    
+
     // Add conversation history
     history.forEach(entry => {
       messages.push(
@@ -423,10 +428,10 @@ class AIService extends EventEmitter {
         { role: 'assistant', content: entry.assistant }
       );
     });
-    
+
     // Add current message
     messages.push({ role: 'user', content: message });
-    
+
     return messages;
   }
 
@@ -438,20 +443,21 @@ class AIService extends EventEmitter {
     if (!this.openai) {
       throw new Error('OpenAI client not initialized. Please provide API key.');
     }
-    
-    const personalityConfig = this.personalities[personality] || this.personalities.quantum_assistant;
-    
+
+    const personalityConfig =
+      this.personalities[personality] || this.personalities.quantum_assistant;
+
     const requestConfig = {
       model: options.model || 'gpt-4',
       messages,
       temperature: options.temperature ?? personalityConfig.temperature,
       max_tokens: options.maxTokens || 2000,
       presence_penalty: 0.1,
-      frequency_penalty: 0.1
+      frequency_penalty: 0.1,
     };
-    
+
     const response = await this.openai.chat.completions.create(requestConfig);
-    
+
     return response;
   }
 
@@ -462,13 +468,13 @@ class AIService extends EventEmitter {
   async processResponse(openaiResponse, options) {
     const choice = openaiResponse.choices[0];
     const content = choice.message.content;
-    
+
     // Calculate quantum metrics
     const quantumMetrics = this.calculateQuantumMetrics(content, options);
-    
+
     // Calculate confidence score
     const confidence = this.calculateConfidence(choice, quantumMetrics);
-    
+
     return {
       content,
       confidence,
@@ -477,7 +483,7 @@ class AIService extends EventEmitter {
       model: openaiResponse.model,
       timestamp: new Date().toISOString(),
       finishReason: choice.finish_reason,
-      cached: false
+      cached: false,
     };
   }
 
@@ -490,38 +496,38 @@ class AIService extends EventEmitter {
       quantumComplexity: 0,
       conceptualDepth: 0,
       uncertaintyLevel: 0,
-      entanglementScore: 0
+      entanglementScore: 0,
     };
-    
+
     // Analyze quantum complexity
     const quantumTerms = ['كمي', 'تراكب', 'تشابك', 'احتمال', 'قياس', 'موجة'];
     const quantumCount = quantumTerms.reduce((count, term) => {
       return count + (content.toLowerCase().split(term).length - 1);
     }, 0);
-    
+
     metrics.quantumComplexity = Math.min(1, quantumCount / 10);
-    
+
     // Analyze conceptual depth
     const sentences = content.split(/[.!?]/).filter(s => s.trim().length > 0);
     const avgSentenceLength = sentences.reduce((sum, s) => sum + s.length, 0) / sentences.length;
     metrics.conceptualDepth = Math.min(1, avgSentenceLength / 100);
-    
+
     // Analyze uncertainty level
     const uncertaintyWords = ['ربما', 'قد', 'يمكن', 'محتمل', 'غير مؤكد', 'تقريباً'];
     const uncertaintyCount = uncertaintyWords.reduce((count, word) => {
       return count + (content.toLowerCase().split(word).length - 1);
     }, 0);
-    
+
     metrics.uncertaintyLevel = Math.min(1, uncertaintyCount / 5);
-    
+
     // Analyze entanglement score (interconnectedness of concepts)
     const connectiveWords = ['لذلك', 'وبالتالي', 'كما', 'أيضاً', 'بالإضافة', 'علاوة'];
     const connectiveCount = connectiveWords.reduce((count, word) => {
       return count + (content.toLowerCase().split(word).length - 1);
     }, 0);
-    
+
     metrics.entanglementScore = Math.min(1, connectiveCount / 8);
-    
+
     return metrics;
   }
 
@@ -531,23 +537,23 @@ class AIService extends EventEmitter {
    */
   calculateConfidence(choice, quantumMetrics) {
     let confidence = 0.5; // Base confidence
-    
+
     // Adjust based on finish reason
     if (choice.finish_reason === 'stop') {
       confidence += 0.3;
     } else if (choice.finish_reason === 'length') {
       confidence += 0.1;
     }
-    
+
     // Adjust based on quantum metrics
     confidence += quantumMetrics.quantumComplexity * 0.1;
     confidence += quantumMetrics.conceptualDepth * 0.1;
-    
+
     // Uncertainty can be good in quantum contexts
     if (quantumMetrics.uncertaintyLevel > 0.3 && quantumMetrics.uncertaintyLevel < 0.7) {
       confidence += 0.1;
     }
-    
+
     return Math.min(1, Math.max(0, confidence));
   }
 
@@ -555,7 +561,12 @@ class AIService extends EventEmitter {
    * Quantum-enhanced text analysis
    * تحليل نص محسّن كمياً
    */
-  async quantumAnalyzeText({ text, analysisType = 'concepts', quantumDepth = 3, userId = 'anonymous' }) {
+  async quantumAnalyzeText({
+    text,
+    analysisType = 'concepts',
+    quantumDepth = 3,
+    userId = 'anonymous',
+  }) {
     const start = Date.now();
     try {
       // Basic validation
@@ -573,38 +584,71 @@ class AIService extends EventEmitter {
       const quantumMetrics = this.calculateQuantumMetrics(normalized, { quantumDepth });
 
       // Sentiment (very simple heuristic, bilingual)
-      const positiveWords = ['جيد','رائع','ممتاز','سعيد','نجاح','thanx','thanks','great','good','excellent','happy','success'];
-      const negativeWords = ['سيئ','حزين','فشل','خطأ','سئ','terrible','bad','sad','fail','error'];
+      const positiveWords = [
+        'جيد',
+        'رائع',
+        'ممتاز',
+        'سعيد',
+        'نجاح',
+        'thanx',
+        'thanks',
+        'great',
+        'good',
+        'excellent',
+        'happy',
+        'success',
+      ];
+      const negativeWords = [
+        'سيئ',
+        'حزين',
+        'فشل',
+        'خطأ',
+        'سئ',
+        'terrible',
+        'bad',
+        'sad',
+        'fail',
+        'error',
+      ];
       const lc = normalized.toLowerCase();
-      const pos = positiveWords.reduce((n,w)=> n + (lc.split(w).length - 1), 0);
-      const neg = negativeWords.reduce((n,w)=> n + (lc.split(w).length - 1), 0);
+      const pos = positiveWords.reduce((n, w) => n + (lc.split(w).length - 1), 0);
+      const neg = negativeWords.reduce((n, w) => n + (lc.split(w).length - 1), 0);
       const sentimentScore = Math.max(-1, Math.min(1, (pos - neg) / Math.max(1, pos + neg)));
 
       // Complexity (based on length, vocabulary variety, sentences)
-      const sentences = normalized.split(/[.!؟?\n]+/).filter(s=>s.trim().length>0);
-      const words = normalized.split(/\s+/).filter(w=>w.length>0);
-      const vocab = new Set(words.map(w=>w.toLowerCase()));
+      const sentences = normalized.split(/[.!؟?\n]+/).filter(s => s.trim().length > 0);
+      const words = normalized.split(/\s+/).filter(w => w.length > 0);
+      const vocab = new Set(words.map(w => w.toLowerCase()));
       const complexity = {
         sentenceCount: sentences.length,
-        avgSentenceLength: sentences.length ? Math.round(words.length / sentences.length) : words.length,
+        avgSentenceLength: sentences.length
+          ? Math.round(words.length / sentences.length)
+          : words.length,
         vocabularySize: vocab.size,
-        lexicalDiversity: words.length ? Number((vocab.size / words.length).toFixed(3)) : 0
+        lexicalDiversity: words.length ? Number((vocab.size / words.length).toFixed(3)) : 0,
       };
 
       // Entanglement insights: surface relationships via connective words seen in metrics
       const entanglementInsights = {
         score: quantumMetrics.entanglementScore,
-        note: quantumMetrics.entanglementScore > 0.6 ? 'High interconnection of ideas' :
-              quantumMetrics.entanglementScore > 0.3 ? 'Moderate conceptual linkage' : 'Low linkage'
+        note:
+          quantumMetrics.entanglementScore > 0.6
+            ? 'High interconnection of ideas'
+            : quantumMetrics.entanglementScore > 0.3
+              ? 'Moderate conceptual linkage'
+              : 'Low linkage',
       };
 
       // Optional "quantum_state" style summary
-      const suggestedQubits = Math.min(10, Math.max(1, Math.ceil(Math.log2(Math.max(2, vocab.size)))));
+      const suggestedQubits = Math.min(
+        10,
+        Math.max(1, Math.ceil(Math.log2(Math.max(2, vocab.size))))
+      );
       const stateSummary = {
         suggestedQubits,
         depth: Math.min(5, Math.max(1, quantumDepth)),
         superpositionHints: concepts.length > 1,
-        entanglementHints: entanglementInsights.score > 0.5
+        entanglementHints: entanglementInsights.score > 0.5,
       };
 
       // Select payload based on analysisType
@@ -641,10 +685,15 @@ class AIService extends EventEmitter {
         details,
         concepts,
         tokensEstimated: tokensEstimate,
-        processingTime
+        processingTime,
       };
 
-      this.emit('quantumAnalysisCompleted', { userId, analysisType, processingTime, metrics: quantumMetrics });
+      this.emit('quantumAnalysisCompleted', {
+        userId,
+        analysisType,
+        processingTime,
+        metrics: quantumMetrics,
+      });
       return result;
     } catch (error) {
       this.usageStats.errors++;
@@ -654,7 +703,7 @@ class AIService extends EventEmitter {
         error: true,
         message: 'Quantum analysis failed',
         errorMessage: error.message,
-        processingTime: Date.now() - start
+        processingTime: Date.now() - start,
       };
     }
   }
@@ -668,11 +717,11 @@ class AIService extends EventEmitter {
       'أعتذر، واجهت صعوبة في معالجة طلبك. دعني أحاول مرة أخرى بطريقة مختلفة.',
       'يبدو أن هناك تداخل كمي في النظام. سأطبق مبدأ عدم اليقين وأقدم لك إجابة تقريبية.',
       'حدث خطأ في المعالجة الكمية. سأستخدم الحوسبة التقليدية للإجابة على سؤالك.',
-      'أواجه تحدياً تقنياً حالياً. هل يمكنك إعادة صياغة سؤالك بطريقة مختلفة؟'
+      'أواجه تحدياً تقنياً حالياً. هل يمكنك إعادة صياغة سؤالك بطريقة مختلفة؟',
     ];
-    
+
     const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-    
+
     return {
       content: randomResponse,
       confidence: 0.3,
@@ -680,11 +729,11 @@ class AIService extends EventEmitter {
         quantumComplexity: 0,
         conceptualDepth: 0,
         uncertaintyLevel: 1,
-        entanglementScore: 0
+        entanglementScore: 0,
       },
       error: error.message,
       fallback: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -702,20 +751,20 @@ class AIService extends EventEmitter {
    */
   updateConversationHistory(conversationId, userMessage, assistantMessage) {
     const history = this.getConversationHistory(conversationId);
-    
+
     history.push({
       user: userMessage,
       assistant: assistantMessage,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
+
     // Keep only last 10 exchanges
     if (history.length > 10) {
       history.splice(0, history.length - 10);
     }
-    
+
     this.conversationHistory.set(conversationId, history);
-    
+
     // Store in Redis if available
     if (this.redis) {
       try {
@@ -736,7 +785,7 @@ class AIService extends EventEmitter {
    */
   clearConversationHistory(conversationId) {
     this.conversationHistory.delete(conversationId);
-    
+
     if (this.redis) {
       try {
         this.redis.del(`conversation:${conversationId}`);
@@ -744,7 +793,7 @@ class AIService extends EventEmitter {
         console.warn('Failed to clear conversation history from Redis:', error);
       }
     }
-    
+
     this.emit('conversationCleared', { conversationId });
   }
 
@@ -754,11 +803,11 @@ class AIService extends EventEmitter {
    */
   updateUsageStats(response, processingTime) {
     this.usageStats.totalRequests++;
-    
+
     if (response.usage) {
       this.usageStats.totalTokens += response.usage.total_tokens || 0;
     }
-    
+
     // Store detailed stats in Redis
     if (this.redis) {
       try {
@@ -780,12 +829,18 @@ class AIService extends EventEmitter {
   getUsageStats() {
     return {
       ...this.usageStats,
-      cacheHitRate: this.usageStats.totalRequests > 0 ? 
-        (this.usageStats.cacheHits / this.usageStats.totalRequests) * 100 : 0,
-      averageTokensPerRequest: this.usageStats.totalRequests > 0 ? 
-        this.usageStats.totalTokens / this.usageStats.totalRequests : 0,
-      errorRate: this.usageStats.totalRequests > 0 ? 
-        (this.usageStats.errors / this.usageStats.totalRequests) * 100 : 0
+      cacheHitRate:
+        this.usageStats.totalRequests > 0
+          ? (this.usageStats.cacheHits / this.usageStats.totalRequests) * 100
+          : 0,
+      averageTokensPerRequest:
+        this.usageStats.totalRequests > 0
+          ? this.usageStats.totalTokens / this.usageStats.totalRequests
+          : 0,
+      errorRate:
+        this.usageStats.totalRequests > 0
+          ? (this.usageStats.errors / this.usageStats.totalRequests) * 100
+          : 0,
     };
   }
 
@@ -798,7 +853,7 @@ class AIService extends EventEmitter {
       key,
       name: personality.name,
       nameEn: personality.nameEn,
-      temperature: personality.temperature
+      temperature: personality.temperature,
     }));
   }
 
@@ -812,15 +867,15 @@ class AIService extends EventEmitter {
       timestamp: new Date().toISOString(),
       services: {
         openai: !!this.openai,
-        redis: !!this.redis && this.redis.status === 'ready'
+        redis: !!this.redis && this.redis.status === 'ready',
       },
       stats: this.getUsageStats(),
       memory: {
         conversations: this.conversationHistory.size,
-        rateLimits: this.rateLimitStore.size
-      }
+        rateLimits: this.rateLimitStore.size,
+      },
     };
-    
+
     // Test OpenAI connection if available
     if (this.openai) {
       try {
@@ -831,7 +886,7 @@ class AIService extends EventEmitter {
         health.status = 'degraded';
       }
     }
-    
+
     return health;
   }
 }

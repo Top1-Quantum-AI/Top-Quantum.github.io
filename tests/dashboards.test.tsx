@@ -30,25 +30,42 @@ jest.mock('framer-motion', () => ({
   motion: {
     div: ({ children, ...p }: React.HTMLProps<HTMLDivElement>) => <div {...p}>{children}</div>,
     span: ({ children, ...p }: React.HTMLProps<HTMLSpanElement>) => <span {...p}>{children}</span>,
-    button: ({ children, ...p }: React.HTMLProps<HTMLButtonElement>) =>
-      <button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{children}</button>,
+    button: ({ children, ...p }: React.HTMLProps<HTMLButtonElement>) => (
+      <button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{children}</button>
+    ),
     p: ({ children, ...p }: React.HTMLProps<HTMLParagraphElement>) => <p {...p}>{children}</p>,
     h1: ({ children, ...p }: React.HTMLProps<HTMLHeadingElement>) => <h1 {...p}>{children}</h1>,
     h2: ({ children, ...p }: React.HTMLProps<HTMLHeadingElement>) => <h2 {...p}>{children}</h2>,
     h3: ({ children, ...p }: React.HTMLProps<HTMLHeadingElement>) => <h3 {...p}>{children}</h3>,
-    section: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <section {...p}>{children}</section>,
+    section: ({ children, ...p }: React.HTMLProps<HTMLElement>) => (
+      <section {...p}>{children}</section>
+    ),
     nav: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <nav {...p}>{children}</nav>,
     aside: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <aside {...p}>{children}</aside>,
     ul: ({ children, ...p }: React.HTMLProps<HTMLUListElement>) => <ul {...p}>{children}</ul>,
     li: ({ children, ...p }: React.HTMLProps<HTMLLIElement>) => <li {...p}>{children}</li>,
-    table: ({ children, ...p }: React.HTMLProps<HTMLTableElement>) => <table {...p}>{children}</table>,
+    table: ({ children, ...p }: React.HTMLProps<HTMLTableElement>) => (
+      <table {...p}>{children}</table>
+    ),
     tr: ({ children, ...p }: React.HTMLProps<HTMLTableRowElement>) => <tr {...p}>{children}</tr>,
-    td: ({ children, ...p }: React.HTMLProps<HTMLTableDataCellElement>) => <td {...p}>{children}</td>,
-    th: ({ children, ...p }: React.HTMLProps<HTMLTableHeaderCellElement>) => <th {...p}>{children}</th>,
-    header: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <header {...p}>{children}</header>,
-    footer: ({ children, ...p }: React.HTMLProps<HTMLElement>) => <footer {...p}>{children}</footer>,
-    input: (p: React.HTMLProps<HTMLInputElement>) => <input {...(p as React.InputHTMLAttributes<HTMLInputElement>)} />,
-    form: ({ children, ...p }: React.HTMLProps<HTMLFormElement>) => <form {...(p as React.FormHTMLAttributes<HTMLFormElement>)}>{children}</form>,
+    td: ({ children, ...p }: React.HTMLProps<HTMLTableDataCellElement>) => (
+      <td {...p}>{children}</td>
+    ),
+    th: ({ children, ...p }: React.HTMLProps<HTMLTableHeaderCellElement>) => (
+      <th {...p}>{children}</th>
+    ),
+    header: ({ children, ...p }: React.HTMLProps<HTMLElement>) => (
+      <header {...p}>{children}</header>
+    ),
+    footer: ({ children, ...p }: React.HTMLProps<HTMLElement>) => (
+      <footer {...p}>{children}</footer>
+    ),
+    input: (p: React.HTMLProps<HTMLInputElement>) => (
+      <input {...(p as React.InputHTMLAttributes<HTMLInputElement>)} />
+    ),
+    form: ({ children, ...p }: React.HTMLProps<HTMLFormElement>) => (
+      <form {...(p as React.FormHTMLAttributes<HTMLFormElement>)}>{children}</form>
+    ),
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   useAnimation: () => ({ start: jest.fn(), stop: jest.fn() }),
@@ -94,9 +111,33 @@ const mockPlan = {
 };
 
 const MOCK_PLANS = {
-  free: { ...mockPlan, name: 'المجاني', price: 0, color: '#6b7280', limits: { maxQubits: 5, maxSimulationsPerMonth: 100, maxAlgorithms: 3, maxAPIRequestsPerDay: 100, maxTokensPerDay: 10000 } },
+  free: {
+    ...mockPlan,
+    name: 'المجاني',
+    price: 0,
+    color: '#6b7280',
+    limits: {
+      maxQubits: 5,
+      maxSimulationsPerMonth: 100,
+      maxAlgorithms: 3,
+      maxAPIRequestsPerDay: 100,
+      maxTokensPerDay: 10000,
+    },
+  },
   professional: mockPlan,
-  enterprise: { ...mockPlan, name: 'المؤسسات', price: 99, color: '#f59e0b', limits: { maxQubits: 128, maxSimulationsPerMonth: Infinity, maxAlgorithms: Infinity, maxAPIRequestsPerDay: 10000, maxTokensPerDay: 1000000 } },
+  enterprise: {
+    ...mockPlan,
+    name: 'المؤسسات',
+    price: 99,
+    color: '#f59e0b',
+    limits: {
+      maxQubits: 128,
+      maxSimulationsPerMonth: Infinity,
+      maxAlgorithms: Infinity,
+      maxAPIRequestsPerDay: 10000,
+      maxTokensPerDay: 1000000,
+    },
+  },
 };
 
 jest.mock('../src/services/subscriptionService', () => ({
@@ -104,7 +145,14 @@ jest.mock('../src/services/subscriptionService', () => ({
   logoutUser: jest.fn(),
   trackSimulation: jest.fn(),
   getUsagePercentages: jest.fn().mockReturnValue({ simulations: 10, aiQueries: 5 }),
-  getCurrentLimits: jest.fn().mockReturnValue({ maxQubits: 20, maxSimulationsPerMonth: 10000, maxAlgorithms: 10, maxAPIRequestsPerDay: 1000, maxTokensPerDay: 100000, maxAiQueriesPerMonth: 5000 }),
+  getCurrentLimits: jest.fn().mockReturnValue({
+    maxQubits: 20,
+    maxSimulationsPerMonth: 10000,
+    maxAlgorithms: 10,
+    maxAPIRequestsPerDay: 1000,
+    maxTokensPerDay: 100000,
+    maxAiQueriesPerMonth: 5000,
+  }),
   PLANS: MOCK_PLANS,
   getTrialDaysRemaining: jest.fn().mockReturnValue(null),
   hasFeature: jest.fn().mockReturnValue(true),
@@ -141,7 +189,9 @@ jest.mock('../src/services/groqService', () => ({
 
 jest.mock('../src/services/mythosService', () => ({
   listModels: jest.fn().mockResolvedValue({ models: [] }),
-  getMythosHealth: jest.fn().mockResolvedValue({ status: 'ok', models_loaded: [], device: 'cpu', torch_version: '2.0.0' }),
+  getMythosHealth: jest
+    .fn()
+    .mockResolvedValue({ status: 'ok', models_loaded: [], device: 'cpu', torch_version: '2.0.0' }),
 }));
 
 jest.mock('../src/services/reportExporter', () => ({
@@ -150,7 +200,9 @@ jest.mock('../src/services/reportExporter', () => ({
 }));
 
 jest.mock('../src/services/quantumSimulator', () => ({
-  simulateCircuit: jest.fn().mockResolvedValue({ success: true, statevector: [], probabilities: {}, fidelity: 0.99 }),
+  simulateCircuit: jest
+    .fn()
+    .mockResolvedValue({ success: true, statevector: [], probabilities: {}, fidelity: 0.99 }),
   algorithms: [],
 }));
 
@@ -168,57 +220,80 @@ const renderAndTick = async (component: React.ReactElement) => {
 };
 
 describe('QuantumDashboard', () => {
-  beforeEach(() => { jest.useFakeTimers(); });
-  afterEach(() => { jest.useRealTimers(); });
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('should render without crashing', async () => {
     const { container } = render(<QuantumDashboard />);
-    await act(async () => { jest.advanceTimersByTime(100); });
+    await act(async () => {
+      jest.advanceTimersByTime(100);
+    });
     expect(container).toBeTruthy();
   });
 
   it('should render quantum circuit content', async () => {
     render(<QuantumDashboard />);
-    await act(async () => { jest.advanceTimersByTime(500); });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
     expect(document.body.textContent?.length).toBeGreaterThan(10);
   });
 
   it('should switch between view modes', async () => {
-    const user = userEvent.setup({ delay: null, advanceTimers: jest.advanceTimersByTime.bind(jest) });
+    const user = userEvent.setup({
+      delay: null,
+      advanceTimers: jest.advanceTimersByTime.bind(jest),
+    });
     const { container } = render(<QuantumDashboard />);
-    await act(async () => { jest.advanceTimersByTime(200); });
+    await act(async () => {
+      jest.advanceTimersByTime(200);
+    });
 
     const buttons = Array.from(container.querySelectorAll('button'));
     for (const btn of buttons.slice(0, 6)) {
-      await act(async () => { await user.click(btn as HTMLElement); });
-      await act(async () => { jest.advanceTimersByTime(50); });
+      await act(async () => {
+        await user.click(btn as HTMLElement);
+      });
+      await act(async () => {
+        jest.advanceTimersByTime(50);
+      });
     }
     expect(document.body).toBeTruthy();
   });
 });
 
 describe('AIDashboard', () => {
-  beforeEach(() => { jest.useFakeTimers(); });
-  afterEach(() => { jest.useRealTimers(); });
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('should render without crashing', async () => {
     const { container } = render(<AIDashboard />);
-    await act(async () => { jest.advanceTimersByTime(100); });
+    await act(async () => {
+      jest.advanceTimersByTime(100);
+    });
     expect(container).toBeTruthy();
   });
 
   it('should render AI model content', async () => {
     render(<AIDashboard />);
-    await act(async () => { jest.advanceTimersByTime(500); });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
     expect(document.body.textContent?.length).toBeGreaterThan(10);
   });
 });
 
 describe('AdminDashboard', () => {
   it('should render without crashing', async () => {
-    const { container } = await renderAndTick(
-      <AdminDashboard />
-    );
+    const { container } = await renderAndTick(<AdminDashboard />);
     expect(container).toBeTruthy();
   });
 
@@ -229,52 +304,76 @@ describe('AdminDashboard', () => {
 });
 
 describe('AdvancedSecurityDashboard', () => {
-  beforeEach(() => { jest.useFakeTimers(); });
-  afterEach(() => { jest.useRealTimers(); });
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('should render without crashing', async () => {
     const { container } = render(<AdvancedSecurityDashboard />);
-    await act(async () => { jest.advanceTimersByTime(100); });
+    await act(async () => {
+      jest.advanceTimersByTime(100);
+    });
     expect(container).toBeTruthy();
   });
 
   it('should render security content', async () => {
     render(<AdvancedSecurityDashboard />);
-    await act(async () => { jest.advanceTimersByTime(500); });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
     expect(document.body.textContent?.length).toBeGreaterThan(10);
   });
 });
 
 describe('SecurityDashboard', () => {
-  beforeEach(() => { jest.useFakeTimers(); });
-  afterEach(() => { jest.useRealTimers(); });
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('should render without crashing', async () => {
     const { container } = render(<SecurityDashboard />);
-    await act(async () => { jest.advanceTimersByTime(100); });
+    await act(async () => {
+      jest.advanceTimersByTime(100);
+    });
     expect(container).toBeTruthy();
   });
 
   it('should render security metrics', async () => {
     render(<SecurityDashboard />);
-    await act(async () => { jest.advanceTimersByTime(500); });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
     expect(document.body.textContent?.length).toBeGreaterThan(10);
   });
 });
 
 describe('NetworkDashboard', () => {
-  beforeEach(() => { jest.useFakeTimers(); });
-  afterEach(() => { jest.useRealTimers(); });
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('should render without crashing', async () => {
     const { container } = render(<NetworkDashboard />);
-    await act(async () => { jest.advanceTimersByTime(100); });
+    await act(async () => {
+      jest.advanceTimersByTime(100);
+    });
     expect(container).toBeTruthy();
   });
 
   it('should render network topology content', async () => {
     render(<NetworkDashboard />);
-    await act(async () => { jest.advanceTimersByTime(500); });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
     expect(document.body.textContent?.length).toBeGreaterThan(10);
   });
 });

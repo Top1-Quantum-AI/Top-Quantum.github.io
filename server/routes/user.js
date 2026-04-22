@@ -20,10 +20,10 @@ const userLimiter = rateLimit({
   max: 30, // 30 requests per 15 minutes
   message: {
     error: 'تم تجاوز عدد الطلبات المسموح بها. حاول مرة أخرى بعد 15 دقيقة.',
-    errorEn: 'Too many requests. Please try again after 15 minutes.'
+    errorEn: 'Too many requests. Please try again after 15 minutes.',
   },
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });
 
 const profileUpdateLimiter = rateLimit({
@@ -31,8 +31,8 @@ const profileUpdateLimiter = rateLimit({
   max: 5, // 5 profile updates per hour
   message: {
     error: 'تم تجاوز عدد تحديثات الملف الشخصي المسموح بها.',
-    errorEn: 'Too many profile updates. Please try again later.'
-  }
+    errorEn: 'Too many profile updates. Please try again later.',
+  },
 });
 
 /**
@@ -45,15 +45,15 @@ router.get('/profile', authMiddleware, async (req, res) => {
     const user = await User.findById(req.user._id)
       .select('-password -passwordResetToken -passwordResetExpires -emailVerificationToken')
       .populate('conversations', 'title createdAt status category');
-    
+
     if (!user) {
       return res.status(404).json({
         success: false,
         error: 'المستخدم غير موجود',
-        errorEn: 'User not found'
+        errorEn: 'User not found',
       });
     }
-    
+
     // Calculate user statistics - حساب إحصائيات المستخدم
     const stats = {
       totalConversations: user.conversations?.length || 0,
@@ -61,12 +61,12 @@ router.get('/profile', authMiddleware, async (req, res) => {
       apiUsageThisMonth: user.apiUsage.monthlyUsage,
       memberSince: user.createdAt,
       lastLogin: user.loginHistory.lastLogin,
-      totalLogins: user.loginHistory.totalLogins
+      totalLogins: user.loginHistory.totalLogins,
     };
-    
+
     console.log(`✅ Profile retrieved for user: ${user.username}`);
     console.log(`✅ تم استرداد الملف الشخصي للمستخدم: ${user.username}`);
-    
+
     res.status(200).json({
       success: true,
       data: {
@@ -82,18 +82,17 @@ router.get('/profile', authMiddleware, async (req, res) => {
           status: user.status,
           emailVerified: user.emailVerified,
           createdAt: user.createdAt,
-          updatedAt: user.updatedAt
+          updatedAt: user.updatedAt,
         },
-        statistics: stats
-      }
+        statistics: stats,
+      },
     });
-    
   } catch (error) {
     console.error('Get profile error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في الحصول على الملف الشخصي',
-      errorEn: 'Error getting profile'
+      errorEn: 'Error getting profile',
     });
   }
 });
@@ -115,18 +114,18 @@ router.put('/profile', authMiddleware, profileUpdateLimiter, trackApiUsage(2), a
       language,
       timezone,
       theme,
-      notifications
+      notifications,
     } = req.body;
-    
+
     const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({
         success: false,
         error: 'المستخدم غير موجود',
-        errorEn: 'User not found'
+        errorEn: 'User not found',
       });
     }
-    
+
     // Update profile fields - تحديث حقول الملف الشخصي
     if (firstName !== undefined) user.profile.firstName = firstName;
     if (lastName !== undefined) user.profile.lastName = lastName;
@@ -134,7 +133,7 @@ router.put('/profile', authMiddleware, profileUpdateLimiter, trackApiUsage(2), a
     if (location !== undefined) user.profile.location = location;
     if (website !== undefined) user.profile.website = website;
     if (avatar !== undefined) user.profile.avatar = avatar;
-    
+
     // Update settings - تحديث الإعدادات
     if (language !== undefined) user.settings.language = language;
     if (timezone !== undefined) user.settings.timezone = timezone;
@@ -142,13 +141,13 @@ router.put('/profile', authMiddleware, profileUpdateLimiter, trackApiUsage(2), a
     if (notifications !== undefined) {
       user.settings.notifications = { ...user.settings.notifications, ...notifications };
     }
-    
+
     user.updatedAt = new Date();
     await user.save();
-    
+
     console.log(`✅ Profile updated for user: ${user.username}`);
     console.log(`✅ تم تحديث الملف الشخصي للمستخدم: ${user.username}`);
-    
+
     res.status(200).json({
       success: true,
       message: 'تم تحديث الملف الشخصي بنجاح',
@@ -161,17 +160,16 @@ router.put('/profile', authMiddleware, profileUpdateLimiter, trackApiUsage(2), a
           fullName: user.fullName,
           profile: user.profile,
           settings: user.settings,
-          updatedAt: user.updatedAt
-        }
-      }
+          updatedAt: user.updatedAt,
+        },
+      },
     });
-    
   } catch (error) {
     console.error('Update profile error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في تحديث الملف الشخصي',
-      errorEn: 'Error updating profile'
+      errorEn: 'Error updating profile',
     });
   }
 });
@@ -188,18 +186,18 @@ router.put('/quantum-preferences', authMiddleware, trackApiUsage(1), async (req,
       preferredComplexity,
       visualizationStyle,
       algorithmPreferences,
-      simulationSettings
+      simulationSettings,
     } = req.body;
-    
+
     const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({
         success: false,
         error: 'المستخدم غير موجود',
-        errorEn: 'User not found'
+        errorEn: 'User not found',
       });
     }
-    
+
     // Update quantum preferences - تحديث التفضيلات الكمية
     if (defaultPersonality !== undefined) {
       const validPersonalities = ['quantum', 'creative', 'analytical', 'educational'];
@@ -207,53 +205,52 @@ router.put('/quantum-preferences', authMiddleware, trackApiUsage(1), async (req,
         user.quantumPreferences.defaultPersonality = defaultPersonality;
       }
     }
-    
+
     if (preferredComplexity !== undefined) {
       const validComplexity = ['beginner', 'intermediate', 'advanced', 'expert'];
       if (validComplexity.includes(preferredComplexity)) {
         user.quantumPreferences.preferredComplexity = preferredComplexity;
       }
     }
-    
+
     if (visualizationStyle !== undefined) {
       const validStyles = ['bloch-sphere', 'circuit-diagram', 'probability-bars', 'state-vector'];
       if (validStyles.includes(visualizationStyle)) {
         user.quantumPreferences.visualizationStyle = visualizationStyle;
       }
     }
-    
+
     if (algorithmPreferences !== undefined && Array.isArray(algorithmPreferences)) {
       user.quantumPreferences.algorithmPreferences = algorithmPreferences;
     }
-    
+
     if (simulationSettings !== undefined) {
       user.quantumPreferences.simulationSettings = {
         ...user.quantumPreferences.simulationSettings,
-        ...simulationSettings
+        ...simulationSettings,
       };
     }
-    
+
     user.updatedAt = new Date();
     await user.save();
-    
+
     console.log(`✅ Quantum preferences updated for user: ${user.username}`);
     console.log(`✅ تم تحديث التفضيلات الكمية للمستخدم: ${user.username}`);
-    
+
     res.status(200).json({
       success: true,
       message: 'تم تحديث التفضيلات الكمية بنجاح',
       messageEn: 'Quantum preferences updated successfully',
       data: {
-        quantumPreferences: user.quantumPreferences
-      }
+        quantumPreferences: user.quantumPreferences,
+      },
     });
-    
   } catch (error) {
     console.error('Update quantum preferences error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في تحديث التفضيلات الكمية',
-      errorEn: 'Error updating quantum preferences'
+      errorEn: 'Error updating quantum preferences',
     });
   }
 });
@@ -263,80 +260,85 @@ router.put('/quantum-preferences', authMiddleware, trackApiUsage(1), async (req,
  * @desc    Change user password - تغيير كلمة مرور المستخدم
  * @access  Private
  */
-router.put('/change-password', authMiddleware, profileUpdateLimiter, trackApiUsage(3), async (req, res) => {
-  try {
-    const { currentPassword, newPassword, confirmPassword } = req.body;
-    
-    // Validation - التحقق من صحة البيانات
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      return res.status(400).json({
+router.put(
+  '/change-password',
+  authMiddleware,
+  profileUpdateLimiter,
+  trackApiUsage(3),
+  async (req, res) => {
+    try {
+      const { currentPassword, newPassword, confirmPassword } = req.body;
+
+      // Validation - التحقق من صحة البيانات
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        return res.status(400).json({
+          success: false,
+          error: 'جميع الحقول مطلوبة',
+          errorEn: 'All fields are required',
+        });
+      }
+
+      if (newPassword !== confirmPassword) {
+        return res.status(400).json({
+          success: false,
+          error: 'كلمة المرور الجديدة وتأكيدها غير متطابقين',
+          errorEn: 'New password and confirmation do not match',
+        });
+      }
+
+      if (newPassword.length < 8) {
+        return res.status(400).json({
+          success: false,
+          error: 'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
+          errorEn: 'Password must be at least 8 characters long',
+        });
+      }
+
+      const user = await User.findById(req.user._id).select('+password');
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          error: 'المستخدم غير موجود',
+          errorEn: 'User not found',
+        });
+      }
+
+      // Check current password - التحقق من كلمة المرور الحالية
+      const isCurrentPasswordValid = await user.comparePassword(currentPassword);
+      if (!isCurrentPasswordValid) {
+        return res.status(400).json({
+          success: false,
+          error: 'كلمة المرور الحالية غير صحيحة',
+          errorEn: 'Current password is incorrect',
+        });
+      }
+
+      // Hash new password - تشفير كلمة المرور الجديدة
+      const salt = await bcrypt.genSalt(12);
+      user.password = await bcrypt.hash(newPassword, salt);
+      user.passwordChangedAt = new Date();
+      user.updatedAt = new Date();
+
+      await user.save();
+
+      console.log(`✅ Password changed for user: ${user.username}`);
+      console.log(`✅ تم تغيير كلمة المرور للمستخدم: ${user.username}`);
+
+      res.status(200).json({
+        success: true,
+        message: 'تم تغيير كلمة المرور بنجاح',
+        messageEn: 'Password changed successfully',
+      });
+    } catch (error) {
+      console.error('Change password error:', error);
+      res.status(500).json({
         success: false,
-        error: 'جميع الحقول مطلوبة',
-        errorEn: 'All fields are required'
+        error: 'خطأ في تغيير كلمة المرور',
+        errorEn: 'Error changing password',
       });
     }
-    
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        error: 'كلمة المرور الجديدة وتأكيدها غير متطابقين',
-        errorEn: 'New password and confirmation do not match'
-      });
-    }
-    
-    if (newPassword.length < 8) {
-      return res.status(400).json({
-        success: false,
-        error: 'كلمة المرور يجب أن تكون 8 أحرف على الأقل',
-        errorEn: 'Password must be at least 8 characters long'
-      });
-    }
-    
-    const user = await User.findById(req.user._id).select('+password');
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: 'المستخدم غير موجود',
-        errorEn: 'User not found'
-      });
-    }
-    
-    // Check current password - التحقق من كلمة المرور الحالية
-    const isCurrentPasswordValid = await user.comparePassword(currentPassword);
-    if (!isCurrentPasswordValid) {
-      return res.status(400).json({
-        success: false,
-        error: 'كلمة المرور الحالية غير صحيحة',
-        errorEn: 'Current password is incorrect'
-      });
-    }
-    
-    // Hash new password - تشفير كلمة المرور الجديدة
-    const salt = await bcrypt.genSalt(12);
-    user.password = await bcrypt.hash(newPassword, salt);
-    user.passwordChangedAt = new Date();
-    user.updatedAt = new Date();
-    
-    await user.save();
-    
-    console.log(`✅ Password changed for user: ${user.username}`);
-    console.log(`✅ تم تغيير كلمة المرور للمستخدم: ${user.username}`);
-    
-    res.status(200).json({
-      success: true,
-      message: 'تم تغيير كلمة المرور بنجاح',
-      messageEn: 'Password changed successfully'
-    });
-    
-  } catch (error) {
-    console.error('Change password error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'خطأ في تغيير كلمة المرور',
-      errorEn: 'Error changing password'
-    });
   }
-});
+);
 
 /**
  * @route   GET /api/user/conversations
@@ -352,32 +354,32 @@ router.get('/conversations', authMiddleware, async (req, res) => {
       category,
       search,
       sortBy = 'updatedAt',
-      sortOrder = 'desc'
+      sortOrder = 'desc',
     } = req.query;
-    
+
     // Build query - بناء الاستعلام
     const query = { user: req.user._id };
-    
+
     if (status && status !== 'all') {
       query.status = status;
     }
-    
+
     if (category && category !== 'all') {
       query.category = category;
     }
-    
+
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
-        { 'messages.content': { $regex: search, $options: 'i' } }
+        { 'messages.content': { $regex: search, $options: 'i' } },
       ];
     }
-    
+
     // Execute query with pagination - تنفيذ الاستعلام مع التصفح
     const pageNum = Math.max(1, parseInt(page));
     const limitNum = Math.min(50, Math.max(1, parseInt(limit)));
     const skip = (pageNum - 1) * limitNum;
-    
+
     const [conversations, total] = await Promise.all([
       Conversation.find(query)
         .sort({ [sortBy]: sortOrder === 'desc' ? -1 : 1 })
@@ -385,14 +387,14 @@ router.get('/conversations', authMiddleware, async (req, res) => {
         .limit(limitNum)
         .select('title status category createdAt updatedAt messageCount duration quantumScore tags')
         .lean(),
-      Conversation.countDocuments(query)
+      Conversation.countDocuments(query),
     ]);
-    
+
     const totalPages = Math.ceil(total / limitNum);
-    
+
     console.log(`✅ Conversations retrieved for user: ${req.user.username}`);
     console.log(`✅ تم استرداد المحادثات للمستخدم: ${req.user.username}`);
-    
+
     res.status(200).json({
       success: true,
       data: {
@@ -403,24 +405,23 @@ router.get('/conversations', authMiddleware, async (req, res) => {
           totalConversations: total,
           hasNext: pageNum < totalPages,
           hasPrev: pageNum > 1,
-          limit: limitNum
+          limit: limitNum,
         },
         filters: {
           status,
           category,
           search,
           sortBy,
-          sortOrder
-        }
-      }
+          sortOrder,
+        },
+      },
     });
-    
   } catch (error) {
     console.error('Get conversations error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في الحصول على المحادثات',
-      errorEn: 'Error getting conversations'
+      errorEn: 'Error getting conversations',
     });
   }
 });
@@ -433,7 +434,7 @@ router.get('/conversations', authMiddleware, async (req, res) => {
 router.get('/statistics', authMiddleware, async (req, res) => {
   try {
     const { period = '30d' } = req.query;
-    
+
     // Calculate date range - حساب نطاق التاريخ
     let startDate;
     switch (period) {
@@ -452,15 +453,15 @@ router.get('/statistics', authMiddleware, async (req, res) => {
       default:
         startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     }
-    
+
     // Get user statistics - الحصول على إحصائيات المستخدم
     const [conversationStats, user] = await Promise.all([
       Conversation.aggregate([
         {
           $match: {
             user: req.user._id,
-            createdAt: { $gte: startDate }
-          }
+            createdAt: { $gte: startDate },
+          },
         },
         {
           $group: {
@@ -470,52 +471,52 @@ router.get('/statistics', authMiddleware, async (req, res) => {
             avgQuantumScore: { $avg: '$quantumScore' },
             avgDuration: { $avg: '$duration' },
             categories: { $push: '$category' },
-            statuses: { $push: '$status' }
-          }
-        }
+            statuses: { $push: '$status' },
+          },
+        },
       ]),
-      User.findById(req.user._id).select('apiUsage subscription createdAt loginHistory')
+      User.findById(req.user._id).select('apiUsage subscription createdAt loginHistory'),
     ]);
-    
+
     const stats = conversationStats[0] || {
       totalConversations: 0,
       totalMessages: 0,
       avgQuantumScore: 0,
       avgDuration: 0,
       categories: [],
-      statuses: []
+      statuses: [],
     };
-    
+
     // Process categories and statuses - معالجة الفئات والحالات
     const categoryCount = {};
     const statusCount = {};
-    
+
     stats.categories.forEach(cat => {
       categoryCount[cat] = (categoryCount[cat] || 0) + 1;
     });
-    
+
     stats.statuses.forEach(status => {
       statusCount[status] = (statusCount[status] || 0) + 1;
     });
-    
+
     // API usage statistics - إحصائيات استخدام API
     const apiStats = {
       dailyUsage: user.apiUsage.dailyUsage,
       monthlyUsage: user.apiUsage.monthlyUsage,
       totalTokensUsed: user.apiUsage.totalTokensUsed,
-      lastReset: user.apiUsage.lastReset
+      lastReset: user.apiUsage.lastReset,
     };
-    
+
     console.log(`✅ Statistics retrieved for user: ${req.user.username}`);
     console.log(`✅ تم استرداد الإحصائيات للمستخدم: ${req.user.username}`);
-    
+
     res.status(200).json({
       success: true,
       data: {
         period,
         dateRange: {
           start: startDate,
-          end: new Date()
+          end: new Date(),
         },
         conversations: {
           total: stats.totalConversations,
@@ -523,24 +524,23 @@ router.get('/statistics', authMiddleware, async (req, res) => {
           avgQuantumScore: Math.round(stats.avgQuantumScore * 100) / 100,
           avgDuration: Math.round(stats.avgDuration),
           byCategory: categoryCount,
-          byStatus: statusCount
+          byStatus: statusCount,
         },
         apiUsage: apiStats,
         account: {
           memberSince: user.createdAt,
           subscriptionTier: user.subscription.tier,
           totalLogins: user.loginHistory.totalLogins,
-          lastLogin: user.loginHistory.lastLogin
-        }
-      }
+          lastLogin: user.loginHistory.lastLogin,
+        },
+      },
     });
-    
   } catch (error) {
     console.error('Get statistics error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في الحصول على الإحصائيات',
-      errorEn: 'Error getting statistics'
+      errorEn: 'Error getting statistics',
     });
   }
 });
@@ -553,56 +553,55 @@ router.get('/statistics', authMiddleware, async (req, res) => {
 router.delete('/account', authMiddleware, profileUpdateLimiter, async (req, res) => {
   try {
     const { password, confirmDeletion } = req.body;
-    
+
     // Validation - التحقق من صحة البيانات
     if (!password || confirmDeletion !== 'DELETE_MY_ACCOUNT') {
       return res.status(400).json({
         success: false,
         error: 'كلمة المرور وتأكيد الحذف مطلوبان',
-        errorEn: 'Password and deletion confirmation required'
+        errorEn: 'Password and deletion confirmation required',
       });
     }
-    
+
     const user = await User.findById(req.user._id).select('+password');
     if (!user) {
       return res.status(404).json({
         success: false,
         error: 'المستخدم غير موجود',
-        errorEn: 'User not found'
+        errorEn: 'User not found',
       });
     }
-    
+
     // Verify password - التحقق من كلمة المرور
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(400).json({
         success: false,
         error: 'كلمة المرور غير صحيحة',
-        errorEn: 'Invalid password'
+        errorEn: 'Invalid password',
       });
     }
-    
+
     // Delete user conversations - حذف محادثات المستخدم
     await Conversation.deleteMany({ user: user._id });
-    
+
     // Delete user account - حذف حساب المستخدم
     await User.findByIdAndDelete(user._id);
-    
+
     console.log(`✅ Account deleted for user: ${user.username}`);
     console.log(`✅ تم حذف الحساب للمستخدم: ${user.username}`);
-    
+
     res.status(200).json({
       success: true,
       message: 'تم حذف الحساب بنجاح',
-      messageEn: 'Account deleted successfully'
+      messageEn: 'Account deleted successfully',
     });
-    
   } catch (error) {
     console.error('Delete account error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في حذف الحساب',
-      errorEn: 'Error deleting account'
+      errorEn: 'Error deleting account',
     });
   }
 });
@@ -614,40 +613,44 @@ router.delete('/account', authMiddleware, profileUpdateLimiter, async (req, res)
  */
 router.get('/subscription', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id)
-      .select('subscription apiUsage')
-      .lean();
-    
+    const user = await User.findById(req.user._id).select('subscription apiUsage').lean();
+
     if (!user) {
       return res.status(404).json({
         success: false,
         error: 'المستخدم غير موجود',
-        errorEn: 'User not found'
+        errorEn: 'User not found',
       });
     }
-    
+
     // Calculate usage percentages - حساب نسب الاستخدام
     const limits = {
       free: { daily: 50, monthly: 1000 },
       basic: { daily: 200, monthly: 5000 },
       premium: { daily: 1000, monthly: 25000 },
-      enterprise: { daily: -1, monthly: -1 } // Unlimited
+      enterprise: { daily: -1, monthly: -1 }, // Unlimited
     };
-    
+
     const tierLimits = limits[user.subscription.tier] || limits.free;
     const usage = {
       daily: {
         used: user.apiUsage.dailyUsage,
         limit: tierLimits.daily,
-        percentage: tierLimits.daily > 0 ? Math.round((user.apiUsage.dailyUsage / tierLimits.daily) * 100) : 0
+        percentage:
+          tierLimits.daily > 0
+            ? Math.round((user.apiUsage.dailyUsage / tierLimits.daily) * 100)
+            : 0,
       },
       monthly: {
         used: user.apiUsage.monthlyUsage,
         limit: tierLimits.monthly,
-        percentage: tierLimits.monthly > 0 ? Math.round((user.apiUsage.monthlyUsage / tierLimits.monthly) * 100) : 0
-      }
+        percentage:
+          tierLimits.monthly > 0
+            ? Math.round((user.apiUsage.monthlyUsage / tierLimits.monthly) * 100)
+            : 0,
+      },
     };
-    
+
     res.status(200).json({
       success: true,
       data: {
@@ -657,17 +660,16 @@ router.get('/subscription', authMiddleware, async (req, res) => {
           quantumAlgorithms: ['basic', 'premium', 'enterprise'].includes(user.subscription.tier),
           advancedAnalytics: ['premium', 'enterprise'].includes(user.subscription.tier),
           prioritySupport: ['premium', 'enterprise'].includes(user.subscription.tier),
-          customModels: user.subscription.tier === 'enterprise'
-        }
-      }
+          customModels: user.subscription.tier === 'enterprise',
+        },
+      },
     });
-    
   } catch (error) {
     console.error('Get subscription error:', error);
     res.status(500).json({
       success: false,
       error: 'خطأ في الحصول على تفاصيل الاشتراك',
-      errorEn: 'Error getting subscription details'
+      errorEn: 'Error getting subscription details',
     });
   }
 });
@@ -677,14 +679,15 @@ router.get('/subscription', authMiddleware, async (req, res) => {
  * @desc    Upgrade user subscription - ترقية اشتراك المستخدم
  * @access  Private
  */
-router.post('/upgrade-subscription', 
-  authMiddleware, 
-  requireSubscription('free'), 
-  trackApiUsage(5), 
+router.post(
+  '/upgrade-subscription',
+  authMiddleware,
+  requireSubscription('free'),
+  trackApiUsage(5),
   async (req, res) => {
     try {
       const { tier, paymentMethod, billingCycle } = req.body;
-      
+
       // Validation - التحقق من صحة البيانات
       const validTiers = ['basic', 'premium', 'enterprise'];
       if (!tier || !validTiers.includes(tier)) {
@@ -692,62 +695,64 @@ router.post('/upgrade-subscription',
           success: false,
           error: 'مستوى الاشتراك غير صالح',
           errorEn: 'Invalid subscription tier',
-          validTiers
+          validTiers,
         });
       }
-      
+
       const validCycles = ['monthly', 'yearly'];
       if (!billingCycle || !validCycles.includes(billingCycle)) {
         return res.status(400).json({
           success: false,
           error: 'دورة الفوترة غير صالحة',
           errorEn: 'Invalid billing cycle',
-          validCycles
+          validCycles,
         });
       }
-      
+
       const user = await User.findById(req.user._id);
       if (!user) {
         return res.status(404).json({
           success: false,
           error: 'المستخدم غير موجود',
-          errorEn: 'User not found'
+          errorEn: 'User not found',
         });
       }
-      
+
       // Check if already on this tier or higher - التحقق من المستوى الحالي
-      const tierLevels = { 'free': 0, 'basic': 1, 'premium': 2, 'enterprise': 3 };
+      const tierLevels = { free: 0, basic: 1, premium: 2, enterprise: 3 };
       const currentLevel = tierLevels[user.subscription.tier] || 0;
       const requestedLevel = tierLevels[tier] || 0;
-      
+
       if (currentLevel >= requestedLevel) {
         return res.status(400).json({
           success: false,
           error: 'أنت بالفعل على هذا المستوى أو أعلى',
-          errorEn: 'You are already on this tier or higher'
+          errorEn: 'You are already on this tier or higher',
         });
       }
-      
+
       // In a real application, you would integrate with a payment processor here
       // For demo purposes, we'll simulate the upgrade
-      
+
       // Update subscription - تحديث الاشتراك
       user.subscription = {
         tier,
         status: 'active',
         startDate: new Date(),
-        endDate: new Date(Date.now() + (billingCycle === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000),
+        endDate: new Date(
+          Date.now() + (billingCycle === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000
+        ),
         billingCycle,
         paymentMethod: paymentMethod || 'card',
-        autoRenew: true
+        autoRenew: true,
       };
-      
+
       user.updatedAt = new Date();
       await user.save();
-      
+
       console.log(`✅ Subscription upgraded to ${tier} for user: ${user.username}`);
       console.log(`✅ تم ترقية الاشتراك إلى ${tier} للمستخدم: ${user.username}`);
-      
+
       res.status(200).json({
         success: true,
         message: `تم ترقية الاشتراك إلى ${tier} بنجاح`,
@@ -758,17 +763,16 @@ router.post('/upgrade-subscription',
             quantumAlgorithms: ['basic', 'premium', 'enterprise'].includes(tier),
             advancedAnalytics: ['premium', 'enterprise'].includes(tier),
             prioritySupport: ['premium', 'enterprise'].includes(tier),
-            customModels: tier === 'enterprise'
-          }
-        }
+            customModels: tier === 'enterprise',
+          },
+        },
       });
-      
     } catch (error) {
       console.error('Upgrade subscription error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في ترقية الاشتراك',
-        errorEn: 'Error upgrading subscription'
+        errorEn: 'Error upgrading subscription',
       });
     }
   }

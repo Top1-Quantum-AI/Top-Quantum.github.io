@@ -13,6 +13,7 @@ We currently support the following versions with security updates:
 If you discover a security vulnerability, please follow these steps:
 
 ### English
+
 1. **DO NOT** create a public issue
 2. Send an email to the maintainers with details
 3. Include steps to reproduce the vulnerability
@@ -20,6 +21,7 @@ If you discover a security vulnerability, please follow these steps:
 5. We will work with you to resolve the issue
 
 ### العربية
+
 1. **لا تقم** بإنشاء مشكلة عامة
 2. أرسل بريداً إلكترونياً للمطورين مع التفاصيل
 3. اشمل خطوات إعادة إنتاج الثغرة
@@ -61,6 +63,7 @@ If you discover a security vulnerability, please follow these steps:
 ## Security Features / الميزات الأمنية
 
 This application includes:
+
 - Input validation and sanitization
 - Rate limiting
 - CORS protection
@@ -86,6 +89,7 @@ npm run security:check
 ## Responsible Disclosure / الإفصاح المسؤول
 
 We believe in responsible disclosure and will:
+
 - Acknowledge receipt of vulnerability reports
 - Work with researchers to understand and fix issues
 - Provide credit to researchers (if desired)
@@ -93,10 +97,12 @@ We believe in responsible disclosure and will:
 
 ## Contact / التواصل
 
-For security-related inquiries, please contact the maintainers through the appropriate channels mentioned in the README file.
+For security-related inquiries, please contact the maintainers through the
+appropriate channels mentioned in the README file.
 
 ---
 
-**Note**: This security policy is subject to updates. Please check regularly for changes.
+**Note**: This security policy is subject to updates. Please check regularly for
+changes.
 
 **ملاحظة**: هذه السياسة الأمنية قابلة للتحديث. يرجى المراجعة بانتظام للتغييرات.

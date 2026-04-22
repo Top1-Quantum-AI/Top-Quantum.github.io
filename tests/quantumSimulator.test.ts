@@ -47,8 +47,8 @@ describe('quantumSimulator', () => {
       expect(result.numQubits).toBe(2);
       expect(result.probabilities[0]).toBeCloseTo(0.5, 1); // |00⟩
       expect(result.probabilities[3]).toBeCloseTo(0.5, 1); // |11⟩
-      expect(result.probabilities[1]).toBeCloseTo(0, 1);   // |01⟩
-      expect(result.probabilities[2]).toBeCloseTo(0, 1);   // |10⟩
+      expect(result.probabilities[1]).toBeCloseTo(0, 1); // |01⟩
+      expect(result.probabilities[2]).toBeCloseTo(0, 1); // |10⟩
     });
 
     it('should produce correct measurement statistics', () => {
@@ -127,7 +127,10 @@ describe('quantumSimulator', () => {
 
     it('should run all algorithms without error', () => {
       for (const name of Object.keys(algorithms) as AlgorithmName[]) {
-        const algoFn = algorithms[name] as (...args: number[]) => { qubits: number; gates: GateOp[] };
+        const algoFn = algorithms[name] as (...args: number[]) => {
+          qubits: number;
+          gates: GateOp[];
+        };
         const algo = algoFn();
         expect(() => simulateCircuit(algo.qubits, algo.gates, 100)).not.toThrow();
       }
@@ -135,7 +138,10 @@ describe('quantumSimulator', () => {
 
     it('each algorithm should have valid qubit count and gates', () => {
       for (const name of Object.keys(algorithms) as AlgorithmName[]) {
-        const algoFn = algorithms[name] as (...args: number[]) => { qubits: number; gates: GateOp[] };
+        const algoFn = algorithms[name] as (...args: number[]) => {
+          qubits: number;
+          gates: GateOp[];
+        };
         const algo = algoFn();
         expect(algo.qubits).toBeGreaterThanOrEqual(1);
         expect(algo.qubits).toBeLessThanOrEqual(20);

@@ -19,10 +19,10 @@ const monitoringLimiter = rateLimit({
   max: 20, // 20 requests per 5 minutes
   message: {
     error: 'تم تجاوز عدد طلبات المراقبة المسموح بها.',
-    errorEn: 'Too many monitoring requests.'
+    errorEn: 'Too many monitoring requests.',
   },
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });
 
 const adminLimiter = rateLimit({
@@ -30,8 +30,8 @@ const adminLimiter = rateLimit({
   max: 10, // 10 admin requests per minute
   message: {
     error: 'تم تجاوز عدد طلبات الإدارة المسموح بها.',
-    errorEn: 'Too many admin requests.'
-  }
+    errorEn: 'Too many admin requests.',
+  },
 });
 
 /**
@@ -42,14 +42,13 @@ const adminLimiter = rateLimit({
 router.get('/health', async (req, res) => {
   try {
     const health = await monitoringService.getHealthSummary();
-    
+
     // Determine overall status - تحديد الحالة العامة
-    const overallStatus = health.alerts.critical > 0 ? 'critical' :
-                         health.alerts.warning > 0 ? 'warning' : 'healthy';
-    
-    const statusCode = overallStatus === 'critical' ? 503 :
-                      overallStatus === 'warning' ? 200 : 200;
-    
+    const overallStatus =
+      health.alerts.critical > 0 ? 'critical' : health.alerts.warning > 0 ? 'warning' : 'healthy';
+
+    const statusCode = overallStatus === 'critical' ? 503 : overallStatus === 'warning' ? 200 : 200;
+
     res.status(statusCode).json({
       success: true,
       status: overallStatus,
@@ -60,23 +59,22 @@ router.get('/health', async (req, res) => {
           uptime: process.uptime(),
           version: process.version,
           platform: os.platform(),
-          arch: os.arch()
+          arch: os.arch(),
         },
         resources: {
           cpu: health.metrics.cpu,
           memory: health.metrics.memory,
-          redis: health.metrics.redis
+          redis: health.metrics.redis,
         },
         alerts: health.alerts,
         services: {
           database: health.services?.database || 'unknown',
           redis: health.services?.redis || 'unknown',
           ai: health.services?.ai || 'unknown',
-          quantum: health.services?.quantum || 'unknown'
-        }
-      }
+          quantum: health.services?.quantum || 'unknown',
+        },
+      },
     });
-    
   } catch (error) {
     console.error('Health check error:', error);
     res.status(503).json({
@@ -84,7 +82,7 @@ router.get('/health', async (req, res) => {
       status: 'unhealthy',
       error: 'خطأ في فحص صحة النظام',
       errorEn: 'System health check error',
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 });
@@ -94,14 +92,15 @@ router.get('/health', async (req, res) => {
  * @desc    Get system metrics - الحصول على مقاييس النظام
  * @access  Private (Admin)
  */
-router.get('/metrics', 
-  authMiddleware, 
-  requireSubscription('enterprise'), 
-  monitoringLimiter, 
+router.get(
+  '/metrics',
+  authMiddleware,
+  requireSubscription('enterprise'),
+  monitoringLimiter,
   async (req, res) => {
     try {
       const { timeRange = '1h', granularity = '5m' } = req.query;
-      
+
       // Validate time range - التحقق من نطاق الوقت
       const validRanges = ['5m', '15m', '1h', '6h', '24h', '7d'];
       if (!validRanges.includes(timeRange)) {
@@ -109,31 +108,30 @@ router.get('/metrics',
           success: false,
           error: 'نطاق زمني غير صالح',
           errorEn: 'Invalid time range',
-          validRanges
+          validRanges,
         });
       }
-      
+
       const metrics = await monitoringService.getMetrics(timeRange, granularity);
-      
+
       console.log(`✅ Metrics retrieved for admin user: ${req.user.username}`);
       console.log(`✅ تم استرداد المقاييس للمستخدم الإداري: ${req.user.username}`);
-      
+
       res.status(200).json({
         success: true,
         data: {
           timeRange,
           granularity,
           metrics,
-          timestamp: new Date()
-        }
+          timestamp: new Date(),
+        },
       });
-      
     } catch (error) {
       console.error('Get metrics error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في الحصول على المقاييس',
-        errorEn: 'Error getting metrics'
+        errorEn: 'Error getting metrics',
       });
     }
   }
@@ -144,31 +142,26 @@ router.get('/metrics',
  * @desc    Get system alerts - الحصول على تنبيهات النظام
  * @access  Private (Admin)
  */
-router.get('/alerts', 
-  authMiddleware, 
-  requireSubscription('enterprise'), 
-  monitoringLimiter, 
+router.get(
+  '/alerts',
+  authMiddleware,
+  requireSubscription('enterprise'),
+  monitoringLimiter,
   async (req, res) => {
     try {
-      const { 
-        severity, 
-        status = 'active', 
-        page = 1, 
-        limit = 20,
-        timeRange = '24h'
-      } = req.query;
-      
+      const { severity, status = 'active', page = 1, limit = 20, timeRange = '24h' } = req.query;
+
       const alerts = await monitoringService.getAlerts({
         severity,
         status,
         timeRange,
         page: parseInt(page),
-        limit: Math.min(parseInt(limit), 100)
+        limit: Math.min(parseInt(limit), 100),
       });
-      
+
       console.log(`✅ Alerts retrieved for admin user: ${req.user.username}`);
       console.log(`✅ تم استرداد التنبيهات للمستخدم الإداري: ${req.user.username}`);
-      
+
       res.status(200).json({
         success: true,
         data: {
@@ -178,24 +171,23 @@ router.get('/alerts',
             totalPages: alerts.totalPages,
             totalAlerts: alerts.total,
             hasNext: alerts.hasNext,
-            hasPrev: alerts.hasPrev
+            hasPrev: alerts.hasPrev,
           },
           summary: {
             critical: alerts.summary?.critical || 0,
             warning: alerts.summary?.warning || 0,
             info: alerts.summary?.info || 0,
-            resolved: alerts.summary?.resolved || 0
+            resolved: alerts.summary?.resolved || 0,
           },
-          timestamp: new Date()
-        }
+          timestamp: new Date(),
+        },
       });
-      
     } catch (error) {
       console.error('Get alerts error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في الحصول على التنبيهات',
-        errorEn: 'Error getting alerts'
+        errorEn: 'Error getting alerts',
       });
     }
   }
@@ -206,41 +198,42 @@ router.get('/alerts',
  * @desc    Resolve system alert - حل تنبيه النظام
  * @access  Private (Admin)
  */
-router.post('/alerts/:alertId/resolve', 
-  authMiddleware, 
-  requireSubscription('enterprise'), 
-  adminLimiter, 
+router.post(
+  '/alerts/:alertId/resolve',
+  authMiddleware,
+  requireSubscription('enterprise'),
+  adminLimiter,
   async (req, res) => {
     try {
       const { alertId } = req.params;
       const { resolution, notes } = req.body;
-      
+
       if (!alertId) {
         return res.status(400).json({
           success: false,
           error: 'معرف التنبيه مطلوب',
-          errorEn: 'Alert ID is required'
+          errorEn: 'Alert ID is required',
         });
       }
-      
+
       const resolved = await monitoringService.resolveAlert(alertId, {
         resolution: resolution || 'manual',
         notes,
         resolvedBy: req.user._id.toString(),
-        resolvedAt: new Date()
+        resolvedAt: new Date(),
       });
-      
+
       if (!resolved) {
         return res.status(404).json({
           success: false,
           error: 'التنبيه غير موجود',
-          errorEn: 'Alert not found'
+          errorEn: 'Alert not found',
         });
       }
-      
+
       console.log(`✅ Alert ${alertId} resolved by admin: ${req.user.username}`);
       console.log(`✅ تم حل التنبيه ${alertId} بواسطة الإداري: ${req.user.username}`);
-      
+
       res.status(200).json({
         success: true,
         message: 'تم حل التنبيه بنجاح',
@@ -250,16 +243,15 @@ router.post('/alerts/:alertId/resolve',
           resolvedBy: req.user.username,
           resolvedAt: new Date(),
           resolution,
-          notes
-        }
+          notes,
+        },
       });
-      
     } catch (error) {
       console.error('Resolve alert error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في حل التنبيه',
-        errorEn: 'Error resolving alert'
+        errorEn: 'Error resolving alert',
       });
     }
   }
@@ -270,19 +262,20 @@ router.post('/alerts/:alertId/resolve',
  * @desc    Get performance statistics - الحصول على إحصائيات الأداء
  * @access  Private (Premium+)
  */
-router.get('/performance', 
-  authMiddleware, 
-  requireSubscription('premium'), 
-  monitoringLimiter, 
+router.get(
+  '/performance',
+  authMiddleware,
+  requireSubscription('premium'),
+  monitoringLimiter,
   async (req, res) => {
     try {
       const { component, timeRange = '1h' } = req.query;
-      
+
       const performance = await monitoringService.getPerformanceStats({
         component,
-        timeRange
+        timeRange,
       });
-      
+
       // Get current system info - الحصول على معلومات النظام الحالية
       const systemInfo = {
         uptime: process.uptime(),
@@ -290,24 +283,24 @@ router.get('/performance',
           used: process.memoryUsage().heapUsed,
           total: process.memoryUsage().heapTotal,
           external: process.memoryUsage().external,
-          rss: process.memoryUsage().rss
+          rss: process.memoryUsage().rss,
         },
         cpu: {
           usage: process.cpuUsage(),
-          loadAverage: os.loadavg()
+          loadAverage: os.loadavg(),
         },
         platform: {
           type: os.type(),
           platform: os.platform(),
           arch: os.arch(),
           release: os.release(),
-          hostname: os.hostname()
-        }
+          hostname: os.hostname(),
+        },
       };
-      
+
       console.log(`✅ Performance stats retrieved for user: ${req.user.username}`);
       console.log(`✅ تم استرداد إحصائيات الأداء للمستخدم: ${req.user.username}`);
-      
+
       res.status(200).json({
         success: true,
         data: {
@@ -315,16 +308,15 @@ router.get('/performance',
           systemInfo,
           timeRange,
           component: component || 'all',
-          timestamp: new Date()
-        }
+          timestamp: new Date(),
+        },
       });
-      
     } catch (error) {
       console.error('Get performance error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في الحصول على إحصائيات الأداء',
-        errorEn: 'Error getting performance statistics'
+        errorEn: 'Error getting performance statistics',
       });
     }
   }
@@ -335,10 +327,11 @@ router.get('/performance',
  * @desc    Get system logs - الحصول على سجلات النظام
  * @access  Private (Admin)
  */
-router.get('/logs', 
-  authMiddleware, 
-  requireSubscription('enterprise'), 
-  adminLimiter, 
+router.get(
+  '/logs',
+  authMiddleware,
+  requireSubscription('enterprise'),
+  adminLimiter,
   async (req, res) => {
     try {
       const {
@@ -348,9 +341,9 @@ router.get('/logs',
         startTime,
         endTime,
         page = 1,
-        limit = 50
+        limit = 50,
       } = req.query;
-      
+
       const logs = await monitoringService.getLogs({
         level,
         component,
@@ -358,12 +351,12 @@ router.get('/logs',
         startTime: startTime ? new Date(startTime) : new Date(Date.now() - 24 * 60 * 60 * 1000),
         endTime: endTime ? new Date(endTime) : new Date(),
         page: parseInt(page),
-        limit: Math.min(parseInt(limit), 100)
+        limit: Math.min(parseInt(limit), 100),
       });
-      
+
       console.log(`✅ Logs retrieved for admin user: ${req.user.username}`);
       console.log(`✅ تم استرداد السجلات للمستخدم الإداري: ${req.user.username}`);
-      
+
       res.status(200).json({
         success: true,
         data: {
@@ -373,25 +366,24 @@ router.get('/logs',
             totalPages: logs.totalPages,
             totalLogs: logs.total,
             hasNext: logs.hasNext,
-            hasPrev: logs.hasPrev
+            hasPrev: logs.hasPrev,
           },
           filters: {
             level,
             component,
             search,
             startTime,
-            endTime
+            endTime,
           },
-          timestamp: new Date()
-        }
+          timestamp: new Date(),
+        },
       });
-      
     } catch (error) {
       console.error('Get logs error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في الحصول على السجلات',
-        errorEn: 'Error getting logs'
+        errorEn: 'Error getting logs',
       });
     }
   }
@@ -402,59 +394,59 @@ router.get('/logs',
  * @desc    Get detailed system status - الحصول على حالة النظام المفصلة
  * @access  Private (Premium+)
  */
-router.get('/status', 
-  authMiddleware, 
-  requireSubscription('premium'), 
-  monitoringLimiter, 
+router.get(
+  '/status',
+  authMiddleware,
+  requireSubscription('premium'),
+  monitoringLimiter,
   async (req, res) => {
     try {
       const status = await monitoringService.getSystemStatus();
-      
+
       // Add real-time system information - إضافة معلومات النظام في الوقت الفعلي
       const realTimeInfo = {
         timestamp: new Date(),
         uptime: {
           system: os.uptime(),
-          process: process.uptime()
+          process: process.uptime(),
         },
         memory: {
           system: {
             total: os.totalmem(),
             free: os.freemem(),
             used: os.totalmem() - os.freemem(),
-            percentage: Math.round(((os.totalmem() - os.freemem()) / os.totalmem()) * 100)
+            percentage: Math.round(((os.totalmem() - os.freemem()) / os.totalmem()) * 100),
           },
-          process: process.memoryUsage()
+          process: process.memoryUsage(),
         },
         cpu: {
           count: os.cpus().length,
           model: os.cpus()[0]?.model || 'Unknown',
           loadAverage: os.loadavg(),
-          usage: process.cpuUsage()
+          usage: process.cpuUsage(),
         },
         network: {
           interfaces: Object.keys(os.networkInterfaces()).length,
-          hostname: os.hostname()
-        }
+          hostname: os.hostname(),
+        },
       };
-      
+
       console.log(`✅ System status retrieved for user: ${req.user.username}`);
       console.log(`✅ تم استرداد حالة النظام للمستخدم: ${req.user.username}`);
-      
+
       res.status(200).json({
         success: true,
         data: {
           ...status,
-          realTime: realTimeInfo
-        }
+          realTime: realTimeInfo,
+        },
       });
-      
     } catch (error) {
       console.error('Get system status error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في الحصول على حالة النظام',
-        errorEn: 'Error getting system status'
+        errorEn: 'Error getting system status',
       });
     }
   }
@@ -465,24 +457,25 @@ router.get('/status',
  * @desc    Test alert system - اختبار نظام التنبيهات
  * @access  Private (Admin)
  */
-router.post('/test-alert', 
-  authMiddleware, 
-  requireSubscription('enterprise'), 
-  adminLimiter, 
+router.post(
+  '/test-alert',
+  authMiddleware,
+  requireSubscription('enterprise'),
+  adminLimiter,
   async (req, res) => {
     try {
       const { severity = 'info', message, component = 'test' } = req.body;
-      
+
       const validSeverities = ['info', 'warning', 'critical'];
       if (!validSeverities.includes(severity)) {
         return res.status(400).json({
           success: false,
           error: 'مستوى الخطورة غير صالح',
           errorEn: 'Invalid severity level',
-          validSeverities
+          validSeverities,
         });
       }
-      
+
       const testAlert = await monitoringService.createAlert({
         type: 'test',
         severity,
@@ -492,13 +485,13 @@ router.post('/test-alert',
         metadata: {
           createdBy: req.user._id.toString(),
           username: req.user.username,
-          isTest: true
-        }
+          isTest: true,
+        },
       });
-      
+
       console.log(`✅ Test alert created by admin: ${req.user.username}`);
       console.log(`✅ تم إنشاء تنبيه اختبار بواسطة الإداري: ${req.user.username}`);
-      
+
       res.status(201).json({
         success: true,
         message: 'تم إنشاء تنبيه الاختبار بنجاح',
@@ -506,16 +499,15 @@ router.post('/test-alert',
         data: {
           alert: testAlert,
           createdBy: req.user.username,
-          timestamp: new Date()
-        }
+          timestamp: new Date(),
+        },
       });
-      
     } catch (error) {
       console.error('Test alert error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في إنشاء تنبيه الاختبار',
-        errorEn: 'Error creating test alert'
+        errorEn: 'Error creating test alert',
       });
     }
   }
@@ -526,45 +518,50 @@ router.post('/test-alert',
  * @desc    Get monitoring dashboard data - الحصول على بيانات لوحة المراقبة
  * @access  Private (Premium+)
  */
-router.get('/dashboard', 
-  authMiddleware, 
-  requireSubscription('premium'), 
-  monitoringLimiter, 
+router.get(
+  '/dashboard',
+  authMiddleware,
+  requireSubscription('premium'),
+  monitoringLimiter,
   async (req, res) => {
     try {
       const { timeRange = '1h' } = req.query;
-      
+
       // Get comprehensive dashboard data - الحصول على بيانات لوحة المراقبة الشاملة
       const [health, metrics, alerts, performance] = await Promise.all([
         monitoringService.getHealthSummary(),
         monitoringService.getMetrics(timeRange, '5m'),
         monitoringService.getAlerts({ status: 'active', limit: 10 }),
-        monitoringService.getPerformanceStats({ timeRange })
+        monitoringService.getPerformanceStats({ timeRange }),
       ]);
-      
+
       // Calculate trends - حساب الاتجاهات
       const trends = {
         cpu: metrics.cpu?.trend || 'stable',
         memory: metrics.memory?.trend || 'stable',
         requests: metrics.requests?.trend || 'stable',
-        errors: metrics.errors?.trend || 'stable'
+        errors: metrics.errors?.trend || 'stable',
       };
-      
+
       // System overview - نظرة عامة على النظام
       const overview = {
-        status: health.alerts.critical > 0 ? 'critical' :
-                health.alerts.warning > 0 ? 'warning' : 'healthy',
+        status:
+          health.alerts.critical > 0
+            ? 'critical'
+            : health.alerts.warning > 0
+              ? 'warning'
+              : 'healthy',
         uptime: process.uptime(),
         version: process.version,
         environment: process.env.NODE_ENV || 'development',
         activeAlerts: health.alerts.critical + health.alerts.warning,
         totalRequests: metrics.requests?.total || 0,
-        errorRate: metrics.errors?.rate || 0
+        errorRate: metrics.errors?.rate || 0,
       };
-      
+
       console.log(`✅ Dashboard data retrieved for user: ${req.user.username}`);
       console.log(`✅ تم استرداد بيانات لوحة المراقبة للمستخدم: ${req.user.username}`);
-      
+
       res.status(200).json({
         success: true,
         data: {
@@ -575,16 +572,15 @@ router.get('/dashboard',
           performance,
           trends,
           timeRange,
-          timestamp: new Date()
-        }
+          timestamp: new Date(),
+        },
       });
-      
     } catch (error) {
       console.error('Get dashboard error:', error);
       res.status(500).json({
         success: false,
         error: 'خطأ في الحصول على بيانات لوحة المراقبة',
-        errorEn: 'Error getting dashboard data'
+        errorEn: 'Error getting dashboard data',
       });
     }
   }

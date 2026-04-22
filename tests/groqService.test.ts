@@ -11,7 +11,9 @@ import {
   type ChatMessage,
 } from '../src/services/groqService';
 
-interface FetchMock { fetch: jest.Mock }
+interface FetchMock {
+  fetch: jest.Mock;
+}
 
 function mockFetchOk(content: string): void {
   (globalThis as unknown as FetchMock).fetch = jest.fn().mockResolvedValue({
@@ -85,16 +87,20 @@ describe('groqService', () => {
     it('should include Authorization header with bearer token', async () => {
       mockFetchOk('response');
       await sendChatMessage([{ role: 'user', content: 'test' }]);
-      const callArgs = (globalThis as unknown as FetchMock).fetch.mock
-        .calls[0] as [string, { headers: Record<string, string> }];
+      const callArgs = (globalThis as unknown as FetchMock).fetch.mock.calls[0] as [
+        string,
+        { headers: Record<string, string> },
+      ];
       expect(callArgs[1].headers['Authorization']).toBe('Bearer sk-test-key');
     });
 
     it('should include Content-Type application/json header', async () => {
       mockFetchOk('response');
       await sendChatMessage([{ role: 'user', content: 'test' }]);
-      const callArgs = (globalThis as unknown as FetchMock).fetch.mock
-        .calls[0] as [string, { headers: Record<string, string> }];
+      const callArgs = (globalThis as unknown as FetchMock).fetch.mock.calls[0] as [
+        string,
+        { headers: Record<string, string> },
+      ];
       expect(callArgs[1].headers['Content-Type']).toBe('application/json');
     });
 
@@ -107,8 +113,10 @@ describe('groqService', () => {
     it('should prepend system prompt to messages', async () => {
       mockFetchOk('ok');
       await sendChatMessage([{ role: 'user', content: 'hello' }], 'Custom system prompt');
-      const callArgs = (globalThis as unknown as FetchMock).fetch.mock
-        .calls[0] as [string, { body: string }];
+      const callArgs = (globalThis as unknown as FetchMock).fetch.mock.calls[0] as [
+        string,
+        { body: string },
+      ];
       const body = JSON.parse(callArgs[1].body) as { messages: ChatMessage[] };
       expect(body.messages[0]?.role).toBe('system');
       expect(body.messages[0]?.content).toBe('Custom system prompt');
@@ -118,8 +126,10 @@ describe('groqService', () => {
     it('should use default system prompt when none provided', async () => {
       mockFetchOk('ok');
       await sendChatMessage([{ role: 'user', content: 'test' }]);
-      const callArgs = (globalThis as unknown as FetchMock).fetch.mock
-        .calls[0] as [string, { body: string }];
+      const callArgs = (globalThis as unknown as FetchMock).fetch.mock.calls[0] as [
+        string,
+        { body: string },
+      ];
       const body = JSON.parse(callArgs[1].body) as { messages: ChatMessage[] };
       expect(body.messages[0]?.role).toBe('system');
       // Default prompt contains Arabic text about AI analysis
@@ -129,24 +139,26 @@ describe('groqService', () => {
     it('should use llama-3.3-70b-versatile model', async () => {
       mockFetchOk('ok');
       await sendChatMessage([{ role: 'user', content: 'test' }]);
-      const callArgs = (globalThis as unknown as FetchMock).fetch.mock
-        .calls[0] as [string, { body: string }];
+      const callArgs = (globalThis as unknown as FetchMock).fetch.mock.calls[0] as [
+        string,
+        { body: string },
+      ];
       const body = JSON.parse(callArgs[1].body) as { model: string };
       expect(body.model).toBe('llama-3.3-70b-versatile');
     });
 
     it('should throw on API error response with error message', async () => {
       mockFetchError(400, 'Invalid request body');
-      await expect(
-        sendChatMessage([{ role: 'user', content: 'test' }])
-      ).rejects.toThrow('Invalid request body');
+      await expect(sendChatMessage([{ role: 'user', content: 'test' }])).rejects.toThrow(
+        'Invalid request body'
+      );
     });
 
     it('should throw with status fallback when JSON parse fails', async () => {
       mockFetchErrorJsonFail(500);
-      await expect(
-        sendChatMessage([{ role: 'user', content: 'test' }])
-      ).rejects.toThrow('خطأ في API: 500');
+      await expect(sendChatMessage([{ role: 'user', content: 'test' }])).rejects.toThrow(
+        'خطأ في API: 500'
+      );
     });
 
     it('should throw when choices array is empty', async () => {
@@ -154,9 +166,9 @@ describe('groqService', () => {
         ok: true,
         json: () => Promise.resolve({ choices: [] }),
       } as Response);
-      await expect(
-        sendChatMessage([{ role: 'user', content: 'test' }])
-      ).rejects.toThrow('لم يتم استلام رد');
+      await expect(sendChatMessage([{ role: 'user', content: 'test' }])).rejects.toThrow(
+        'لم يتم استلام رد'
+      );
     });
 
     it('should throw when choice has no content', async () => {
@@ -164,9 +176,9 @@ describe('groqService', () => {
         ok: true,
         json: () => Promise.resolve({ choices: [{ message: { content: null } }] }),
       } as Response);
-      await expect(
-        sendChatMessage([{ role: 'user', content: 'test' }])
-      ).rejects.toThrow('لم يتم استلام رد');
+      await expect(sendChatMessage([{ role: 'user', content: 'test' }])).rejects.toThrow(
+        'لم يتم استلام رد'
+      );
     });
 
     it('should handle multiple user messages', async () => {
@@ -196,8 +208,10 @@ describe('groqService', () => {
       const result = await analyzeSystemData(systemData);
       expect(result).toBe('تحليل البيانات...');
       // Verify the system data was included in the request
-      const callArgs = (globalThis as unknown as FetchMock).fetch.mock
-        .calls[0] as [string, { body: string }];
+      const callArgs = (globalThis as unknown as FetchMock).fetch.mock.calls[0] as [
+        string,
+        { body: string },
+      ];
       const body = JSON.parse(callArgs[1].body) as { messages: ChatMessage[] };
       const userMsg = body.messages.find(m => m.role === 'user');
       expect(userMsg?.content).toContain(JSON.stringify(systemData, null, 2));
@@ -218,8 +232,10 @@ describe('groqService', () => {
       const threats = [{ type: 'brute-force', severity: 'high' }];
       const result = await analyzeSecurityThreats(threats);
       expect(result).toBe('تحليل التهديدات...');
-      const callArgs = (globalThis as unknown as FetchMock).fetch.mock
-        .calls[0] as [string, { body: string }];
+      const callArgs = (globalThis as unknown as FetchMock).fetch.mock.calls[0] as [
+        string,
+        { body: string },
+      ];
       const body = JSON.parse(callArgs[1].body) as { messages: ChatMessage[] };
       const userMsg = body.messages.find(m => m.role === 'user');
       expect(userMsg?.content).toContain('"type": "brute-force"');

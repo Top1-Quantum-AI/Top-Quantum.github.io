@@ -26,7 +26,9 @@ import {
 
 // ─── Helpers ──────────────────────────────────────────────────
 
-interface FetchMock { fetch: jest.Mock }
+interface FetchMock {
+  fetch: jest.Mock;
+}
 
 function mockFetch(response: Partial<Response> & { json?: () => Promise<unknown> }): void {
   (globalThis as unknown as FetchMock).fetch = jest.fn().mockResolvedValue(response as Response);
@@ -249,7 +251,9 @@ describe('apiClient – Auth', () => {
 
     it('should clear token even if request fails', async () => {
       localStorage.setItem('quantum_auth_token', 'some-token');
-      (globalThis as unknown as FetchMock).fetch = jest.fn().mockRejectedValue(new Error('Network error'));
+      (globalThis as unknown as FetchMock).fetch = jest
+        .fn()
+        .mockRejectedValue(new Error('Network error'));
       await expect(apiLogout()).rejects.toThrow('Network error');
       expect(localStorage.getItem('quantum_auth_token')).toBeNull();
     });
@@ -406,11 +410,18 @@ describe('apiClient – Admin', () => {
 
   describe('adminGetAuditLogs()', () => {
     it('should GET /admin/audit-logs', async () => {
-      const logs: AuditLogEntry[] = [{
-        userId: 'u1', username: 'user1', email: 'u@u.com',
-        role: 'user', ip: '127.0.0.1', userAgent: 'test',
-        timestamp: '2024-01-01T00:00:00Z', success: true,
-      }];
+      const logs: AuditLogEntry[] = [
+        {
+          userId: 'u1',
+          username: 'user1',
+          email: 'u@u.com',
+          role: 'user',
+          ip: '127.0.0.1',
+          userAgent: 'test',
+          timestamp: '2024-01-01T00:00:00Z',
+          success: true,
+        },
+      ];
       mockFetchOk({ logs });
       const result = await adminGetAuditLogs(10);
       expect((globalThis as unknown as FetchMock).fetch).toHaveBeenCalledWith(
@@ -437,19 +448,25 @@ describe('checkBackendAvailable()', () => {
   });
 
   it('should return true when health endpoint responds ok', async () => {
-    (globalThis as unknown as FetchMock).fetch = jest.fn().mockResolvedValue({ ok: true } as Response);
+    (globalThis as unknown as FetchMock).fetch = jest
+      .fn()
+      .mockResolvedValue({ ok: true } as Response);
     const result = await checkBackendAvailable();
     expect(result).toBe(true);
   });
 
   it('should return false when health endpoint responds not ok', async () => {
-    (globalThis as unknown as FetchMock).fetch = jest.fn().mockResolvedValue({ ok: false } as Response);
+    (globalThis as unknown as FetchMock).fetch = jest
+      .fn()
+      .mockResolvedValue({ ok: false } as Response);
     const result = await checkBackendAvailable();
     expect(result).toBe(false);
   });
 
   it('should return false when fetch throws (network error)', async () => {
-    (globalThis as unknown as FetchMock).fetch = jest.fn().mockRejectedValue(new Error('Network error'));
+    (globalThis as unknown as FetchMock).fetch = jest
+      .fn()
+      .mockRejectedValue(new Error('Network error'));
     const result = await checkBackendAvailable();
     expect(result).toBe(false);
   });

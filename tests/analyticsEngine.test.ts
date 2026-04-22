@@ -43,7 +43,7 @@ describe('AnalyticsEngine', () => {
 
     it('current snapshot should have all required metrics', () => {
       const report = engine.tick();
-      const {current} = report;
+      const { current } = report;
       expect(typeof current.cpu).toBe('number');
       expect(typeof current.memory).toBe('number');
       expect(typeof current.disk).toBe('number');
@@ -88,7 +88,7 @@ describe('AnalyticsEngine', () => {
     it('stats should include expected keys', () => {
       engine.tick();
       const report = engine.tick();
-      const {stats} = report;
+      const { stats } = report;
       expect(typeof stats.cpuAvg).toBe('number');
       expect(typeof stats.memoryAvg).toBe('number');
       expect(typeof stats.networkAvg).toBe('number');
@@ -146,7 +146,9 @@ describe('AnalyticsEngine', () => {
     it('should generate logs periodically (every 3 ticks)', () => {
       const initialCount = engine.getLogs(200).length;
       // 3 ticks → at least one log added (tick 3 % 3 === 0)
-      engine.tick(); engine.tick(); engine.tick();
+      engine.tick();
+      engine.tick();
+      engine.tick();
       const afterCount = engine.getLogs(200).length;
       expect(afterCount).toBeGreaterThanOrEqual(initialCount);
     });
@@ -226,7 +228,12 @@ describe('AnalyticsEngine', () => {
     });
 
     it('should return logs in reverse-chronological order', () => {
-      engine.tick(); engine.tick(); engine.tick(); engine.tick(); engine.tick(); engine.tick();
+      engine.tick();
+      engine.tick();
+      engine.tick();
+      engine.tick();
+      engine.tick();
+      engine.tick();
       const logs = engine.getLogs();
       for (let i = 1; i < logs.length; i++) {
         // logs are reversed, so each entry should be >= the next
@@ -315,8 +322,9 @@ describe('AnalyticsEngine', () => {
       for (let i = 0; i < 10; i++) engine.tick();
       const nodesAfter = engine.getNetworkNodes();
       // At least some nodes should have changed latency
-      const changed = nodesAfter.filter((n, i) =>
-        n.metrics.latency !== (nodesBefore[i] as { metrics: { latency: number } }).metrics.latency
+      const changed = nodesAfter.filter(
+        (n, i) =>
+          n.metrics.latency !== (nodesBefore[i] as { metrics: { latency: number } }).metrics.latency
       );
       expect(changed.length).toBeGreaterThan(0);
     });

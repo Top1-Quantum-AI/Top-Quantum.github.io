@@ -43,16 +43,16 @@ const ExportToolbar: React.FC<ExportToolbarProps> = ({ tabName, sections }) => {
   };
 
   return (
-    <div className="relative">
+    <div className='relative'>
       <button
         onClick={() => setShowMenu(!showMenu)}
         disabled={exporting !== null}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 border border-gray-600/50 text-xs font-medium text-gray-300 transition-colors disabled:opacity-50"
+        className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 border border-gray-600/50 text-xs font-medium text-gray-300 transition-colors disabled:opacity-50'
       >
         {exporting ? (
-          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          <Loader2 className='w-3.5 h-3.5 animate-spin' />
         ) : (
-          <Download className="w-3.5 h-3.5" />
+          <Download className='w-3.5 h-3.5' />
         )}
         تصدير
       </button>
@@ -63,21 +63,23 @@ const ExportToolbar: React.FC<ExportToolbarProps> = ({ tabName, sections }) => {
             initial={{ opacity: 0, y: -5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
-            className="absolute left-0 top-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-20 min-w-[180px] py-1"
+            className='absolute left-0 top-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-20 min-w-[180px] py-1'
           >
             <button
-              onClick={() => { void handleSnapshot(); }}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700/50 transition-colors text-right"
+              onClick={() => {
+                void handleSnapshot();
+              }}
+              className='w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700/50 transition-colors text-right'
             >
-              <Image className="w-4 h-4 text-blue-400" />
+              <Image className='w-4 h-4 text-blue-400' />
               لقطة الشاشة (PDF)
             </button>
             {sections && sections.length > 0 && (
               <button
                 onClick={handleDataReport}
-                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700/50 transition-colors text-right"
+                className='w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700/50 transition-colors text-right'
               >
-                <FileText className="w-4 h-4 text-green-400" />
+                <FileText className='w-4 h-4 text-green-400' />
                 تقرير بيانات (PDF)
               </button>
             )}

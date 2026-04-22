@@ -43,19 +43,9 @@
       "@/ai/*": ["src/ai/*"],
       "@/security/*": ["src/security/*"]
     },
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   },
-  "include": [
-    "src/**/*",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.js",
-    "src/**/*.jsx",
-    "tests/**/*",
-    "**/*.d.ts"
-  ],
+  "include": ["src/**/*", "src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx", "tests/**/*", "**/*.d.ts"],
   "exclude": [
     "node_modules",
     "dist",

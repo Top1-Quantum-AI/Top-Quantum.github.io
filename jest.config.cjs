@@ -2,10 +2,7 @@
 module.exports = {
   testEnvironment: 'jest-environment-jsdom',
   rootDir: '.',
-  testMatch: [
-    '<rootDir>/tests/**/*.test.{ts,tsx}',
-    '<rootDir>/src/**/*.test.{ts,tsx}',
-  ],
+  testMatch: ['<rootDir>/tests/**/*.test.{ts,tsx}', '<rootDir>/src/**/*.test.{ts,tsx}'],
   transform: {
     '^.+\\.(ts|tsx)$': '<rootDir>/tests/jestTransform.cjs',
   },

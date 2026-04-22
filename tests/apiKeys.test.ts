@@ -54,9 +54,36 @@ describe('API Keys storage', () => {
 
   it('should handle multiple keys', () => {
     const keys: StoredKey[] = [
-      { id: '1', name: 'Key A', key: 'qai_a', prefix: 'qai_a...', createdAt: new Date().toISOString(), lastUsed: null, requests: 0, status: 'active' },
-      { id: '2', name: 'Key B', key: 'qai_b', prefix: 'qai_b...', createdAt: new Date().toISOString(), lastUsed: null, requests: 5, status: 'active' },
-      { id: '3', name: 'Key C', key: 'qai_c', prefix: 'qai_c...', createdAt: new Date().toISOString(), lastUsed: null, requests: 0, status: 'revoked' },
+      {
+        id: '1',
+        name: 'Key A',
+        key: 'qai_a',
+        prefix: 'qai_a...',
+        createdAt: new Date().toISOString(),
+        lastUsed: null,
+        requests: 0,
+        status: 'active',
+      },
+      {
+        id: '2',
+        name: 'Key B',
+        key: 'qai_b',
+        prefix: 'qai_b...',
+        createdAt: new Date().toISOString(),
+        lastUsed: null,
+        requests: 5,
+        status: 'active',
+      },
+      {
+        id: '3',
+        name: 'Key C',
+        key: 'qai_c',
+        prefix: 'qai_c...',
+        createdAt: new Date().toISOString(),
+        lastUsed: null,
+        requests: 0,
+        status: 'revoked',
+      },
     ];
     saveKeys(keys);
     const loaded = loadKeys();
@@ -67,7 +94,16 @@ describe('API Keys storage', () => {
 
   it('should revoke a key by updating status', () => {
     const keys: StoredKey[] = [
-      { id: '1', name: 'Key', key: 'qai_x', prefix: 'qai_x...', createdAt: new Date().toISOString(), lastUsed: null, requests: 0, status: 'active' },
+      {
+        id: '1',
+        name: 'Key',
+        key: 'qai_x',
+        prefix: 'qai_x...',
+        createdAt: new Date().toISOString(),
+        lastUsed: null,
+        requests: 0,
+        status: 'active',
+      },
     ];
     saveKeys(keys);
     const loaded = loadKeys();
@@ -79,8 +115,26 @@ describe('API Keys storage', () => {
 
   it('should delete a key', () => {
     const keys: StoredKey[] = [
-      { id: '1', name: 'A', key: 'qai_a', prefix: 'qai_a...', createdAt: new Date().toISOString(), lastUsed: null, requests: 0, status: 'active' },
-      { id: '2', name: 'B', key: 'qai_b', prefix: 'qai_b...', createdAt: new Date().toISOString(), lastUsed: null, requests: 0, status: 'active' },
+      {
+        id: '1',
+        name: 'A',
+        key: 'qai_a',
+        prefix: 'qai_a...',
+        createdAt: new Date().toISOString(),
+        lastUsed: null,
+        requests: 0,
+        status: 'active',
+      },
+      {
+        id: '2',
+        name: 'B',
+        key: 'qai_b',
+        prefix: 'qai_b...',
+        createdAt: new Date().toISOString(),
+        lastUsed: null,
+        requests: 0,
+        status: 'active',
+      },
     ];
     saveKeys(keys);
     const filtered = loadKeys().filter(k => k.id !== '1');

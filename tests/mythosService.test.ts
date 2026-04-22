@@ -121,7 +121,9 @@ describe('mythosService', () => {
 
   describe('listModels()', () => {
     it('should GET /models', async () => {
-      const mockResponse = { models: [{ model_id: 'm1', total_parameters: 100, spectral_radius: 1, config: {} }] };
+      const mockResponse = {
+        models: [{ model_id: 'm1', total_parameters: 100, spectral_radius: 1, config: {} }],
+      };
       mockFetchOk(mockResponse);
 
       const result = await listModels();
@@ -143,7 +145,10 @@ describe('mythosService', () => {
       const mockResult: ForwardResult = { shape: [1, 10, 512] };
       mockFetchOk(mockResult);
 
-      const inputIds = [[1, 2, 3], [4, 5, 6]];
+      const inputIds = [
+        [1, 2, 3],
+        [4, 5, 6],
+      ];
       const result = await forwardPass('mymodel', inputIds, 8);
 
       expect(getFetchMock()).toHaveBeenCalledWith(
@@ -254,4 +259,3 @@ describe('mythosService', () => {
     });
   });
 });
-

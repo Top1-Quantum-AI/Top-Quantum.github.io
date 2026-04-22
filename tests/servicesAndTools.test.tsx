@@ -71,9 +71,7 @@ describe('OpenAIService', () => {
 describe('reportExporter', () => {
   beforeEach(() => {
     // Mock document.getElementById for html2canvas
-    jest.spyOn(document, 'getElementById').mockReturnValue(
-      document.createElement('div')
-    );
+    jest.spyOn(document, 'getElementById').mockReturnValue(document.createElement('div'));
   });
 
   afterEach(() => {
@@ -104,8 +102,9 @@ jest.mock('framer-motion', () => ({
   motion: {
     div: ({ children, ...p }: React.HTMLProps<HTMLDivElement>) => <div {...p}>{children}</div>,
     span: ({ children, ...p }: React.HTMLProps<HTMLSpanElement>) => <span {...p}>{children}</span>,
-    button: ({ children, ...p }: React.HTMLProps<HTMLButtonElement>) =>
-      <button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{children}</button>,
+    button: ({ children, ...p }: React.HTMLProps<HTMLButtonElement>) => (
+      <button {...(p as React.ButtonHTMLAttributes<HTMLButtonElement>)}>{children}</button>
+    ),
     p: ({ children, ...p }: React.HTMLProps<HTMLParagraphElement>) => <p {...p}>{children}</p>,
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
@@ -137,8 +136,9 @@ describe('WorkflowDiagnosticTool', () => {
     if (inputs.length >= 2) {
       await user.type(inputs[0] as HTMLElement, 'wronguser');
       await user.type(inputs[1] as HTMLElement, 'wrongpass');
-      const submitBtn = document.querySelector('button[type="submit"]') as HTMLElement
-        ?? screen.getAllByRole('button')[0] as HTMLElement;
+      const submitBtn =
+        (document.querySelector('button[type="submit"]') as HTMLElement) ??
+        (screen.getAllByRole('button')[0] as HTMLElement);
       if (submitBtn) {
         await user.click(submitBtn);
         // Should show some error or remain on login screen

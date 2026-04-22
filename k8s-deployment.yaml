@@ -79,58 +79,58 @@ spec:
         prometheus.io/path: "/metrics"
     spec:
       containers:
-      - name: api-gateway
-        image: quantum-ai/api-gateway:latest
-        ports:
-        - containerPort: 3000
-          name: http
-        env:
-        - name: NODE_ENV
-          valueFrom:
-            configMapKeyRef:
-              name: quantum-config
-              key: NODE_ENV
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: quantum-secrets
-              key: JWT_SECRET
-        - name: REDIS_URL
-          valueFrom:
-            configMapKeyRef:
-              name: quantum-config
-              key: REDIS_URL
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3000
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-            - ALL
+        - name: api-gateway
+          image: quantum-ai/api-gateway:latest
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: quantum-config
+                  key: NODE_ENV
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: quantum-secrets
+                  key: JWT_SECRET
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: quantum-config
+                  key: REDIS_URL
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
 
 ---
 # API Gateway Service
@@ -144,14 +144,14 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
-    targetPort: 3000
-    protocol: TCP
-    name: http
-  - port: 443
-    targetPort: 3000
-    protocol: TCP
-    name: https
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: 3000
+      protocol: TCP
+      name: https
   selector:
     app: api-gateway
 
@@ -185,71 +185,71 @@ spec:
         prometheus.io/port: "3001"
     spec:
       containers:
-      - name: quantum-core
-        image: quantum-ai/quantum-core:latest
-        ports:
-        - containerPort: 3001
-          name: http
-        env:
-        - name: IBM_QUANTUM_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: quantum-secrets
-              key: IBM_QUANTUM_TOKEN
-        - name: BRAKET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: quantum-secrets
-              key: BRAKET_ACCESS_KEY
-        - name: QUANTUM_ENCRYPTION_KEY
-          valueFrom:
-            secretKeyRef:
-              name: quantum-secrets
-              key: QUANTUM_ENCRYPTION_KEY
-        resources:
-          requests:
-            memory: "1Gi"
-            cpu: "500m"
-          limits:
-            memory: "2Gi"
-            cpu: "1000m"
-        volumeMounts:
-        - name: quantum-data
-          mountPath: /app/data
-        - name: security-keys
-          mountPath: /app/keys
-          readOnly: true
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3001
-          initialDelaySeconds: 60
-          periodSeconds: 30
-          timeoutSeconds: 10
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 3001
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
+        - name: quantum-core
+          image: quantum-ai/quantum-core:latest
+          ports:
+            - containerPort: 3001
+              name: http
+          env:
+            - name: IBM_QUANTUM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: quantum-secrets
+                  key: IBM_QUANTUM_TOKEN
+            - name: BRAKET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: quantum-secrets
+                  key: BRAKET_ACCESS_KEY
+            - name: QUANTUM_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: quantum-secrets
+                  key: QUANTUM_ENCRYPTION_KEY
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          volumeMounts:
+            - name: quantum-data
+              mountPath: /app/data
+            - name: security-keys
+              mountPath: /app/keys
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3001
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       volumes:
-      - name: quantum-data
-        persistentVolumeClaim:
-          claimName: quantum-data-pvc
-      - name: security-keys
-        secret:
-          secretName: quantum-secrets
-          defaultMode: 0400
+        - name: quantum-data
+          persistentVolumeClaim:
+            claimName: quantum-data-pvc
+        - name: security-keys
+          secret:
+            secretName: quantum-secrets
+            defaultMode: 0400
 
 ---
 # AI Agents Deployment
@@ -281,53 +281,53 @@ spec:
         prometheus.io/port: "3002"
     spec:
       containers:
-      - name: ai-agents
-        image: quantum-ai/ai-agents:latest
-        ports:
-        - containerPort: 3002
-          name: http
-        env:
-        - name: OPENAI_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: quantum-secrets
-              key: OPENAI_API_KEY
-        - name: AI_CACHE_TTL
-          valueFrom:
-            configMapKeyRef:
-              name: quantum-config
-              key: AI_CACHE_TTL
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3002
-          initialDelaySeconds: 30
-          periodSeconds: 15
-          timeoutSeconds: 5
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 3002
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-            - ALL
+        - name: ai-agents
+          image: quantum-ai/ai-agents:latest
+          ports:
+            - containerPort: 3002
+              name: http
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: quantum-secrets
+                  key: OPENAI_API_KEY
+            - name: AI_CACHE_TTL
+              valueFrom:
+                configMapKeyRef:
+                  name: quantum-config
+                  key: AI_CACHE_TTL
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3002
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
 
 ---
 # Security Service Deployment
@@ -359,62 +359,62 @@ spec:
         prometheus.io/port: "3003"
     spec:
       containers:
-      - name: security-service
-        image: quantum-ai/security-service:latest
-        ports:
-        - containerPort: 3003
-          name: http
-        env:
-        - name: POST_QUANTUM_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: quantum-secrets
-              key: POST_QUANTUM_PRIVATE_KEY
-        - name: SECURITY_AUDIT_ENABLED
-          valueFrom:
-            configMapKeyRef:
-              name: quantum-config
-              key: SECURITY_AUDIT_ENABLED
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "200m"
-          limits:
-            memory: "512Mi"
-            cpu: "400m"
-        volumeMounts:
-        - name: security-keys
-          mountPath: /app/keys
-          readOnly: true
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3003
-          initialDelaySeconds: 30
-          periodSeconds: 20
-          timeoutSeconds: 5
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 3003
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          timeoutSeconds: 3
-          failureThreshold: 3
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-            - ALL
+        - name: security-service
+          image: quantum-ai/security-service:latest
+          ports:
+            - containerPort: 3003
+              name: http
+          env:
+            - name: POST_QUANTUM_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: quantum-secrets
+                  key: POST_QUANTUM_PRIVATE_KEY
+            - name: SECURITY_AUDIT_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: quantum-config
+                  key: SECURITY_AUDIT_ENABLED
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "400m"
+          volumeMounts:
+            - name: security-keys
+              mountPath: /app/keys
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
       volumes:
-      - name: security-keys
-        secret:
-          secretName: quantum-secrets
-          defaultMode: 0400
+        - name: security-keys
+          secret:
+            secretName: quantum-secrets
+            defaultMode: 0400
 
 ---
 # Redis Deployment
@@ -438,47 +438,47 @@ spec:
         tier: cache
     spec:
       containers:
-      - name: redis
-        image: redis:7-alpine
-        ports:
-        - containerPort: 6379
-          name: redis
-        command:
-        - redis-server
-        - --appendonly
-        - "yes"
-        - --maxmemory
-        - "1gb"
-        - --maxmemory-policy
-        - "allkeys-lru"
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "1Gi"
-            cpu: "200m"
-        volumeMounts:
-        - name: redis-data
-          mountPath: /data
-        livenessProbe:
-          exec:
-            command:
-            - redis-cli
-            - ping
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          exec:
-            command:
-            - redis-cli
-            - ping
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+              name: redis
+          command:
+            - redis-server
+            - --appendonly
+            - "yes"
+            - --maxmemory
+            - "1gb"
+            - --maxmemory-policy
+            - "allkeys-lru"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "200m"
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
-      - name: redis-data
-        persistentVolumeClaim:
-          claimName: redis-data-pvc
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-data-pvc
 
 ---
 # Redis Service
@@ -491,10 +491,10 @@ metadata:
     app: redis
 spec:
   ports:
-  - port: 6379
-    targetPort: 6379
-    protocol: TCP
-    name: redis
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+      name: redis
   selector:
     app: redis
 
@@ -520,54 +520,54 @@ spec:
         tier: database
     spec:
       containers:
-      - name: mongodb
-        image: mongo:7
-        ports:
-        - containerPort: 27017
-          name: mongodb
-        env:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: quantum-secrets
-              key: MONGO_USERNAME
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: quantum-secrets
-              key: MONGO_PASSWORD
-        - name: MONGO_INITDB_DATABASE
-          value: "quantum-ai"
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "2Gi"
-            cpu: "500m"
-        volumeMounts:
-        - name: mongodb-data
-          mountPath: /data/db
-        livenessProbe:
-          exec:
-            command:
-            - mongo
-            - --eval
-            - "db.adminCommand('ismaster')"
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          exec:
-            command:
-            - mongo
-            - --eval
-            - "db.adminCommand('ismaster')"
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: mongodb
+          image: mongo:7
+          ports:
+            - containerPort: 27017
+              name: mongodb
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: quantum-secrets
+                  key: MONGO_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: quantum-secrets
+                  key: MONGO_PASSWORD
+            - name: MONGO_INITDB_DATABASE
+              value: "quantum-ai"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "500m"
+          volumeMounts:
+            - name: mongodb-data
+              mountPath: /data/db
+          livenessProbe:
+            exec:
+              command:
+                - mongo
+                - --eval
+                - "db.adminCommand('ismaster')"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - mongo
+                - --eval
+                - "db.adminCommand('ismaster')"
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
-      - name: mongodb-data
-        persistentVolumeClaim:
-          claimName: mongodb-data-pvc
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: mongodb-data-pvc
 
 ---
 # MongoDB Service
@@ -580,10 +580,10 @@ metadata:
     app: mongodb
 spec:
   ports:
-  - port: 27017
-    targetPort: 27017
-    protocol: TCP
-    name: mongodb
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+      name: mongodb
   selector:
     app: mongodb
 
@@ -609,45 +609,45 @@ spec:
         tier: messaging
     spec:
       containers:
-      - name: nats
-        image: nats:2.10-alpine
-        ports:
-        - containerPort: 4222
-          name: client
-        - containerPort: 8222
-          name: monitor
-        command:
-        - nats-server
-        - --jetstream
-        - --store_dir=/data
-        - --max_memory=1G
-        - --max_file=10G
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "1Gi"
-            cpu: "200m"
-        volumeMounts:
-        - name: nats-data
-          mountPath: /data
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8222
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8222
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: nats
+          image: nats:2.10-alpine
+          ports:
+            - containerPort: 4222
+              name: client
+            - containerPort: 8222
+              name: monitor
+          command:
+            - nats-server
+            - --jetstream
+            - --store_dir=/data
+            - --max_memory=1G
+            - --max_file=10G
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "200m"
+          volumeMounts:
+            - name: nats-data
+              mountPath: /data
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8222
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8222
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
-      - name: nats-data
-        persistentVolumeClaim:
-          claimName: nats-data-pvc
+        - name: nats-data
+          persistentVolumeClaim:
+            claimName: nats-data-pvc
 
 ---
 # NATS Service
@@ -660,14 +660,14 @@ metadata:
     app: nats
 spec:
   ports:
-  - port: 4222
-    targetPort: 4222
-    protocol: TCP
-    name: client
-  - port: 8222
-    targetPort: 8222
-    protocol: TCP
-    name: monitor
+    - port: 4222
+      targetPort: 4222
+      protocol: TCP
+      name: client
+    - port: 8222
+      targetPort: 8222
+      protocol: TCP
+      name: monitor
   selector:
     app: nats
 
@@ -738,33 +738,33 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
-  - Egress
+    - Ingress
+    - Egress
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: quantum-ai-system
-    ports:
-    - protocol: TCP
-      port: 3000
-    - protocol: TCP
-      port: 3001
-    - protocol: TCP
-      port: 3002
-    - protocol: TCP
-      port: 3003
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: quantum-ai-system
+      ports:
+        - protocol: TCP
+          port: 3000
+        - protocol: TCP
+          port: 3001
+        - protocol: TCP
+          port: 3002
+        - protocol: TCP
+          port: 3003
   egress:
-  - to: []
-    ports:
-    - protocol: TCP
-      port: 53
-    - protocol: UDP
-      port: 53
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          name: quantum-ai-system
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 53
+        - protocol: UDP
+          port: 53
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: quantum-ai-system
 
 ---
 # Horizontal Pod Autoscaler
@@ -781,18 +781,18 @@ spec:
   minReplicas: 3
   maxReplicas: 10
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
 
 ---
 apiVersion: autoscaling/v2
@@ -808,15 +808,15 @@ spec:
   minReplicas: 4
   maxReplicas: 20
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 60
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 75
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 75

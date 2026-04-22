@@ -8,10 +8,5 @@
     "postcss.config.js",
     "tailwind.config.js"
   ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build",
-    "coverage"
-  ]
+  "exclude": ["node_modules", "dist", "build", "coverage"]
 }

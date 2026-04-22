@@ -7,7 +7,9 @@ export class OpenAIService {
     vars: Record<string, string>,
     version?: string
   ): Promise<{ text: string }> {
-    void promptId; void vars; void version;
+    void promptId;
+    void vars;
+    void version;
     return Promise.resolve({ text: 'خدمة OpenAI غير متوفرة. استخدم لوحة التحكم الرئيسية.' });
   }
 }
