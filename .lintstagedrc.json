@@ -38,6 +38,14 @@
   "*.security.{ts,js}": [
     "npm run security:snyk"
   ],
+  "open_mythos/**/*.py": [
+    "black --check",
+    "ruff check"
+  ],
+  "tests/python/**/*.py": [
+    "black --check",
+    "ruff check"
+  ],
   "Dockerfile*": [
     "hadolint"
   ],

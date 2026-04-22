@@ -1,0 +1,76 @@
+name: ✨ Feature Request
+description: اقتراح ميزة جديدة أو تحسين | Suggest a new feature or improvement
+title: "feat: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        نرحب بأفكارك لتحسين النظام! يرجى وصف الميزة المقترحة بوضوح.
+        _We welcome your ideas to improve the system! Please describe the proposed feature clearly._
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: المشكلة التي تحلّها | Problem You're Solving
+      description: وصف المشكلة أو الحاجة التي دفعتك لاقتراح هذه الميزة.
+      placeholder: "أجد صعوبة في... / يكون من المفيد لو..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: الحل المقترح | Proposed Solution
+      description: وصف واضح للميزة التي تودّ إضافتها.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: بدائل جربتها | Alternatives Considered
+      description: هل فكرت في حلول بديلة؟ لماذا تعتقد أن المقترح هو الأفضل؟
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: المجال | Area
+      options:
+        - Frontend / واجهة المستخدم
+        - Backend / الخادم
+        - Quantum / الحوسبة الكمية
+        - AI / الذكاء الاصطناعي
+        - Security / الأمان
+        - OpenMythos / نموذج اللغة
+        - CI/CD / البنية التحتية
+        - Documentation / التوثيق
+        - Other / أخرى
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: الأولوية المقترحة | Suggested Priority
+      options:
+        - 🔴 عاجل (يؤثر على الإنتاج)
+        - 🟠 مهم (يؤثر على تجربة المستخدم)
+        - 🟡 متوسط (تحسين مفيد)
+        - 🟢 منخفض (تحسين جمالي)
+
+  - type: textarea
+    id: context
+    attributes:
+      label: سياق إضافي | Additional Context
+      description: أي معلومات إضافية، لقطات شاشة، أو روابط ذات صلة.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: قائمة التحقق | Checklist
+      options:
+        - label: بحثت في Issues الموجودة ولم أجد اقتراحاً مشابهاً
+          required: true
+        - label: هذه الميزة تتوافق مع رؤية المشروع
+          required: false

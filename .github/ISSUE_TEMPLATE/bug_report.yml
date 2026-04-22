@@ -1,0 +1,96 @@
+name: 🐛 Bug Report
+description: الإبلاغ عن خطأ أو سلوك غير متوقع | Report a bug or unexpected behaviour
+title: "bug: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        شكراً لأخذ الوقت لملء هذا التقرير. كلما أضفت تفاصيل، كان من الأسهل إصلاح المشكلة.
+        _Thank you for taking the time to fill out this report. The more detail you add, the easier it is to fix._
+
+  - type: textarea
+    id: description
+    attributes:
+      label: وصف المشكلة | Problem Description
+      description: وصف واضح وموجز لما يحدث بدلاً من المتوقع.
+      placeholder: "مثال: عند الضغط على زر X، يظهر خطأ Y بدلاً من..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: خطوات إعادة الإنتاج | Steps to Reproduce
+      description: خطوات مرتبة لإعادة إنتاج المشكلة.
+      placeholder: |
+        1. افتح الصفحة '...'
+        2. اضغط على '...'
+        3. مرر للأسفل إلى '...'
+        4. شاهد الخطأ
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: السلوك المتوقع | Expected Behaviour
+      placeholder: "ما الذي كنت تتوقع أن يحدث؟"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: السلوك الفعلي | Actual Behaviour
+      placeholder: "ما الذي حدث فعلاً؟"
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: لقطات الشاشة | Screenshots
+      description: أضف لقطات شاشة إن كانت تساعد في توضيح المشكلة.
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: المتصفح | Browser
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: false
+
+  - type: input
+    id: os
+    attributes:
+      label: نظام التشغيل | OS
+      placeholder: "مثال: Ubuntu 22.04، macOS 14، Windows 11"
+
+  - type: input
+    id: node-version
+    attributes:
+      label: إصدار Node.js | Node.js Version
+      placeholder: "مثال: v20.11.0"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: سجلات الأخطاء | Error Logs
+      description: أي رسائل خطأ من وحدة التحكم (Console) أو السجلات.
+      render: shell
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: قائمة التحقق | Checklist
+      options:
+        - label: بحثت في Issues الموجودة ولم أجد مشكلة مشابهة
+          required: true
+        - label: تحققت من أن المشكلة قابلة للإعادة في أحدث إصدار
+          required: true

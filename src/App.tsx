@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Atom, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 
-import LandingPage from './pages/LandingPage';
-import PricingPage from './pages/PricingPage';
-import AuthPage from './pages/AuthPage';
-import AdvancedQuantumDashboard from './AdvancedQuantumDashboard';
-import AdminDashboard from './pages/AdminDashboard';
+const LandingPage = lazy(() => import('./pages/LandingPage'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
+const AuthPage = lazy(() => import('./pages/AuthPage'));
+const AdvancedQuantumDashboard = lazy(() => import('./AdvancedQuantumDashboard'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 import OnboardingTour from './components/OnboardingTour';
 import { ProtectedRoute, AdminRoute, GuestRoute } from './components/RouteGuards';
 
@@ -275,6 +275,16 @@ const ErrorBoundary: React.FC<{
   return <>{children}</>;
 };
 
+// ─── Page Loader Fallback ────────────────────────────────────
+const PageLoader: React.FC = () => (
+  <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+    <div className="flex flex-col items-center gap-4">
+      <Loader2 className="w-10 h-10 text-blue-400 animate-spin" />
+      <span className="text-gray-400 text-sm">جاري التحميل...</span>
+    </div>
+  </div>
+);
+
 // ═══════════════════════════════════════════════════════════
 // ─── MAIN APP ─────────────────────────────────────────────
 // ═══════════════════════════════════════════════════════════
@@ -292,15 +302,17 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary error={error} onRetry={handleRetry}>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/login" element={<GuestRoute><AuthPage /></GuestRoute>} />
-        <Route path="/register" element={<GuestRoute><AuthPage /></GuestRoute>} />
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-        <Route path="/demo" element={<DemoPage />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/login" element={<GuestRoute><AuthPage /></GuestRoute>} />
+          <Route path="/register" element={<GuestRoute><AuthPage /></GuestRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/demo" element={<DemoPage />} />
+        </Routes>
+      </Suspense>
     </ErrorBoundary>
   );
 };

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/huskyrc",
   "hooks": {
-    "pre-commit": "lint-staged && npm run typecheck",
+    "pre-commit": "lint-staged && npm run type-check",
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
     "pre-push": "npm run test:unit && npm run security:audit && npm run build",
     "post-commit": "echo '✅ Commit successful! Running post-commit checks...' && npm run test:quick",

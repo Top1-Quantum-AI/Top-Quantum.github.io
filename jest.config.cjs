@@ -24,4 +24,12 @@ module.exports = {
   testTimeout: 15000,
   verbose: true,
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/vite-env.d.ts',
+    '!src/main.tsx',
+  ],
+  coverageReporters: ['text', 'lcov', 'html'],
+  coverageDirectory: 'coverage',
 };

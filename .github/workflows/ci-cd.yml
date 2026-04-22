@@ -107,11 +107,51 @@ jobs:
           reports/
         retention-days: 30
 
-  # مرحلة الاختبارات الشاملة
+  # مرحلة اختبارات Python / OpenMythos
+  python-tests:
+    name: 'Python / OpenMythos Tests'
+    runs-on: ubuntu-latest
+    needs: code-quality
+    timeout-minutes: 15
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Python dependencies
+      run: |
+        pip install --upgrade pip
+        pip install torch --index-url https://download.pytorch.org/whl/cpu
+        pip install pytest pytest-cov
+        echo "✅ Python dependencies installed"
+
+    - name: Run OpenMythos unit tests
+      run: |
+        pytest tests/python/ -v --tb=short \
+          --cov=open_mythos \
+          --cov-report=term-missing \
+          --cov-report=xml:coverage-python.xml
+        echo "✅ Python tests passed"
+
+    - name: Upload Python Coverage
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: python-coverage
+        path: coverage-python.xml
+        retention-days: 30
+
+
   comprehensive-testing:
     name: 'Comprehensive Testing Suite'
     runs-on: ubuntu-latest
-    needs: code-quality
+    needs: [code-quality, python-tests]
     timeout-minutes: 30
     
     strategy:
