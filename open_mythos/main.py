@@ -75,7 +75,11 @@ class OpenMythos(nn.Module):
         Returns:
             self (for chaining)
         """
-        if int(torch.__version__.split('.')[0]) >= 2:
+        try:
+            major = int(torch.__version__.split('.')[0])
+        except (ValueError, IndexError, AttributeError):
+            major = 0
+        if major >= 2:
             self.forward = torch.compile(self.forward, **kwargs)  # type: ignore[method-assign]
         return self
 
@@ -149,8 +153,7 @@ class OpenMythos(nn.Module):
         for block in self.coda:
             x = block(x)
         # sample next token from the last position
-        next_l = self.head(self.norm(x))[:, -1, :] / max(temperature, 1e-6)
-        next_tok = self._sample(next_l, top_k)
+        next_tok = self._next_token(x, temperature, top_k)
         ids = torch.cat([ids, next_tok], dim=1)
 
         # ── incremental decode: one new token per step ──────────────────
@@ -166,11 +169,19 @@ class OpenMythos(nn.Module):
                 x, h = self.recurrent(x, h)
             for block in self.coda:
                 x = block(x)
-            next_l = self.head(self.norm(x))[:, -1, :] / max(temperature, 1e-6)
-            next_tok = self._sample(next_l, top_k)
+            next_tok = self._next_token(x, temperature, top_k)
             ids = torch.cat([ids, next_tok], dim=1)
 
         return ids
+
+    # ── Next-token helper ─────────────────────────────────────────────────
+
+    def _next_token(
+        self, x: torch.Tensor, temperature: float, top_k: int
+    ) -> torch.Tensor:
+        """Extract last-position logits, apply temperature, and sample."""
+        logits = self.head(self.norm(x))[:, -1, :] / max(temperature, 1e-6)
+        return self._sample(logits, top_k)
 
     # ── Sampling helper ───────────────────────────────────────────────────
 
