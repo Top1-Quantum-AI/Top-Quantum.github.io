@@ -2,7 +2,7 @@
  * Small component tests for RouteGuards, OnboardingTour, ExportToolbar, and NotificationCenter
  */
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
