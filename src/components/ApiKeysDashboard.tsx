@@ -197,8 +197,9 @@ const ApiKeysDashboard: React.FC<ApiKeysDashboardProps> = ({ onClose }) => {
                     className="overflow-hidden"
                   >
                     <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 space-y-3">
-                      <label className="block text-sm font-medium">اسم المفتاح</label>
+                      <label htmlFor="api-key-name" className="block text-sm font-medium">اسم المفتاح</label>
                       <input
+                        id="api-key-name"
                         value={newKeyName}
                         onChange={e => setNewKeyName(e.target.value)}
                         placeholder="مثال: Production API, Mobile App..."

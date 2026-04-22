@@ -267,10 +267,13 @@ const LandingPage: React.FC = () => {
                         strokeWidth="2"
                       />
                       <path d="M0,40 Q30,10 60,35 T120,20 T180,30 T240,15 T300,25 L300,60 L0,60 Z" fill="url(#grad)" opacity="0.2" />
-                      <defs><linearGradient id="grad" x1="0" y1="0"
-                        x2="0" y2="1"
-                            ><stop offset="0%" stopColor="#3b82f6" /><stop offset="100%" stopColor="transparent" />
-                            </linearGradient>
+                      <defs>
+                        <linearGradient id="grad" x1="0" y1="0"
+                          x2="0" y2="1"
+                        >
+                          <stop offset="0%" stopColor="#3b82f6" />
+                          <stop offset="100%" stopColor="transparent" />
+                        </linearGradient>
                       </defs>
                     </svg>
                   </div>
@@ -429,7 +432,7 @@ const LandingPage: React.FC = () => {
                     <Star key={j} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                   ))}
                 </div>
-                <p className="text-gray-300 leading-relaxed mb-6 text-sm">"{t.text}"</p>
+                <p className="text-gray-300 leading-relaxed mb-6 text-sm">&ldquo;{t.text}&rdquo;</p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-sm font-bold">
                     {t.name.charAt(0)}
@@ -514,26 +517,26 @@ const LandingPage: React.FC = () => {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="#features" className="hover:text-white transition-colors">الميزات</a></li>
                 <li><button onClick={() => navigate('/pricing')} className="hover:text-white transition-colors">الأسعار</button></li>
-                <li><a href="#" className="hover:text-white transition-colors">التوثيق</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">API</a></li>
+                <li><button type="button" className="hover:text-white transition-colors">التوثيق</button></li>
+                <li><button type="button" className="hover:text-white transition-colors">API</button></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4 text-sm">الشركة</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">عن الشركة</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">المدونة</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">الوظائف</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">تواصل معنا</a></li>
+                <li><button type="button" className="hover:text-white transition-colors">عن الشركة</button></li>
+                <li><button type="button" className="hover:text-white transition-colors">المدونة</button></li>
+                <li><button type="button" className="hover:text-white transition-colors">الوظائف</button></li>
+                <li><button type="button" className="hover:text-white transition-colors">تواصل معنا</button></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4 text-sm">قانوني</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">سياسة الخصوصية</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">شروط الاستخدام</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">SLA</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">الامتثال</a></li>
+                <li><button type="button" className="hover:text-white transition-colors">سياسة الخصوصية</button></li>
+                <li><button type="button" className="hover:text-white transition-colors">شروط الاستخدام</button></li>
+                <li><button type="button" className="hover:text-white transition-colors">SLA</button></li>
+                <li><button type="button" className="hover:text-white transition-colors">الامتثال</button></li>
               </ul>
             </div>
           </div>

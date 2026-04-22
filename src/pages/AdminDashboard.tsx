@@ -94,7 +94,7 @@ const AdminDashboard: React.FC = () => {
   // Check admin access
   useEffect(() => {
     if (localUser == null) {
-      navigate('/login');
+      void navigate('/login');
     }
   }, [localUser, navigate]);
 
@@ -153,7 +153,7 @@ const AdminDashboard: React.FC = () => {
   const handleLogout = () => {
     if (backendOnline) void apiLogout();
     logoutUser();
-    navigate('/');
+    void navigate('/');
   };
 
   const planIcon = (plan: string) => {
@@ -562,8 +562,9 @@ const AdminDashboard: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">الدور</label>
+                <label htmlFor="admin-role" className="block text-sm font-medium mb-2">الدور</label>
                 <select
+                  id="admin-role"
                   value={editRole}
                   onChange={e => setEditRole(e.target.value)}
                   className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:border-blue-500 focus:outline-none"
@@ -575,8 +576,9 @@ const AdminDashboard: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">الخطة</label>
+                <label htmlFor="admin-plan" className="block text-sm font-medium mb-2">الخطة</label>
                 <select
+                  id="admin-plan"
                   value={editPlan}
                   onChange={e => setEditPlan(e.target.value)}
                   className="w-full px-3 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:border-blue-500 focus:outline-none"

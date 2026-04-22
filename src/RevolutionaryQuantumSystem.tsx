@@ -2289,17 +2289,17 @@ const RevolutionaryQuantumSystem: React.FC = () => {
                             <div className="bg-black/40 p-3 rounded-lg border border-green-400/30">
                               <div className="text-center text-lg font-mono text-green-200 glow-text">
                                 |Φ⁺⟩ = (|00⟩ + |11⟩)/√2
-                               </div>
+                              </div>
                             </div>
                             <div className="bg-black/40 p-3 rounded-lg border border-emerald-400/30">
                               <div className="text-center text-lg font-mono text-emerald-200 glow-text">
                                 |Φ⁻⟩ = (|00⟩ - |11⟩)/√2
-                               </div>
+                              </div>
                             </div>
                             <div className="bg-black/40 p-3 rounded-lg border border-teal-400/30">
                               <div className="text-center text-lg font-mono text-teal-200 glow-text">
                                 |Ψ⁺⟩ = (|01⟩ + |10⟩)/√2
-                               </div>
+                              </div>
                             </div>
                           </div>
                           <div className="text-sm text-gray-300 mt-3">

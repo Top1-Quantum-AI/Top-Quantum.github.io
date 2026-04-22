@@ -548,7 +548,7 @@ const AdvancedQuantumDashboard: React.FC = () => {
             <span className="text-xs text-gray-400 hidden xl:inline">إدارة</span>
           </button>
           <button
-            onClick={() => { logoutUser(); navigate('/'); }}
+            onClick={() => { logoutUser(); void navigate('/'); }}
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 transition-colors text-red-400 hover:text-red-300"
             title="تسجيل الخروج"
           >
@@ -725,14 +725,15 @@ const AdvancedQuantumDashboard: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <div>
-                  <label className="text-sm text-gray-400 block mb-1">عدد الكيوبتات</label>
-                  <input type="number" min={1} max={10}
+                  <label htmlFor="custom-qubits" className="text-sm text-gray-400 block mb-1">عدد الكيوبتات</label>
+                  <input id="custom-qubits" type="number" min={1}
+                    max={10}
                     value={customQubits} onChange={e => setCustomQubits(Number(e.target.value))}
                     className="w-20 p-2 bg-gray-700 rounded border border-gray-600 text-sm"
                   />
                 </div>
                 <div className="flex-1">
-                  <label className="text-sm text-gray-400 block mb-1">إضافة بوابة</label>
+                  <span className="text-sm text-gray-400 block mb-1">إضافة بوابة</span>
                   <div className="flex flex-wrap gap-2">
                     {(['H', 'X', 'Y', 'Z', 'T', 'S'] as GateName[]).map(g => (
                       <button key={g} onClick={() => addCustomGate(g, 0)}
@@ -765,9 +766,10 @@ const AdvancedQuantumDashboard: React.FC = () => {
         <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
           <div className="flex flex-wrap items-center gap-6">
             <div>
-              <label className="text-xs text-gray-400 block mb-1">مستوى الضوضاء</label>
+              <label htmlFor="noise-level" className="text-xs text-gray-400 block mb-1">مستوى الضوضاء</label>
               <div className="flex items-center gap-2">
-                <input type="range" min={0} max={20}
+                <input id="noise-level" type="range" min={0}
+                  max={20}
                   step={0.5} value={noiseLevel} onChange={e => setNoiseLevel(Number(e.target.value))}
                   className="w-32"
                 />
@@ -775,8 +777,10 @@ const AdvancedQuantumDashboard: React.FC = () => {
               </div>
             </div>
             <div>
-              <label className="text-xs text-gray-400 block mb-1">عدد القياسات</label>
-              <select value={numShots} onChange={e => setNumShots(Number(e.target.value))} className="p-2 bg-gray-700 rounded border border-gray-600 text-sm">
+              <label htmlFor="num-shots" className="text-xs text-gray-400 block mb-1">عدد القياسات</label>
+              <select id="num-shots" value={numShots} onChange={e => setNumShots(Number(e.target.value))}
+                className="p-2 bg-gray-700 rounded border border-gray-600 text-sm"
+              >
                 <option value={256}>256</option>
                 <option value={512}>512</option>
                 <option value={1024}>1,024</option>
@@ -1460,8 +1464,11 @@ const AdvancedQuantumDashboard: React.FC = () => {
                 <div className="text-sm font-medium">{setting.label}</div>
                 <div className="text-xs text-gray-400">{setting.desc}</div>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" defaultChecked={setting.checked} className="sr-only peer" />
+              <label htmlFor={`system-setting-${i}`} className="relative inline-flex items-center cursor-pointer">
+                <span className="sr-only">{setting.label}</span>
+                <input id={`system-setting-${i}`} type="checkbox" defaultChecked={setting.checked}
+                  className="sr-only peer"
+                />
                 <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" />
               </label>
             </div>

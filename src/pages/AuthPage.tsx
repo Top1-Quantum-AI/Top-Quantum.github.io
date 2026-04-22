@@ -100,7 +100,7 @@ const AuthPage: React.FC = () => {
         }
       }
 
-      navigate('/dashboard');
+      void navigate('/dashboard');
     } catch (err) {
       const apiErr = err as ApiError;
       setError(apiErr.message || 'حدث خطأ. يرجى المحاولة مرة أخرى.');
@@ -204,26 +204,28 @@ const AuthPage: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {!isLogin && (
-              <div>
-                <label className="block text-sm font-medium mb-2">الاسم الكامل *</label>
-                <div className="relative">
-                  <User className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={e => updateField('name', e.target.value)}
-                    placeholder="أدخل اسمك الكامل"
-                    className="w-full pr-11 pl-4 py-3 bg-gray-800/50 border border-gray-700 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors text-sm"
-                  />
-                </div>
+            <div>
+              <label htmlFor="auth-name" className="block text-sm font-medium mb-2">الاسم الكامل *</label>
+              <div className="relative">
+                <User className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                <input
+                  id="auth-name"
+                  type="text"
+                  value={formData.name}
+                  onChange={e => updateField('name', e.target.value)}
+                  placeholder="أدخل اسمك الكامل"
+                  className="w-full pr-11 pl-4 py-3 bg-gray-800/50 border border-gray-700 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors text-sm"
+                />
               </div>
+            </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium mb-2">البريد الإلكتروني *</label>
+              <label htmlFor="auth-email" className="block text-sm font-medium mb-2">البريد الإلكتروني *</label>
               <div className="relative">
                 <Mail className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                 <input
+                  id="auth-email"
                   type="email"
                   value={formData.email}
                   onChange={e => updateField('email', e.target.value)}
@@ -235,10 +237,11 @@ const AuthPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">كلمة المرور *</label>
+              <label htmlFor="auth-password" className="block text-sm font-medium mb-2">كلمة المرور *</label>
               <div className="relative">
                 <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                 <input
+                  id="auth-password"
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={e => updateField('password', e.target.value)}
@@ -257,10 +260,11 @@ const AuthPage: React.FC = () => {
             {!isLogin && (
               <>
                 <div>
-                  <label className="block text-sm font-medium mb-2">اسم الشركة (اختياري)</label>
+                  <label htmlFor="auth-company" className="block text-sm font-medium mb-2">اسم الشركة (اختياري)</label>
                   <div className="relative">
                     <Building2 className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                     <input
+                      id="auth-company"
                       type="text"
                       value={formData.company}
                       onChange={e => updateField('company', e.target.value)}
@@ -272,7 +276,7 @@ const AuthPage: React.FC = () => {
 
                 {/* Plan Selection */}
                 <div>
-                  <label className="block text-sm font-medium mb-3">اختر خطتك</label>
+                  <p className="block text-sm font-medium mb-3">اختر خطتك</p>
                   <div className="grid grid-cols-3 gap-2">
                     {(['free', 'professional', 'enterprise'] as const).map(planId => {
                       const plan = PLANS[planId];
@@ -323,7 +327,7 @@ const AuthPage: React.FC = () => {
                     className="mt-1 rounded border-gray-600"
                   />
                   <label htmlFor="terms" className="text-sm text-gray-400">
-                    أوافق على <a href="#" className="text-blue-400 hover:underline">شروط الاستخدام</a> و<a href="#" className="text-blue-400 hover:underline">سياسة الخصوصية</a>
+                    أوافق على <button type="button" className="text-blue-400 hover:underline">شروط الاستخدام</button> و<button type="button" className="text-blue-400 hover:underline">سياسة الخصوصية</button>
                   </label>
                 </div>
               </>
@@ -331,7 +335,7 @@ const AuthPage: React.FC = () => {
 
             {isLogin && (
               <div className="flex justify-end">
-                <a href="#" className="text-sm text-blue-400 hover:underline">نسيت كلمة المرور؟</a>
+                <button type="button" className="text-sm text-blue-400 hover:underline">نسيت كلمة المرور؟</button>
               </div>
             )}
 

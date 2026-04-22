@@ -81,6 +81,27 @@ const defaultSettings: SettingsState = {
   }
 };
 
+const mergeSettings = (overrides: Partial<SettingsState>): SettingsState => ({
+  ...defaultSettings,
+  ...overrides,
+  notifications: {
+    ...defaultSettings.notifications,
+    ...overrides.notifications
+  },
+  performance: {
+    ...defaultSettings.performance,
+    ...overrides.performance
+  },
+  privacy: {
+    ...defaultSettings.privacy,
+    ...overrides.privacy
+  },
+  advanced: {
+    ...defaultSettings.advanced,
+    ...overrides.advanced
+  }
+});
+
 const AdvancedSettings: React.FC = () => {
   const [settings, setSettings] = useState<SettingsState>(defaultSettings);
   const [activeTab, setActiveTab] = useState('general');
@@ -92,7 +113,7 @@ const AdvancedSettings: React.FC = () => {
     const savedSettings = localStorage.getItem('quantumSettings');
     if (savedSettings) {
       try {
-        setSettings(JSON.parse(savedSettings));
+        setSettings(mergeSettings(JSON.parse(savedSettings) as Partial<SettingsState>));
       } catch (error) {
         console.error('خطأ في تحميل الإعدادات:', error);
       }
@@ -140,11 +161,16 @@ const AdvancedSettings: React.FC = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
-          const importedSettings = JSON.parse(e.target?.result as string);
-          setSettings(importedSettings);
+          const importedText = e.target?.result;
+          if (typeof importedText !== 'string') {
+            throw new Error('Invalid settings file');
+          }
+          const importedSettings = JSON.parse(importedText) as Partial<SettingsState>;
+          setSettings(mergeSettings(importedSettings));
           setHasChanges(true);
         } catch (error) {
-          alert('خطأ في استيراد الإعدادات');
+          console.error('خطأ في استيراد الإعدادات:', error);
+          setSaveStatus('error');
         }
       };
       reader.readAsText(file);
@@ -191,10 +217,11 @@ const AdvancedSettings: React.FC = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="settings-language" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 اللغة
               </label>
               <select
+                id="settings-language"
                 value={settings.language}
                 onChange={(e) => updateSetting('language', e.target.value)}
                 className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
@@ -207,10 +234,11 @@ const AdvancedSettings: React.FC = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="settings-quantum-mode" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 وضع الكم
               </label>
               <select
+                id="settings-quantum-mode"
                 value={settings.quantumMode}
                 onChange={(e) => updateSetting('quantumMode', e.target.value)}
                 className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
@@ -227,10 +255,10 @@ const AdvancedSettings: React.FC = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="settings-theme" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 المظهر
               </label>
-              <div className="grid grid-cols-3 gap-3">
+              <div id="settings-theme" className="grid grid-cols-3 gap-3">
                 {[
                   { value: 'light', label: 'فاتح', icon: Sun },
                   { value: 'dark', label: 'داكن', icon: Moon },
@@ -258,10 +286,11 @@ const AdvancedSettings: React.FC = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="settings-security-level" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 مستوى الأمان
               </label>
               <select
+                id="settings-security-level"
                 value={settings.securityLevel}
                 onChange={(e) => updateSetting('securityLevel', e.target.value)}
                 className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
