@@ -612,6 +612,7 @@ const AdvancedSecurityDashboard: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getThreatDescription = (type: string, _severity: string): string => {
     const descriptions = {
       malware: 'تم اكتشاف برمجية خبيثة تحاول الوصول إلى النظام',
@@ -952,6 +953,9 @@ const AdvancedSecurityDashboard: React.FC = () => {
           <div
             key={threat.id}
             onClick={() => setSelectedThreat(threat)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedThreat(threat); }}
+            role="button"
+            tabIndex={0}
             className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-shadow"
           >
             <div className="flex items-center space-x-3 space-x-reverse">

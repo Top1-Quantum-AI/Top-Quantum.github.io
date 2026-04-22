@@ -3,6 +3,7 @@
  * Routes for quantum computing operations, simulations, and algorithms
  * مسارات لعمليات الحوسبة الكمية والمحاكاة والخوارزميات
  */
+/* eslint-disable import/no-cycle -- This route imports quantumService from index.js for dependency injection; the cycle is intentional */
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -378,7 +379,7 @@ router.post('/run-algorithm',
       const startTime = Date.now();
       
       switch (algorithm) {
-        case 'grover':
+        case 'grover': {
           const { targetState } = parameters || {};
           if (!targetState) {
             return res.status(400).json({
@@ -389,12 +390,13 @@ router.post('/run-algorithm',
           }
           result = await quantumService.runGroverAlgorithm(numQubits, targetState);
           break;
+        }
           
         case 'qft':
           result = await quantumService.runQuantumFourierTransform(numQubits);
           break;
           
-        case 'shor':
+        case 'shor': {
           const { numberToFactor } = parameters || {};
           if (!numberToFactor || numberToFactor < 4) {
             return res.status(400).json({
@@ -405,11 +407,13 @@ router.post('/run-algorithm',
           }
           result = await quantumService.runShorAlgorithm(numberToFactor);
           break;
+        }
           
-        case 'vqe':
+        case 'vqe': {
           const { hamiltonian } = parameters || {};
           result = await quantumService.runVQE(numQubits, hamiltonian);
           break;
+        }
       }
       
       const processingTime = Date.now() - startTime;

@@ -216,7 +216,7 @@ class AIService extends EventEmitter {
    * Apply quantum enhancement to message
    * تطبيق التحسين الكمي على الرسالة
    */
-  async applyQuantumEnhancement(message, options) {
+  async applyQuantumEnhancement(message) {
     if (!this.config.quantumConfig.enabled) {
       return message;
     }
@@ -486,7 +486,7 @@ class AIService extends EventEmitter {
    * Calculate quantum metrics
    * حساب المقاييس الكمية
    */
-  calculateQuantumMetrics(content, options) {
+  calculateQuantumMetrics(content) {
     const metrics = {
       quantumComplexity: 0,
       conceptualDepth: 0,

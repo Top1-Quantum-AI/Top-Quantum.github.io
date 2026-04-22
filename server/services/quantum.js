@@ -4,8 +4,10 @@
  * محاكاة الحوسبة الكمية وتنفيذ الخوارزميات الكمية
  */
 
+/* eslint-disable import/no-unresolved -- complex.js is an optional peer dep; the quantum simulator uses it for complex number arithmetic */
 import { EventEmitter } from 'events';
 
+// eslint-disable-next-line import/no-unresolved
 import { Complex } from 'complex.js';
 
 /**
@@ -855,7 +857,7 @@ class QuantumService extends EventEmitter {
    * Save user quantum state (mock implementation - requires database)
    * حفظ الحالة الكمية للمستخدم (تنفيذ وهمي - يتطلب قاعدة بيانات)
    */
-  async saveUserState(userId, stateData) {
+  async saveUserState(userId) {
     // In a real implementation, this would save to database
     // في التنفيذ الحقيقي، سيتم الحفظ في قاعدة البيانات
     const stateId = `state_${userId}_${Date.now()}`;
@@ -898,7 +900,7 @@ class QuantumService extends EventEmitter {
    * الحصول على جميع الحالات الكمية للمستخدم (تنفيذ وهمي)
    */
   async getUserStates(userId, options = {}) {
-    const { page = 1, limit = 10 } = options;
+    const { page = 1 } = options;
     // Mock implementation
     console.log(`Retrieving quantum states for user ${userId}`);
     return {
@@ -928,7 +930,7 @@ class QuantumService extends EventEmitter {
    * Update user quantum state (mock implementation)
    * تحديث الحالة الكمية للمستخدم (تنفيذ وهمي)
    */
-  async updateUserState(userId, stateId, updates) {
+  async updateUserState(userId, stateId) {
     console.log(`Updating quantum state ${stateId} for user ${userId}`);
     return true;
   }
@@ -988,7 +990,7 @@ class QuantumService extends EventEmitter {
    * Run Variational Quantum Eigensolver (mock implementation)
    * تشغيل محلل القيم الذاتية الكمي المتغير (تنفيذ وهمي)
    */
-  async runVQE(numQubits, hamiltonian) {
+  async runVQE(numQubits) {
     console.log(`Running VQE with ${numQubits} qubits`);
     
     return {
@@ -1005,7 +1007,7 @@ class QuantumService extends EventEmitter {
    * Save algorithm result (mock implementation)
    * حفظ نتيجة الخوارزمية (تنفيذ وهمي)
    */
-  async saveAlgorithmResult(userId, resultData) {
+  async saveAlgorithmResult(userId) {
     const resultId = `result_${userId}_${Date.now()}`;
     console.log(`Saving algorithm result ${resultId} for user ${userId}`);
     return resultId;

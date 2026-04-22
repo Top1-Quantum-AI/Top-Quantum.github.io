@@ -142,7 +142,7 @@ const QuantumDashboard: React.FC = () => {
       return Array.from({ length: 6 }, (_, i) => ({
         id: `processor-${i + 1}`,
         name: `معالج كمي ${i + 1}`,
-        qubits: [5, 16, 27, 53, 127, 433][i] || Math.floor(Math.random() * 100) + 50,
+        qubits: [5, 16, 27, 53, 127, 433][i] ?? Math.floor(Math.random() * 100) + 50,
         connectivity: connectivities[Math.floor(Math.random() * connectivities.length)] ?? 'linear',
         gateTime: Math.random() * 100 + 10,
         coherenceTime: Math.random() * 200 + 50,
@@ -785,7 +785,7 @@ const QuantumDashboard: React.FC = () => {
             ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => setViewMode(id as any)}
+                onClick={() => setViewMode(id as 'overview' | 'circuits' | 'processors' | 'experiments')}
                 className={`flex items-center space-x-2 space-x-reverse py-4 border-b-2 font-medium text-sm transition-colors ${
                   viewMode === id
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'

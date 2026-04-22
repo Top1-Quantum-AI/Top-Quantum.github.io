@@ -348,6 +348,7 @@ export class AnalyticsEngine {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private updateNetworkNodes(_snapshot: MetricSnapshot): void {
     for (const node of this.networkNodes) {
       // Slightly fluctuate metrics

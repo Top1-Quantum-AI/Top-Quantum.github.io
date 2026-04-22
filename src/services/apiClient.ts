@@ -3,7 +3,7 @@
 // Connects frontend to the real backend API
 // ═══════════════════════════════════════════════════════════
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+const API_BASE = import.meta.env.VITE_API_URL ?? '/api';
 
 // ─── Types ──────────────────────────────────────────────
 
@@ -139,6 +139,13 @@ export class ApiError extends Error {
   }
 }
 
+function requireData<T>(res: ApiResponse<T>): T {
+  if (res.data === undefined) {
+    throw new ApiError('Unexpected empty response from server', 0, res);
+  }
+  return res.data;
+}
+
 // ─── Auth Endpoints ─────────────────────────────────────
 
 export async function apiRegister(data: {
@@ -154,7 +161,7 @@ export async function apiRegister(data: {
     body: JSON.stringify(data),
   });
   if (res.token) setToken(res.token);
-  return { user: res.data!.user, token: res.token ?? '' };
+  return { user: requireData(res).user, token: res.token ?? '' };
 }
 
 export async function apiLogin(
@@ -166,7 +173,7 @@ export async function apiLogin(
     body: JSON.stringify({ identifier, password }),
   });
   if (res.token) setToken(res.token);
-  return { user: res.data!.user, token: res.token ?? '' };
+  return { user: requireData(res).user, token: res.token ?? '' };
 }
 
 export async function apiLogout(): Promise<void> {
@@ -179,14 +186,14 @@ export async function apiLogout(): Promise<void> {
 
 export async function apiGetMe(): Promise<ApiUser> {
   const res = await apiFetch<{ user: ApiUser }>('/auth/me');
-  return res.data!.user;
+  return requireData(res).user;
 }
 
 // ─── User Profile ───────────────────────────────────────
 
 export async function apiGetProfile(): Promise<ApiUser> {
   const res = await apiFetch<{ user: ApiUser }>('/user/profile');
-  return res.data!.user;
+  return requireData(res).user;
 }
 
 export async function apiUpdateProfile(
@@ -196,14 +203,14 @@ export async function apiUpdateProfile(
     method: 'PUT',
     body: JSON.stringify(data),
   });
-  return res.data!.user;
+  return requireData(res).user;
 }
 
 // ─── Admin Endpoints ────────────────────────────────────
 
 export async function adminGetStats(): Promise<AdminStats> {
   const res = await apiFetch<AdminStats>('/admin/stats');
-  return res.data!;
+  return requireData(res);
 }
 
 export async function adminGetUsers(params?: {
@@ -221,12 +228,12 @@ export async function adminGetUsers(params?: {
   if (params?.plan) qs.set('plan', params.plan);
   const q = qs.toString();
   const res = await apiFetch<PaginatedUsers>(`/admin/users${q ? `?${q}` : ''}`);
-  return res.data!;
+  return requireData(res);
 }
 
 export async function adminGetUser(id: string): Promise<ApiUser> {
   const res = await apiFetch<{ user: ApiUser }>(`/admin/users/${encodeURIComponent(id)}`);
-  return res.data!.user;
+  return requireData(res).user;
 }
 
 export async function adminUpdateUser(
@@ -240,7 +247,7 @@ export async function adminUpdateUser(
       body: JSON.stringify(data),
     }
   );
-  return res.data!.user;
+  return requireData(res).user;
 }
 
 export async function adminDeactivateUser(id: string): Promise<void> {
@@ -255,7 +262,7 @@ export async function adminGetAuditLogs(
   const res = await apiFetch<{ logs: AuditLogEntry[] }>(
     `/admin/audit-logs?limit=${limit}`
   );
-  return res.data!.logs;
+  return requireData(res).logs;
 }
 
 // ─── Connection Check ───────────────────────────────────

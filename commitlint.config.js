@@ -171,7 +171,8 @@ module.exports = {
   // إعدادات إضافية
   parserPreset: {
     parserOpts: {
-      headerPattern: /^(\w*)(?:\(([\w\$\.\-\*\s]*)\))?\:\s(.*)$/,
+      // eslint-disable-next-line security/detect-unsafe-regex
+      headerPattern: /^(\w*)(?:\(([\w$.\-*\s]*)\))?:\s(.*)$/,
       headerCorrespondence: ['type', 'scope', 'subject'],
       referenceActions: [
         'close',

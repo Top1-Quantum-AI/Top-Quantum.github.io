@@ -418,7 +418,6 @@ class MonitoringService extends EventEmitter {
    * معالجة تنبيه فردي
    */
   processAlert(alert) {
-    const alertKey = `${alert.type}_${Date.now()}`;
     const lastAlert = this.alertHistory.get(alert.type);
     
     // Avoid spam - only alert if last alert was more than 5 minutes ago

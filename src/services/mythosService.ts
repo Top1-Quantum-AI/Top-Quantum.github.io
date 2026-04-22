@@ -69,8 +69,8 @@ const request = async <T>(
     ...options,
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ detail: res.statusText }));
-    throw new Error((err as { detail?: string }).detail ?? res.statusText);
+    const errJson = (await res.json().catch(() => ({ detail: res.statusText }))) as { detail?: string };
+    throw new Error(errJson.detail ?? res.statusText);
   }
   return res.json() as Promise<T>;
 };

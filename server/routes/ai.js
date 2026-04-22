@@ -3,6 +3,7 @@
  * Routes for AI chat, quantum processing, and conversation management
  * مسارات للدردشة بالذكاء الاصطناعي والمعالجة الكمية وإدارة المحادثات
  */
+/* eslint-disable import/no-cycle -- This route imports aiService from index.js for dependency injection; the cycle is intentional */
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';

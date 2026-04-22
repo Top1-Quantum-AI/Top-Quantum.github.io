@@ -16,7 +16,8 @@ const defaultResponse: AIResponse = {
 };
 
 export const aiService = {
-  sendMessage: async (_message: string, _personality?: string): Promise<AIResponse> =>
-    defaultResponse,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  sendMessage: (_message: string, _personality?: string): Promise<AIResponse> =>
+    Promise.resolve(defaultResponse),
   clearHistory: (): void => { /* no-op */ },
 };

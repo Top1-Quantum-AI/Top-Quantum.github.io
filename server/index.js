@@ -5,6 +5,7 @@
  * This is the main server file that initializes and runs the quantum AI system
  * هذا هو ملف الخادم الرئيسي الذي يقوم بتهيئة وتشغيل نظام الذكاء الاصطناعي الكمي
  */
+/* eslint-disable import/no-cycle -- Routes import exported services from this file for dependency injection; this architectural cycle is intentional */
 
 import fs from 'fs';
 import { dirname, join } from 'path';
@@ -33,9 +34,6 @@ import monitoringRoutes from './routes/monitoring.js';
 import mythosRoutes from './routes/mythos.js';
 import quantumRoutes from './routes/quantum.js';
 import userRoutes from './routes/user.js';
-
-// Import middleware
-
 // Import services
 import { AIService } from './services/ai.js';
 import { MonitoringService } from './services/monitoring.js';

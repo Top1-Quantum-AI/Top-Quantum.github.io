@@ -3,6 +3,7 @@
  * Routes for system monitoring, health checks, and performance metrics
  * مسارات لمراقبة النظام وفحص الصحة ومقاييس الأداء
  */
+/* eslint-disable import/no-cycle -- This route imports monitoringService from index.js for dependency injection; the cycle is intentional */
 
 import os from 'os';
 import process from 'process';

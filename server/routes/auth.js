@@ -128,7 +128,7 @@ router.post('/register', registerLimiter, async (req, res) => {
     const user = await User.create(userData);
     
     // Generate email verification token - توليد رمز التحقق من البريد الإلكتروني
-    const verificationToken = user.createEmailVerificationToken();
+    user.createEmailVerificationToken();
     await user.save({ validateBeforeSave: false });
     
     // Log registration - تسجيل عملية التسجيل
@@ -571,7 +571,7 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
     }
     
     // Generate reset token - توليد رمز الإعادة
-    const resetToken = user.createPasswordResetToken();
+    user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
     
     // TODO: Send password reset email

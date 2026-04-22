@@ -196,6 +196,7 @@ const SecurityDashboard: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getThreatDescription = (type: string, _severity: string): string => {
     const descriptions = {
       malware: 'تم اكتشاف برمجية خبيثة تحاول الوصول للنظام',
@@ -286,6 +287,7 @@ const SecurityDashboard: React.FC = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getSystemStatusIcon = (status: string, _system: string) => {
     if (status === 'active' || status === 'enabled' || status === 'completed' || status === 'connected') {
       return <CheckCircle className="w-5 h-5 text-green-500" />;

@@ -14,18 +14,6 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
-// Rate limiting for user routes - تحديد المعدل لمسارات المستخدمين
-const userLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 30, // 30 requests per 15 minutes
-  message: {
-    error: 'تم تجاوز عدد الطلبات المسموح بها. حاول مرة أخرى بعد 15 دقيقة.',
-    errorEn: 'Too many requests. Please try again after 15 minutes.'
-  },
-  standardHeaders: true,
-  legacyHeaders: false
-});
-
 const profileUpdateLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 5, // 5 profile updates per hour

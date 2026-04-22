@@ -1,9 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bell, X, Check, Trash2, Shield, Zap, AlertTriangle,
-  Info, Clock, ChevronDown,
+  Info, Clock, ChevronDown, type LucideIcon,
 } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 import React, { useState, useEffect, useCallback } from 'react';
 
 // ═══════════════════════════════════════════════════════════

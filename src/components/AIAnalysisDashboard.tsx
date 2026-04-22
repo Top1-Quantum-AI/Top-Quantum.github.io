@@ -215,7 +215,7 @@ const AIAnalysisDashboard: React.FC<AIAnalysisDashboardProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      void handleSend();
     }
   };
 
