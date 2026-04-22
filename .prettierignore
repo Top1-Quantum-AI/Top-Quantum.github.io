@@ -261,6 +261,12 @@ clover.xml
 junit.xml
 
 # ================================
+# ESLint Reports
+# ================================
+eslint-report.json
+eslint-report*.json
+
+# ================================
 # Lerna & Monorepo
 # ================================
 lerna-debug.log*
