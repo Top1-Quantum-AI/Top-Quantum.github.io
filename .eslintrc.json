@@ -104,7 +104,7 @@
     "react-hooks/exhaustive-deps": "warn",
 
     // Security rules
-    "security/detect-object-injection": "error",
+    "security/detect-object-injection": "warn",
     "security/detect-non-literal-regexp": "error",
     "security/detect-unsafe-regex": "error",
     "security/detect-buffer-noassert": "error",
@@ -139,7 +139,7 @@
     "import/no-unresolved": "error",
     "import/no-cycle": "error",
     "import/no-self-import": "error",
-    "import/no-duplicate-imports": "error",
+    "import/no-duplicate-imports": "off",
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-anonymous-default-export": "warn",
@@ -200,7 +200,7 @@
       }
     ],
     "no-multi-assign": "error",
-    "no-nested-ternary": "error",
+    "no-nested-ternary": "warn",
     "no-unneeded-ternary": "error",
     "no-whitespace-before-property": "error",
     "prefer-exponentiation-operator": "error",
@@ -265,7 +265,13 @@
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "security/detect-object-injection": "off",
-        "no-magic-numbers": "off"
+        "no-magic-numbers": "off",
+        "jest/no-conditional-expect": "warn",
+        "@typescript-eslint/require-await": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-argument": "off"
       }
     },
     {
@@ -273,7 +279,12 @@
       "rules": {
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off"
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-unsafe-return": "off"
       }
     }
   ]

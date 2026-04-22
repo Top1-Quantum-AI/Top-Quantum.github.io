@@ -46,13 +46,11 @@ const RevolutionaryQuantumSystem: React.FC = () => {
   const [currentResearch, setCurrentResearch] = useState<string>('');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [researchData, setResearchData] = useState<{[key: string]: any}>({});
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [simulationData, setSimulationData] = useState<any>(null);
+  const [simulationData, setSimulationData] = useState<{ name: string; learningRate?: number; qubitCount?: number; [key: string]: unknown } | null>(null);
   const [learningProgress, setLearningProgress] = useState(0.0);
   const [modelAccuracy, setModelAccuracy] = useState(0.0);
   const [trainingEpochs, setTrainingEpochs] = useState(0);
-  const [_isRTL] = useState(true);
-  const [_logs, setLogs] = useState<SecureLog[]>([]);
+  const [, setLogs] = useState<SecureLog[]>([]);
 
   const abortControllerRef = useRef<AbortController | null>(null);
   const logQueueRef = useRef<SecureLog[]>([]);
@@ -88,7 +86,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
     return () => { if (abortControllerRef.current) { abortControllerRef.current.abort(); } };
   }, []);
 
-  const printToPDF = (cardTitle: string, _cardData?: Record<string, unknown>) => {
+  const printToPDF = (cardTitle: string) => {
     const printContent = `
       <html>
         <head>
@@ -197,7 +195,7 @@ const RevolutionaryQuantumSystem: React.FC = () => {
         abortControllerRef.current?.signal.addEventListener('abort', () => { clearTimeout(timeout); reject(new Error('تم إلغاء البحث')); });
       });
       if (abortControllerRef.current?.signal.aborted) throw new Error('تم إلغاء البحث');
-      const results = getResearchData(topic);
+      const results = getResearchData(topic) as Array<{ citations: number; relevance: number; [key: string]: unknown }>;
       setSearchResults(results);
       setResearchData(prev => ({ ...prev, [moduleId]: { topic, results, lastUpdated: new Date().toISOString(), status: 'completed', totalCitations: results.reduce((sum, r) => sum + r.citations, 0), averageRelevance: results.reduce((sum, r) => sum + r.relevance, 0) / results.length } }));
       await addSecureLog({ level: 'success', message: `اكتمل البحث بنجاح: ${results.length} نتيجة`, module: 'research' });

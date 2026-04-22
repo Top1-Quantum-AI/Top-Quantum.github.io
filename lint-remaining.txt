@@ -1,0 +1,252 @@
+  174:22  error    Unsafe Regular Expression         security/detect-unsafe-regex
+  174:38  error    Unnecessary escape character: \$  no-useless-escape
+  174:40  error    Unnecessary escape character: \.  no-useless-escape
+  174:44  error    Unnecessary escape character: \*  no-useless-escape
+  174:55  error    Unnecessary escape character: \:  no-useless-escape
+   543:21   error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+   551:44   error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   728:19   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+   735:19   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+   768:15   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+   778:15   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+  1463:15   error    A form label must have accessible text                                                                                                                              jsx-a11y/label-has-associated-control
+  235:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  241:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+   50:10   error    Unsafe array destructuring of a tuple element with an `any` value                                                     @typescript-eslint/no-unsafe-assignment
+   54:10   error    '_isRTL' is assigned a value but never used                                                                           @typescript-eslint/no-unused-vars
+   55:10   error    '_logs' is assigned a value but never used                                                                            @typescript-eslint/no-unused-vars
+   91:42   error    '_cardData' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+  202:133  error    Unsafe assignment of an `any` value                                                                                   @typescript-eslint/no-unsafe-assignment
+  202:176  error    Unsafe return of an `any` typed value                                                                                 @typescript-eslint/no-unsafe-return
+  202:184  error    Unsafe member access .citations on an `any` value                                                                     @typescript-eslint/no-unsafe-member-access
+  202:244  error    Unsafe return of an `any` typed value                                                                                 @typescript-eslint/no-unsafe-return
+  202:252  error    Unsafe member access .relevance on an `any` value                                                                     @typescript-eslint/no-unsafe-member-access
+  435:27   error    Promise-returning function provided to attribute where a void return was expected                                     @typescript-eslint/no-misused-promises
+  447:31   error    Unsafe assignment of an `any` value                                                                                   @typescript-eslint/no-unsafe-assignment
+   328:9   error    Unexpected alert                                                                                                                                                      no-alert
+   330:9   error    Unexpected alert                                                                                                                                                      no-alert
+   333:7   error    Unexpected alert                                                                                                                                                      no-alert
+   367:59  error    Async arrow function has no 'await' expression                                                                                                                        @typescript-eslint/require-await
+   567:60  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                                                             @typescript-eslint/prefer-nullish-coalescing
+   596:63  error    Async arrow function has no 'await' expression                                                                                                                        @typescript-eslint/require-await
+   603:66  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                                                             @typescript-eslint/prefer-nullish-coalescing
+   604:67  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                                                             @typescript-eslint/prefer-nullish-coalescing
+   605:68  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                                                             @typescript-eslint/prefer-nullish-coalescing
+   754:15  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+   766:15  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+   839:43  error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<"ai" | "dashboard" | "search" | "simulation" | "permissions" | "knowledge" | "users">`  @typescript-eslint/no-unsafe-argument
+   839:53  error    Unexpected any. Specify a different type                                                                                                                              @typescript-eslint/no-explicit-any
+   874:70  error    Unsafe call of an `any` typed value                                                                                                                                   @typescript-eslint/no-unsafe-call
+   874:76  error    Unsafe member access .toFixed on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+   986:30  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+   989:27  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+  1367:19  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+  1376:19  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+  1387:19  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+  1397:19  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+  1570:27  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+  1641:28  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+  1647:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+   43:34  error    Async arrow function 'quantumReboot' has no 'await' expression                     @typescript-eslint/require-await
+  103:15  error    A form label must be associated with a control                                     jsx-a11y/label-has-associated-control
+  113:15  error    A form label must be associated with a control                                     jsx-a11y/label-has-associated-control
+  217:25  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  305:15  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+  305:63  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+  19:23  error  '_message' is defined but never used                  @typescript-eslint/no-unused-vars
+  19:41  error  '_personality' is defined but never used              @typescript-eslint/no-unused-vars
+  19:85  error  Async method 'sendMessage' has no 'await' expression  @typescript-eslint/require-await
+  218:7   error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  267:19  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  283:19  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  299:19  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  389:33  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  444:23  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+   615:47   error    '_severity' is defined but never used                                                                                                                                                              @typescript-eslint/no-unused-vars
+   952:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                     jsx-a11y/click-events-have-key-events
+   952:11   error    Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element  jsx-a11y/no-static-element-interactions
+   95:21  error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<SettingsState>`  @typescript-eslint/no-unsafe-argument
+  143:17  error    Unsafe assignment of an `any` value                                                            @typescript-eslint/no-unsafe-assignment
+  144:23  error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<SettingsState>`  @typescript-eslint/no-unsafe-argument
+  147:11  error    Unexpected alert                                                                               no-alert
+  194:15  error    A form label must be associated with a control                                                 jsx-a11y/label-has-associated-control
+  210:15  error    A form label must be associated with a control                                                 jsx-a11y/label-has-associated-control
+  230:15  error    A form label must be associated with a control                                                 jsx-a11y/label-has-associated-control
+  261:15  error    A form label must be associated with a control                                                 jsx-a11y/label-has-associated-control
+  421:27  error    Promise-returning function provided to attribute where a void return was expected              @typescript-eslint/no-misused-promises
+  200:23  error    A form label must be associated with a control  jsx-a11y/label-has-associated-control
+   6:1   error    '../services/reportExporter' import is duplicated  no-duplicate-imports
+  495:44  error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<"security" | "metrics" | "topology">`  @typescript-eslint/no-unsafe-argument
+  495:50  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+    6:1   error    'lucide-react' import is duplicated       no-duplicate-imports
+  286:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  297:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  308:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  145:46   error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                               @typescript-eslint/prefer-nullish-coalescing
+  788:44   error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<"overview" | "circuits" | "processors" | "experiments">`  @typescript-eslint/no-unsafe-argument
+  788:50   error    Unexpected any. Specify a different type                                                                                                @typescript-eslint/no-explicit-any
+  199:47   error    '_severity' is defined but never used     @typescript-eslint/no-unused-vars
+  289:48   error    '_system' is defined but never used       @typescript-eslint/no-unused-vars
+  100:29  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  44:15  error    The autoFocus prop should not be used, as it can reduce usability and accessibility for users  jsx-a11y/no-autofocus
+  109:15  error    A form label must be associated with a control  jsx-a11y/label-has-associated-control
+  129:15  error    A form label must be associated with a control  jsx-a11y/label-has-associated-control
+   641:19   error    Unsafe spread of an `any` value in an array               @typescript-eslint/no-unsafe-assignment
+   917:24   error    Expected closing tag to match indentation of opening      react/jsx-closing-tag-location
+   917:24   error    Expected indentation of 22 space characters but found 23  react/jsx-indent
+   922:24   error    Expected closing tag to match indentation of opening      react/jsx-closing-tag-location
+   922:24   error    Expected indentation of 22 space characters but found 23  react/jsx-indent
+   927:24   error    Expected closing tag to match indentation of opening      react/jsx-closing-tag-location
+   927:24   error    Expected indentation of 22 space characters but found 23  react/jsx-indent
+  5:3  error  Async method 'createResponse' has no 'await' expression  @typescript-eslint/require-await
+  6:5  error  '_promptId' is defined but never used                    @typescript-eslint/no-unused-vars
+  7:5  error  '_vars' is defined but never used                        @typescript-eslint/no-unused-vars
+  8:5  error  '_version' is defined but never used                     @typescript-eslint/no-unused-vars
+   97:7    error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  156:5    error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  195:29   error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  565:17   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+  578:17   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+  103:7    error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                                                                                                                                 @typescript-eslint/no-floating-promises
+  134:27   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  183:29   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  205:26   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  208:17   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  223:15   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  238:15   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  260:19   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  275:19   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  326:31   error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  326:105  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  334:17   error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  361:48   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  363:51   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  160:31  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  164:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  172:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  210:29  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  219:29  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  273:29  error    Expected indentation of 22 space characters but found 28                                                                                                                                                                                                                                                                                                           react/jsx-indent
+  432:75  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                    react/no-unescaped-entities
+  432:84  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                    react/no-unescaped-entities
+  479:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  487:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  516:37  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  517:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  518:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  524:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  525:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  526:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  527:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  533:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  534:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  535:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  536:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  117:27  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  124:29  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  125:29  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  203:25  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  279:27  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  351:30   error    '_snapshot' is defined but never used  @typescript-eslint/no-unused-vars
+  157:18  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  169:18  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  182:10  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  189:10  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  199:10  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  206:10  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  224:10  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  229:10  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  243:10  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  258:10  error    Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+   72:11  error    Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+  185:7   error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  190:23  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  190:45  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  191:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+  191:21  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  192:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+  192:23  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  193:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+  193:25  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  197:37  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  201:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+  201:28  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  202:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+  202:25  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  203:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+  203:22  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  204:32  error  Unsafe call of an `any` typed value  @typescript-eslint/no-unsafe-call
+  137:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  145:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  153:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  162:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  172:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  181:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  56:56  error    img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+  143:11  error    Unsafe assignment of an `any` value       @typescript-eslint/no-unsafe-assignment
+  144:33  error    Unsafe construction of an any type value  @typescript-eslint/no-unsafe-call
+  176:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  182:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  189:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  194:26  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  206:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  212:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  237:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  243:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  254:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  260:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  271:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  277:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+   69:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+   75:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+   81:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+   90:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+   96:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+   98:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  105:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  111:26  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  119:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  127:26  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  139:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  145:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  151:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  170:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  175:26  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  183:24  error    Async arrow function has no 'await' expression  @typescript-eslint/require-await
+  84:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+  245:11  error    Unsafe assignment of an `any` value                        @typescript-eslint/no-unsafe-assignment
+  246:5   error    Unsafe call of an `any` typed value                        @typescript-eslint/no-unsafe-call
+  246:23  error    Unsafe member access .mockResolvedValue on an `any` value  @typescript-eslint/no-unsafe-member-access
+  257:11  error    Unsafe assignment of an `any` value                        @typescript-eslint/no-unsafe-assignment
+  258:5   error    Unsafe call of an `any` typed value                        @typescript-eslint/no-unsafe-call
+  258:28  error    Unsafe member access .mockResolvedValue on an `any` value  @typescript-eslint/no-unsafe-member-access
+  269:11  error    Unsafe assignment of an `any` value                        @typescript-eslint/no-unsafe-assignment
+  270:5   error    Unsafe call of an `any` typed value                        @typescript-eslint/no-unsafe-call
+  270:31  error    Unsafe member access .mockResolvedValue on an `any` value  @typescript-eslint/no-unsafe-member-access
+  280:44  error    Async arrow function has no 'await' expression             @typescript-eslint/require-await
+  304:11  error    Unsafe assignment of an `any` value                        @typescript-eslint/no-unsafe-assignment
+  305:5   error    Unsafe call of an `any` typed value                        @typescript-eslint/no-unsafe-call
+  305:23  error    Unsafe member access .mockRejectedValue on an `any` value  @typescript-eslint/no-unsafe-member-access
+  19:13  error  Unsafe assignment of an `any` value             @typescript-eslint/no-unsafe-assignment
+  20:20  error  Unsafe member access .length on an `any` value  @typescript-eslint/no-unsafe-member-access
+  22:20  error  Unsafe member access [0] on an `any` value      @typescript-eslint/no-unsafe-member-access
+  23:20  error  Unsafe member access [0] on an `any` value      @typescript-eslint/no-unsafe-member-access
+  24:20  error  Unsafe member access [0] on an `any` value      @typescript-eslint/no-unsafe-member-access
+  31:13  error  Unsafe assignment of an `any` value             @typescript-eslint/no-unsafe-assignment
+  33:20  error  Unsafe member access .length on an `any` value  @typescript-eslint/no-unsafe-member-access
+  28:52  error    img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+  99:28  error    Require statement not part of import statement                                                             @typescript-eslint/no-var-requires
+  99:66  error    `import()` type annotations are forbidden                                                                  @typescript-eslint/consistent-type-imports
+   10:1  error    There should be no empty line within import group  import/order
+   14:1  error    There should be no empty line within import group  import/order
+  213:11  error    Unsafe assignment of an `any` value                      @typescript-eslint/no-unsafe-assignment
+  214:5   error    Unsafe call of an `any` typed value                      @typescript-eslint/no-unsafe-call
+  214:17  error    Unsafe member access .mockReturnValue on an `any` value  @typescript-eslint/no-unsafe-member-access
+  219:11  error    Unsafe assignment of an `any` value                      @typescript-eslint/no-unsafe-assignment
+  220:19  error    Unsafe member access ['hasFeature'] on an `any` value    @typescript-eslint/no-unsafe-member-access
+  221:7   error    Unsafe call of an `any` typed value                      @typescript-eslint/no-unsafe-call
+  221:17  error    Unsafe member access ['hasFeature'] on an `any` value    @typescript-eslint/no-unsafe-member-access
+  228:11  error    Unsafe assignment of an `any` value                      @typescript-eslint/no-unsafe-assignment
+  229:19  error    Unsafe member access ['hasFeature'] on an `any` value    @typescript-eslint/no-unsafe-member-access
+  230:7   error    Unsafe call of an `any` typed value                      @typescript-eslint/no-unsafe-call
+  230:17  error    Unsafe member access ['hasFeature'] on an `any` value    @typescript-eslint/no-unsafe-member-access

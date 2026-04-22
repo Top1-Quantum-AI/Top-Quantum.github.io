@@ -232,13 +232,13 @@ const DemoPage: React.FC = () => {
             ابدأ العرض التجريبي
           </button>
           <button
-            onClick={() => navigate('/register')}
+            onClick={(): void => { void navigate('/register'); }}
             className="w-full py-3.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl font-medium transition-colors"
           >
             أنشئ حسابًا مجانيًا بدلاً من ذلك
           </button>
           <button
-            onClick={() => navigate('/')}
+            onClick={(): void => { void navigate('/'); }}
             className="w-full py-2 text-gray-500 hover:text-gray-300 text-sm transition-colors"
           >
             العودة للرئيسية

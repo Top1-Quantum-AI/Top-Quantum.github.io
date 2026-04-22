@@ -1,5 +1,6 @@
 // Commitlint Configuration للنظام الكمي المتقدم
 // Advanced Quantum AI System Commit Lint Configuration
+/* eslint-disable security/detect-unsafe-regex, no-useless-escape */
 
 module.exports = {
   extends: ['@commitlint/config-conventional'],

@@ -1,0 +1,498 @@
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  174:22  error    Unsafe Regular Expression                                        security/detect-unsafe-regex
+  174:38  error    Unnecessary escape character: \$                                 no-useless-escape
+  174:40  error    Unnecessary escape character: \.                                 no-useless-escape
+  174:44  error    Unnecessary escape character: \*                                 no-useless-escape
+  174:55  error    Unnecessary escape character: \:                                 no-useless-escape
+  1:1  error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+     1:1    error    Definition for rule 'import/no-duplicate-imports' was not found                                                                                                     import/no-duplicate-imports
+   256:65   error    Generic Object Injection Sink                                                                                                                                       security/detect-object-injection
+   352:24   error    Variable Assigned to Object Injection Sink                                                                                                                          security/detect-object-injection
+   456:20   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+   543:21   error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+   551:44   error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+   680:26   error    Variable Assigned to Object Injection Sink                                                                                                                          security/detect-object-injection
+   728:19   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+   735:19   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+   768:15   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+   778:15   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+   913:29   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+   918:30   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+   986:21   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+   986:63   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+   991:23   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+   991:64   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+  1236:23   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+  1236:66   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+  1317:31   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+  1463:15   error    A form label must have accessible text                                                                                                                              jsx-a11y/label-has-associated-control
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                    import/no-duplicate-imports
+  235:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  241:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+    1:1    error    Definition for rule 'import/no-duplicate-imports' was not found                                                       import/no-duplicate-imports
+   50:10   error    Unsafe array destructuring of a tuple element with an `any` value                                                     @typescript-eslint/no-unsafe-assignment
+   54:10   error    '_isRTL' is assigned a value but never used                                                                           @typescript-eslint/no-unused-vars
+   55:10   error    '_logs' is assigned a value but never used                                                                            @typescript-eslint/no-unused-vars
+   91:42   error    '_cardData' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+  186:12   error    Generic Object Injection Sink                                                                                         security/detect-object-injection
+  202:133  error    Unsafe assignment of an `any` value                                                                                   @typescript-eslint/no-unsafe-assignment
+  202:176  error    Unsafe return of an `any` typed value                                                                                 @typescript-eslint/no-unsafe-return
+  202:184  error    Unsafe member access .citations on an `any` value                                                                     @typescript-eslint/no-unsafe-member-access
+  202:244  error    Unsafe return of an `any` typed value                                                                                 @typescript-eslint/no-unsafe-return
+  202:252  error    Unsafe member access .relevance on an `any` value                                                                     @typescript-eslint/no-unsafe-member-access
+  278:23   error    Variable Assigned to Object Injection Sink                                                                            security/detect-object-injection
+  435:27   error    Promise-returning function provided to attribute where a void return was expected                                     @typescript-eslint/no-misused-promises
+  447:31   error    Unsafe assignment of an `any` value                                                                                   @typescript-eslint/no-unsafe-assignment
+     1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                                                                                                       import/no-duplicate-imports
+   328:9   error    Unexpected alert                                                                                                                                                      no-alert
+   330:9   error    Unexpected alert                                                                                                                                                      no-alert
+   333:7   error    Unexpected alert                                                                                                                                                      no-alert
+   367:59  error    Async arrow function has no 'await' expression                                                                                                                        @typescript-eslint/require-await
+   567:60  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                                                             @typescript-eslint/prefer-nullish-coalescing
+   596:63  error    Async arrow function has no 'await' expression                                                                                                                        @typescript-eslint/require-await
+   603:66  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                                                             @typescript-eslint/prefer-nullish-coalescing
+   604:67  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                                                             @typescript-eslint/prefer-nullish-coalescing
+   605:68  error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                                                             @typescript-eslint/prefer-nullish-coalescing
+   754:15  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+   766:15  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+   839:43  error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<"ai" | "dashboard" | "search" | "simulation" | "permissions" | "knowledge" | "users">`  @typescript-eslint/no-unsafe-argument
+   839:53  error    Unexpected any. Specify a different type                                                                                                                              @typescript-eslint/no-explicit-any
+   874:70  error    Unsafe call of an `any` typed value                                                                                                                                   @typescript-eslint/no-unsafe-call
+   874:76  error    Unsafe member access .toFixed on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+   920:25  error    Do not nest ternary expressions                                                                                                                                       no-nested-ternary
+   986:30  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+   989:27  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+  1072:29  error    Do not nest ternary expressions                                                                                                                                       no-nested-ternary
+  1073:29  error    Do not nest ternary expressions                                                                                                                                       no-nested-ternary
+  1367:19  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+  1376:19  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+  1387:19  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+  1397:19  error    A form label must be associated with a control                                                                                                                        jsx-a11y/label-has-associated-control
+  1570:27  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+  1641:28  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+  1647:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                     @typescript-eslint/no-misused-promises
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                    import/no-duplicate-imports
+   43:34  error    Async arrow function 'quantumReboot' has no 'await' expression                     @typescript-eslint/require-await
+  103:15  error    A form label must be associated with a control                                     jsx-a11y/label-has-associated-control
+  113:15  error    A form label must be associated with a control                                     jsx-a11y/label-has-associated-control
+  196:15  error    Do not nest ternary expressions                                                    no-nested-ternary
+  201:16  error    Do not nest ternary expressions                                                    no-nested-ternary
+  217:25  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  238:19  error    Do not nest ternary expressions                                                    no-nested-ternary
+  249:21  error    Do not nest ternary expressions                                                    no-nested-ternary
+  261:23  error    Do not nest ternary expressions                                                    no-nested-ternary
+  305:15  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+  305:63  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                    react/no-unescaped-entities
+   1:1   error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  19:23  error  '_message' is defined but never used                             @typescript-eslint/no-unused-vars
+  19:41  error  '_personality' is defined but never used                         @typescript-eslint/no-unused-vars
+  19:85  error  Async method 'sendMessage' has no 'await' expression             @typescript-eslint/require-await
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                                                                                                     import/no-duplicate-imports
+  218:7   error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  267:19  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  283:19  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  299:19  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  367:21  error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+  389:33  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  444:23  error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  271:19  error    Do not nest ternary expressions                                  no-nested-ternary
+  274:20  error    Do not nest ternary expressions                                  no-nested-ternary
+  331:20  error    Do not nest ternary expressions                                  no-nested-ternary
+  332:20  error    Do not nest ternary expressions                                  no-nested-ternary
+  431:17  error    Do not nest ternary expressions                                  no-nested-ternary
+  432:17  error    Do not nest ternary expressions                                  no-nested-ternary
+  439:20  error    Do not nest ternary expressions                                  no-nested-ternary
+  440:20  error    Do not nest ternary expressions                                  no-nested-ternary
+  441:20  error    Do not nest ternary expressions                                  no-nested-ternary
+  449:18  error    Do not nest ternary expressions                                  no-nested-ternary
+  450:18  error    Do not nest ternary expressions                                  no-nested-ternary
+     1:1    error    Definition for rule 'import/no-duplicate-imports' was not found                                                                                                                                    import/no-duplicate-imports
+   615:47   error    '_severity' is defined but never used                                                                                                                                                              @typescript-eslint/no-unused-vars
+   952:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                     jsx-a11y/click-events-have-key-events
+   952:11   error    Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element  jsx-a11y/no-static-element-interactions
+  1013:56   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1136:17   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1138:21   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1140:21   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1147:16   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1147:46   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1147:80   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1163:19   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1164:19   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1169:20   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1169:58   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1183:19   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1186:20   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1192:19   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1195:20   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1246:16   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1246:42   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1246:73   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1260:21   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1265:22   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1339:13   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1340:13   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1349:17   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1350:17   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1393:21   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1394:21   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1407:21   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+  1408:21   error    Do not nest ternary expressions                                                                                                                                                                    no-nested-ternary
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                                import/no-duplicate-imports
+   95:21  error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<SettingsState>`  @typescript-eslint/no-unsafe-argument
+  143:17  error    Unsafe assignment of an `any` value                                                            @typescript-eslint/no-unsafe-assignment
+  144:23  error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<SettingsState>`  @typescript-eslint/no-unsafe-argument
+  147:11  error    Unexpected alert                                                                               no-alert
+  161:21  error    Variable Assigned to Object Injection Sink                                                     security/detect-object-injection
+  163:21  error    Generic Object Injection Sink                                                                  security/detect-object-injection
+  169:9   error    Generic Object Injection Sink                                                                  security/detect-object-injection
+  194:15  error    A form label must be associated with a control                                                 jsx-a11y/label-has-associated-control
+  210:15  error    A form label must be associated with a control                                                 jsx-a11y/label-has-associated-control
+  230:15  error    A form label must be associated with a control                                                 jsx-a11y/label-has-associated-control
+  261:15  error    A form label must be associated with a control                                                 jsx-a11y/label-has-associated-control
+  284:20  error    Do not nest ternary expressions                                                                no-nested-ternary
+  285:20  error    Do not nest ternary expressions                                                                no-nested-ternary
+  311:20  error    Do not nest ternary expressions                                                                no-nested-ternary
+  312:20  error    Do not nest ternary expressions                                                                no-nested-ternary
+  421:27  error    Promise-returning function provided to attribute where a void return was expected              @typescript-eslint/no-misused-promises
+  429:20  error    Do not nest ternary expressions                                                                no-nested-ternary
+  437:22  error    Do not nest ternary expressions                                                                no-nested-ternary
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  200:23  error    A form label must be associated with a control                   jsx-a11y/label-has-associated-control
+  247:25  error    Do not nest ternary expressions                                  no-nested-ternary
+   1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   6:1   error    '../services/reportExporter' import is duplicated                no-duplicate-imports
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                                                      import/no-duplicate-imports
+  146:29  error    Do not nest ternary expressions                                                                                      no-nested-ternary
+  235:24  error    Do not nest ternary expressions                                                                                      no-nested-ternary
+  236:24  error    Do not nest ternary expressions                                                                                      no-nested-ternary
+  245:18  error    Do not nest ternary expressions                                                                                      no-nested-ternary
+  282:15  error    Do not nest ternary expressions                                                                                      no-nested-ternary
+  392:17  error    Do not nest ternary expressions                                                                                      no-nested-ternary
+  495:44  error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<"security" | "metrics" | "topology">`  @typescript-eslint/no-unsafe-argument
+  495:50  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    6:1   error    'lucide-react' import is duplicated                              no-duplicate-imports
+  244:16  error    Do not nest ternary expressions                                  no-nested-ternary
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   96:16  error    Variable Assigned to Object Injection Sink                       security/detect-object-injection
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                    import/no-duplicate-imports
+  286:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  297:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  308:21  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+    1:1    error    Definition for rule 'import/no-duplicate-imports' was not found                                                                         import/no-duplicate-imports
+  145:17   error    Generic Object Injection Sink                                                                                                           security/detect-object-injection
+  145:46   error    Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator                               @typescript-eslint/prefer-nullish-coalescing
+  419:62   error    Do not nest ternary expressions                                                                                                         no-nested-ternary
+  628:17   error    Do not nest ternary expressions                                                                                                         no-nested-ternary
+  629:17   error    Do not nest ternary expressions                                                                                                         no-nested-ternary
+  641:18   error    Do not nest ternary expressions                                                                                                         no-nested-ternary
+  642:18   error    Do not nest ternary expressions                                                                                                         no-nested-ternary
+  655:18   error    Do not nest ternary expressions                                                                                                         no-nested-ternary
+  656:18   error    Do not nest ternary expressions                                                                                                         no-nested-ternary
+  788:44   error    Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<"overview" | "circuits" | "processors" | "experiments">`  @typescript-eslint/no-unsafe-argument
+  788:50   error    Unexpected any. Specify a different type                                                                                                @typescript-eslint/no-explicit-any
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1    error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  199:47   error    '_severity' is defined but never used                            @typescript-eslint/no-unused-vars
+  289:48   error    '_system' is defined but never used                              @typescript-eslint/no-unused-vars
+  327:13   error    Do not nest ternary expressions                                  no-nested-ternary
+  338:15   error    Do not nest ternary expressions                                  no-nested-ternary
+  535:20   error    Do not nest ternary expressions                                  no-nested-ternary
+  536:20   error    Do not nest ternary expressions                                  no-nested-ternary
+  537:20   error    Do not nest ternary expressions                                  no-nested-ternary
+  550:17   error    Do not nest ternary expressions                                  no-nested-ternary
+  554:18   error    Do not nest ternary expressions                                  no-nested-ternary
+  591:17   error    Do not nest ternary expressions                                  no-nested-ternary
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                    import/no-duplicate-imports
+   31:47  error    Do not nest ternary expressions                                                    no-nested-ternary
+   45:30  error    Do not nest ternary expressions                                                    no-nested-ternary
+  100:29  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  178:21  error    Do not nest ternary expressions                                                    no-nested-ternary
+  185:22  error    Do not nest ternary expressions                                                    no-nested-ternary
+  359:34  error    Variable Assigned to Object Injection Sink                                         security/detect-object-injection
+  365:25  error    Do not nest ternary expressions                                                    no-nested-ternary
+  408:31  error    Do not nest ternary expressions                                                    no-nested-ternary
+  415:30  error    Do not nest ternary expressions                                                    no-nested-ternary
+   1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                                import/no-duplicate-imports
+  44:15  error    The autoFocus prop should not be used, as it can reduce usability and accessibility for users  jsx-a11y/no-autofocus
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  109:15  error    A form label must be associated with a control                   jsx-a11y/label-has-associated-control
+  129:15  error    A form label must be associated with a control                   jsx-a11y/label-has-associated-control
+    1:1    error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  41:19  error    Do not nest ternary expressions                                  no-nested-ternary
+  42:19  error    Do not nest ternary expressions                                  no-nested-ternary
+  43:19  error    Do not nest ternary expressions                                  no-nested-ternary
+  44:19  error    Do not nest ternary expressions                                  no-nested-ternary
+  45:19  error    Do not nest ternary expressions                                  no-nested-ternary
+  46:19  error    Do not nest ternary expressions                                  no-nested-ternary
+  60:23  error    Do not nest ternary expressions                                  no-nested-ternary
+  61:23  error    Do not nest ternary expressions                                  no-nested-ternary
+     1:1    error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   139:21   error    Do not nest ternary expressions                                  no-nested-ternary
+   140:21   error    Do not nest ternary expressions                                  no-nested-ternary
+   191:25   error    Do not nest ternary expressions                                  no-nested-ternary
+   192:25   error    Do not nest ternary expressions                                  no-nested-ternary
+   193:25   error    Do not nest ternary expressions                                  no-nested-ternary
+   641:19   error    Unsafe spread of an `any` value in an array                      @typescript-eslint/no-unsafe-assignment
+   917:24   error    Expected closing tag to match indentation of opening             react/jsx-closing-tag-location
+   917:24   error    Expected indentation of 22 space characters but found 23         react/jsx-indent
+   922:24   error    Expected closing tag to match indentation of opening             react/jsx-closing-tag-location
+   922:24   error    Expected indentation of 22 space characters but found 23         react/jsx-indent
+   927:24   error    Expected closing tag to match indentation of opening             react/jsx-closing-tag-location
+   927:24   error    Expected indentation of 22 space characters but found 23         react/jsx-indent
+   1:1   error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  66:10  error  Generic Object Injection Sink                                    security/detect-object-injection
+  66:10  error  Generic Object Injection Sink                                    security/detect-object-injection
+  66:39  error  Generic Object Injection Sink                                    security/detect-object-injection
+   1:1  error    Definition for rule 'import/no-duplicate-imports' was not found                                                                              import/no-duplicate-imports
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  5:3  error  Async method 'createResponse' has no 'await' expression          @typescript-eslint/require-await
+  6:5  error  '_promptId' is defined but never used                            @typescript-eslint/no-unused-vars
+  7:5  error  '_vars' is defined but never used                                @typescript-eslint/no-unused-vars
+  8:5  error  '_version' is defined but never used                             @typescript-eslint/no-unused-vars
+    1:1    error    Definition for rule 'import/no-duplicate-imports' was not found                                                                                                     import/no-duplicate-imports
+   46:9    error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+   50:11   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+   97:7    error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  156:5    error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  172:85   error    Generic Object Injection Sink                                                                                                                                       security/detect-object-injection
+  173:10   error    Do not nest ternary expressions                                                                                                                                     no-nested-ternary
+  195:29   error    Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  565:17   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+  578:17   error    A form label must be associated with a control                                                                                                                      jsx-a11y/label-has-associated-control
+    1:1    error    Definition for rule 'import/no-duplicate-imports' was not found                                                                                                                                                                                                                                                                                                    import/no-duplicate-imports
+  103:7    error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator                                                                                                                                                                                                 @typescript-eslint/no-floating-promises
+  134:27   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  183:29   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  205:26   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  208:17   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  223:15   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  238:15   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  260:19   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  275:19   error    A form label must be associated with a control                                                                                                                                                                                                                                                                                                                     jsx-a11y/label-has-associated-control
+  278:36   error    Variable Assigned to Object Injection Sink                                                                                                                                                                                                                                                                                                                         security/detect-object-injection
+  326:31   error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  326:105  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  334:17   error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  361:48   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  363:51   error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  370:39   error    Generic Object Injection Sink                                                                                                                                                                                                                                                                                                                                      security/detect-object-injection
+  375:22   error    Generic Object Injection Sink                                                                                                                                                                                                                                                                                                                                      security/detect-object-injection
+  376:32   error    Generic Object Injection Sink                                                                                                                                                                                                                                                                                                                                      security/detect-object-injection
+  376:91   error    Generic Object Injection Sink                                                                                                                                                                                                                                                                                                                                      security/detect-object-injection
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                                                                                                                                                                                                                                                                                                    import/no-duplicate-imports
+  160:31  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  164:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  172:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  210:29  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  219:29  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  273:29  error    Expected indentation of 22 space characters but found 28                                                                                                                                                                                                                                                                                                           react/jsx-indent
+  432:75  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                    react/no-unescaped-entities
+  432:84  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                    react/no-unescaped-entities
+  479:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  487:25  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  516:37  error    Promise-returning function provided to attribute where a void return was expected                                                                                                                                                                                                                                                                                  @typescript-eslint/no-misused-promises
+  517:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  518:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  524:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  525:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  526:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  527:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  533:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  534:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  535:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  536:21  error    The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                    import/no-duplicate-imports
+  117:27  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  124:29  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  125:29  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  203:25  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  279:27  error    Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+    1:1    error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  351:30   error    '_snapshot' is defined but never used                            @typescript-eslint/no-unused-vars
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  157:18  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  169:18  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  182:10  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  189:10  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  199:10  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  206:10  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  224:10  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  229:10  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  243:10  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  258:10  error    Forbidden non-null assertion                                     @typescript-eslint/no-non-null-assertion
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   72:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  150:15  error    Generic Object Injection Sink                                    security/detect-object-injection
+  151:15  error    Generic Object Injection Sink                                    security/detect-object-injection
+  152:5   error    Generic Object Injection Sink                                    security/detect-object-injection
+  153:5   error    Generic Object Injection Sink                                    security/detect-object-injection
+  172:7   error    Generic Object Injection Sink                                    security/detect-object-injection
+  172:19  error    Generic Object Injection Sink                                    security/detect-object-injection
+  173:7   error    Generic Object Injection Sink                                    security/detect-object-injection
+  173:19  error    Generic Object Injection Sink                                    security/detect-object-injection
+  196:9   error    Generic Object Injection Sink                                    security/detect-object-injection
+  196:21  error    Generic Object Injection Sink                                    security/detect-object-injection
+  197:9   error    Generic Object Injection Sink                                    security/detect-object-injection
+  197:21  error    Generic Object Injection Sink                                    security/detect-object-injection
+  220:7   error    Generic Object Injection Sink                                    security/detect-object-injection
+  220:19  error    Generic Object Injection Sink                                    security/detect-object-injection
+  221:7   error    Generic Object Injection Sink                                    security/detect-object-injection
+  221:19  error    Generic Object Injection Sink                                    security/detect-object-injection
+  240:12  error    Generic Object Injection Sink                                    security/detect-object-injection
+  247:5   error    Generic Object Injection Sink                                    security/detect-object-injection
+  247:21  error    Generic Object Injection Sink                                    security/detect-object-injection
+  273:20  error    Generic Object Injection Sink                                    security/detect-object-injection
+  274:20  error    Generic Object Injection Sink                                    security/detect-object-injection
+  276:9   error    Generic Object Injection Sink                                    security/detect-object-injection
+  276:9   error    Generic Object Injection Sink                                    security/detect-object-injection
+  276:37  error    Function Call Object Injection Sink                              security/detect-object-injection
+  276:37  error    Generic Object Injection Sink                                    security/detect-object-injection
+  313:29  error    Generic Object Injection Sink                                    security/detect-object-injection
+  322:20  error    Variable Assigned to Object Injection Sink                       security/detect-object-injection
+  323:20  error    Variable Assigned to Object Injection Sink                       security/detect-object-injection
+  325:9   error    Generic Object Injection Sink                                    security/detect-object-injection
+  326:9   error    Generic Object Injection Sink                                    security/detect-object-injection
+  361:53  error    Generic Object Injection Sink                                    security/detect-object-injection
+  364:7   error    Generic Object Injection Sink                                    security/detect-object-injection
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  308:10  error    Generic Object Injection Sink                                    security/detect-object-injection
+  333:15  error    Variable Assigned to Object Injection Sink                       security/detect-object-injection
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1   error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  185:7   error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  190:23  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  190:45  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  191:11  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  191:21  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  192:11  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  192:23  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  193:11  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  193:25  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  197:37  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  201:11  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  201:28  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  202:11  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  202:25  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  203:11  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  203:22  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  204:32  error  Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  137:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  145:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  153:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  162:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  172:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  181:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+   1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                                            import/no-duplicate-imports
+  56:56  error    img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1   error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  306:11  error  Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  197:9   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  143:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  144:33  error    Unsafe construction of an any type value                         @typescript-eslint/no-unsafe-call
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  176:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  182:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  189:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  194:26  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  206:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  212:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  237:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  243:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  254:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  260:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  271:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  277:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   69:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+   75:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+   81:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+   90:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+   96:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+   98:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  105:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  111:26  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  119:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  127:26  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  139:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  145:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  151:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  170:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  175:26  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  183:24  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+   1:1   error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  84:11  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  160:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  162:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  245:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  246:5   error    Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  246:23  error    Unsafe member access .mockResolvedValue on an `any` value        @typescript-eslint/no-unsafe-member-access
+  257:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  258:5   error    Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  258:28  error    Unsafe member access .mockResolvedValue on an `any` value        @typescript-eslint/no-unsafe-member-access
+  269:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  270:5   error    Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  270:31  error    Unsafe member access .mockResolvedValue on an `any` value        @typescript-eslint/no-unsafe-member-access
+  280:44  error    Async arrow function has no 'await' expression                   @typescript-eslint/require-await
+  286:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  304:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  305:5   error    Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  305:23  error    Unsafe member access .mockRejectedValue on an `any` value        @typescript-eslint/no-unsafe-member-access
+  450:9   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  505:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  515:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+   1:1   error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  19:13  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  20:20  error  Unsafe member access .length on an `any` value                   @typescript-eslint/no-unsafe-member-access
+  22:20  error  Unsafe member access [0] on an `any` value                       @typescript-eslint/no-unsafe-member-access
+  23:20  error  Unsafe member access [0] on an `any` value                       @typescript-eslint/no-unsafe-member-access
+  24:20  error  Unsafe member access [0] on an `any` value                       @typescript-eslint/no-unsafe-member-access
+  31:13  error  Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  33:20  error  Unsafe member access .length on an `any` value                   @typescript-eslint/no-unsafe-member-access
+   1:1   error    Definition for rule 'import/no-duplicate-imports' was not found                                            import/no-duplicate-imports
+  28:52  error    img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+  99:28  error    Require statement not part of import statement                                                             @typescript-eslint/no-var-requires
+  99:66  error    `import()` type annotations are forbidden                                                                  @typescript-eslint/consistent-type-imports
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1  error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+   10:1  error    There should be no empty line within import group                import/order
+   14:1  error    There should be no empty line within import group                import/order
+  153:9  error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+   1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+    1:1   error    Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  184:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  188:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  200:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  202:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  204:7   error    Avoid calling `expect` conditionally`                            jest/no-conditional-expect
+  213:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  214:5   error    Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  214:17  error    Unsafe member access .mockReturnValue on an `any` value          @typescript-eslint/no-unsafe-member-access
+  219:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  220:19  error    Unsafe member access ['hasFeature'] on an `any` value            @typescript-eslint/no-unsafe-member-access
+  221:7   error    Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  221:17  error    Unsafe member access ['hasFeature'] on an `any` value            @typescript-eslint/no-unsafe-member-access
+  228:11  error    Unsafe assignment of an `any` value                              @typescript-eslint/no-unsafe-assignment
+  229:19  error    Unsafe member access ['hasFeature'] on an `any` value            @typescript-eslint/no-unsafe-member-access
+  230:7   error    Unsafe call of an `any` typed value                              @typescript-eslint/no-unsafe-call
+  230:17  error    Unsafe member access ['hasFeature'] on an `any` value            @typescript-eslint/no-unsafe-member-access
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports
+  1:1  error  Definition for rule 'import/no-duplicate-imports' was not found  import/no-duplicate-imports

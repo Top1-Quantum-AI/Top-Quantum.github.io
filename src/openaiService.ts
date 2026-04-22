@@ -2,11 +2,12 @@
 // UnifiedQuantumSystem.tsx still references this export.
 
 export class OpenAIService {
-  async createResponse(
-    _promptId: string,
-    _vars: Record<string, string>,
-    _version?: string
+  createResponse(
+    promptId: string,
+    vars: Record<string, string>,
+    version?: string
   ): Promise<{ text: string }> {
-    return { text: 'خدمة OpenAI غير متوفرة. استخدم لوحة التحكم الرئيسية.' };
+    void promptId; void vars; void version;
+    return Promise.resolve({ text: 'خدمة OpenAI غير متوفرة. استخدم لوحة التحكم الرئيسية.' });
   }
 }
