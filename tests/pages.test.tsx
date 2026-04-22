@@ -96,13 +96,16 @@ describe('LandingPage', () => {
 
   it('should navigate to /register when registration button is clicked', () => {
     const mockNavigate = jest.fn();
-    jest.mock('react-router-dom', () => ({
-      ...jest.requireActual('react-router-dom'),
-      useNavigate: () => mockNavigate,
-    }));
+    const reactRouterDom = require('react-router-dom') as typeof import('react-router-dom');
+    const useNavigateSpy = jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockReturnValue(mockNavigate);
+
     renderLanding();
     // Just verify the page rendered — navigation is tested via App
     expect(document.body.innerHTML.length).toBeGreaterThan(100);
+
+    useNavigateSpy.mockRestore();
   });
 });
 
