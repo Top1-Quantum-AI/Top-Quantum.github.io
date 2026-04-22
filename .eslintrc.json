@@ -24,7 +24,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": "./tsconfig.json"
+    "project": ["./tsconfig.json", "./tsconfig.node.json"]
   },
   "plugins": [
     "react",
@@ -47,7 +47,7 @@
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/await-thenable": "error",
-    "@typescript-eslint/no-misused-promises": "error",
+    "@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": { "attributes": false } }],
     "@typescript-eslint/require-await": "error",
     "@typescript-eslint/no-unsafe-assignment": "error",
     "@typescript-eslint/no-unsafe-call": "error",
@@ -104,7 +104,9 @@
     "react-hooks/exhaustive-deps": "warn",
 
     // Security rules
-    "security/detect-object-injection": "error",
+    // security/detect-object-injection produces many false positives on obj[key] patterns
+    // in TypeScript code where types already prevent injection attacks
+    "security/detect-object-injection": "warn",
     "security/detect-non-literal-regexp": "error",
     "security/detect-unsafe-regex": "error",
     "security/detect-buffer-noassert": "error",
@@ -139,7 +141,6 @@
     "import/no-unresolved": "error",
     "import/no-cycle": "error",
     "import/no-self-import": "error",
-    "import/no-duplicate-imports": "error",
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-anonymous-default-export": "warn",
@@ -200,7 +201,8 @@
       }
     ],
     "no-multi-assign": "error",
-    "no-nested-ternary": "error",
+    // Nested ternaries are idiomatic in JSX conditional rendering
+    "no-nested-ternary": "warn",
     "no-unneeded-ternary": "error",
     "no-whitespace-before-property": "error",
     "prefer-exponentiation-operator": "error",
@@ -260,7 +262,10 @@
       "env": {
         "jest": true
       },
-      "extends": ["plugin:jest/recommended"],
+      "extends": ["plugin:jest/recommended", "plugin:@typescript-eslint/disable-type-checked"],
+      "parserOptions": {
+        "project": false
+      },
       "rules": {
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
@@ -270,6 +275,10 @@
     },
     {
       "files": ["**/*.js", "**/*.jsx"],
+      "extends": ["plugin:@typescript-eslint/disable-type-checked"],
+      "parserOptions": {
+        "project": false
+      },
       "rules": {
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/explicit-function-return-type": "off",

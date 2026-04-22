@@ -1,4 +1,3 @@
-import React, { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Brain,
@@ -12,6 +11,8 @@ import {
   CheckCircle,
   AlertCircle,
 } from 'lucide-react';
+import React, { useState, useCallback, useEffect } from 'react';
+
 import {
   createModel,
   forwardPass,
@@ -251,7 +252,8 @@ const OpenMythosDashboard: React.FC = () => {
           <div>
             <label className="text-xs text-gray-400 mb-1 block">حلقات التكرار (n_loops): {nLoops}</label>
             <input
-              type="range" min={1} max={8} step={1} value={nLoops}
+              type="range" min={1} max={8}
+              step={1} value={nLoops}
               onChange={e => setNLoops(Number(e.target.value))}
               className="w-full accent-violet-500"
             />
@@ -259,7 +261,8 @@ const OpenMythosDashboard: React.FC = () => {
           <div>
             <label className="text-xs text-gray-400 mb-1 block">رموز التوليد: {maxNewTokens}</label>
             <input
-              type="range" min={1} max={64} step={1} value={maxNewTokens}
+              type="range" min={1} max={64}
+              step={1} value={maxNewTokens}
               onChange={e => setMaxNewTokens(Number(e.target.value))}
               className="w-full accent-fuchsia-500"
             />
@@ -267,7 +270,8 @@ const OpenMythosDashboard: React.FC = () => {
           <div>
             <label className="text-xs text-gray-400 mb-1 block">الحرارة: {temperature.toFixed(2)}</label>
             <input
-              type="range" min={0.1} max={2} step={0.05} value={temperature}
+              type="range" min={0.1} max={2}
+              step={0.05} value={temperature}
               onChange={e => setTemperature(Number(e.target.value))}
               className="w-full accent-pink-500"
             />

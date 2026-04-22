@@ -6,8 +6,9 @@
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+
+import { aiService } from '../index.js';
 import { authMiddleware, trackApiUsage, optionalAuth, requireSubscription } from '../middleware/auth.js';
-import { aiService, quantumService } from '../index.js';
 import Conversation from '../models/Conversation.js';
 
 const router = express.Router();

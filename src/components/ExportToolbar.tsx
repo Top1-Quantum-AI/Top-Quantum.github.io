@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, FileText, Image, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+
 import { exportDashboardSnapshot, exportDataReport } from '../services/reportExporter';
 import type { ReportSection } from '../services/reportExporter';
 import { hasFeature } from '../services/subscriptionService';

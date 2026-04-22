@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { RotateCcw, Cpu, Database, FileText, Search } from 'lucide-react';
+import { useState } from 'react';
 
 const WorkflowDiagnosticTool = () => {
   // حالة تسجيل الدخول
@@ -196,7 +196,8 @@ const WorkflowDiagnosticTool = () => {
               systemState === 'running' ? 'bg-green-500/20 text-green-400' :
               systemState === 'rebooting' ? 'bg-yellow-500/20 text-yellow-400' :
               'bg-red-500/20 text-red-400'
-            }`}>
+            }`}
+            >
               {systemState === 'running' ? 'يعمل' : 
                systemState === 'rebooting' ? 'إعادة تشغيل' : 'تحليل'}
             </div>
@@ -237,7 +238,8 @@ const WorkflowDiagnosticTool = () => {
                   agent.status === 'running' ? 'bg-green-500' :
                   agent.status === 'initializing' ? 'bg-yellow-500 animate-pulse' :
                   'bg-red-500'
-                }`} />
+                }`}
+                />
               </div>
               
               <div className="space-y-2">
@@ -247,7 +249,8 @@ const WorkflowDiagnosticTool = () => {
                     agent.health > 70 ? 'text-green-400' :
                     agent.health > 30 ? 'text-yellow-400' :
                     'text-red-400'
-                  }`}>
+                  }`}
+                  >
                     {agent.health.toFixed(0)}%
                   </span>
                 </div>

@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield,
@@ -27,6 +26,7 @@ import {
   FileText,
   Server
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 interface SecurityThreat {
   id: string;
@@ -326,7 +326,8 @@ const SecurityDashboard: React.FC = () => {
           <div className={`text-2xl font-bold ${
             metrics.securityScore >= 90 ? 'text-green-500' :
             metrics.securityScore >= 70 ? 'text-yellow-500' : 'text-red-500'
-          }`}>
+          }`}
+          >
             {metrics.securityScore.toFixed(0)}/100
           </div>
         </div>
@@ -526,7 +527,8 @@ const SecurityDashboard: React.FC = () => {
             <div className="flex items-center space-x-3 space-x-reverse">
               <div className={`w-3 h-3 rounded-full ${
                 log.success ? 'bg-green-500' : 'bg-red-500'
-              }`} />
+              }`}
+              />
               <div>
                 <div className="font-medium text-gray-900 dark:text-white">{log.user}</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">
@@ -547,7 +549,8 @@ const SecurityDashboard: React.FC = () => {
               <div className={`text-xs font-medium ${
                 log.riskLevel === 'high' ? 'text-red-600' :
                 log.riskLevel === 'medium' ? 'text-yellow-600' : 'text-green-600'
-              }`}>
+              }`}
+              >
                 {log.riskLevel === 'high' ? 'خطر عالي' :
                  log.riskLevel === 'medium' ? 'خطر متوسط' : 'خطر منخفض'}
               </div>
@@ -588,7 +591,8 @@ const SecurityDashboard: React.FC = () => {
                 status === 'active' || status === 'enabled' || status === 'completed' || status === 'connected'
                   ? 'text-green-600' : status === 'inactive' || status === 'disabled' || status === 'failed' || status === 'disconnected'
                   ? 'text-red-600' : 'text-yellow-600'
-              }`}>
+              }`}
+              >
                 {getSystemStatusText(status)}
               </span>
             </div>

@@ -4,8 +4,10 @@
  * وسطاء لحماية المسارات والتعامل مع المصادقة
  */
 
-import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
+
+import jwt from 'jsonwebtoken';
+
 import User from '../models/User.js';
 
 /**
@@ -127,7 +129,7 @@ export const restrictTo = (...roles) => {
 export const trackApiUsage = (tokenCost = 1) => {
   return async (req, res, next) => {
     try {
-      const user = req.user;
+      const {user} = req;
       
       // Check if user has exceeded daily limits - التحقق من تجاوز الحدود اليومية
       if (user.apiUsage.dailyRequests >= user.apiUsage.limits.dailyRequests) {
@@ -251,8 +253,8 @@ export const requireEmailVerification = (req, res, next) => {
  */
 export const requireSubscription = (requiredTier = 'premium') => {
   return (req, res, next) => {
-    const user = req.user;
-    const subscription = user.subscription;
+    const {user} = req;
+    const {subscription} = user;
     
     // Check if subscription is active - التحقق من نشاط الاشتراك
     if (!subscription.isActive || subscription.expiresAt < new Date()) {
@@ -313,7 +315,7 @@ export const userBasedRateLimit = (baseLimit = 10, windowMs = 15 * 60 * 1000) =>
     // Get user's rate limit based on subscription - الحصول على حد المعدل للمستخدم بناءً على الاشتراك
     let userLimit = baseLimit;
     if (req.user) {
-      const subscription = req.user.subscription;
+      const {subscription} = req.user;
       const multipliers = {
         'free': 1,
         'basic': 2,

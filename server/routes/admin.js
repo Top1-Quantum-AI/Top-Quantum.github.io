@@ -6,6 +6,7 @@
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+
 import { authMiddleware, restrictTo } from '../middleware/auth.js';
 import User from '../models/User.js';
 

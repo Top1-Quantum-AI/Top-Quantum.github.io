@@ -6,39 +6,40 @@
  * هذا هو ملف الخادم الرئيسي الذي يقوم بتهيئة وتشغيل نظام الذكاء الاصطناعي الكمي
  */
 
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import compression from 'compression';
-import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
-import Redis from 'ioredis';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 import fs from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import express from 'express';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import Redis from 'ioredis';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
+
 
 // Import routes and middleware
-import authRoutes from './routes/auth.js';
-import aiRoutes from './routes/ai.js';
-import quantumRoutes from './routes/quantum.js';
-import userRoutes from './routes/user.js';
-import monitoringRoutes from './routes/monitoring.js';
-import adminRoutes from './routes/admin.js';
-import mythosRoutes from './routes/mythos.js';
-
-// Import middleware
 import { authenticateToken } from './middleware/auth.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { requestLogger } from './middleware/logger.js';
-import { validateRequest } from './middleware/validation.js';
+import adminRoutes from './routes/admin.js';
+import aiRoutes from './routes/ai.js';
+import authRoutes from './routes/auth.js';
+import monitoringRoutes from './routes/monitoring.js';
+import mythosRoutes from './routes/mythos.js';
+import quantumRoutes from './routes/quantum.js';
+import userRoutes from './routes/user.js';
+
+// Import middleware
 
 // Import services
+import { AIService } from './services/ai.js';
 import { MonitoringService } from './services/monitoring.js';
 import { QuantumService } from './services/quantum.js';
-import { AIService } from './services/ai.js';
 
 // Get current directory
 const __filename = fileURLToPath(import.meta.url);
@@ -115,7 +116,7 @@ function initializeServices() {
     // Initialize AI service
     aiService = new AIService({
       openaiApiKey: process.env.OPENAI_API_KEY,
-      redis: redis,
+      redis,
       rateLimitConfig: {
         windowMs: 15 * 60 * 1000, // 15 minutes
         max: 100 // requests per window
@@ -156,7 +157,7 @@ function setupSecurity() {
 
   // CORS configuration
   const corsOptions = {
-    origin: function (origin, callback) {
+    origin (origin, callback) {
       const allowedOrigins = process.env.CORS_ORIGIN?.split(',') || ['http://localhost:5173'];
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);

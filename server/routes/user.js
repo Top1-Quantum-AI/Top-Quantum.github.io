@@ -4,13 +4,13 @@
  * مسارات لإدارة ملف المستخدم والتفضيلات وعمليات الحساب
  */
 
+import bcrypt from 'bcryptjs';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+
 import { authMiddleware, trackApiUsage, requireSubscription } from '../middleware/auth.js';
-import User from '../models/User.js';
 import Conversation from '../models/Conversation.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
 const router = express.Router();
 

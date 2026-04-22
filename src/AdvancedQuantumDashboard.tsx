@@ -1,5 +1,3 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Activity,
@@ -44,16 +42,14 @@ import {
   Download,
   Key,
 } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import AIAnalysisDashboard from './components/AIAnalysisDashboard';
+import ApiKeysDashboard from './components/ApiKeysDashboard';
+import NotificationCenter, { NotificationBell, addNotification } from './components/NotificationCenter';
 import OpenMythosDashboard from './components/OpenMythosDashboard';
 import SubscriptionDashboard from './components/SubscriptionDashboard';
-import NotificationCenter, { NotificationBell, addNotification } from './components/NotificationCenter';
-import ApiKeysDashboard from './components/ApiKeysDashboard';
-import {
-  getCurrentUser, logoutUser, trackSimulation,
-  getUsagePercentages, getCurrentLimits, PLANS, getTrialDaysRemaining, hasFeature,
-} from './services/subscriptionService';
-import { exportDashboardSnapshot } from './services/reportExporter';
 import {
   getAnalyticsEngine,
   type AnalyticsReport,
@@ -68,6 +64,11 @@ import {
   type GateName,
   type SimulationResult,
 } from './services/quantumSimulator';
+import { exportDashboardSnapshot } from './services/reportExporter';
+import {
+  getCurrentUser, logoutUser, trackSimulation,
+  getUsagePercentages, getCurrentLimits, PLANS, getTrialDaysRemaining, hasFeature,
+} from './services/subscriptionService';
 
 // ─── SparkLine ──────────────────────────────────────────────────
 
@@ -93,7 +94,9 @@ const SparkLine: React.FC<{
 
   return (
     <svg width={width} height={height} className="overflow-visible">
-      <polyline fill="none" stroke={color} strokeWidth="2" points={points} />
+      <polyline fill="none" stroke={color} strokeWidth="2"
+        points={points}
+      />
       <circle
         cx={width}
         cy={height - (((values[values.length - 1] ?? 0) - min) / range) * (height - 4) - 2}
@@ -140,8 +143,8 @@ const TimeSeriesChart: React.FC<{
     }
 
     const gradient = ctx.createLinearGradient(0, 0, 0, h);
-    gradient.addColorStop(0, color + '40');
-    gradient.addColorStop(1, color + '00');
+    gradient.addColorStop(0, `${color}40`);
+    gradient.addColorStop(1, `${color}00`);
 
     ctx.beginPath();
     values.forEach((v, i) => {
@@ -217,9 +220,12 @@ const CircularGauge: React.FC<{
     <div className="flex flex-col items-center">
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
-          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
+          <circle cx={size / 2} cy={size / 2} r={radius}
+            fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8"
+          />
           <circle
-            cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={color} strokeWidth="8"
+            cx={size / 2} cy={size / 2} r={radius}
+            fill="none" stroke={color} strokeWidth="8"
             strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
             strokeLinecap="round" className="transition-all duration-700 ease-out"
           />
@@ -578,11 +584,12 @@ const AdvancedQuantumDashboard: React.FC = () => {
             { label: 'الاتصالات النشطة', value: `${c.activeConnections}`, unit: '', color: '#8b5cf6', icon: <Globe className="w-5 h-5" />, data: [] },
             { label: 'درجة الأمان', value: `${c.securityScore.toFixed(1)}`, unit: '%', color: '#f59e0b', icon: <Shield className="w-5 h-5" />, data: report.history.securityScore },
           ].map((kpi, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
               className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 border border-gray-700/50 hover:border-gray-600/50 transition-all"
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="p-2 rounded-lg" style={{ backgroundColor: kpi.color + '20' }}>
+                <div className="p-2 rounded-lg" style={{ backgroundColor: `${kpi.color}20` }}>
                   <div style={{ color: kpi.color }}>{kpi.icon}</div>
                 </div>
                 {kpi.data.length > 0 && <SparkLine data={kpi.data.slice(-30)} color={kpi.color} />}
@@ -599,19 +606,33 @@ const AdvancedQuantumDashboard: React.FC = () => {
             موارد النظام
           </h3>
           <div className="flex flex-wrap justify-around gap-6">
-            <CircularGauge value={c.cpu} label="المعالج" color="#3b82f6" icon={<Cpu className="w-4 h-4" />} />
-            <CircularGauge value={c.memory} label="الذاكرة" color="#10b981" icon={<Database className="w-4 h-4" />} />
-            <CircularGauge value={c.disk} label="التخزين" color="#f59e0b" icon={<HardDrive className="w-4 h-4" />} />
-            <CircularGauge value={c.network} label="الشبكة" color="#8b5cf6" icon={<Wifi className="w-4 h-4" />} />
-            <CircularGauge value={c.quantumUtilization} label="كمي" color="#ec4899" icon={<Atom className="w-4 h-4" />} />
-            <CircularGauge value={c.aiModelLoad} label="AI" color="#06b6d4" icon={<Brain className="w-4 h-4" />} />
+            <CircularGauge value={c.cpu} label="المعالج" color="#3b82f6"
+              icon={<Cpu className="w-4 h-4" />}
+            />
+            <CircularGauge value={c.memory} label="الذاكرة" color="#10b981"
+              icon={<Database className="w-4 h-4" />}
+            />
+            <CircularGauge value={c.disk} label="التخزين" color="#f59e0b"
+              icon={<HardDrive className="w-4 h-4" />}
+            />
+            <CircularGauge value={c.network} label="الشبكة" color="#8b5cf6"
+              icon={<Wifi className="w-4 h-4" />}
+            />
+            <CircularGauge value={c.quantumUtilization} label="كمي" color="#ec4899"
+              icon={<Atom className="w-4 h-4" />}
+            />
+            <CircularGauge value={c.aiModelLoad} label="AI" color="#06b6d4"
+              icon={<Brain className="w-4 h-4" />}
+            />
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <TimeSeriesChart data={report.history.cpu} label="استخدام المعالج" color="#3b82f6" />
           <TimeSeriesChart data={report.history.memory} label="استخدام الذاكرة" color="#10b981" />
-          <TimeSeriesChart data={report.history.throughput} label="الإنتاجية" color="#f59e0b" unit=" ops/s" />
+          <TimeSeriesChart data={report.history.throughput} label="الإنتاجية" color="#f59e0b"
+            unit=" ops/s"
+          />
           <TimeSeriesChart data={report.history.quantumUtilization} label="الاستخدام الكمي" color="#ec4899" />
         </div>
 
@@ -671,7 +692,9 @@ const AdvancedQuantumDashboard: React.FC = () => {
               اختيار الخوارزمية الكمية
             </h3>
             <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" checked={showCustomCircuit} onChange={e => setShowCustomCircuit(e.target.checked)} className="rounded" />
+              <input type="checkbox" checked={showCustomCircuit} onChange={e => setShowCustomCircuit(e.target.checked)}
+                className="rounded"
+              />
               دائرة مخصصة
             </label>
           </div>
@@ -703,7 +726,8 @@ const AdvancedQuantumDashboard: React.FC = () => {
               <div className="flex items-center gap-4">
                 <div>
                   <label className="text-sm text-gray-400 block mb-1">عدد الكيوبتات</label>
-                  <input type="number" min={1} max={10} value={customQubits} onChange={e => setCustomQubits(Number(e.target.value))}
+                  <input type="number" min={1} max={10}
+                    value={customQubits} onChange={e => setCustomQubits(Number(e.target.value))}
                     className="w-20 p-2 bg-gray-700 rounded border border-gray-600 text-sm"
                   />
                 </div>
@@ -713,11 +737,13 @@ const AdvancedQuantumDashboard: React.FC = () => {
                     {(['H', 'X', 'Y', 'Z', 'T', 'S'] as GateName[]).map(g => (
                       <button key={g} onClick={() => addCustomGate(g, 0)}
                         className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm border border-gray-600"
-                      >{g}</button>
+                      >{g}
+                      </button>
                     ))}
                     <button onClick={() => addCustomGate('CNOT', 1, 0)}
                       className="px-3 py-1 bg-blue-700/50 hover:bg-blue-600/50 rounded text-sm border border-blue-600/50"
-                    >CNOT</button>
+                    >CNOT
+                    </button>
                   </div>
                 </div>
               </div>
@@ -741,7 +767,10 @@ const AdvancedQuantumDashboard: React.FC = () => {
             <div>
               <label className="text-xs text-gray-400 block mb-1">مستوى الضوضاء</label>
               <div className="flex items-center gap-2">
-                <input type="range" min={0} max={20} step={0.5} value={noiseLevel} onChange={e => setNoiseLevel(Number(e.target.value))} className="w-32" />
+                <input type="range" min={0} max={20}
+                  step={0.5} value={noiseLevel} onChange={e => setNoiseLevel(Number(e.target.value))}
+                  className="w-32"
+                />
                 <span className="text-sm w-12">{noiseLevel}%</span>
               </div>
             </div>
@@ -827,14 +856,33 @@ const AdvancedQuantumDashboard: React.FC = () => {
                   return (
                     <div key={bs.qubit} className="flex flex-col items-center">
                       <svg width={sz} height={sz}>
-                        <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                        <ellipse cx={cx} cy={cy} rx={r} ry={r * 0.3} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                        <line x1={cx} y1={cy - r} x2={cx} y2={cy + r} stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                        <line x1={cx - r} y1={cy} x2={cx + r} y2={cy} stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                        <text x={cx} y={cy - r - 2} textAnchor="middle" fill="#888" fontSize="8">|0⟩</text>
-                        <text x={cx} y={cy + r + 8} textAnchor="middle" fill="#888" fontSize="8">|1⟩</text>
-                        <line x1={cx} y1={cy} x2={px} y2={py} stroke="#8b5cf6" strokeWidth="2" />
-                        <circle cx={px} cy={py} r="4" fill="#8b5cf6" />
+                        <circle cx={cx} cy={cy} r={r}
+                          fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1"
+                        />
+                        <ellipse cx={cx} cy={cy} rx={r}
+                          ry={r * 0.3} fill="none" stroke="rgba(255,255,255,0.08)"
+                          strokeWidth="1"
+                        />
+                        <line x1={cx} y1={cy - r} x2={cx}
+                          y2={cy + r} stroke="rgba(255,255,255,0.1)" strokeWidth="1"
+                        />
+                        <line x1={cx - r} y1={cy} x2={cx + r}
+                          y2={cy} stroke="rgba(255,255,255,0.1)" strokeWidth="1"
+                        />
+                        <text x={cx} y={cy - r - 2} textAnchor="middle"
+                          fill="#888" fontSize="8"
+                        >|0⟩
+                        </text>
+                        <text x={cx} y={cy + r + 8} textAnchor="middle"
+                          fill="#888" fontSize="8"
+                        >|1⟩
+                        </text>
+                        <line x1={cx} y1={cy} x2={px}
+                          y2={py} stroke="#8b5cf6" strokeWidth="2"
+                        />
+                        <circle cx={px} cy={py} r="4"
+                          fill="#8b5cf6"
+                        />
                       </svg>
                       <span className="text-xs text-gray-400 mt-1">Q{bs.qubit}</span>
                       <span className="text-[10px] text-gray-500">θ={bs.theta.toFixed(2)} φ={bs.phi.toFixed(2)}</span>
@@ -865,7 +913,8 @@ const AdvancedQuantumDashboard: React.FC = () => {
                             i === j ? 'bg-purple-500/30 text-purple-300'
                               : entangled ? 'bg-yellow-500/30 text-yellow-300'
                               : 'bg-gray-700/30 text-gray-600'
-                          }`}>
+                          }`}
+                          >
                             {i === j ? '—' : entangled ? '⚡' : '·'}
                           </div>
                         ))}
@@ -927,7 +976,8 @@ const AdvancedQuantumDashboard: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {models.map((model, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
+            <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
               className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 border border-gray-700/50"
             >
               <div className="flex items-center justify-between mb-4">
@@ -935,11 +985,13 @@ const AdvancedQuantumDashboard: React.FC = () => {
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                     model.type === 'NLP' ? 'bg-blue-500/20' : model.type === 'CV' ? 'bg-green-500/20'
                     : model.type === 'QML' ? 'bg-purple-500/20' : 'bg-orange-500/20'
-                  }`}>
+                  }`}
+                  >
                     <Brain className={`w-5 h-5 ${
                       model.type === 'NLP' ? 'text-blue-400' : model.type === 'CV' ? 'text-green-400'
                       : model.type === 'QML' ? 'text-purple-400' : 'text-orange-400'
-                    }`} />
+                    }`}
+                    />
                   </div>
                   <div>
                     <h4 className="font-semibold">{model.name}</h4>
@@ -1009,17 +1061,20 @@ const AdvancedQuantumDashboard: React.FC = () => {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
             className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 flex flex-col items-center"
           >
-            <CircularGauge value={c.securityScore} label="درجة الأمان" color="#10b981" size={140} icon={<Shield className="w-5 h-5" />} />
+            <CircularGauge value={c.securityScore} label="درجة الأمان" color="#10b981"
+              size={140} icon={<Shield className="w-5 h-5" />}
+            />
           </motion.div>
           {[
             { label: 'هجمات محجوبة', value: '199', color: '#3b82f6', icon: <Lock className="w-5 h-5" /> },
             { label: 'تهديدات نشطة', value: '0', color: '#10b981', icon: <Eye className="w-5 h-5" /> },
             { label: 'مقاومة كمية', value: '99.9%', color: '#8b5cf6', icon: <Atom className="w-5 h-5" /> },
           ].map((card, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * (i + 1) }}
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * (i + 1) }}
               className="bg-gray-800/50 rounded-xl p-5 border border-gray-700/50"
             >
-              <div className="p-2 rounded-lg w-fit mb-3" style={{ backgroundColor: card.color + '20' }}>
+              <div className="p-2 rounded-lg w-fit mb-3" style={{ backgroundColor: `${card.color}20` }}>
                 <div style={{ color: card.color }}>{card.icon}</div>
               </div>
               <div className="text-2xl font-bold">{card.value}</div>
@@ -1114,12 +1169,13 @@ const AdvancedQuantumDashboard: React.FC = () => {
             { label: 'الكمي', value: c.quantumUtilization, color: '#ec4899', icon: <Atom className="w-5 h-5" />, data: report.history.quantumUtilization },
             { label: 'معدل الخطأ', value: c.errorRate, color: '#ef4444', icon: <AlertTriangle className="w-5 h-5" />, data: report.history.errorRate },
           ].map((metric, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
               className="bg-gray-800/50 rounded-xl p-5 border border-gray-700/50"
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-lg" style={{ backgroundColor: metric.color + '20' }}>
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${metric.color}20` }}>
                     <div style={{ color: metric.color }}>{metric.icon}</div>
                   </div>
                   <span className="text-sm">{metric.label}</span>
@@ -1131,14 +1187,20 @@ const AdvancedQuantumDashboard: React.FC = () => {
                   className="h-2 rounded-full" style={{ backgroundColor: metric.color }}
                 />
               </div>
-              {metric.data.length > 0 && <SparkLine data={metric.data.slice(-30)} color={metric.color} width={280} height={30} />}
+              {metric.data.length > 0 && <SparkLine data={metric.data.slice(-30)} color={metric.color} width={280}
+                height={30}
+                                         />}
             </motion.div>
           ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <TimeSeriesChart data={report.history.latency} label="زمن الاستجابة" color="#f59e0b" unit=" ms" />
-          <TimeSeriesChart data={report.history.throughput} label="الإنتاجية" color="#3b82f6" unit=" ops/s" />
+          <TimeSeriesChart data={report.history.latency} label="زمن الاستجابة" color="#f59e0b"
+            unit=" ms"
+          />
+          <TimeSeriesChart data={report.history.throughput} label="الإنتاجية" color="#3b82f6"
+            unit=" ops/s"
+          />
         </div>
 
         <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700/50">
@@ -1173,7 +1235,8 @@ const AdvancedQuantumDashboard: React.FC = () => {
                     <div className={`w-2 h-2 rounded-full ${
                       a.severity === 'critical' ? 'bg-red-500' : a.severity === 'high' ? 'bg-orange-500'
                       : a.severity === 'medium' ? 'bg-yellow-500' : 'bg-blue-500'
-                    }`} />
+                    }`}
+                    />
                     <span className="text-sm">{a.description}</span>
                   </div>
                   <span className="text-xs text-gray-500">{new Date(a.timestamp).toLocaleTimeString('ar-SA')}</span>
@@ -1226,7 +1289,8 @@ const AdvancedQuantumDashboard: React.FC = () => {
                   if (!from || !to) return null;
                   const opacity = Math.max(0.2, 1 - conn.latency / 20);
                   return (
-                    <line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y}
+                    <line key={i} x1={from.x} y1={from.y}
+                      x2={to.x} y2={to.y}
                       stroke={`rgba(100,150,255,${opacity})`} strokeWidth="2"
                       strokeDasharray={conn.latency > 5 ? '5,5' : undefined}
                     />
@@ -1238,16 +1302,28 @@ const AdvancedQuantumDashboard: React.FC = () => {
                   return (
                     <g key={node.id} onClick={() => setSelectedNode(isSelected ? null : node.id)} className="cursor-pointer">
                       {node.status === 'online' && (
-                        <circle cx={node.x} cy={node.y} r="30" fill={color} opacity="0.1">
-                          <animate attributeName="r" values="28;35;28" dur="2s" repeatCount="indefinite" />
+                        <circle cx={node.x} cy={node.y} r="30"
+                          fill={color} opacity="0.1"
+                        >
+                          <animate attributeName="r" values="28;35;28" dur="2s"
+                            repeatCount="indefinite"
+                          />
                         </circle>
                       )}
-                      <circle cx={node.x} cy={node.y} r="22" fill={`${color}30`} stroke={isSelected ? '#fff' : color} strokeWidth={isSelected ? 3 : 2} />
+                      <circle cx={node.x} cy={node.y} r="22"
+                        fill={`${color}30`} stroke={isSelected ? '#fff' : color} strokeWidth={isSelected ? 3 : 2}
+                      />
                       <circle cx={node.x + 16} cy={node.y - 16} r="5"
                         fill={node.status === 'online' ? '#10b981' : node.status === 'degraded' ? '#f59e0b' : '#ef4444'}
                       />
-                      <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize="16">{nodeIcons[node.type]}</text>
-                      <text x={node.x} y={node.y + 40} textAnchor="middle" fill="#9ca3af" fontSize="11">{node.name}</text>
+                      <text x={node.x} y={node.y + 5} textAnchor="middle"
+                        fontSize="16"
+                      >{nodeIcons[node.type]}
+                      </text>
+                      <text x={node.x} y={node.y + 40} textAnchor="middle"
+                        fill="#9ca3af" fontSize="11"
+                      >{node.name}
+                      </text>
                     </g>
                   );
                 })}
@@ -1477,7 +1553,9 @@ const AdvancedQuantumDashboard: React.FC = () => {
           <TopBar />
           <main className="flex-1 overflow-auto p-6">
             <AnimatePresence mode="wait">
-              <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+              <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}
+              >
                 {renderContent()}
               </motion.div>
             </AnimatePresence>

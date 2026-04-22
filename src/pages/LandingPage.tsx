@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Atom, Brain, Shield, Zap, Globe, BarChart3, Lock, Cpu,
   ArrowLeft, Star, CheckCircle, Play, ChevronDown,
   Building2, Users, TrendingUp, Award, Layers,
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // ─── Stats Counter ─────────────────────────────────────────
 
@@ -263,9 +263,15 @@ const LandingPage: React.FC = () => {
                   <div className="h-24 bg-gray-800/50 rounded-lg p-3 mb-3">
                     <div className="text-xs text-gray-400 mb-2">الإنتاجية الحية</div>
                     <svg viewBox="0 0 300 60" className="w-full h-12">
-                      <path d="M0,40 Q30,10 60,35 T120,20 T180,30 T240,15 T300,25" fill="none" stroke="#3b82f6" strokeWidth="2" />
+                      <path d="M0,40 Q30,10 60,35 T120,20 T180,30 T240,15 T300,25" fill="none" stroke="#3b82f6"
+                        strokeWidth="2"
+                      />
                       <path d="M0,40 Q30,10 60,35 T120,20 T180,30 T240,15 T300,25 L300,60 L0,60 Z" fill="url(#grad)" opacity="0.2" />
-                      <defs><linearGradient id="grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#3b82f6" /><stop offset="100%" stopColor="transparent" /></linearGradient></defs>
+                      <defs><linearGradient id="grad" x1="0" y1="0"
+                        x2="0" y2="1"
+                            ><stop offset="0%" stopColor="#3b82f6" /><stop offset="100%" stopColor="transparent" />
+                            </linearGradient>
+                      </defs>
                     </svg>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
@@ -354,14 +360,14 @@ const LandingPage: React.FC = () => {
                 }`}
                 style={activeFeature === i ? { boxShadow: `0 0 40px ${feature.color}15` } : {}}
               >
-                <div className="p-3 rounded-xl w-fit mb-4" style={{ backgroundColor: feature.color + '15' }}>
+                <div className="p-3 rounded-xl w-fit mb-4" style={{ backgroundColor: `${feature.color}15` }}>
                   <div style={{ color: feature.color }}>{feature.icon}</div>
                 </div>
                 <h3 className="text-xl font-bold mb-1">{feature.title}</h3>
                 <p className="text-xs text-gray-500 mb-3">{feature.titleEn}</p>
                 <p className="text-gray-400 text-sm leading-relaxed mb-4">{feature.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium px-3 py-1 rounded-full border" style={{ borderColor: feature.color + '40', color: feature.color }}>
+                  <span className="text-xs font-medium px-3 py-1 rounded-full border" style={{ borderColor: `${feature.color}40`, color: feature.color }}>
                     {feature.stats}
                   </span>
                   <ArrowLeft className="w-4 h-4 text-gray-600 group-hover:text-gray-300 transition-colors" />
@@ -375,7 +381,9 @@ const LandingPage: React.FC = () => {
       {/* ─── Use Cases ────────────────────────────────────── */}
       <section className="py-24 bg-gray-900/30">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <h2 className="text-4xl font-bold mb-4">حالات الاستخدام</h2>
             <p className="text-gray-400 text-lg">مصمم لتلبية احتياجات مختلف القطاعات</p>
           </motion.div>
@@ -386,10 +394,11 @@ const LandingPage: React.FC = () => {
               { icon: <Cpu className="w-8 h-8" />, title: 'البحث العلمي', desc: 'محاكاة الجزيئات والمواد باستخدام الحوسبة الكمية', color: '#8b5cf6' },
               { icon: <Users className="w-8 h-8" />, title: 'الرعاية الصحية', desc: 'اكتشاف الأدوية وتحليل الجينوم بتقنيات كمية هجينة', color: '#ec4899' },
             ].map((useCase, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/30 hover:border-gray-600/50 transition-all"
               >
-                <div className="p-3 rounded-lg w-fit mb-4" style={{ backgroundColor: useCase.color + '15' }}>
+                <div className="p-3 rounded-lg w-fit mb-4" style={{ backgroundColor: `${useCase.color}15` }}>
                   <div style={{ color: useCase.color }}>{useCase.icon}</div>
                 </div>
                 <h3 className="font-bold text-lg mb-2">{useCase.title}</h3>
@@ -403,13 +412,16 @@ const LandingPage: React.FC = () => {
       {/* ─── Testimonials ─────────────────────────────────── */}
       <section id="testimonials" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <h2 className="text-4xl font-bold mb-4">ماذا يقول عملاؤنا</h2>
             <p className="text-gray-400 text-lg">آراء المؤسسات والشركات التي تستخدم منصتنا</p>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
+              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.15 }}
                 className="bg-gray-900/50 rounded-2xl p-6 border border-gray-800"
               >
                 <div className="flex gap-1 mb-4">

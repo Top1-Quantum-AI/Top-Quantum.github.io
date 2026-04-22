@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Atom,
@@ -19,6 +18,7 @@ import {
   Gauge,
   GitBranch
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 interface QuantumCircuit {
   id: string;
@@ -628,7 +628,8 @@ const QuantumDashboard: React.FC = () => {
                 experiment.status === 'running' ? 'bg-blue-500 animate-pulse' :
                 experiment.status === 'completed' ? 'bg-green-500' :
                 experiment.status === 'failed' ? 'bg-red-500' : 'bg-gray-400'
-              }`} />
+              }`}
+              />
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white">{experiment.name}</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">{experiment.description}</p>

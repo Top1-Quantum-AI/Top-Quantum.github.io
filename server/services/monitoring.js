@@ -4,9 +4,9 @@
  * مراقبة النظام في الوقت الفعلي وجمع المقاييس
  */
 
+import { EventEmitter } from 'events';
 import os from 'os';
 import process from 'process';
-import { EventEmitter } from 'events';
 
 class MonitoringService extends EventEmitter {
   constructor(redis) {
@@ -325,7 +325,7 @@ class MonitoringService extends EventEmitter {
   parseRedisInfo(info, key) {
     const lines = info.split('\r\n');
     for (const line of lines) {
-      if (line.startsWith(key + ':')) {
+      if (line.startsWith(`${key}:`)) {
         const value = line.split(':')[1];
         return isNaN(value) ? value : Number(value);
       }

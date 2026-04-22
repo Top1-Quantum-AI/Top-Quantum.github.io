@@ -1,5 +1,5 @@
-import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export interface ReportSection {
   title: string;
@@ -146,9 +146,9 @@ export function exportDataReport(options: ReportOptions): void {
 
 // Quick export: capture current dashboard view
 export async function exportDashboardSnapshot(): Promise<void> {
-  const dashboard = document.querySelector('[data-dashboard]') as HTMLElement | null;
+  const dashboard = document.querySelector('[data-dashboard]');
   if (dashboard == null) {
-    const body = document.body;
+    const {body} = document;
     await exportElementToPDF(body, 'quantum-dashboard-snapshot.pdf');
     return;
   }

@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Server,
@@ -17,6 +16,7 @@ import {
   BarChart3,
   Globe
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 interface NetworkNode {
   id: string;
@@ -234,7 +234,8 @@ const NetworkDashboard: React.FC = () => {
                 {getStatusIcon(selectedNode.status)}
                 <span>{selectedNode.status === 'online' ? 'متصل' : 
                        selectedNode.status === 'offline' ? 'غير متصل' :
-                       selectedNode.status === 'maintenance' ? 'صيانة' : 'خطأ'}</span>
+                       selectedNode.status === 'maintenance' ? 'صيانة' : 'خطأ'}
+                </span>
               </div>
             </div>
             
@@ -280,7 +281,8 @@ const NetworkDashboard: React.FC = () => {
             <div className={`w-3 h-3 rounded-full ${
               node.type === 'quantum' ? 'bg-green-500' :
               node.type === 'classical' ? 'bg-blue-500' : 'bg-purple-500'
-            }`} />
+            }`}
+            />
           </div>
           
           <div className="space-y-4">
@@ -389,7 +391,8 @@ const NetworkDashboard: React.FC = () => {
               <div className={`w-2 h-2 rounded-full ${
                 log.type === 'blocked' ? 'bg-red-500' :
                 log.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
-              }`} />
+              }`}
+              />
               <span className="text-sm text-gray-500 dark:text-gray-400 min-w-12">{log.time}</span>
               <span className="text-sm text-gray-900 dark:text-white">{log.message}</span>
             </div>

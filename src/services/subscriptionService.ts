@@ -339,7 +339,7 @@ export function hasFeature(feature: keyof PlanLimits): boolean {
 // ─── Days remaining in trial ─────────────────────────────────
 export function getTrialDaysRemaining(): number | null {
   const user = getCurrentUser();
-  if (user == null || user.subscription.trialEndsAt == null) return null;
+  if (user?.subscription.trialEndsAt == null) return null;
   if (user.subscription.status !== 'trial') return null;
 
   const diff = new Date(user.subscription.trialEndsAt).getTime() - Date.now();

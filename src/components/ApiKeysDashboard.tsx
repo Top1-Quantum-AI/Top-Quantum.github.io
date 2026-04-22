@@ -1,9 +1,10 @@
-import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Key, Copy, Plus, Trash2, Eye, EyeOff,
   CheckCircle, Shield, Clock, AlertTriangle, X,
 } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+
 import { getCurrentUser, hasFeature } from '../services/subscriptionService';
 
 // ═══════════════════════════════════════════════════════════
@@ -38,9 +39,9 @@ function saveKeys(keys: ApiKey[]): void {
 function generateApiKey(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const segments = [8, 4, 4, 4, 12];
-  return 'qai_' + segments.map(len =>
+  return `qai_${segments.map(len =>
     Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-  ).join('-');
+  ).join('-')}`;
 }
 
 interface ApiKeysDashboardProps {
@@ -65,7 +66,7 @@ const ApiKeysDashboard: React.FC<ApiKeysDashboardProps> = ({ onClose }) => {
       id: crypto.randomUUID(),
       name: newKeyName.trim(),
       key,
-      prefix: key.slice(0, 12) + '...',
+      prefix: `${key.slice(0, 12)}...`,
       createdAt: new Date().toISOString(),
       lastUsed: null,
       requests: 0,

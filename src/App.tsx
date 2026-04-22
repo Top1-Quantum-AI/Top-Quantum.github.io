@@ -1,6 +1,9 @@
+import { Atom, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { Atom, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
+
+import OnboardingTour from './components/OnboardingTour';
+import { ProtectedRoute, AdminRoute, GuestRoute } from './components/RouteGuards';
 import { t } from './i18n';
 
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -8,8 +11,6 @@ const PricingPage = lazy(() => import('./pages/PricingPage'));
 const AuthPage = lazy(() => import('./pages/AuthPage'));
 const AdvancedQuantumDashboard = lazy(() => import('./AdvancedQuantumDashboard'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
-import OnboardingTour from './components/OnboardingTour';
-import { ProtectedRoute, AdminRoute, GuestRoute } from './components/RouteGuards';
 
 // ─── System Status Interface ─────────────────────────────────
 interface SystemStatus {

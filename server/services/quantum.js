@@ -4,8 +4,9 @@
  * محاكاة الحوسبة الكمية وتنفيذ الخوارزميات الكمية
  */
 
-import { Complex } from 'complex.js';
 import { EventEmitter } from 'events';
+
+import { Complex } from 'complex.js';
 
 /**
  * Quantum State Class
@@ -14,7 +15,7 @@ import { EventEmitter } from 'events';
 class QuantumState {
   constructor(numQubits) {
     this.numQubits = numQubits;
-    this.numStates = Math.pow(2, numQubits);
+    this.numStates = 2**numQubits;
     this.amplitudes = new Array(this.numStates).fill(null).map(() => new Complex(0, 0));
     
     // Initialize to |0...0⟩ state
@@ -29,7 +30,7 @@ class QuantumState {
     if (state >= this.numStates) {
       throw new Error(`State ${state} is out of range for ${this.numQubits} qubits`);
     }
-    return Math.pow(this.amplitudes[state].abs(), 2);
+    return this.amplitudes[state].abs()**2;
   }
 
   /**
@@ -37,7 +38,7 @@ class QuantumState {
    * الحصول على جميع الاحتماليات
    */
   getAllProbabilities() {
-    return this.amplitudes.map(amp => Math.pow(amp.abs(), 2));
+    return this.amplitudes.map(amp => amp.abs()**2);
   }
 
   /**
@@ -46,7 +47,7 @@ class QuantumState {
    */
   normalize() {
     const norm = Math.sqrt(this.amplitudes.reduce((sum, amp) => {
-      return sum + Math.pow(amp.abs(), 2);
+      return sum + amp.abs()**2;
     }, 0));
     
     if (norm > 0) {
@@ -92,7 +93,7 @@ class QuantumState {
 
   // Added: check normalization within tolerance
   isNormalized(epsilon = 1e-9) {
-    const normSq = this.amplitudes.reduce((sum, amp) => sum + Math.pow(amp.abs(), 2), 0);
+    const normSq = this.amplitudes.reduce((sum, amp) => sum + amp.abs()**2, 0);
     return Math.abs(1 - normSq) < epsilon;
   }
 
@@ -123,7 +124,7 @@ class QuantumState {
   getEntanglementEntropy(subsystemQubits = [0]) {
     if (!Array.isArray(subsystemQubits)) subsystemQubits = [subsystemQubits];
     const subsystemSize = subsystemQubits.length;
-    const subsystemStates = Math.pow(2, subsystemSize);
+    const subsystemStates = 2**subsystemSize;
 
     // Helper to extract bits for given qubits
     const extractTargetBits = (stateIndex, targetQubits, totalQubits) => {
@@ -519,7 +520,7 @@ class QuantumService extends EventEmitter {
       targetQubits = [targetQubits];
     }
 
-    const numTargetStates = Math.pow(2, targetQubits.length);
+    const numTargetStates = 2**targetQubits.length;
     const probabilities = new Array(numTargetStates).fill(0);
 
     for (let i = 0; i < state.numStates; i++) {
@@ -580,7 +581,7 @@ class QuantumService extends EventEmitter {
    * تنفيذ خوارزمية جروفر
    */
   groversAlgorithm(numQubits, targetState) {
-    if (targetState >= Math.pow(2, numQubits)) {
+    if (targetState >= 2**numQubits) {
       throw new Error('Target state is out of range');
     }
 
@@ -594,7 +595,7 @@ class QuantumService extends EventEmitter {
     steps.push({ step: 'superposition', state: state.clone() });
 
     // Calculate optimal number of iterations
-    const N = Math.pow(2, numQubits);
+    const N = 2**numQubits;
     const optimalIterations = Math.floor(Math.PI / 4 * Math.sqrt(N));
 
     // Grover iterations
@@ -650,7 +651,7 @@ class QuantumService extends EventEmitter {
       
       // Apply controlled phase gates
       for (let j = i + 1; j < n; j++) {
-        const angle = Math.PI / Math.pow(2, j - i);
+        const angle = Math.PI / 2**(j - i);
         this.applyControlledPhase(state, i, j, angle);
       }
       
@@ -721,7 +722,7 @@ class QuantumService extends EventEmitter {
     }
     
     const subsystemSize = subsystemQubits.length;
-    const subsystemStates = Math.pow(2, subsystemSize);
+    const subsystemStates = 2**subsystemSize;
     
     // Calculate reduced density matrix
     const reducedDensityMatrix = new Array(subsystemStates)

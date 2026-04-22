@@ -6,8 +6,9 @@
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
-import { authMiddleware, trackApiUsage, requireSubscription, optionalAuth } from '../middleware/auth.js';
+
 import { quantumService } from '../index.js';
+import { authMiddleware, trackApiUsage, requireSubscription, optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -85,7 +86,7 @@ router.post('/create-state', authMiddleware, quantumLimiter, trackApiUsage(5), a
           entanglementEntropy: quantumState.getEntanglementEntropy()
         },
         metadata: {
-          dimension: Math.pow(2, numQubits),
+          dimension: 2**numQubits,
           isNormalized: quantumState.isNormalized(),
           createdAt: new Date()
         }
@@ -299,7 +300,7 @@ router.post('/measure', authMiddleware, quantumLimiter, trackApiUsage(2), async 
       statistics[outcome] = {
         count,
         probability: count / numShots,
-        percentage: (count / numShots * 100).toFixed(2) + '%'
+        percentage: `${(count / numShots * 100).toFixed(2)}%`
       };
     }
     
@@ -532,7 +533,7 @@ router.get('/state/:stateId', authMiddleware, async (req, res) => {
           entanglementEntropy: quantumState.getEntanglementEntropy()
         },
         metadata: {
-          dimension: Math.pow(2, userState.numQubits),
+          dimension: 2**userState.numQubits,
           isNormalized: quantumState.isNormalized(),
           createdAt: userState.createdAt,
           lastModified: userState.lastModified

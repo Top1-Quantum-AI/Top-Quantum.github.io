@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield,
@@ -24,6 +23,7 @@ import {
   Binary,
   Hexagon
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 interface SecurityThreat {
   id: string;
@@ -783,7 +783,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
               <div className="text-2xl font-bold text-gray-900 dark:text-white">{value}</div>
               <div className={`text-sm flex items-center ${
                 trend.startsWith('+') ? 'text-green-600' : 'text-red-600'
-              }`}>
+              }`}
+              >
                 {trend.startsWith('+') ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
                 {trend}
               </div>
@@ -1163,7 +1164,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
                   rec.priority === 'high' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' :
                   rec.priority === 'medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                   'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                }`}>
+                }`}
+                >
                   {rec.priority === 'critical' ? 'حرج' : rec.priority === 'high' ? 'عالي' : rec.priority === 'medium' ? 'متوسط' : 'منخفض'}
                 </span>
                 {rec.quantumRelevant && (
@@ -1179,7 +1181,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
                 <span className="text-gray-500 dark:text-gray-400">الجهد:</span>
                 <span className={`ml-2 font-medium ${
                   rec.effort === 'high' ? 'text-red-600' : rec.effort === 'medium' ? 'text-yellow-600' : 'text-green-600'
-                }`}>
+                }`}
+                >
                   {rec.effort === 'high' ? 'عالي' : rec.effort === 'medium' ? 'متوسط' : 'منخفض'}
                 </span>
               </div>
@@ -1187,7 +1190,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
                 <span className="text-gray-500 dark:text-gray-400">التكلفة:</span>
                 <span className={`ml-2 font-medium ${
                   rec.cost === 'high' ? 'text-red-600' : rec.cost === 'medium' ? 'text-yellow-600' : 'text-green-600'
-                }`}>
+                }`}
+                >
                   {rec.cost === 'high' ? 'عالية' : rec.cost === 'medium' ? 'متوسطة' : 'منخفضة'}
                 </span>
               </div>
@@ -1256,7 +1260,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
                     analysis.severity === 'critical' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
                     analysis.severity === 'warning' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                     'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                  }`}>
+                  }`}
+                  >
                     {analysis.severity === 'critical' ? 'حرج' : analysis.severity === 'warning' ? 'تحذير' : 'معلومات'}
                   </span>
                 </div>
@@ -1334,7 +1339,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
             riskAssessment.overallRisk >= 80 ? 'text-red-600' :
             riskAssessment.overallRisk >= 60 ? 'text-orange-600' :
             riskAssessment.overallRisk >= 40 ? 'text-yellow-600' : 'text-green-600'
-          }`}>
+          }`}
+          >
             {riskAssessment.overallRisk}
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -1388,7 +1394,8 @@ const AdvancedSecurityDashboard: React.FC = () => {
                     factor.score >= 60 ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' :
                     factor.score >= 40 ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                     'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                  }`}>
+                  }`}
+                  >
                     {factor.score}
                   </span>
                 </div>

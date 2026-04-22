@@ -4,9 +4,10 @@
  * نموذج المستخدم في MongoDB مع ميزات المصادقة والأمان
  */
 
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+
+import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   // Basic Information - المعلومات الأساسية
@@ -268,7 +269,7 @@ userSchema.index({ lastLogin: -1 });
 
 // Virtual for account lock status - خاصية افتراضية لحالة قفل الحساب
 userSchema.virtual('isLocked').get(function() {
-  return !!(this.lockUntil && this.lockUntil > Date.now());
+  return Boolean(this.lockUntil && this.lockUntil > Date.now());
 });
 
 // Virtual for full name - خاصية افتراضية للاسم الكامل
@@ -424,7 +425,7 @@ userSchema.methods.updateApiUsage = function(tokens = 0) {
 
 // Instance method to check API limits - طريقة مثيل للتحقق من حدود واجهة برمجة التطبيقات
 userSchema.methods.checkApiLimits = function() {
-  const limits = this.apiUsage.limits;
+  const {limits} = this.apiUsage;
   
   return {
     canMakeRequest: this.apiUsage.dailyRequests < limits.dailyRequests,

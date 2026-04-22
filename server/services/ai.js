@@ -4,9 +4,10 @@
  * خدمة ذكاء اصطناعي محسنة مع التخزين المؤقت وتحديد المعدل والتكامل الكمي
  */
 
-import OpenAI from 'openai';
-import { EventEmitter } from 'events';
 import crypto from 'crypto';
+import { EventEmitter } from 'events';
+
+import OpenAI from 'openai';
 
 class AIService extends EventEmitter {
   constructor(config) {
@@ -461,7 +462,7 @@ class AIService extends EventEmitter {
    */
   async processResponse(openaiResponse, options) {
     const choice = openaiResponse.choices[0];
-    const content = choice.message.content;
+    const {content} = choice.message;
     
     // Calculate quantum metrics
     const quantumMetrics = this.calculateQuantumMetrics(content, options);
@@ -576,14 +577,14 @@ class AIService extends EventEmitter {
       const positiveWords = ['جيد','رائع','ممتاز','سعيد','نجاح','thanx','thanks','great','good','excellent','happy','success'];
       const negativeWords = ['سيئ','حزين','فشل','خطأ','سئ','terrible','bad','sad','fail','error'];
       const lc = normalized.toLowerCase();
-      const pos = positiveWords.reduce((n,w)=> n + (lc.split(w).length - 1), 0);
-      const neg = negativeWords.reduce((n,w)=> n + (lc.split(w).length - 1), 0);
+      const pos = positiveWords.reduce((n,w) => n + (lc.split(w).length - 1), 0);
+      const neg = negativeWords.reduce((n,w) => n + (lc.split(w).length - 1), 0);
       const sentimentScore = Math.max(-1, Math.min(1, (pos - neg) / Math.max(1, pos + neg)));
 
       // Complexity (based on length, vocabulary variety, sentences)
-      const sentences = normalized.split(/[.!؟?\n]+/).filter(s=>s.trim().length>0);
-      const words = normalized.split(/\s+/).filter(w=>w.length>0);
-      const vocab = new Set(words.map(w=>w.toLowerCase()));
+      const sentences = normalized.split(/[.!؟?\n]+/).filter(s => s.trim().length>0);
+      const words = normalized.split(/\s+/).filter(w => w.length>0);
+      const vocab = new Set(words.map(w => w.toLowerCase()));
       const complexity = {
         sentenceCount: sentences.length,
         avgSentenceLength: sentences.length ? Math.round(words.length / sentences.length) : words.length,
@@ -811,8 +812,8 @@ class AIService extends EventEmitter {
       status: 'healthy',
       timestamp: new Date().toISOString(),
       services: {
-        openai: !!this.openai,
-        redis: !!this.redis && this.redis.status === 'ready'
+        openai: Boolean(this.openai),
+        redis: Boolean(this.redis) && this.redis.status === 'ready'
       },
       stats: this.getUsageStats(),
       memory: {

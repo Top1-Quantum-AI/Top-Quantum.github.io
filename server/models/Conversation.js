@@ -313,7 +313,7 @@ conversationSchema.methods.addMessage = function(messageData) {
 
 // Instance method to update statistics - طريقة مثيل لتحديث الإحصائيات
 conversationSchema.methods.updateStats = function() {
-  const messages = this.messages;
+  const {messages} = this;
   const assistantMessages = messages.filter(msg => msg.role === 'assistant');
   
   // Update basic stats
