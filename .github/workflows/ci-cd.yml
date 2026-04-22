@@ -65,7 +65,6 @@ jobs:
     - name: ESLint Code Analysis
       run: |
         npm run lint -- --format=json --output-file=eslint-report.json
-        npm run lint
         echo "✅ ESLint analysis completed"
     
     - name: Prettier Code Format Check
