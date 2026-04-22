@@ -415,7 +415,17 @@ describe('AdvancedSettings', () => {
   });
 
   it('loads settings from localStorage on mount', () => {
-    const storedSettings = { theme: 'dark', language: 'en', quantumMode: 'expert', aiAssistance: false, securityLevel: 'high', notifications: { system: true, quantum: true, security: true, ai: false }, performance: { animations: true, autoSave: true, caching: true, compression: false }, privacy: { analytics: false, crashReports: true, dataCollection: false }, advanced: { debugMode: false, experimentalFeatures: false, developerMode: false } };
+    const storedSettings = {
+      theme: 'dark',
+      language: 'en',
+      quantumMode: 'expert',
+      aiAssistance: false,
+      securityLevel: 'high',
+      notifications: { system: true, quantum: true, security: true, ai: false },
+      performance: { animations: true, autoSave: true, caching: true, compression: false },
+      privacy: { analytics: false, crashReports: true, dataCollection: false },
+      advanced: { debugMode: false, experimentalFeatures: false, developerMode: false },
+    };
     localStorage.setItem('quantumSettings', JSON.stringify(storedSettings));
     withRouter(<AdvancedSettings />);
     // After loading, language should be 'en' (English)
