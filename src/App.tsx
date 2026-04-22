@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Atom, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
+import { t } from './i18n';
 
 const LandingPage = lazy(() => import('./pages/LandingPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
@@ -280,7 +281,7 @@ const PageLoader: React.FC = () => (
   <div className="min-h-screen bg-gray-950 flex items-center justify-center">
     <div className="flex flex-col items-center gap-4">
       <Loader2 className="w-10 h-10 text-blue-400 animate-spin" />
-      <span className="text-gray-400 text-sm">جاري التحميل...</span>
+      <span className="text-gray-400 text-sm">{t('loading')}</span>
     </div>
   </div>
 );
