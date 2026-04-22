@@ -194,7 +194,7 @@ describe('OnboardingTour', () => {
       await user.click(nextButton);
       expect(document.body.textContent).toBeTruthy();
       // Content should change after clicking next
-      expect(document.body.innerHTML).toBeTruthy();
+      expect(document.body.textContent).not.toEqual(initialContent);
     } else {
       expect(document.body).toBeTruthy();
     }
