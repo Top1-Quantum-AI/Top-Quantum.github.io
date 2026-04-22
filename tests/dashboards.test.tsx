@@ -5,7 +5,7 @@
  * ApiKeysDashboard, AdvancedSettings, OpenMythosDashboard, AIAnalysisDashboard, WorkflowDiagnosticTool
  */
 import React from 'react';
-import { render, act, screen } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
