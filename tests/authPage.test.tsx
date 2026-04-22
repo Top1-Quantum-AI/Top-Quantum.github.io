@@ -1,10 +1,13 @@
 /**
  * AuthPage component tests
  */
-import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+
+import AuthPage from '../src/pages/AuthPage';
+import { apiLogin, apiRegister, checkBackendAvailable } from '../src/services/apiClient';
 
 // Mock apiClient to avoid real network calls and import.meta issues
 jest.mock('../src/services/apiClient', () => ({
@@ -64,9 +67,6 @@ jest.mock('framer-motion', () => ({
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-
-import AuthPage from '../src/pages/AuthPage';
-import { apiLogin, apiRegister, checkBackendAvailable } from '../src/services/apiClient';
 
 const renderLogin = () =>
   render(
@@ -140,9 +140,7 @@ describe('AuthPage – Login mode', () => {
     const mockLogin = apiLogin as jest.Mock;
     const mockCheck = checkBackendAvailable as jest.Mock;
     mockCheck.mockResolvedValue(true);
-    const { ApiError: MockApiError } = jest.requireMock('../src/services/apiClient') as {
-      ApiError: new (msg: string, status: number, body: unknown) => Error;
-    };
+    const { ApiError: MockApiError } = jest.requireMock('../src/services/apiClient');
     mockLogin.mockRejectedValue(new MockApiError('بيانات خاطئة', 401, {}));
 
     renderLogin();

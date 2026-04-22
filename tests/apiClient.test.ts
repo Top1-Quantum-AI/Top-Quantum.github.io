@@ -26,7 +26,7 @@ import {
 
 // ─── Helpers ──────────────────────────────────────────────────
 
-type FetchMock = { fetch: jest.Mock };
+interface FetchMock { fetch: jest.Mock }
 
 function mockFetch(response: Partial<Response> & { json?: () => Promise<unknown> }): void {
   (globalThis as unknown as FetchMock).fetch = jest.fn().mockResolvedValue(response as Response);

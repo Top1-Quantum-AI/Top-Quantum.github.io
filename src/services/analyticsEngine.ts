@@ -123,12 +123,12 @@ const meanRevert = (current: number, target: number, speed: number, volatility: 
 // ─── Analytics Engine Class ─────────────────────────────────────
 
 export class AnalyticsEngine {
-  private history: Map<string, TimeSeriesPoint[]> = new Map();
-  private maxHistory = 200;
+  private readonly history: Map<string, TimeSeriesPoint[]> = new Map();
+  private readonly maxHistory = 200;
   private tickCount = 0;
-  private startTime = Date.now();
+  private readonly startTime = Date.now();
   private lastSnapshot: MetricSnapshot | null = null;
-  private anomalies: Anomaly[] = [];
+  private readonly anomalies: Anomaly[] = [];
   private logs: LogEntry[] = [];
   private networkNodes: NetworkNode[] = [];
 

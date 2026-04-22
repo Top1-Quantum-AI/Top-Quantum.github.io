@@ -15,7 +15,6 @@
   "embeddedLanguageFormatting": "auto",
   "htmlWhitespaceSensitivity": "css",
   "insertPragma": false,
-  "jsxBracketSameLine": false,
   "proseWrap": "preserve",
   "requirePragma": false,
   "vueIndentScriptAndStyle": false,
@@ -143,29 +142,6 @@
       "options": {
         "printWidth": 120,
         "singleQuote": true
-      }
-    },
-    {
-      "files": "Dockerfile*",
-      "options": {
-        "parser": "sh",
-        "printWidth": 120
-      }
-    },
-    {
-      "files": "*.sh",
-      "options": {
-        "parser": "sh",
-        "printWidth": 120,
-        "tabWidth": 4,
-        "useTabs": false
-      }
-    },
-    {
-      "files": "*.env*",
-      "options": {
-        "parser": "sh",
-        "printWidth": 120
       }
     }
   ]

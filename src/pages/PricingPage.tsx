@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Atom, CheckCircle, Zap, ArrowLeft, Star,
   Shield, Brain, Headphones,
 } from 'lucide-react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PricingPage: React.FC = () => {
   const navigate = useNavigate();

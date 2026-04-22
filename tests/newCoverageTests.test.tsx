@@ -7,9 +7,21 @@
  * - CommandPalette
  * - ExportToolbar
  */
-import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+// ─── Imports ───────────────────────────────────────────────
+
+import AdvancedSettings from '../src/components/AdvancedSettings';
+import AIAnalysisDashboard from '../src/components/AIAnalysisDashboard';
+import ApiKeysDashboard from '../src/components/ApiKeysDashboard';
+import ExportToolbar from '../src/components/ExportToolbar';
+import CommandPalette from '../src/components/revolutionary/CommandPalette';
+import PracticalApplication from '../src/components/revolutionary/PracticalApplication';
+import { isApiKeyConfigured, sendChatMessage } from '../src/services/groqService';
+import { exportDashboardSnapshot, exportDataReport } from '../src/services/reportExporter';
+import { hasFeature } from '../src/services/subscriptionService';
 
 // ─── Global mocks ──────────────────────────────────────────
 
@@ -72,18 +84,6 @@ jest.mock('../src/services/reportExporter', () => ({
 Object.assign(navigator, {
   clipboard: { writeText: jest.fn().mockResolvedValue(undefined) },
 });
-
-// ─── Imports ───────────────────────────────────────────────
-
-import PracticalApplication from '../src/components/revolutionary/PracticalApplication';
-import AIAnalysisDashboard from '../src/components/AIAnalysisDashboard';
-import AdvancedSettings from '../src/components/AdvancedSettings';
-import ApiKeysDashboard from '../src/components/ApiKeysDashboard';
-import CommandPalette from '../src/components/revolutionary/CommandPalette';
-import ExportToolbar from '../src/components/ExportToolbar';
-import { isApiKeyConfigured, sendChatMessage } from '../src/services/groqService';
-import { hasFeature } from '../src/services/subscriptionService';
-import { exportDashboardSnapshot, exportDataReport } from '../src/services/reportExporter';
 
 // ─── Helpers ───────────────────────────────────────────────
 
@@ -242,7 +242,7 @@ describe('AIAnalysisDashboard', () => {
   });
 
   it('handles system analysis button click', async () => {
-    const { analyzeSystemData } = jest.requireMock('../src/services/groqService') as Record<string, jest.Mock>;
+    const { analyzeSystemData } = jest.requireMock('../src/services/groqService');
     analyzeSystemData.mockResolvedValue('تحليل النظام جيد');
     render(<AIAnalysisDashboard />);
     const sysBtn = screen.getByText('تحليل النظام').closest('button');
@@ -254,7 +254,7 @@ describe('AIAnalysisDashboard', () => {
   });
 
   it('handles security analysis button click', async () => {
-    const { analyzeSecurityThreats } = jest.requireMock('../src/services/groqService') as Record<string, jest.Mock>;
+    const { analyzeSecurityThreats } = jest.requireMock('../src/services/groqService');
     analyzeSecurityThreats.mockResolvedValue('لا تهديدات');
     render(<AIAnalysisDashboard />);
     const secBtn = screen.getByText('تحليل الأمان').closest('button');
@@ -266,7 +266,7 @@ describe('AIAnalysisDashboard', () => {
   });
 
   it('handles quantum analysis button click', async () => {
-    const { analyzeQuantumPerformance } = jest.requireMock('../src/services/groqService') as Record<string, jest.Mock>;
+    const { analyzeQuantumPerformance } = jest.requireMock('../src/services/groqService');
     analyzeQuantumPerformance.mockResolvedValue('أداء كمي جيد');
     render(<AIAnalysisDashboard />);
     const qBtn = screen.getByText('تحليل كمي').closest('button');
@@ -301,7 +301,7 @@ describe('AIAnalysisDashboard', () => {
   });
 
   it('handles errors from analyzeSystemData gracefully', async () => {
-    const { analyzeSystemData } = jest.requireMock('../src/services/groqService') as Record<string, jest.Mock>;
+    const { analyzeSystemData } = jest.requireMock('../src/services/groqService');
     analyzeSystemData.mockRejectedValue(new Error('network error'));
     render(<AIAnalysisDashboard />);
     const sysBtn = screen.getByText('تحليل النظام').closest('button');
@@ -582,7 +582,7 @@ describe('CommandPalette', () => {
   beforeEach(() => {
     onClose.mockClear();
     setCommandQuery.mockClear();
-    mockCommands.forEach(cmd => (cmd.action as jest.Mock).mockClear());
+    mockCommands.forEach(cmd => (cmd.action).mockClear());
   });
 
   it('returns null when isOpen is false', () => {
@@ -750,7 +750,7 @@ describe('CommandPalette', () => {
         filteredCommands={[]}
       />
     );
-    const input = screen.getByPlaceholderText(/ابحث عن الأوامر/) as HTMLInputElement;
+    const input = screen.getByPlaceholderText(/ابحث عن الأوامر/);
     expect(input.value).toBe('test query');
   });
 });

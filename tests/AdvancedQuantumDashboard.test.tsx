@@ -2,9 +2,11 @@
  * AdvancedQuantumDashboard smoke tests
  * Render the dashboard with all necessary mocks to get statement coverage.
  */
-import React from 'react';
 import { render, act } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+import AdvancedQuantumDashboard from '../src/AdvancedQuantumDashboard';
 
 // ─── Mock sub-components used by AdvancedQuantumDashboard ───
 jest.mock('../src/components/AIAnalysisDashboard', () => ({
@@ -113,8 +115,6 @@ jest.mock('framer-motion', () => ({
   useAnimation: () => ({ start: jest.fn(), stop: jest.fn() }),
   useInView: () => true,
 }));
-
-import AdvancedQuantumDashboard from '../src/AdvancedQuantumDashboard';
 
 const renderDashboard = () =>
   render(

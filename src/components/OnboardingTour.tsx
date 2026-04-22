@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Atom, Brain, Shield, BarChart3, Network, Zap,
   ArrowLeft, ArrowRight, CheckCircle, Sparkles,
 } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface OnboardingTourProps {
   onComplete: () => void;

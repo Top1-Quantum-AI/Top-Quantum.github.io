@@ -2,9 +2,12 @@
  * RevolutionaryQuantumSystem and UnifiedQuantumSystem smoke tests
  * These are the two largest components in the codebase (3037 + 1744 lines)
  */
-import React from 'react';
 import { render, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+
+import RevolutionaryQuantumSystem from '../src/RevolutionaryQuantumSystem';
+import UnifiedQuantumSystem from '../src/UnifiedQuantumSystem';
 
 // Mock localforage (used by RevolutionaryQuantumSystem)
 jest.mock('localforage', () => ({
@@ -56,9 +59,6 @@ jest.mock('../src/openaiService', () => ({
     setApiKey: jest.fn(),
   })),
 }));
-
-import RevolutionaryQuantumSystem from '../src/RevolutionaryQuantumSystem';
-import UnifiedQuantumSystem from '../src/UnifiedQuantumSystem';
 
 describe('RevolutionaryQuantumSystem', () => {
   beforeEach(() => { jest.useFakeTimers(); });

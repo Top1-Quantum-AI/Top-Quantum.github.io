@@ -2,10 +2,12 @@
  * App.tsx Component Tests
  * Tests routing, loading states, error boundary, and sub-components.
  */
-import React, { Suspense } from 'react';
 import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+import App from '../src/App';
 
 // Mock ALL lazy-loaded page components to avoid their full dependency trees
 jest.mock('../src/pages/LandingPage', () => ({
@@ -60,8 +62,6 @@ jest.mock('framer-motion', () => ({
   useAnimation: () => ({ start: jest.fn(), stop: jest.fn() }),
   useInView: () => true,
 }));
-
-import App from '../src/App';
 
 const renderWithRouter = (initialEntries: string[] = ['/']) => {
   return render(

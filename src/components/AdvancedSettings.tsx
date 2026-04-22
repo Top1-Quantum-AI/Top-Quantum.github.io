@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Settings,
@@ -20,6 +19,7 @@ import {
   AlertTriangle,
   CheckCircle
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 interface SettingsState {
   theme: 'light' | 'dark' | 'auto';

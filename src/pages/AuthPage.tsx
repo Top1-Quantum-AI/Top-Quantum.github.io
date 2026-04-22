@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Atom, Mail, Lock, User, Eye, EyeOff,
   ArrowLeft, CheckCircle, Building2, Globe,
   Crown, Zap, Star,
 } from 'lucide-react';
+import React, { useState } from 'react';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+
+import {
+  apiRegister, apiLogin, checkBackendAvailable, type ApiError,
+} from '../services/apiClient';
 import {
   createUser, loginUser, getCurrentUser,
   PLANS, type PlanId,
 } from '../services/subscriptionService';
-import {
-  apiRegister, apiLogin, checkBackendAvailable, type ApiError,
-} from '../services/apiClient';
 
 // ═══════════════════════════════════════════════════════════
 // ─── AUTH PAGE (Login / Register) ─────────────────────────

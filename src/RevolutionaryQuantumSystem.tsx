@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Atom, Brain, Activity, Zap, BarChart3, Shield, AlertTriangle, Users, Workflow, Target, Layers, Sparkles, Moon, Sun, LayoutGrid } from 'lucide-react';
 import localforage from 'localforage';
+import { Atom, Brain, Activity, Zap, BarChart3, Shield, AlertTriangle, Users, Workflow, Target, Layers, Sparkles, Moon, Sun, LayoutGrid } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+
+import CommandPalette from './components/revolutionary/CommandPalette';
 import LoginPanel from './components/revolutionary/LoginPanel';
+import PracticalApplication from './components/revolutionary/PracticalApplication';
 import QuantumHeader from './components/revolutionary/QuantumHeader';
 import QuantumSidebar from './components/revolutionary/QuantumSidebar';
 import UnifiedDashboard from './components/revolutionary/UnifiedDashboard';
-import PracticalApplication from './components/revolutionary/PracticalApplication';
-import CommandPalette from './components/revolutionary/CommandPalette';
-import { type ProcessingStates, type SecureLog, type UnifiedQuantumState, type QuantumModule, type SystemMetrics, type SmartTheme, type CommandAction, type ExponentialMemory } from './types/quantumTypes';
+import type { ProcessingStates, SecureLog, UnifiedQuantumState, QuantumModule, SystemMetrics, SmartTheme, CommandAction, ExponentialMemory } from './types/quantumTypes';
 
 // generateSecureKey removed — use crypto.getRandomValues directly where needed
 
@@ -225,8 +226,8 @@ const RevolutionaryQuantumSystem: React.FC = () => {
       };
       const model = simulationModels[modelType as keyof typeof simulationModels] ?? simulationModels['quantum_neural_network'];
       setSimulationData(model);
-      const maxEpochs = model.maxEpochs;
-      const learningRate = model.learningRate;
+      const {maxEpochs} = model;
+      const {learningRate} = model;
       const startTime = Date.now();
       for (let epoch = 1; epoch <= maxEpochs; epoch++) {
         await new Promise(resolve => setTimeout(resolve, 150));
@@ -406,7 +407,10 @@ const RevolutionaryQuantumSystem: React.FC = () => {
           ))}
           <svg className="neural-network" viewBox="0 0 100 100">
             {Array.from({ length: 20 }).map((_, i) => (
-              <line key={i} x1={Math.random() * 100} y1={Math.random() * 100} x2={Math.random() * 100} y2={Math.random() * 100} className="neural-connection" style={{ animationDelay: `${Math.random() * 2}s` }} />
+              <line key={i} x1={Math.random() * 100} y1={Math.random() * 100}
+                x2={Math.random() * 100} y2={Math.random() * 100} className="neural-connection"
+                style={{ animationDelay: `${Math.random() * 2}s` }}
+              />
             ))}
           </svg>
         </div>

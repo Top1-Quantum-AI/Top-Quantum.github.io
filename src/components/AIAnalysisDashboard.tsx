@@ -1,4 +1,3 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Brain,
@@ -16,6 +15,8 @@ import {
   Copy,
   Check,
 } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+
 import {
   sendChatMessage,
   analyzeSystemData,

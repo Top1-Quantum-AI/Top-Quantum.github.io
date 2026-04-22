@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Crown, Zap, Shield, Brain, BarChart3, ArrowUpRight,
   CheckCircle, Clock, CreditCard, Settings, Star,
   AlertTriangle, Atom, ChevronLeft,
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import {
   getCurrentUser, changePlan, getTrialDaysRemaining,
   PLANS, type PlanId, type UserProfile,
@@ -109,7 +110,7 @@ const SubscriptionDashboard: React.FC<{
   }
 
   const currentPlan = PLANS[user.subscription.planId];
-  const limits = currentPlan.limits;
+  const {limits} = currentPlan;
 
   return (
     <div className="fixed inset-0 z-[90] bg-black/70 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
@@ -179,7 +180,8 @@ const SubscriptionDashboard: React.FC<{
                       : user.subscription.status === 'trial'
                         ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
                         : 'bg-red-500/10 text-red-400 border border-red-500/30'
-                  }`}>
+                  }`}
+                  >
                     {user.subscription.status === 'active' ? 'نشط' :
                      user.subscription.status === 'trial' ? 'تجريبي' : 'منتهي'}
                   </span>
@@ -276,7 +278,8 @@ const SubscriptionDashboard: React.FC<{
                   f.enabled
                     ? 'bg-green-500/5 border-green-500/20'
                     : 'bg-gray-800/30 border-gray-700/30 opacity-50'
-                }`}>
+                }`}
+                >
                   <div className={f.enabled ? 'text-green-400' : 'text-gray-600'}>{f.icon}</div>
                   <span className={`text-sm ${f.enabled ? 'text-gray-200' : 'text-gray-500'}`}>{f.label}</span>
                   {f.enabled && <CheckCircle className="w-3.5 h-3.5 text-green-400 mr-auto" />}
@@ -364,7 +367,8 @@ const SubscriptionDashboard: React.FC<{
                           : planId === 'professional'
                             ? 'border-blue-500/50 bg-blue-500/5'
                             : 'border-gray-700 bg-gray-800/30'
-                      }`}>
+                      }`}
+                      >
                         <div className="text-center mb-4">
                           <span className="text-2xl">{plan.icon}</span>
                           <h4 className="text-lg font-bold mt-1">{plan.name}</h4>

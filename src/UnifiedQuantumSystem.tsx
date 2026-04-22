@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Brain, MessageCircle, Settings, Zap, Database, Activity } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+
 import { aiService } from './aiService';
 import { OpenAIService } from './openaiService';
 import './index.css';
@@ -544,8 +545,8 @@ const UnifiedQuantumSystem: React.FC = () => {
       return {
         ...weight,
         currentWeight: Math.max(0.1, Math.min(newWeight, 10.0)), // تحديد النطاق بين 0.1 و 10
-        confidence: confidence,
-        aiFeedback: aiFeedback,
+        confidence,
+        aiFeedback,
         lastUpdate: Date.now()
       };
     }));
@@ -749,29 +750,29 @@ const UnifiedQuantumSystem: React.FC = () => {
           </div>
           
           <div className="space-y-4">
-             <div>
-               <label className="block text-sm font-medium text-gray-300 mb-2">اسم المستخدم</label>
-               <input
-                 type="text"
-                 value={loginUsername}
-                 onChange={(e) => setLoginUsername(e.target.value)}
-                 className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
-                 placeholder="أدخل اسم المستخدم"
-                 onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-               />
-             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">اسم المستخدم</label>
+              <input
+                type="text"
+                value={loginUsername}
+                onChange={(e) => setLoginUsername(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
+                placeholder="أدخل اسم المستخدم"
+                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+              />
+            </div>
              
-             <div>
-               <label className="block text-sm font-medium text-gray-300 mb-2">كلمة السر</label>
-               <input
-                 type="password"
-                 value={loginPassword}
-                 onChange={(e) => setLoginPassword(e.target.value)}
-                 className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
-                 placeholder="أدخل كلمة السر"
-                 onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-               />
-             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">كلمة السر</label>
+              <input
+                type="password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-500 focus:outline-none"
+                placeholder="أدخل كلمة السر"
+                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+              />
+            </div>
             
             {loginError && (
               <div className="text-red-400 text-sm text-center bg-red-900/20 p-3 rounded-lg border border-red-500/30">
@@ -847,20 +848,20 @@ const UnifiedQuantumSystem: React.FC = () => {
           ))}
           
           {/* زر تغيير بيانات الدخول */}
-            <button
-              onClick={() => setShowChangeCredentials(!showChangeCredentials)}
-              className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-semibold transition-colors"
-            >
-              🔑 تغيير بيانات الدخول
-            </button>
+          <button
+            onClick={() => setShowChangeCredentials(!showChangeCredentials)}
+            className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg font-semibold transition-colors"
+          >
+            🔑 تغيير بيانات الدخول
+          </button>
            
-           {/* زر تسجيل الخروج */}
-           <button
-             onClick={handleLogout}
-             className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-colors"
-           >
-             🚪 تسجيل الخروج
-           </button>
+          {/* زر تسجيل الخروج */}
+          <button
+            onClick={handleLogout}
+            className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-colors"
+          >
+            🚪 تسجيل الخروج
+          </button>
         </div>
 
         {/* تبويب لوحة التحكم */}
@@ -893,7 +894,8 @@ const UnifiedQuantumSystem: React.FC = () => {
                       <span className="font-semibold">{state.name}</span>
                       <span className={`px-2 py-1 rounded text-xs ${
                         state.active ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                      }`}>
+                      }`}
+                      >
                         {state.active ? 'نشط' : 'غير نشط'}
                       </span>
                     </div>
@@ -917,7 +919,8 @@ const UnifiedQuantumSystem: React.FC = () => {
                       <span className={`px-2 py-1 rounded text-xs ${
                         algorithm.status === 'active' ? 'bg-green-600' :
                         algorithm.status === 'learning' ? 'bg-yellow-600' : 'bg-blue-600'
-                      } text-white`}>
+                      } text-white`}
+                      >
                         {algorithm.status === 'active' && 'نشط'}
                         {algorithm.status === 'learning' && 'يتعلم'}
                         {algorithm.status === 'optimizing' && 'يحسن'}
@@ -948,12 +951,14 @@ const UnifiedQuantumSystem: React.FC = () => {
                       <div className="flex gap-2">
                         <span className={`px-2 py-1 rounded text-xs ${
                           threat.detected ? 'bg-yellow-600 text-white' : 'bg-gray-600 text-white'
-                        }`}>
+                        }`}
+                        >
                           {threat.detected ? 'مكتشف' : 'غير مكتشف'}
                         </span>
                         <span className={`px-2 py-1 rounded text-xs ${
                           threat.mitigated ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                        }`}>
+                        }`}
+                        >
                           {threat.mitigated ? 'تم التعامل معه' : 'نشط'}
                         </span>
                       </div>
@@ -1055,7 +1060,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                           <div
                             className="h-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-1000"
                             style={{ width: `${problem.solution_progress}%` }}
-                          ></div>
+                          />
                         </div>
                       </div>
                       
@@ -1067,7 +1072,8 @@ const UnifiedQuantumSystem: React.FC = () => {
                             problem.difficulty === 'extreme' ? 'text-red-400' :
                             problem.difficulty === 'hard' ? 'text-orange-400' :
                             problem.difficulty === 'medium' ? 'text-yellow-400' : 'text-green-400'
-                          }`}>
+                          }`}
+                          >
                             {problem.difficulty}
                           </span>
                         </div>
@@ -1161,7 +1167,8 @@ const UnifiedQuantumSystem: React.FC = () => {
                           <span className="text-gray-400">تلقائي:</span>
                           <span className={`ml-2 font-semibold ${
                             permission.auto_granted ? 'text-green-400' : 'text-red-400'
-                          }`}>
+                          }`}
+                          >
                             {permission.auto_granted ? 'نعم' : 'لا'}
                           </span>
                         </div>
@@ -1171,7 +1178,8 @@ const UnifiedQuantumSystem: React.FC = () => {
                     <div className="flex flex-col gap-2">
                       <span className={`px-3 py-1 rounded text-sm font-semibold ${
                         permission.granted ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                      }`}>
+                      }`}
+                      >
                         {permission.granted ? '✅ مُفعل' : '❌ معطل'}
                       </span>
                       
@@ -1240,7 +1248,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                           <div
                             className="h-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-1000"
                             style={{ width: `${kb.expertise_level}%` }}
-                          ></div>
+                          />
                         </div>
                       </div>
                       
@@ -1349,112 +1357,112 @@ const UnifiedQuantumSystem: React.FC = () => {
         )}
 
         {/* نافذة تغيير بيانات الدخول */}
-          {showChangeCredentials && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div className="bg-gray-900 rounded-lg p-6 border border-yellow-500/30 max-w-md w-full mx-4">
-                <h3 className="text-xl font-bold mb-4 text-yellow-400">🔑 تغيير بيانات الدخول</h3>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">اسم المستخدم الحالي</label>
-                      <input
-                        type="text"
-                        value={correctUsername}
-                        disabled
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">كلمة السر الحالية</label>
-                      <input
-                        type="password"
-                        value={correctPassword}
-                        disabled
-                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-400"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">اسم المستخدم الجديد</label>
-                      <input
-                        type="text"
-                        value={newUsername2}
-                        onChange={(e) => setNewUsername2(e.target.value)}
-                        placeholder="اسم المستخدم الجديد"
-                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">كلمة السر الجديدة</label>
-                      <input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="كلمة السر الجديدة"
-                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none"
-                        onKeyPress={(e) => e.key === 'Enter' && changeCredentials()}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={changeCredentials}
-                      disabled={!newUsername2.trim() || !newPassword.trim()}
-                      className="flex-1 px-4 py-3 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 rounded-lg font-semibold transition-colors"
-                    >
-                      ✅ تأكيد التغيير
-                    </button>
-                    <button
-                      onClick={() => {
+        {showChangeCredentials && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-gray-900 rounded-lg p-6 border border-yellow-500/30 max-w-md w-full mx-4">
+            <h3 className="text-xl font-bold mb-4 text-yellow-400">🔑 تغيير بيانات الدخول</h3>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">اسم المستخدم الحالي</label>
+                  <input
+                    type="text"
+                    value={correctUsername}
+                    disabled
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">كلمة السر الحالية</label>
+                  <input
+                    type="password"
+                    value={correctPassword}
+                    disabled
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-400"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">اسم المستخدم الجديد</label>
+                  <input
+                    type="text"
+                    value={newUsername2}
+                    onChange={(e) => setNewUsername2(e.target.value)}
+                    placeholder="اسم المستخدم الجديد"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">كلمة السر الجديدة</label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="كلمة السر الجديدة"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none"
+                    onKeyPress={(e) => e.key === 'Enter' && changeCredentials()}
+                  />
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={changeCredentials}
+                  disabled={!newUsername2.trim() || !newPassword.trim()}
+                  className="flex-1 px-4 py-3 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 rounded-lg font-semibold transition-colors"
+                >
+                  ✅ تأكيد التغيير
+                </button>
+                <button
+                  onClick={() => {
                         setShowChangeCredentials(false);
                         setNewUsername2('');
                         setNewPassword('');
                       }}
-                      className="flex-1 px-4 py-3 bg-gray-600 hover:bg-gray-700 rounded-lg font-semibold transition-colors"
-                    >
-                      ❌ إلغاء
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-         {/* تبويب إدارة المستخدمين */}
-         {activeTab === 'users' && (
-          <div className="bg-black/20 backdrop-blur-sm rounded-lg p-6 border border-purple-500/30">
-            <h3 className="text-2xl font-bold mb-6 text-purple-400">👥 إدارة المستخدمين</h3>
-            
-            {/* قسم إنشاء مستخدم جديد */}
-            <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-600/50 mb-6">
-              <h4 className="text-xl font-semibold text-white mb-4">➕ إنشاء مستخدم جديد</h4>
-              <div className="flex gap-4">
-                <input
-                  type="text"
-                  value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                  placeholder="اسم المستخدم الجديد"
-                  className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
-                  onKeyPress={(e) => e.key === 'Enter' && generateNewUser()}
-                />
-                <button
-                  onClick={generateNewUser}
-                  disabled={!newUsername.trim()}
-                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 rounded-lg font-semibold transition-colors"
+                  className="flex-1 px-4 py-3 bg-gray-600 hover:bg-gray-700 rounded-lg font-semibold transition-colors"
                 >
-                  🚀 إنشاء مستخدم
+                  ❌ إلغاء
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+          )}
+
+        {/* تبويب إدارة المستخدمين */}
+        {activeTab === 'users' && (
+        <div className="bg-black/20 backdrop-blur-sm rounded-lg p-6 border border-purple-500/30">
+          <h3 className="text-2xl font-bold mb-6 text-purple-400">👥 إدارة المستخدمين</h3>
             
-            {/* قائمة المستخدمين */}
-            <div className="space-y-4">
-              <h4 className="text-xl font-semibold text-white mb-4">📋 المستخدمون المسجلون:</h4>
-              {generatedUsers.length === 0 ? (
-                <div className="text-center text-gray-400 py-8">
-                  📭 لا يوجد مستخدمون مسجلون حتى الآن
-                </div>
+          {/* قسم إنشاء مستخدم جديد */}
+          <div className="bg-gray-800/30 rounded-lg p-6 border border-gray-600/50 mb-6">
+            <h4 className="text-xl font-semibold text-white mb-4">➕ إنشاء مستخدم جديد</h4>
+            <div className="flex gap-4">
+              <input
+                type="text"
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                placeholder="اسم المستخدم الجديد"
+                className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
+                onKeyPress={(e) => e.key === 'Enter' && generateNewUser()}
+              />
+              <button
+                onClick={generateNewUser}
+                disabled={!newUsername.trim()}
+                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 rounded-lg font-semibold transition-colors"
+              >
+                🚀 إنشاء مستخدم
+              </button>
+            </div>
+          </div>
+            
+          {/* قائمة المستخدمين */}
+          <div className="space-y-4">
+            <h4 className="text-xl font-semibold text-white mb-4">📋 المستخدمون المسجلون:</h4>
+            {generatedUsers.length === 0 ? (
+              <div className="text-center text-gray-400 py-8">
+                📭 لا يوجد مستخدمون مسجلون حتى الآن
+              </div>
               ) : (
                 generatedUsers.map(user => (
                   <div key={user.id} className="bg-gray-800/30 rounded-lg p-4 border border-gray-600/50">
@@ -1464,7 +1472,8 @@ const UnifiedQuantumSystem: React.FC = () => {
                           <h5 className="text-lg font-semibold text-white">{user.username}</h5>
                           <span className={`px-2 py-1 rounded text-xs font-semibold ${
                             user.isActive ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-                          }`}>
+                          }`}
+                          >
                             {user.isActive ? '✅ نشط' : '❌ معطل'}
                           </span>
                         </div>
@@ -1499,30 +1508,30 @@ const UnifiedQuantumSystem: React.FC = () => {
                   </div>
                 ))
               )}
-            </div>
+          </div>
             
-            {/* إحصائيات المستخدمين */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-purple-600/20 rounded-lg p-4 border border-purple-500/30">
-                <div className="text-2xl font-bold text-purple-400">
-                  {generatedUsers.length}
-                </div>
-                <div className="text-sm text-gray-300">إجمالي المستخدمين</div>
+          {/* إحصائيات المستخدمين */}
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-purple-600/20 rounded-lg p-4 border border-purple-500/30">
+              <div className="text-2xl font-bold text-purple-400">
+                {generatedUsers.length}
               </div>
-              <div className="bg-green-600/20 rounded-lg p-4 border border-green-500/30">
-                <div className="text-2xl font-bold text-green-400">
-                  {generatedUsers.filter(u => u.isActive).length}
-                </div>
-                <div className="text-sm text-gray-300">المستخدمون النشطون</div>
+              <div className="text-sm text-gray-300">إجمالي المستخدمين</div>
+            </div>
+            <div className="bg-green-600/20 rounded-lg p-4 border border-green-500/30">
+              <div className="text-2xl font-bold text-green-400">
+                {generatedUsers.filter(u => u.isActive).length}
               </div>
-              <div className="bg-red-600/20 rounded-lg p-4 border border-red-500/30">
-                <div className="text-2xl font-bold text-red-400">
-                  {generatedUsers.filter(u => !u.isActive).length}
-                </div>
-                <div className="text-sm text-gray-300">المستخدمون المعطلون</div>
+              <div className="text-sm text-gray-300">المستخدمون النشطون</div>
+            </div>
+            <div className="bg-red-600/20 rounded-lg p-4 border border-red-500/30">
+              <div className="text-2xl font-bold text-red-400">
+                {generatedUsers.filter(u => !u.isActive).length}
               </div>
+              <div className="text-sm text-gray-300">المستخدمون المعطلون</div>
             </div>
           </div>
+        </div>
         )}
 
         {/* تبويب الذكاء الاصطناعي المتقدم */}
@@ -1588,7 +1597,8 @@ const UnifiedQuantumSystem: React.FC = () => {
                         message.type === 'user'
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-700 text-gray-100 border border-gray-600'
-                      }`}>
+                      }`}
+                      >
                         <div className="text-sm mb-1">
                           {message.content}
                         </div>
@@ -1612,7 +1622,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                     <div className="flex justify-start">
                       <div className="bg-gray-700 text-gray-100 border border-gray-600 px-4 py-3 rounded-lg">
                         <div className="flex items-center gap-2">
-                          <div className="animate-spin w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full"></div>
+                          <div className="animate-spin w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full" />
                           <span className="text-sm">جاري المعالجة...</span>
                         </div>
                       </div>
@@ -1659,7 +1669,7 @@ const UnifiedQuantumSystem: React.FC = () => {
                         height: `${Math.max(activity, 5)}%`,
                         width: `${100 / neuralActivity.length}%`
                       }}
-                    ></div>
+                    />
                   ))}
                 </div>
               </div>

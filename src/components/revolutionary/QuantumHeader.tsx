@@ -1,6 +1,7 @@
-import React from 'react';
 import { Command, Sun, Moon, Palette } from 'lucide-react';
-import { type SystemMetrics, type SmartTheme } from '../../types/quantumTypes';
+import React from 'react';
+
+import type { SystemMetrics, SmartTheme } from '../../types/quantumTypes';
 
 interface QuantumHeaderProps {
   systemMetrics: SystemMetrics;

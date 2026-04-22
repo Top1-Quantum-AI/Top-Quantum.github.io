@@ -1,13 +1,22 @@
 /**
  * Tests for aiService, openaiService, WorkflowDiagnosticTool and reportExporter
  */
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 
 // ─── aiService tests ──────────────────────────────────────
 
 import { aiService } from '../src/aiService';
+
+// ─── openaiService tests ──────────────────────────────────
+
+import { OpenAIService } from '../src/openaiService';
+
+// ─── reportExporter tests ─────────────────────────────────
+
+import { exportDashboardSnapshot, exportDataReport } from '../src/services/reportExporter';
+import WorkflowDiagnosticTool from '../src/WorkflowDiagnosticTool';
 
 describe('aiService', () => {
   it('should have sendMessage method', () => {
@@ -42,10 +51,6 @@ describe('aiService', () => {
   });
 });
 
-// ─── openaiService tests ──────────────────────────────────
-
-import { OpenAIService } from '../src/openaiService';
-
 describe('OpenAIService', () => {
   it('should be instantiable', () => {
     const service = new OpenAIService();
@@ -70,10 +75,6 @@ describe('OpenAIService', () => {
     expect(result).toBeDefined();
   });
 });
-
-// ─── reportExporter tests ─────────────────────────────────
-
-import { exportDashboardSnapshot, exportDataReport } from '../src/services/reportExporter';
 
 describe('reportExporter', () => {
   beforeEach(() => {
@@ -117,8 +118,6 @@ jest.mock('framer-motion', () => ({
   },
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-
-import WorkflowDiagnosticTool from '../src/WorkflowDiagnosticTool';
 
 describe('WorkflowDiagnosticTool', () => {
   it('should render without crashing', () => {

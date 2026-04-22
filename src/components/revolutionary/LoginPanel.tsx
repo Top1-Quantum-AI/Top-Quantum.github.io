@@ -49,10 +49,16 @@ const LoginPanel: React.FC<LoginPanelProps> = ({
       <div className="absolute inset-0 opacity-20">
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <defs>
-            <pattern id="quantumGrid" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="url(#quantumGradient)" strokeWidth="0.1"/>
+            <pattern id="quantumGrid" x="0" y="0"
+              width="10" height="10" patternUnits="userSpaceOnUse"
+            >
+              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="url(#quantumGradient)"
+                strokeWidth="0.1"
+              />
             </pattern>
-            <linearGradient id="quantumGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="quantumGradient" x1="0%" y1="0%"
+              x2="100%" y2="100%"
+            >
               <stop offset="0%" stopColor="#00ffff" stopOpacity="0.5"/>
               <stop offset="50%" stopColor="#ff00ff" stopOpacity="0.3"/>
               <stop offset="100%" stopColor="#ffff00" stopOpacity="0.5"/>
@@ -168,35 +174,35 @@ const LoginPanel: React.FC<LoginPanelProps> = ({
             </div>
             
             {/* معلومات إضافية */}
-             <div className="text-center space-y-3">
-               <div className="text-xs text-gray-500 font-mono">
-                 🔬 نظام الأمان الكمي المتقدم
-               </div>
-               <div className="text-xs text-gray-600">
-                 تشفير كمي • حماية متعددة الطبقات • ذكاء اصطناعي
-               </div>
+            <div className="text-center space-y-3">
+              <div className="text-xs text-gray-500 font-mono">
+                🔬 نظام الأمان الكمي المتقدم
+              </div>
+              <div className="text-xs text-gray-600">
+                تشفير كمي • حماية متعددة الطبقات • ذكاء اصطناعي
+              </div>
                
-               {/* اسم المخترع بتصميم إبداعي */}
-               <div className="relative mt-6 p-4 bg-gradient-to-r from-gray-900/50 via-purple-900/30 to-gray-900/50 rounded-2xl border border-gray-700/30">
-                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400/20 via-purple-400/20 to-pink-400/20 rounded-2xl blur opacity-50 animate-pulse" />
-                 <div className="relative">
-                   <div className="text-xs text-gray-400 mb-2 font-mono tracking-wider">
-                     🧬 QUANTUM INVENTOR
-                   </div>
-                   <div className="text-lg font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
-                     عبدالعزيز بن سلطان العتيبي
-                   </div>
-                   <div className="text-sm text-gray-300 font-light mt-1 tracking-wide">
-                     Abdulaziz bin Sultan Al-Otaibi
-                   </div>
-                   <div className="flex justify-center items-center mt-3 space-x-2">
-                     <span className="text-yellow-400 animate-spin" style={{animationDuration: '3s'}}>⚛️</span>
-                     <span className="text-xs text-gray-500 font-mono">QUANTUM ARCHITECT</span>
-                     <span className="text-cyan-400 animate-pulse">🔬</span>
-                   </div>
-                 </div>
-               </div>
-             </div>
+              {/* اسم المخترع بتصميم إبداعي */}
+              <div className="relative mt-6 p-4 bg-gradient-to-r from-gray-900/50 via-purple-900/30 to-gray-900/50 rounded-2xl border border-gray-700/30">
+                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400/20 via-purple-400/20 to-pink-400/20 rounded-2xl blur opacity-50 animate-pulse" />
+                <div className="relative">
+                  <div className="text-xs text-gray-400 mb-2 font-mono tracking-wider">
+                    🧬 QUANTUM INVENTOR
+                  </div>
+                  <div className="text-lg font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
+                    عبدالعزيز بن سلطان العتيبي
+                  </div>
+                  <div className="text-sm text-gray-300 font-light mt-1 tracking-wide">
+                    Abdulaziz bin Sultan Al-Otaibi
+                  </div>
+                  <div className="flex justify-center items-center mt-3 space-x-2">
+                    <span className="text-yellow-400 animate-spin" style={{animationDuration: '3s'}}>⚛️</span>
+                    <span className="text-xs text-gray-500 font-mono">QUANTUM ARCHITECT</span>
+                    <span className="text-cyan-400 animate-pulse">🔬</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

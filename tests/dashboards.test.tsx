@@ -4,10 +4,24 @@
  * AdvancedSecurityDashboard, NetworkDashboard, SubscriptionDashboard,
  * ApiKeysDashboard, AdvancedSettings, OpenMythosDashboard, AIAnalysisDashboard, WorkflowDiagnosticTool
  */
-import React from 'react';
 import { render, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+// ─── Tests ────────────────────────────────────────────────
+
+import AdvancedSecurityDashboard from '../src/components/AdvancedSecurityDashboard';
+import AdvancedSettings from '../src/components/AdvancedSettings';
+import AIAnalysisDashboard from '../src/components/AIAnalysisDashboard';
+import AIDashboard from '../src/components/AIDashboard';
+import ApiKeysDashboard from '../src/components/ApiKeysDashboard';
+import NetworkDashboard from '../src/components/NetworkDashboard';
+import OpenMythosDashboard from '../src/components/OpenMythosDashboard';
+import QuantumDashboard from '../src/components/QuantumDashboard';
+import SecurityDashboard from '../src/components/SecurityDashboard';
+import SubscriptionDashboard from '../src/components/SubscriptionDashboard';
+import AdminDashboard from '../src/pages/AdminDashboard';
 
 // ─── Global mocks for all tests in this file ──────────────
 
@@ -152,20 +166,6 @@ const renderAndTick = async (component: React.ReactElement) => {
   });
   return result;
 };
-
-// ─── Tests ────────────────────────────────────────────────
-
-import QuantumDashboard from '../src/components/QuantumDashboard';
-import AIDashboard from '../src/components/AIDashboard';
-import AdminDashboard from '../src/pages/AdminDashboard';
-import AdvancedSecurityDashboard from '../src/components/AdvancedSecurityDashboard';
-import SecurityDashboard from '../src/components/SecurityDashboard';
-import NetworkDashboard from '../src/components/NetworkDashboard';
-import SubscriptionDashboard from '../src/components/SubscriptionDashboard';
-import ApiKeysDashboard from '../src/components/ApiKeysDashboard';
-import AdvancedSettings from '../src/components/AdvancedSettings';
-import OpenMythosDashboard from '../src/components/OpenMythosDashboard';
-import AIAnalysisDashboard from '../src/components/AIAnalysisDashboard';
 
 describe('QuantumDashboard', () => {
   beforeEach(() => { jest.useFakeTimers(); });

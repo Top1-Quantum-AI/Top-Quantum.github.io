@@ -11,7 +11,7 @@ import {
   type ChatMessage,
 } from '../src/services/groqService';
 
-type FetchMock = { fetch: jest.Mock };
+interface FetchMock { fetch: jest.Mock }
 
 function mockFetchOk(content: string): void {
   (globalThis as unknown as FetchMock).fetch = jest.fn().mockResolvedValue({

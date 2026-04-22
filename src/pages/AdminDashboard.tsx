@@ -1,5 +1,3 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, BarChart3, Shield, Activity,
@@ -10,6 +8,9 @@ import {
   FileText, Globe, Clock, TrendingUp,
   LogOut,
 } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import {
   adminGetStats, adminGetUsers, adminUpdateUser,
   adminDeactivateUser, adminGetAuditLogs,
@@ -286,8 +287,11 @@ const AdminDashboard: React.FC = () => {
                     <div className="mx-auto w-20 h-20 rounded-full border-4 border-gray-800 flex items-center justify-center mb-2 relative">
                       <span className="text-lg font-bold">{plan.pct}%</span>
                       <svg className="absolute inset-0 -rotate-90 w-full h-full">
-                        <circle cx="40" cy="40" r="36" fill="none" strokeWidth="4" className="stroke-gray-800" />
-                        <circle cx="40" cy="40" r="36" fill="none" strokeWidth="4"
+                        <circle cx="40" cy="40" r="36"
+                          fill="none" strokeWidth="4" className="stroke-gray-800"
+                        />
+                        <circle cx="40" cy="40" r="36"
+                          fill="none" strokeWidth="4"
                           className={plan.color.replace('bg-', 'stroke-')}
                           strokeDasharray={`${plan.pct * 2.26} 226`}
                         />

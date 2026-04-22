@@ -1,10 +1,17 @@
 /**
  * Small component tests for RouteGuards, OnboardingTour, ExportToolbar, and NotificationCenter
  */
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
+
+import ExportToolbar from '../src/components/ExportToolbar';
+import NotificationCenter, { NotificationBell } from '../src/components/NotificationCenter';
+import OnboardingTour from '../src/components/OnboardingTour';
+import { ProtectedRoute, AdminRoute, GuestRoute } from '../src/components/RouteGuards';
+import { isAuthenticated } from '../src/services/apiClient';
+import { getCurrentUser } from '../src/services/subscriptionService';
 
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
@@ -34,13 +41,6 @@ jest.mock('../src/services/apiClient', () => ({
   clearToken: jest.fn(),
 }));
 
-import { ProtectedRoute, AdminRoute, GuestRoute } from '../src/components/RouteGuards';
-import OnboardingTour from '../src/components/OnboardingTour';
-import ExportToolbar from '../src/components/ExportToolbar';
-import NotificationCenter, { NotificationBell } from '../src/components/NotificationCenter';
-import { isAuthenticated } from '../src/services/apiClient';
-import { getCurrentUser } from '../src/services/subscriptionService';
-
 // ─── RouteGuards ──────────────────────────────────────────
 
 describe('RouteGuards', () => {
@@ -53,7 +53,8 @@ describe('RouteGuards', () => {
           <Routes>
             <Route path="/protected" element={
               <ProtectedRoute><div data-testid="protected">Protected Content</div></ProtectedRoute>
-            } />
+            }
+            />
             <Route path="/login" element={<div>Login</div>} />
           </Routes>
         </MemoryRouter>
@@ -69,7 +70,8 @@ describe('RouteGuards', () => {
           <Routes>
             <Route path="/protected" element={
               <ProtectedRoute><div data-testid="protected">Protected</div></ProtectedRoute>
-            } />
+            }
+            />
             <Route path="/login" element={<div data-testid="login">Login Page</div>} />
           </Routes>
         </MemoryRouter>
@@ -87,7 +89,8 @@ describe('RouteGuards', () => {
           <Routes>
             <Route path="/admin" element={
               <AdminRoute><div data-testid="admin">Admin</div></AdminRoute>
-            } />
+            }
+            />
             <Route path="/login" element={<div data-testid="login">Login</div>} />
             <Route path="/dashboard" element={<div data-testid="dashboard">Dashboard</div>} />
           </Routes>
@@ -108,7 +111,8 @@ describe('RouteGuards', () => {
           <Routes>
             <Route path="/admin" element={
               <AdminRoute><div data-testid="admin">Admin Content</div></AdminRoute>
-            } />
+            }
+            />
             <Route path="/dashboard" element={<div data-testid="dashboard">Dashboard</div>} />
           </Routes>
         </MemoryRouter>
@@ -137,7 +141,8 @@ describe('RouteGuards', () => {
           <Routes>
             <Route path="/" element={
               <GuestRoute><div data-testid="guest">Guest</div></GuestRoute>
-            } />
+            }
+            />
             <Route path="/dashboard" element={<div data-testid="dashboard">Dashboard</div>} />
           </Routes>
         </MemoryRouter>
@@ -205,15 +210,13 @@ describe('OnboardingTour', () => {
 
 describe('ExportToolbar', () => {
   it('should render without crashing when feature is enabled', () => {
-    const { getCurrentUser: mockGetUser } = jest.requireMock('../src/services/subscriptionService') as {
-      getCurrentUser: jest.Mock;
-    };
+    const { getCurrentUser: mockGetUser } = jest.requireMock('../src/services/subscriptionService');
     mockGetUser.mockReturnValue({
       id: '1', email: 'test@test.com',
       subscription: { planId: 'professional' },
     });
     // Mock hasFeature to return true so the toolbar renders
-    const subModule = jest.requireMock('../src/services/subscriptionService') as Record<string, jest.Mock>;
+    const subModule = jest.requireMock('../src/services/subscriptionService');
     if (subModule['hasFeature']) {
       subModule['hasFeature'].mockReturnValue(true);
     }
@@ -222,7 +225,7 @@ describe('ExportToolbar', () => {
   });
 
   it('should return null when hasPdfExport feature is not available', () => {
-    const subModule = jest.requireMock('../src/services/subscriptionService') as Record<string, jest.Mock>;
+    const subModule = jest.requireMock('../src/services/subscriptionService');
     if (subModule['hasFeature']) {
       subModule['hasFeature'].mockReturnValue(false);
     }

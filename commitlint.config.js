@@ -189,7 +189,7 @@ module.exports = {
       fieldPattern: /^-(.*?)-$/,
       revertPattern: /^Revert\s"([\s\S]*)"\s*This reverts commit (\w*)\.$/,
       revertCorrespondence: ['header', 'hash'],
-      warn: function() {},
+      warn() {},
       mergePattern: null,
       mergeCorrespondence: null
     }

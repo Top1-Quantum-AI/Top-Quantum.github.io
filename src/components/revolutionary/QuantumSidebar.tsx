@@ -1,5 +1,6 @@
 import React from 'react';
-import { type QuantumModule } from '../../types/quantumTypes';
+
+import type { QuantumModule } from '../../types/quantumTypes';
 
 interface QuantumSidebarProps {
   quantumModules: QuantumModule[];
@@ -59,7 +60,8 @@ const QuantumSidebar: React.FC<QuantumSidebarProps> = ({
                       module.status === 'active' ? 'bg-green-400' :
                       module.status === 'processing' ? 'bg-yellow-400' :
                       module.status === 'error' ? 'bg-red-400' : 'bg-gray-400'
-                    }`} />
+                    }`}
+                    />
                     <div className="text-xs text-gray-400 mt-1">
                       {(module.efficiency * 100).toFixed(0)}%
                     </div>

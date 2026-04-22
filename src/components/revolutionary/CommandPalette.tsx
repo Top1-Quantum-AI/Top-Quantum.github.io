@@ -1,6 +1,7 @@
-import React from 'react';
 import { Search } from 'lucide-react';
-import { type CommandAction } from '../../types/quantumTypes';
+import React from 'react';
+
+import type { CommandAction } from '../../types/quantumTypes';
 
 interface CommandPaletteProps {
   isOpen: boolean;

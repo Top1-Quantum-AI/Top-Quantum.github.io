@@ -5,7 +5,6 @@ import {
   AnalyticsEngine,
   getAnalyticsEngine,
   type TimeSeriesPoint,
-  type MetricSnapshot,
 } from '../src/services/analyticsEngine';
 
 describe('AnalyticsEngine', () => {
@@ -44,7 +43,7 @@ describe('AnalyticsEngine', () => {
 
     it('current snapshot should have all required metrics', () => {
       const report = engine.tick();
-      const current: MetricSnapshot = report.current;
+      const {current} = report;
       expect(typeof current.cpu).toBe('number');
       expect(typeof current.memory).toBe('number');
       expect(typeof current.disk).toBe('number');
@@ -89,7 +88,7 @@ describe('AnalyticsEngine', () => {
     it('stats should include expected keys', () => {
       engine.tick();
       const report = engine.tick();
-      const stats = report.stats;
+      const {stats} = report;
       expect(typeof stats.cpuAvg).toBe('number');
       expect(typeof stats.memoryAvg).toBe('number');
       expect(typeof stats.networkAvg).toBe('number');

@@ -1,0 +1,11 @@
+# ESLint Ignore File
+dist/
+build/
+server/
+node_modules/
+coverage/
+*.min.js
+*.min.css
+*.bundle.*
+*.chunk.*
+*.vendor.*

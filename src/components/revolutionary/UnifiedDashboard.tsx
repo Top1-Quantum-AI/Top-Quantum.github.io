@@ -1,8 +1,9 @@
-import React from 'react';
 import { Zap, Target, Network, Sparkles } from 'lucide-react';
-import { type UnifiedQuantumState, type SystemMetrics, type QuantumModule, type ProcessingStates, type ExponentialMemory } from '../../types/quantumTypes';
+import React from 'react';
 
-type SearchResult = {
+import type { UnifiedQuantumState, SystemMetrics, QuantumModule, ProcessingStates, ExponentialMemory } from '../../types/quantumTypes';
+
+interface SearchResult {
   title: string;
   summary: string;
   source: string;
@@ -11,16 +12,16 @@ type SearchResult = {
   impact: string;
   citations: number;
   verified: boolean;
-};
+}
 
-type SimulationData = {
+interface SimulationData {
   name: string;
   learningRate?: number;
   qubitCount?: number;
   [key: string]: unknown;
-};
+}
 
-type RealQuantumParams = {
+interface RealQuantumParams {
   coherenceTime: number;
   fidelity: number;
   gateErrorRate: number;
@@ -29,7 +30,7 @@ type RealQuantumParams = {
   decoherenceRate: number;
   temperature: number;
   quantumVolume: number;
-};
+}
 
 interface UnifiedDashboardProps {
   quantumState: UnifiedQuantumState;
@@ -138,7 +139,8 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                     module.status === 'active' ? 'status-active bg-green-400' :
                     module.status === 'processing' ? 'status-warning bg-yellow-400' :
                     module.status === 'error' ? 'status-error bg-red-400' : 'bg-gray-400'
-                  }`} />
+                  }`}
+                  />
                 </div>
                 <div className="text-sm font-medium text-gray-200 glow-text">{module.nameAr}</div>
                 <div className="text-xs text-gray-400 mb-2">{module.name}</div>
@@ -191,7 +193,8 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                         result.impact === 'Very High' ? 'bg-yellow-600/20 text-yellow-400 border border-yellow-500/30' :
                         result.impact === 'High' ? 'bg-green-600/20 text-green-400 border border-green-500/30' :
                         'bg-blue-600/20 text-blue-400 border border-blue-500/30'
-                      }`}>
+                      }`}
+                      >
                         {result.impact}
                       </div>
                     </div>
@@ -562,16 +565,22 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
       {/* قسم محاكاة الذرة والإبهار العلمي الكمي */}
       <div className="quantum-card hologram bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700 mt-6 relative overflow-hidden">
         {/* خلفية كمية متحركة */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-pink-900/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent animate-pulse"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-pink-900/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent animate-pulse" style={{animationDelay: '1s'}} />
         
         <div className="relative z-10">
           <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 flex items-center gap-3">
-            <svg className="w-8 h-8 text-cyan-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="3" strokeWidth="2"/>
+            <svg className="w-8 h-8 text-cyan-400 animate-spin" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="3"
+                strokeWidth="2"
+              />
               <path d="M12 1v6m0 10v6m11-7h-6m-10 0H1" strokeWidth="2"/>
-              <circle cx="12" cy="12" r="9" strokeWidth="1" strokeDasharray="2 2" className="animate-pulse"/>
+              <circle cx="12" cy="12" r="9"
+                strokeWidth="1" strokeDasharray="2 2" className="animate-pulse"
+              />
             </svg>
             محاكاة الذرة والإبهار العلمي الكمي
           </h3>
@@ -584,56 +593,60 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                 {/* النواة الذرية */}
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <div className="w-12 h-12 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-full animate-pulse shadow-2xl shadow-red-500/50 relative">
-                    <div className="absolute inset-2 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full animate-ping"></div>
-                    <div className="absolute inset-4 bg-white rounded-full animate-pulse"></div>
+                    <div className="absolute inset-2 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full animate-ping" />
+                    <div className="absolute inset-4 bg-white rounded-full animate-pulse" />
                   </div>
                 </div>
                 
                 {/* مدارات الإلكترونات */}
                 {[1, 2, 3, 4].map((orbit) => (
                   <div key={orbit} className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-2 border-cyan-400/40 rounded-full animate-spin`} 
-                       style={{
+                    style={{
                          width: `${orbit * 80}px`,
                          height: `${orbit * 80}px`,
                          animationDuration: `${orbit * 3}s`,
                          animationDirection: orbit % 2 === 0 ? 'reverse' : 'normal',
                          borderStyle: 'dashed'
-                       }}>
+                       }}
+                  >
                     {/* الإلكترونات */}
                     <div className={`absolute w-4 h-4 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full shadow-lg shadow-blue-400/70 animate-pulse`}
-                         style={{
+                      style={{
                            top: '-8px',
                            left: '50%',
                            transform: 'translateX(-50%)'
-                         }}>
-                      <div className="absolute inset-1 bg-white rounded-full animate-ping"></div>
+                         }}
+                    >
+                      <div className="absolute inset-1 bg-white rounded-full animate-ping" />
                     </div>
                     {orbit > 2 && (
                       <div className={`absolute w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full shadow-lg shadow-green-400/70 animate-pulse`}
-                           style={{
+                        style={{
                              bottom: '-8px',
                              right: '50%',
                              transform: 'translateX(50%)'
-                           }}>
-                        <div className="absolute inset-1 bg-white rounded-full animate-ping"></div>
+                           }}
+                      >
+                        <div className="absolute inset-1 bg-white rounded-full animate-ping" />
                       </div>
                     )}
                   </div>
                 ))}
                 
                 {/* تأثيرات المجال الكمي */}
-                <div className="absolute inset-0 bg-gradient-radial from-cyan-500/10 via-transparent to-transparent animate-pulse"></div>
-                <div className="absolute inset-0 bg-gradient-conic from-blue-500/5 via-purple-500/5 to-pink-500/5 animate-spin" style={{animationDuration: '20s'}}></div>
+                <div className="absolute inset-0 bg-gradient-radial from-cyan-500/10 via-transparent to-transparent animate-pulse" />
+                <div className="absolute inset-0 bg-gradient-conic from-blue-500/5 via-purple-500/5 to-pink-500/5 animate-spin" style={{animationDuration: '20s'}} />
                 
                 {/* جسيمات كمية عائمة */}
                 {[...Array(25)].map((_, i) => (
                   <div key={i} className={`absolute w-1 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full animate-ping`}
-                       style={{
+                    style={{
                          left: `${Math.random() * 100}%`,
                          top: `${Math.random() * 100}%`,
                          animationDelay: `${Math.random() * 4}s`,
                          animationDuration: `${1 + Math.random() * 3}s`
-                       }}></div>
+                       }}
+                  />
                 ))}
               </div>
             </div>
@@ -694,10 +707,14 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className="w-20 h-20 mx-auto mb-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center animate-pulse relative">
-                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
                   </svg>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-ping opacity-30"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-ping opacity-30" />
                 </div>
                 <div className="text-lg font-bold text-purple-300 glow-text">معالجة كمية</div>
                 <div className="text-sm text-gray-400">{(Math.random() * 2000 + 1000).toFixed(0)} Qubits</div>
@@ -706,10 +723,14 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
               
               <div className="text-center">
                 <div className="w-20 h-20 mx-auto mb-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center animate-bounce relative">
-                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
                   </svg>
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full animate-ping opacity-30"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full animate-ping opacity-30" />
                 </div>
                 <div className="text-lg font-bold text-cyan-300 glow-text">تسريع كمي</div>
                 <div className="text-sm text-gray-400">{(Math.random() * 50000 + 10000).toFixed(0)}x</div>
@@ -718,10 +739,14 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
               
               <div className="text-center">
                 <div className="w-20 h-20 mx-auto mb-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center animate-spin relative">
-                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
                   </svg>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full animate-ping opacity-30"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full animate-ping opacity-30" />
                 </div>
                 <div className="text-lg font-bold text-green-300 glow-text">تماسك كمي</div>
                 <div className="text-sm text-gray-400">{(Math.random() * 100).toFixed(2)}%</div>
@@ -730,10 +755,14 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
               
               <div className="text-center">
                 <div className="w-20 h-20 mx-auto mb-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center animate-pulse relative">
-                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                    />
                   </svg>
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-full animate-ping opacity-30"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-full animate-ping opacity-30" />
                 </div>
                 <div className="text-lg font-bold text-orange-300 glow-text">اكتشافات علمية</div>
                 <div className="text-sm text-gray-400">{Math.floor(Math.random() * 50) + 25}</div>
@@ -747,28 +776,28 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
             <h4 className="text-lg font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 glow-text">حقائق علمية مذهلة</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-cyan-400 rounded-full mt-2 animate-pulse"></div>
+                <div className="w-2 h-2 bg-cyan-400 rounded-full mt-2 animate-pulse" />
                 <div>
                   <div className="text-cyan-300 font-semibold">التشابك الكمي:</div>
                   <div className="text-gray-300">يمكن للجسيمات أن تكون مترابطة عبر مسافات شاسعة، مما يتيح نقل المعلومات بشكل فوري</div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 animate-pulse"></div>
+                <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 animate-pulse" />
                 <div>
                   <div className="text-purple-300 font-semibold">التراكب الكمي:</div>
                   <div className="text-gray-300">الجسيم يمكن أن يكون في عدة حالات في نفس الوقت حتى يتم قياسه</div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-green-400 rounded-full mt-2 animate-pulse"></div>
+                <div className="w-2 h-2 bg-green-400 rounded-full mt-2 animate-pulse" />
                 <div>
                   <div className="text-green-300 font-semibold">النفق الكمي:</div>
                   <div className="text-gray-300">الجسيمات يمكنها اختراق الحواجز التي لا تملك طاقة كافية لتجاوزها كلاسيكياً</div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 animate-pulse"></div>
+                <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2 animate-pulse" />
                 <div>
                   <div className="text-yellow-300 font-semibold">عدم اليقين:</div>
                   <div className="text-gray-300">لا يمكن معرفة الموقع والسرعة بدقة مطلقة في نفس الوقت</div>
@@ -776,288 +805,301 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
               </div>
             </div>
           </div>
-         </div>
-       </div>
+        </div>
+      </div>
 
-       {/* قسم المعادلات الرياضية الكمية */}
-       <div className="quantum-card hologram bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700 mt-6 relative overflow-hidden">
-         {/* خلفية رياضية متحركة */}
-         <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-purple-900/20 to-blue-900/20"></div>
-         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-500/5 to-transparent animate-pulse"></div>
-         <div className="absolute inset-0">
-           {/* معادلات رياضية عائمة */}
-           {['E=hν', 'ψ(x,t)', 'Ĥψ=Eψ', 'ΔxΔp≥ℏ/2', '|Φ⁺⟩'].map((eq, i) => (
-             <div key={i} className={`absolute text-indigo-300/20 font-mono text-lg animate-float`}
-                  style={{
+      {/* قسم المعادلات الرياضية الكمية */}
+      <div className="quantum-card hologram bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700 mt-6 relative overflow-hidden">
+        {/* خلفية رياضية متحركة */}
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-purple-900/20 to-blue-900/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-500/5 to-transparent animate-pulse" />
+        <div className="absolute inset-0">
+          {/* معادلات رياضية عائمة */}
+          {['E=hν', 'ψ(x,t)', 'Ĥψ=Eψ', 'ΔxΔp≥ℏ/2', '|Φ⁺⟩'].map((eq, i) => (
+            <div key={i} className={`absolute text-indigo-300/20 font-mono text-lg animate-float`}
+              style={{
                     left: `${Math.random() * 80 + 10}%`,
                     top: `${Math.random() * 80 + 10}%`,
                     animationDelay: `${i * 2}s`,
                     animationDuration: `${8 + Math.random() * 4}s`
-                  }}>
-               {eq}
-             </div>
+                  }}
+            >
+              {eq}
+            </div>
            ))}
-         </div>
+        </div>
          
-         <div className="relative z-10">
-           <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400 flex items-center gap-3">
-             <svg className="w-8 h-8 text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-             </svg>
-             المعادلات الرياضية الكمية المتقدمة
-           </h3>
+        <div className="relative z-10">
+          <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400 flex items-center gap-3">
+            <svg className="w-8 h-8 text-indigo-400 animate-pulse" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+              />
+            </svg>
+            المعادلات الرياضية الكمية المتقدمة
+          </h3>
            
-           {/* المعادلات الأساسية */}
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-             <div className="space-y-6">
-               <h4 className="text-xl font-semibold text-indigo-300 glow-text">المعادلات الأساسية</h4>
+          {/* المعادلات الأساسية */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div className="space-y-6">
+              <h4 className="text-xl font-semibold text-indigo-300 glow-text">المعادلات الأساسية</h4>
                
-               {/* معادلة شرودنجر */}
-               <div className="quantum-card bg-gradient-to-br from-indigo-600/20 to-purple-600/20 p-6 rounded-xl border border-indigo-500/30 relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 animate-pulse"></div>
-                 <div className="relative z-10">
-                   <h5 className="text-lg font-semibold text-indigo-300 mb-3 glow-text">معادلة شرودنجر</h5>
-                   <div className="bg-black/40 p-4 rounded-lg border border-indigo-400/30 mb-3">
-                     <div className="text-center text-2xl font-mono text-indigo-200 glow-text">
-                       iℏ ∂ψ/∂t = Ĥψ
-                     </div>
-                   </div>
-                   <div className="text-sm text-gray-300 space-y-1">
-                     <div>• <span className="text-indigo-300">ψ(x,t)</span>: دالة الموجة الكمية</div>
-                     <div>• <span className="text-purple-300">Ĥ</span>: معامل هاملتونيان</div>
-                     <div>• <span className="text-blue-300">ℏ</span>: ثابت بلانك المختزل</div>
-                   </div>
-                 </div>
-               </div>
+              {/* معادلة شرودنجر */}
+              <div className="quantum-card bg-gradient-to-br from-indigo-600/20 to-purple-600/20 p-6 rounded-xl border border-indigo-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 animate-pulse" />
+                <div className="relative z-10">
+                  <h5 className="text-lg font-semibold text-indigo-300 mb-3 glow-text">معادلة شرودنجر</h5>
+                  <div className="bg-black/40 p-4 rounded-lg border border-indigo-400/30 mb-3">
+                    <div className="text-center text-2xl font-mono text-indigo-200 glow-text">
+                      iℏ ∂ψ/∂t = Ĥψ
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-300 space-y-1">
+                    <div>• <span className="text-indigo-300">ψ(x,t)</span>: دالة الموجة الكمية</div>
+                    <div>• <span className="text-purple-300">Ĥ</span>: معامل هاملتونيان</div>
+                    <div>• <span className="text-blue-300">ℏ</span>: ثابت بلانك المختزل</div>
+                  </div>
+                </div>
+              </div>
                
-               {/* مبدأ عدم اليقين */}
-               <div className="quantum-card bg-gradient-to-br from-purple-600/20 to-pink-600/20 p-6 rounded-xl border border-purple-500/30 relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 animate-pulse"></div>
-                 <div className="relative z-10">
-                   <h5 className="text-lg font-semibold text-purple-300 mb-3 glow-text">مبدأ عدم اليقين</h5>
-                   <div className="bg-black/40 p-4 rounded-lg border border-purple-400/30 mb-3">
-                     <div className="text-center text-2xl font-mono text-purple-200 glow-text">
-                       ΔxΔp ≥ ℏ/2
-                     </div>
-                   </div>
-                   <div className="text-sm text-gray-300 space-y-1">
-                     <div>• <span className="text-purple-300">Δx</span>: عدم اليقين في الموقع</div>
-                     <div>• <span className="text-pink-300">Δp</span>: عدم اليقين في الزخم</div>
-                     <div>• الحد الأدنى: <span className="text-blue-300">{(1.054e-34 / 2).toExponential(2)} J·s</span></div>
-                   </div>
-                 </div>
-               </div>
+              {/* مبدأ عدم اليقين */}
+              <div className="quantum-card bg-gradient-to-br from-purple-600/20 to-pink-600/20 p-6 rounded-xl border border-purple-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 animate-pulse" />
+                <div className="relative z-10">
+                  <h5 className="text-lg font-semibold text-purple-300 mb-3 glow-text">مبدأ عدم اليقين</h5>
+                  <div className="bg-black/40 p-4 rounded-lg border border-purple-400/30 mb-3">
+                    <div className="text-center text-2xl font-mono text-purple-200 glow-text">
+                      ΔxΔp ≥ ℏ/2
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-300 space-y-1">
+                    <div>• <span className="text-purple-300">Δx</span>: عدم اليقين في الموقع</div>
+                    <div>• <span className="text-pink-300">Δp</span>: عدم اليقين في الزخم</div>
+                    <div>• الحد الأدنى: <span className="text-blue-300">{(1.054e-34 / 2).toExponential(2)} J·s</span></div>
+                  </div>
+                </div>
+              </div>
                
-               {/* معادلة بلانك */}
-               <div className="quantum-card bg-gradient-to-br from-blue-600/20 to-cyan-600/20 p-6 rounded-xl border border-blue-500/30 relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 animate-pulse"></div>
-                 <div className="relative z-10">
-                   <h5 className="text-lg font-semibold text-blue-300 mb-3 glow-text">معادلة بلانك</h5>
-                   <div className="bg-black/40 p-4 rounded-lg border border-blue-400/30 mb-3">
-                     <div className="text-center text-2xl font-mono text-blue-200 glow-text">
-                       E = hν = ℏω
-                     </div>
-                   </div>
-                   <div className="text-sm text-gray-300 space-y-1">
-                     <div>• <span className="text-blue-300">E</span>: طاقة الفوتون</div>
-                     <div>• <span className="text-cyan-300">h</span>: ثابت بلانك = 6.626×10⁻³⁴ J·s</div>
-                     <div>• <span className="text-teal-300">ν</span>: التردد</div>
-                   </div>
-                 </div>
-               </div>
-             </div>
+              {/* معادلة بلانك */}
+              <div className="quantum-card bg-gradient-to-br from-blue-600/20 to-cyan-600/20 p-6 rounded-xl border border-blue-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 animate-pulse" />
+                <div className="relative z-10">
+                  <h5 className="text-lg font-semibold text-blue-300 mb-3 glow-text">معادلة بلانك</h5>
+                  <div className="bg-black/40 p-4 rounded-lg border border-blue-400/30 mb-3">
+                    <div className="text-center text-2xl font-mono text-blue-200 glow-text">
+                      E = hν = ℏω
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-300 space-y-1">
+                    <div>• <span className="text-blue-300">E</span>: طاقة الفوتون</div>
+                    <div>• <span className="text-cyan-300">h</span>: ثابت بلانك = 6.626×10⁻³⁴ J·s</div>
+                    <div>• <span className="text-teal-300">ν</span>: التردد</div>
+                  </div>
+                </div>
+              </div>
+            </div>
              
-             {/* التشابك الكمي وحالات بيل */}
-             <div className="space-y-6">
-               <h4 className="text-xl font-semibold text-green-300 glow-text">التشابك الكمي المتقدم</h4>
+            {/* التشابك الكمي وحالات بيل */}
+            <div className="space-y-6">
+              <h4 className="text-xl font-semibold text-green-300 glow-text">التشابك الكمي المتقدم</h4>
                
-               {/* حالات بيل */}
-               <div className="quantum-card bg-gradient-to-br from-green-600/20 to-emerald-600/20 p-6 rounded-xl border border-green-500/30 relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-emerald-500/5 animate-pulse"></div>
-                 <div className="relative z-10">
-                   <h5 className="text-lg font-semibold text-green-300 mb-3 glow-text">حالات بيل</h5>
-                   <div className="space-y-3">
-                     <div className="bg-black/40 p-3 rounded-lg border border-green-400/30">
-                       <div className="text-center text-lg font-mono text-green-200 glow-text">
-                         |Φ⁺⟩ = (|00⟩ + |11⟩)/√2
+              {/* حالات بيل */}
+              <div className="quantum-card bg-gradient-to-br from-green-600/20 to-emerald-600/20 p-6 rounded-xl border border-green-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-emerald-500/5 animate-pulse" />
+                <div className="relative z-10">
+                  <h5 className="text-lg font-semibold text-green-300 mb-3 glow-text">حالات بيل</h5>
+                  <div className="space-y-3">
+                    <div className="bg-black/40 p-3 rounded-lg border border-green-400/30">
+                      <div className="text-center text-lg font-mono text-green-200 glow-text">
+                        |Φ⁺⟩ = (|00⟩ + |11⟩)/√2
                        </div>
-                     </div>
-                     <div className="bg-black/40 p-3 rounded-lg border border-emerald-400/30">
-                       <div className="text-center text-lg font-mono text-emerald-200 glow-text">
-                         |Φ⁻⟩ = (|00⟩ - |11⟩)/√2
+                    </div>
+                    <div className="bg-black/40 p-3 rounded-lg border border-emerald-400/30">
+                      <div className="text-center text-lg font-mono text-emerald-200 glow-text">
+                        |Φ⁻⟩ = (|00⟩ - |11⟩)/√2
                        </div>
-                     </div>
-                     <div className="bg-black/40 p-3 rounded-lg border border-teal-400/30">
-                       <div className="text-center text-lg font-mono text-teal-200 glow-text">
-                         |Ψ⁺⟩ = (|01⟩ + |10⟩)/√2
+                    </div>
+                    <div className="bg-black/40 p-3 rounded-lg border border-teal-400/30">
+                      <div className="text-center text-lg font-mono text-teal-200 glow-text">
+                        |Ψ⁺⟩ = (|01⟩ + |10⟩)/√2
                        </div>
-                     </div>
-                   </div>
-                   <div className="text-sm text-gray-300 mt-3">
-                     <div>• حالات متشابكة بحد أقصى</div>
-                     <div>• تنتهك عدم المساواة لبيل</div>
-                   </div>
-                 </div>
-               </div>
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-300 mt-3">
+                    <div>• حالات متشابكة بحد أقصى</div>
+                    <div>• تنتهك عدم المساواة لبيل</div>
+                  </div>
+                </div>
+              </div>
                
-               {/* معامل التشابك */}
-               <div className="quantum-card bg-gradient-to-br from-yellow-600/20 to-orange-600/20 p-6 rounded-xl border border-yellow-500/30 relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 to-orange-500/5 animate-pulse"></div>
-                 <div className="relative z-10">
-                   <h5 className="text-lg font-semibold text-yellow-300 mb-3 glow-text">معامل التشابك</h5>
-                   <div className="bg-black/40 p-4 rounded-lg border border-yellow-400/30 mb-3">
-                     <div className="text-center text-xl font-mono text-yellow-200 glow-text">
-                       ρ₁₂ = Tr₂(|ψ⟩⟨ψ|)
-                     </div>
-                   </div>
-                   <div className="grid grid-cols-2 gap-3">
-                     <div className="text-center">
-                       <div className="text-lg font-bold text-yellow-300">{(Math.random() * 0.8 + 0.2).toFixed(3)}</div>
-                       <div className="text-xs text-gray-400">قوة التشابك</div>
-                     </div>
-                     <div className="text-center">
-                       <div className="text-lg font-bold text-orange-300">{(Math.random() * 2 + 1).toFixed(2)}</div>
-                       <div className="text-xs text-gray-400">انتهاك بيل</div>
-                     </div>
-                   </div>
-                 </div>
-               </div>
+              {/* معامل التشابك */}
+              <div className="quantum-card bg-gradient-to-br from-yellow-600/20 to-orange-600/20 p-6 rounded-xl border border-yellow-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 to-orange-500/5 animate-pulse" />
+                <div className="relative z-10">
+                  <h5 className="text-lg font-semibold text-yellow-300 mb-3 glow-text">معامل التشابك</h5>
+                  <div className="bg-black/40 p-4 rounded-lg border border-yellow-400/30 mb-3">
+                    <div className="text-center text-xl font-mono text-yellow-200 glow-text">
+                      ρ₁₂ = Tr₂(|ψ⟩⟨ψ|)
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-yellow-300">{(Math.random() * 0.8 + 0.2).toFixed(3)}</div>
+                      <div className="text-xs text-gray-400">قوة التشابك</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-orange-300">{(Math.random() * 2 + 1).toFixed(2)}</div>
+                      <div className="text-xs text-gray-400">انتهاك بيل</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
                
-               {/* الخوارزميات الكمية */}
-               <div className="quantum-card bg-gradient-to-br from-red-600/20 to-pink-600/20 p-6 rounded-xl border border-red-500/30 relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-r from-red-500/5 to-pink-500/5 animate-pulse"></div>
-                 <div className="relative z-10">
-                   <h5 className="text-lg font-semibold text-red-300 mb-3 glow-text">الخوارزميات الكمية</h5>
-                   <div className="space-y-2 text-sm">
-                     <div className="flex justify-between items-center bg-black/30 p-2 rounded border border-red-400/20">
-                       <span className="text-red-300">Grover Search</span>
-                       <span className="text-pink-300 font-mono">O(√N)</span>
-                     </div>
-                     <div className="flex justify-between items-center bg-black/30 p-2 rounded border border-pink-400/20">
-                       <span className="text-pink-300">QFT</span>
-                       <span className="text-red-300 font-mono">O(n²)</span>
-                     </div>
-                     <div className="flex justify-between items-center bg-black/30 p-2 rounded border border-rose-400/20">
-                       <span className="text-rose-300">Phase Gates</span>
-                       <span className="text-red-300 font-mono">e^(iφ)</span>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
+              {/* الخوارزميات الكمية */}
+              <div className="quantum-card bg-gradient-to-br from-red-600/20 to-pink-600/20 p-6 rounded-xl border border-red-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500/5 to-pink-500/5 animate-pulse" />
+                <div className="relative z-10">
+                  <h5 className="text-lg font-semibold text-red-300 mb-3 glow-text">الخوارزميات الكمية</h5>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between items-center bg-black/30 p-2 rounded border border-red-400/20">
+                      <span className="text-red-300">Grover Search</span>
+                      <span className="text-pink-300 font-mono">O(√N)</span>
+                    </div>
+                    <div className="flex justify-between items-center bg-black/30 p-2 rounded border border-pink-400/20">
+                      <span className="text-pink-300">QFT</span>
+                      <span className="text-red-300 font-mono">O(n²)</span>
+                    </div>
+                    <div className="flex justify-between items-center bg-black/30 p-2 rounded border border-rose-400/20">
+                      <span className="text-rose-300">Phase Gates</span>
+                      <span className="text-red-300 font-mono">e^(iφ)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
            
-           {/* التحليل الرياضي المتقدم */}
-           <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-xl p-6 border border-gray-600/50 mb-6">
-             <h4 className="text-xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 glow-text">التحليل الرياضي للنظام الكمي</h4>
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-               <div className="space-y-4">
-                 <h5 className="text-lg font-semibold text-cyan-300 glow-text">دالة الموجة</h5>
-                 <div className="space-y-3">
-                   <div className="bg-black/40 p-3 rounded border border-cyan-400/30">
-                     <div className="text-sm text-cyan-300 mb-1">عدد الجسيمات</div>
-                     <div className="text-xl font-bold text-white">100</div>
-                   </div>
-                   <div className="bg-black/40 p-3 rounded border border-blue-400/30">
-                     <div className="text-sm text-blue-300 mb-1">التذبذبات الكمية</div>
-                     <div className="text-lg font-mono text-white">ξ(t)</div>
-                   </div>
-                   <div className="bg-black/40 p-3 rounded border border-indigo-400/30">
-                     <div className="text-sm text-indigo-300 mb-1">معادلة الحركة</div>
-                     <div className="text-sm font-mono text-white">x(t) = x₀ + v₀t + ξ(t)</div>
-                   </div>
-                 </div>
-               </div>
+          {/* التحليل الرياضي المتقدم */}
+          <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-xl p-6 border border-gray-600/50 mb-6">
+            <h4 className="text-xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 glow-text">التحليل الرياضي للنظام الكمي</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-4">
+                <h5 className="text-lg font-semibold text-cyan-300 glow-text">دالة الموجة</h5>
+                <div className="space-y-3">
+                  <div className="bg-black/40 p-3 rounded border border-cyan-400/30">
+                    <div className="text-sm text-cyan-300 mb-1">عدد الجسيمات</div>
+                    <div className="text-xl font-bold text-white">100</div>
+                  </div>
+                  <div className="bg-black/40 p-3 rounded border border-blue-400/30">
+                    <div className="text-sm text-blue-300 mb-1">التذبذبات الكمية</div>
+                    <div className="text-lg font-mono text-white">ξ(t)</div>
+                  </div>
+                  <div className="bg-black/40 p-3 rounded border border-indigo-400/30">
+                    <div className="text-sm text-indigo-300 mb-1">معادلة الحركة</div>
+                    <div className="text-sm font-mono text-white">x(t) = x₀ + v₀t + ξ(t)</div>
+                  </div>
+                </div>
+              </div>
                
-               <div className="space-y-4">
-                 <h5 className="text-lg font-semibold text-purple-300 glow-text">هاملتونيان</h5>
-                 <div className="space-y-3">
-                   <div className="bg-black/40 p-3 rounded border border-purple-400/30">
-                     <div className="text-sm text-purple-300 mb-1">الطاقة الحركية</div>
-                     <div className="text-lg font-mono text-white">T̂ = -ℏ²/2m ∇²</div>
-                   </div>
-                   <div className="bg-black/40 p-3 rounded border border-pink-400/30">
-                     <div className="text-sm text-pink-300 mb-1">الطاقة الكامنة</div>
-                     <div className="text-lg font-mono text-white">V̂ = V(r)</div>
-                   </div>
-                   <div className="bg-black/40 p-3 rounded border border-rose-400/30">
-                     <div className="text-sm text-rose-300 mb-1">مستويات الطاقة</div>
-                     <div className="text-sm font-mono text-white">En = -13.6/n² eV</div>
-                   </div>
-                 </div>
-               </div>
+              <div className="space-y-4">
+                <h5 className="text-lg font-semibold text-purple-300 glow-text">هاملتونيان</h5>
+                <div className="space-y-3">
+                  <div className="bg-black/40 p-3 rounded border border-purple-400/30">
+                    <div className="text-sm text-purple-300 mb-1">الطاقة الحركية</div>
+                    <div className="text-lg font-mono text-white">T̂ = -ℏ²/2m ∇²</div>
+                  </div>
+                  <div className="bg-black/40 p-3 rounded border border-pink-400/30">
+                    <div className="text-sm text-pink-300 mb-1">الطاقة الكامنة</div>
+                    <div className="text-lg font-mono text-white">V̂ = V(r)</div>
+                  </div>
+                  <div className="bg-black/40 p-3 rounded border border-rose-400/30">
+                    <div className="text-sm text-rose-300 mb-1">مستويات الطاقة</div>
+                    <div className="text-sm font-mono text-white">En = -13.6/n² eV</div>
+                  </div>
+                </div>
+              </div>
                
-               <div className="space-y-4">
-                 <h5 className="text-lg font-semibold text-green-300 glow-text">المعلومات الكمية</h5>
-                 <div className="space-y-3">
-                   <div className="bg-black/40 p-3 rounded border border-green-400/30">
-                     <div className="text-sm text-green-300 mb-1">السعة الكمية</div>
-                     <div className="text-lg font-mono text-white">I = 2^n</div>
-                   </div>
-                   <div className="bg-black/40 p-3 rounded border border-emerald-400/30">
-                     <div className="text-sm text-emerald-300 mb-1">نمو أسي</div>
-                     <div className="text-xl font-bold text-white">{Math.pow(2, Math.floor(Math.random() * 10 + 5)).toLocaleString()}</div>
-                   </div>
-                   <div className="bg-black/40 p-3 rounded border border-teal-400/30">
-                     <div className="text-sm text-teal-300 mb-1">نظرية شانون</div>
-                     <div className="text-lg font-mono text-white">H = -Σp log₂(p)</div>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
+              <div className="space-y-4">
+                <h5 className="text-lg font-semibold text-green-300 glow-text">المعلومات الكمية</h5>
+                <div className="space-y-3">
+                  <div className="bg-black/40 p-3 rounded border border-green-400/30">
+                    <div className="text-sm text-green-300 mb-1">السعة الكمية</div>
+                    <div className="text-lg font-mono text-white">I = 2^n</div>
+                  </div>
+                  <div className="bg-black/40 p-3 rounded border border-emerald-400/30">
+                    <div className="text-sm text-emerald-300 mb-1">نمو أسي</div>
+                    <div className="text-xl font-bold text-white">{(2**Math.floor(Math.random() * 10 + 5)).toLocaleString()}</div>
+                  </div>
+                  <div className="bg-black/40 p-3 rounded border border-teal-400/30">
+                    <div className="text-sm text-teal-300 mb-1">نظرية شانون</div>
+                    <div className="text-lg font-mono text-white">H = -Σp log₂(p)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
            
-           {/* البيانات الكمية الحقيقية */}
-           <div className="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 rounded-xl p-6 border border-indigo-500/40">
-             <h4 className="text-xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 glow-text">البيانات الكمية الحقيقية</h4>
-             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-               <div className="text-center">
-                 <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center animate-pulse relative">
-                   <span className="text-white font-bold text-lg">IBM</span>
-                   <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full animate-ping opacity-30"></div>
-                 </div>
-                 <div className="text-lg font-bold text-indigo-300 glow-text">Condor</div>
-                 <div className="text-sm text-gray-400">1,121 Qubits</div>
-                 <div className="text-xs text-indigo-400 mt-1">T₂ = 100 μs</div>
-               </div>
+          {/* البيانات الكمية الحقيقية */}
+          <div className="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 rounded-xl p-6 border border-indigo-500/40">
+            <h4 className="text-xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 glow-text">البيانات الكمية الحقيقية</h4>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center animate-pulse relative">
+                  <span className="text-white font-bold text-lg">IBM</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full animate-ping opacity-30" />
+                </div>
+                <div className="text-lg font-bold text-indigo-300 glow-text">Condor</div>
+                <div className="text-sm text-gray-400">1,121 Qubits</div>
+                <div className="text-xs text-indigo-400 mt-1">T₂ = 100 μs</div>
+              </div>
                
-               <div className="text-center">
-                 <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center animate-bounce relative">
-                   <span className="text-white font-bold text-lg">G</span>
-                   <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full animate-ping opacity-30"></div>
-                 </div>
-                 <div className="text-lg font-bold text-blue-300 glow-text">Sycamore</div>
-                 <div className="text-sm text-gray-400">70 Qubits</div>
-                 <div className="text-xs text-blue-400 mt-1">Supremacy</div>
-               </div>
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center animate-bounce relative">
+                  <span className="text-white font-bold text-lg">G</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full animate-ping opacity-30" />
+                </div>
+                <div className="text-lg font-bold text-blue-300 glow-text">Sycamore</div>
+                <div className="text-sm text-gray-400">70 Qubits</div>
+                <div className="text-xs text-blue-400 mt-1">Supremacy</div>
+              </div>
                
-               <div className="text-center">
-                 <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center animate-spin relative">
-                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                   </svg>
-                   <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full animate-ping opacity-30"></div>
-                 </div>
-                 <div className="text-lg font-bold text-green-300 glow-text">Verlet</div>
-                 <div className="text-sm text-gray-400">Integration</div>
-                 <div className="text-xs text-green-400 mt-1">Numerical</div>
-               </div>
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center animate-spin relative">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full animate-ping opacity-30" />
+                </div>
+                <div className="text-lg font-bold text-green-300 glow-text">Verlet</div>
+                <div className="text-sm text-gray-400">Integration</div>
+                <div className="text-xs text-green-400 mt-1">Numerical</div>
+              </div>
                
-               <div className="text-center">
-                 <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center animate-pulse relative">
-                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                   </svg>
-                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full animate-ping opacity-30"></div>
-                 </div>
-                 <div className="text-lg font-bold text-yellow-300 glow-text">Van der Waals</div>
-                 <div className="text-sm text-gray-400">Forces</div>
-                 <div className="text-xs text-yellow-400 mt-1">Interactions</div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
+              <div className="text-center">
+                <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center animate-pulse relative">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full animate-ping opacity-30" />
+                </div>
+                <div className="text-lg font-bold text-yellow-300 glow-text">Van der Waals</div>
+                <div className="text-sm text-gray-400">Forces</div>
+                <div className="text-xs text-yellow-400 mt-1">Interactions</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

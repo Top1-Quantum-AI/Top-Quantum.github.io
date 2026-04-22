@@ -1,9 +1,12 @@
 /**
  * LandingPage & PricingPage component tests
  */
-import React from 'react';
 import { render, screen, act, fireEvent } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
+import LandingPage from '../src/pages/LandingPage';
+import PricingPage from '../src/pages/PricingPage';
 
 // Mock framer-motion animations
 jest.mock('framer-motion', () => ({
@@ -28,9 +31,6 @@ jest.mock('framer-motion', () => ({
   useAnimation: () => ({ start: jest.fn(), stop: jest.fn() }),
   useInView: () => true,
 }));
-
-import LandingPage from '../src/pages/LandingPage';
-import PricingPage from '../src/pages/PricingPage';
 
 const renderLanding = () =>
   render(<MemoryRouter><LandingPage /></MemoryRouter>);

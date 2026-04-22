@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Brain,
@@ -20,6 +19,7 @@ import {
   BarChart3,
   PieChart
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 interface AIModel {
   id: string;
@@ -269,7 +269,8 @@ const AIDashboard: React.FC = () => {
                 </span>
                 <span className={`text-sm ${
                   value > 80 ? 'text-red-500' : value > 60 ? 'text-yellow-500' : 'text-green-500'
-                }`}>
+                }`}
+                >
                   {value > 80 ? 'عالي' : value > 60 ? 'متوسط' : 'منخفض'}
                 </span>
               </div>
@@ -430,7 +431,8 @@ const AIDashboard: React.FC = () => {
                 task.status === 'running' ? 'bg-blue-500 animate-pulse' :
                 task.status === 'completed' ? 'bg-green-500' :
                 task.status === 'failed' ? 'bg-red-500' : 'bg-gray-400'
-              }`} />
+              }`}
+              />
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white">{task.name}</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
