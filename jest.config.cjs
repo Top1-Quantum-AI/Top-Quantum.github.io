@@ -7,14 +7,13 @@ module.exports = {
     '<rootDir>/src/**/*.test.{ts,tsx}',
   ],
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: 'tsconfig.json',
-      isolatedModules: true,
-    }],
+    '^.+\\.(ts|tsx)$': '<rootDir>/tests/jestTransform.cjs',
   },
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': '<rootDir>/tests/__mocks__/styleMock.js',
     '\\.(png|jpg|jpeg|gif|webp|svg)$': '<rootDir>/tests/__mocks__/fileMock.js',
+    '^jspdf$': '<rootDir>/tests/__mocks__/jspdfMock.cjs',
+    '^html2canvas$': '<rootDir>/tests/__mocks__/html2canvasMock.cjs',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   setupFiles: ['<rootDir>/tests/env.setup.cjs'],

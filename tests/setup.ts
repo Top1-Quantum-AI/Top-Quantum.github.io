@@ -11,6 +11,15 @@ Object.defineProperty(globalThis, 'import_meta_env', {
   },
 });
 
+// Polyfill AbortSignal.timeout (not available in jsdom)
+if (!AbortSignal.timeout) {
+  (AbortSignal as unknown as { timeout: (ms: number) => AbortSignal }).timeout = (ms: number): AbortSignal => {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), ms);
+    return controller.signal;
+  };
+}
+
 // Mock crypto.randomUUID
 if (typeof crypto === 'undefined') {
   Object.defineProperty(globalThis, 'crypto', {
@@ -57,3 +66,4 @@ afterEach(() => {
   localStorage.clear();
   sessionStorage.clear();
 });
+
