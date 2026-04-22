@@ -25,10 +25,6 @@ const PracticalApplication: React.FC<PracticalApplicationProps> = ({ printToPDF 
                 type="text"
                 placeholder="🔍 ابحث في التطبيقات الكمية..."
                 className="w-full bg-gray-900/50 border border-gray-600 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20"
-                onChange={(e) => {
-                  const searchTerm = e.target.value.toLowerCase();
-                  console.log('البحث عن:', searchTerm);
-                }}
               />
               <div className="absolute right-3 top-3 text-cyan-400">
                 <span className="animate-pulse">⚡</span>
