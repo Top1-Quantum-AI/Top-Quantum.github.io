@@ -23,37 +23,37 @@ interface SystemStatus {
 
 // ─── Loading Screen ──────────────────────────────────────────
 const LoadingScreen: React.FC<{ progress: number; status: string }> = ({ progress, status }) => (
-  <div className='min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center'>
+  <div className='min-h-screen bg-gradient-to-br from-stone-900 via-stone-800 to-orange-950 flex items-center justify-center'>
     <div className='text-center'>
       <div className='relative mb-8'>
         <div className='w-24 h-24 mx-auto'>
           <Atom
-            className='w-full h-full text-blue-400 animate-spin'
+            className='w-full h-full text-orange-400 animate-spin'
             style={{ animationDuration: '3s' }}
           />
         </div>
         <div className='absolute inset-0 w-24 h-24 mx-auto'>
-          <div className='w-full h-full border-4 border-transparent border-t-purple-500 rounded-full animate-spin' />
+          <div className='w-full h-full border-4 border-transparent border-t-amber-500 rounded-full animate-spin' />
         </div>
       </div>
       <h1 className='text-4xl font-bold text-white mb-4'>النظام الكمي المتقدم</h1>
-      <p className='text-xl text-blue-300 mb-8'>Advanced Quantum AI System</p>
+      <p className='text-xl text-orange-300 mb-8'>Advanced Quantum AI System</p>
       <div className='w-80 mx-auto mb-6'>
-        <div className='bg-gray-800 rounded-full h-3 overflow-hidden'>
+        <div className='bg-stone-800 rounded-full h-3 overflow-hidden'>
           <div
-            className='h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-500 ease-out'
+            className='h-full bg-gradient-to-r from-orange-500 to-amber-500 transition-all duration-500 ease-out'
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className='flex justify-between text-sm text-gray-400 mt-2'>
+        <div className='flex justify-between text-sm text-stone-400 mt-2'>
           <span>{progress}%</span>
           <span>جاري التحميل...</span>
         </div>
       </div>
-      <div className='text-blue-300 text-lg mb-4'>{status}</div>
+      <div className='text-orange-300 text-lg mb-4'>{status}</div>
       <div className='flex items-center justify-center gap-2'>
         <Loader2 className='w-5 h-5 animate-spin' />
-        <span className='text-gray-400'>يرجى الانتظار...</span>
+        <span className='text-stone-400'>يرجى الانتظار...</span>
       </div>
     </div>
   </div>
@@ -83,14 +83,14 @@ const SystemStatusCheck: React.FC<{
   }, [allReady, onComplete]);
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 flex items-center justify-center'>
-      <div className='bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700 max-w-md w-full mx-4'>
+    <div className='min-h-screen bg-gradient-to-br from-stone-900 via-stone-800 to-orange-950 flex items-center justify-center'>
+      <div className='bg-stone-800/50 backdrop-blur-sm rounded-2xl p-8 border border-stone-700 max-w-md w-full mx-4'>
         <div className='text-center mb-8'>
-          <div className='w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center'>
+          <div className='w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full flex items-center justify-center'>
             <Atom className='w-8 h-8 text-white' />
           </div>
           <h2 className='text-2xl font-bold text-white mb-2'>فحص حالة النظام</h2>
-          <p className='text-gray-400'>جاري التحقق من جميع المكونات...</p>
+          <p className='text-stone-400'>جاري التحقق من جميع المكونات...</p>
         </div>
         <div className='space-y-4'>
           {statusItems.map(item => {
@@ -98,7 +98,7 @@ const SystemStatusCheck: React.FC<{
             return (
               <div
                 key={item.key}
-                className='flex items-center justify-between p-3 rounded-lg bg-gray-700/50'
+                className='flex items-center justify-between p-3 rounded-lg bg-stone-700/50'
               >
                 <div className='flex items-center gap-3'>
                   {item.icon}
@@ -112,8 +112,8 @@ const SystemStatusCheck: React.FC<{
                     </>
                   ) : (
                     <>
-                      <Loader2 className='w-5 h-5 text-yellow-400 animate-spin' />
-                      <span className='text-yellow-400 text-sm'>جاري التحميل</span>
+                      <Loader2 className='w-5 h-5 text-amber-400 animate-spin' />
+                      <span className='text-amber-400 text-sm'>جاري التحميل</span>
                     </>
                   )}
                 </div>
@@ -127,7 +127,7 @@ const SystemStatusCheck: React.FC<{
               <CheckCircle className='w-6 h-6' />
               <span className='font-semibold'>جميع الأنظمة جاهزة!</span>
             </div>
-            <p className='text-gray-400 text-sm'>سيتم تشغيل النظام خلال ثوانٍ...</p>
+            <p className='text-stone-400 text-sm'>سيتم تشغيل النظام خلال ثوانٍ...</p>
           </div>
         )}
       </div>
@@ -226,19 +226,19 @@ const DemoPage: React.FC = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gray-950 flex items-center justify-center text-white'>
+    <div className='min-h-screen bg-stone-950 flex items-center justify-center text-white'>
       <div className='text-center max-w-lg mx-auto p-6'>
-        <div className='w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-500/30'>
+        <div className='w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-orange-500/30'>
           <Atom className='w-10 h-10' />
         </div>
         <h1 className='text-3xl font-bold mb-3'>العرض التجريبي</h1>
-        <p className='text-gray-400 mb-8'>
+        <p className='text-stone-400 mb-8'>
           استكشف جميع ميزات النظام الكمي المتقدم بدون تسجيل. البيانات المعروضة هي محاكاة حية.
         </p>
         <div className='space-y-3'>
           <button
             onClick={() => setShowDashboard(true)}
-            className='w-full py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-xl font-semibold shadow-lg shadow-blue-500/25 transition-all'
+            className='w-full py-3.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-xl font-semibold shadow-lg shadow-orange-500/25 transition-all'
           >
             ابدأ العرض التجريبي
           </button>
@@ -246,7 +246,7 @@ const DemoPage: React.FC = () => {
             onClick={(): void => {
               void navigate('/register');
             }}
-            className='w-full py-3.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl font-medium transition-colors'
+            className='w-full py-3.5 bg-stone-800 hover:bg-stone-700 border border-stone-700 rounded-xl font-medium transition-colors'
           >
             أنشئ حسابًا مجانيًا بدلاً من ذلك
           </button>
@@ -254,7 +254,7 @@ const DemoPage: React.FC = () => {
             onClick={(): void => {
               void navigate('/');
             }}
-            className='w-full py-2 text-gray-500 hover:text-gray-300 text-sm transition-colors'
+            className='w-full py-2 text-stone-500 hover:text-stone-300 text-sm transition-colors'
           >
             العودة للرئيسية
           </button>
@@ -272,20 +272,20 @@ const ErrorBoundary: React.FC<{
 }> = ({ children, error, onRetry }) => {
   if (error) {
     return (
-      <div className='min-h-screen bg-gradient-to-br from-red-900 via-gray-900 to-gray-800 flex items-center justify-center'>
-        <div className='bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-red-500/50 max-w-md w-full mx-4'>
+      <div className='min-h-screen bg-gradient-to-br from-red-900 via-stone-900 to-stone-800 flex items-center justify-center'>
+        <div className='bg-stone-800/50 backdrop-blur-sm rounded-2xl p-8 border border-red-500/50 max-w-md w-full mx-4'>
           <div className='text-center'>
             <AlertCircle className='w-16 h-16 text-red-400 mx-auto mb-4' />
             <h2 className='text-2xl font-bold text-white mb-4'>خطأ في النظام</h2>
             <p className='text-gray-300 mb-6'>
               حدث خطأ غير متوقع في النظام. يرجى المحاولة مرة أخرى.
             </p>
-            <div className='bg-gray-900/50 rounded-lg p-4 mb-6 text-left'>
+            <div className='bg-stone-900/50 rounded-lg p-4 mb-6 text-left'>
               <code className='text-red-300 text-sm break-all'>{error.message}</code>
             </div>
             <button
               onClick={onRetry}
-              className='w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors'
+              className='w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors'
             >
               إعادة المحاولة
             </button>
@@ -299,10 +299,10 @@ const ErrorBoundary: React.FC<{
 
 // ─── Page Loader Fallback ────────────────────────────────────
 const PageLoader: React.FC = () => (
-  <div className='min-h-screen bg-gray-950 flex items-center justify-center'>
+  <div className='min-h-screen bg-stone-950 flex items-center justify-center'>
     <div className='flex flex-col items-center gap-4'>
-      <Loader2 className='w-10 h-10 text-blue-400 animate-spin' />
-      <span className='text-gray-400 text-sm'>{t('loading')}</span>
+      <Loader2 className='w-10 h-10 text-orange-400 animate-spin' />
+      <span className='text-stone-400 text-sm'>{t('loading')}</span>
     </div>
   </div>
 );
