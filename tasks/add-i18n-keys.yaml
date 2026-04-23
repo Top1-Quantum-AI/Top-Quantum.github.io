@@ -10,7 +10,7 @@ prompt: |
 
   Keys to add:
   - "circuit"       → "دائرة" / "Circuit" / "Circuit" / "Circuito"
-  - "qubits"        → "كيوبتات" / "Qubits" / "Qubits" / "Cúbits"
+  - "qubits"        → "كيوبتات" / "Qubits" / "Qubits" / "Qubits"
   - "run_simulation"→ "تشغيل المحاكاة" / "Run Simulation" / "Lancer la simulation" / "Ejecutar simulación"
   - "results"       → "النتائج" / "Results" / "Résultats" / "Resultados"
   - "fidelity"      → "الأمانة الكمية" / "Fidelity" / "Fidélité" / "Fidelidad"

@@ -25,6 +25,9 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 
+const AGENT_TIMEOUT_MS = 300_000; // 5 minutes per agent run
+const JUDGE_TIMEOUT_MS = 120_000; // 2 minutes per judge criterion
+
 // ─── Minimal YAML parser ──────────────────────────────────────────────────────
 // Handles the subset of YAML used by task definition files:
 //   scalar key: value, multiline |, sequence items, nested mappings under judge.
@@ -170,7 +173,7 @@ function runAgent(agentName, args, cwd) {
   }
   const [cmd, cmdArgs] = builder(args);
   const start = Date.now();
-  const result = spawnSync(cmd, cmdArgs, { cwd, encoding: 'utf8', timeout: 300_000 });
+  const result = spawnSync(cmd, cmdArgs, { cwd, encoding: 'utf8', timeout: AGENT_TIMEOUT_MS });
   const durationMs = Date.now() - start;
 
   let cost = null;
@@ -197,7 +200,7 @@ function runJudge(criterion, cwd) {
 
   if (type === 'command' || type === 'pytest' || type === 'jest') {
     const cmd = criterion.command ?? (type === 'pytest' ? 'pytest' : 'npm test');
-    const result = spawnSync('sh', ['-c', cmd], { cwd, encoding: 'utf8', timeout: 120_000 });
+    const result = spawnSync('sh', ['-c', cmd], { cwd, encoding: 'utf8', timeout: JUDGE_TIMEOUT_MS });
     const pass = (result.status ?? 1) === 0;
     return { pass, detail: pass ? 'command exited 0' : (result.stderr || result.stdout).slice(0, 500) };
   }
