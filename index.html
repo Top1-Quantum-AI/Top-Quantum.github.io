@@ -22,11 +22,12 @@
             });
           var path = decoded[0];
           var query = decoded[1] ? '?' + decoded[1] : '';
-          history.replaceState(null, null, path + query + location.hash);
+          var base = location.pathname.replace(/\/$/, '');
+          history.replaceState(null, null, base + path + query + location.hash);
         }
       })();
     </script>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
