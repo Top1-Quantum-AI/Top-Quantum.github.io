@@ -6,8 +6,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        هل لديك سؤال؟ يسعدنا المساعدة! يرجى التحقق أولاً من [التوثيق](README.md) و[الأسئلة السابقة](https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io/issues?q=label%3Aquestion).
-        _Have a question? We're happy to help! Please check the [docs](README.md) and [previous questions](https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io/issues?q=label%3Aquestion) first._
+        هل لديك سؤال؟ يسعدنا المساعدة! يرجى التحقق أولاً من [التوثيق](README.md) و[الأسئلة السابقة](https://github.com/Top1-Quantum-AI/Top-Quantum.github.io/issues?q=label%3Aquestion).
+        _Have a question? We're happy to help! Please check the [docs](README.md) and [previous questions](https://github.com/Top1-Quantum-AI/Top-Quantum.github.io/issues?q=label%3Aquestion) first._
 
   - type: textarea
     id: question

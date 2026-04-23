@@ -6,7 +6,7 @@
 
 **Advanced Quantum AI Hybrid System**
 
-[![CI/CD](https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io/actions/workflows/ci-cd.yml)
+[![CI/CD](https://github.com/Top1-Quantum-AI/Top-Quantum.github.io/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Top1-Quantum-AI/Top-Quantum.github.io/actions/workflows/ci-cd.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-4.4-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -78,8 +78,8 @@
 
 ```bash
 # استنساخ المشروع
-git clone https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io.git
-cd Top1-Quantum-AI.github.io
+git clone https://github.com/Top1-Quantum-AI/Top-Quantum.github.io.git
+cd Top-Quantum.github.io
 
 # تثبيت التبعيات
 npm install
@@ -140,7 +140,7 @@ npm run dev
 ### هيكل المشروع
 
 ```
-Top1-Quantum-AI.github.io/
+Top-Quantum.github.io/
 ├── src/                              # الشيفرة المصدرية للواجهة
 │   ├── App.tsx                       # المكون الرئيسي
 │   ├── AdvancedQuantumDashboard.tsx   # لوحة التحكم الرئيسية
