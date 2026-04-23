@@ -1,5 +1,5 @@
 {
-  "name": "unified-security-system",
+  "name": "@top1-quantum-ai/unified-security-system",
   "version": "1.0.0",
   "type": "module",
   "description": "نظام الأمان الموحد - تطبيق ويب متقدم لمراقبة الأمان السيبراني باستخدام React و TypeScript",
@@ -105,5 +105,8 @@
     "arabic"
   ],
   "author": "Quantum Revolution Team",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }
