@@ -3,6 +3,7 @@
   "include": [
     "src/**/*",
     "tests/**/*",
+    "scripts/**/*",
     "vite.config.ts",
     "commitlint.config.js",
     "postcss.config.js",

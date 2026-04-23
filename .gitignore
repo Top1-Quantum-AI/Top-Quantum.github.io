@@ -34,3 +34,5 @@ coverage/
 
 # Submodules (not used)
 AutoGPT/
+# agent-eval run results
+results/

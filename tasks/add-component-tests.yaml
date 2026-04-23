@@ -1,0 +1,29 @@
+name: add-component-tests
+description: Add unit tests for the ExportToolbar React component
+repo: .
+files:
+  - src/components/ExportToolbar.tsx
+  - tests/smallComponents.test.tsx
+prompt: |
+  Add unit tests for the ExportToolbar component (src/components/ExportToolbar.tsx)
+  to tests/smallComponents.test.tsx.
+
+  Requirements:
+  - Use @testing-library/react and @testing-library/jest-dom (already installed).
+  - Add a describe block named 'ExportToolbar'.
+  - Write at least three tests:
+      1. Renders without crashing.
+      2. Renders at least one button or interactive element.
+      3. Calls the provided onExport callback when the primary export button is clicked
+         (mock the callback with jest.fn()).
+  - Do NOT modify ExportToolbar.tsx.
+  - Match the style of existing tests in the file.
+
+judge:
+  - type: command
+    command: npx jest tests/smallComponents.test.tsx --passWithNoTests
+  - type: grep
+    pattern: "ExportToolbar"
+    files: tests/smallComponents.test.tsx
+
+commit: "7e46a78"

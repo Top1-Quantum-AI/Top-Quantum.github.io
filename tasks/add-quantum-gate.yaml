@@ -1,0 +1,26 @@
+name: add-quantum-gate
+description: Add the P (Phase) gate to the quantum circuit simulator
+repo: .
+files:
+  - src/services/quantumSimulator.ts
+  - tests/quantumSimulator.test.ts
+prompt: |
+  Add the P (Phase) gate to the quantum circuit simulator in src/services/quantumSimulator.ts.
+
+  Requirements:
+  - The P gate is parameterised: P(λ) = [[1, 0], [0, e^(iλ)]].
+  - Add 'P' to the GateName union type.
+  - Implement the 2×2 matrix as a function P(lambda: number): Gate2x2.
+  - Register it in getGateMatrix so it is returned when gate === 'P' and params[0] is the angle λ.
+  - Add at least one unit test in tests/quantumSimulator.test.ts that verifies:
+      P(π) applied to |1⟩ equals Z applied to |1⟩ (both flip the phase of |1⟩ by π).
+  - Follow the existing code style exactly (no new imports, no helper abstractions).
+
+judge:
+  - type: command
+    command: npx jest tests/quantumSimulator.test.ts --passWithNoTests
+  - type: grep
+    pattern: "'P'"
+    files: src/services/quantumSimulator.ts
+
+commit: "7e46a78"

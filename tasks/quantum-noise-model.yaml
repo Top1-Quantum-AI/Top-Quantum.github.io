@@ -1,0 +1,31 @@
+name: quantum-noise-model
+description: Add a thermal relaxation noise channel to the quantum circuit simulator
+repo: .
+files:
+  - src/services/quantumSimulator.ts
+  - tests/quantumSimulator.test.ts
+prompt: |
+  Add a thermal relaxation (T1/T2) noise model to the quantum simulator in
+  src/services/quantumSimulator.ts.
+
+  Requirements:
+  - Add two optional parameters to simulateCircuit: t1Ms and t2Ms (T1 and T2 times
+    in milliseconds, both optional, default undefined = no T1/T2 noise).
+  - After each gate operation (when t1Ms or t2Ms is provided), apply amplitude
+    damping (T1) and dephasing (T2) to each qubit based on a gate time of 0.1ms.
+  - Amplitude damping probability: p1 = 1 - exp(-gateTime / t1Ms)
+  - Dephasing probability: p2 = 0.5 * (1 - exp(-gateTime / t2Ms))
+  - The noise should be applied as a probabilistic Kraus channel.
+  - Add at least one test: simulateCircuit with t1Ms=1 should produce lower fidelity
+    than without t1/t2 noise on the same circuit (H gate, 1 qubit, 100 shots).
+  - Keep the existing noiseLevel parameter intact. T1/T2 noise is additive.
+  - Follow the existing code style exactly.
+
+judge:
+  - type: command
+    command: npx jest tests/quantumSimulator.test.ts --passWithNoTests
+  - type: grep
+    pattern: "t1Ms"
+    files: src/services/quantumSimulator.ts
+
+commit: "7e46a78"

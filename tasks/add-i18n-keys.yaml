@@ -1,0 +1,30 @@
+name: add-i18n-keys
+description: Add missing translation keys for the quantum dashboard
+repo: .
+files:
+  - src/i18n.ts
+  - tests/i18n.test.ts
+prompt: |
+  Add the following translation keys to the translations table in src/i18n.ts.
+  Each key must have entries for all four locales: ar, en, fr, es.
+
+  Keys to add:
+  - "circuit"       → "دائرة" / "Circuit" / "Circuit" / "Circuito"
+  - "qubits"        → "كيوبتات" / "Qubits" / "Qubits" / "Cúbits"
+  - "run_simulation"→ "تشغيل المحاكاة" / "Run Simulation" / "Lancer la simulation" / "Ejecutar simulación"
+  - "results"       → "النتائج" / "Results" / "Résultats" / "Resultados"
+  - "fidelity"      → "الأمانة الكمية" / "Fidelity" / "Fidélité" / "Fidelidad"
+
+  Follow the exact code style of the existing "loading" entry. Do not change anything else.
+
+judge:
+  - type: command
+    command: npx jest tests/i18n.test.ts --passWithNoTests
+  - type: grep
+    pattern: "run_simulation"
+    files: src/i18n.ts
+  - type: grep
+    pattern: "fidelity"
+    files: src/i18n.ts
+
+commit: "7e46a78"
