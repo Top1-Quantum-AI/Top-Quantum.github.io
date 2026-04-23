@@ -124,7 +124,7 @@ router.post('/register', registerLimiter, async (req, res) => {
     const user = await User.create(userData);
 
     // Generate email verification token - توليد رمز التحقق من البريد الإلكتروني
-    const verificationToken = user.createEmailVerificationToken();
+    user.createEmailVerificationToken();
     await user.save({ validateBeforeSave: false });
 
     // Log registration - تسجيل عملية التسجيل
