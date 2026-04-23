@@ -22,7 +22,7 @@
             });
           var path = decoded[0];
           var query = decoded[1] ? '?' + decoded[1] : '';
-          var base = location.pathname.replace(/\/$/, '');
+          var base = '/' + location.pathname.split('/').filter(Boolean)[0];
           history.replaceState(null, null, base + path + query + location.hash);
         }
       })();
