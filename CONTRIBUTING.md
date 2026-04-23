@@ -37,8 +37,8 @@
 ### 1. استنساخ المستودع
 
 ```bash
-git clone https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io.git
-cd Top1-Quantum-AI.github.io
+git clone https://github.com/Top1-Quantum-AI/Top-Quantum.github.io.git
+cd Top-Quantum.github.io
 ```
 
 ### 2. إعداد Frontend (Node.js)
@@ -104,7 +104,7 @@ npm run dev:all
 ## هيكل المشروع
 
 ```
-Top1-Quantum-AI.github.io/
+Top-Quantum.github.io/
 ├── src/              # Frontend – React + TypeScript
 │   ├── pages/        # صفحات التطبيق
 │   ├── components/   # مكونات قابلة لإعادة الاستخدام
@@ -256,7 +256,7 @@ git commit -m "test(components): add unit tests for QuantumDashboard"
 ## الإبلاغ عن المشكلات
 
 استخدم
-[قوالب GitHub Issues](https://github.com/Top1-Quantum-AI/Top1-Quantum-AI.github.io/issues/new/choose):
+[قوالب GitHub Issues](https://github.com/Top1-Quantum-AI/Top-Quantum.github.io/issues/new/choose):
 
 - 🐛 **Bug Report** — الإبلاغ عن خطأ
 - ✨ **Feature Request** — اقتراح ميزة جديدة
